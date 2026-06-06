@@ -5,9 +5,9 @@ import signals as S
 from config import load_universe
 
 
-def build_rankings(cfg: dict):
+def analyze_universe(cfg: dict) -> list[S.Analysis]:
+    """ユニバース全銘柄を分析し、スコア降順の Analysis リストを返す。"""
     universe = load_universe(cfg)
-    top_n = int(cfg.get("top_n", 5))
     bench_code = cfg.get("benchmark", "^N225")
 
     codes = [c for c, _ in universe]
@@ -27,8 +27,16 @@ def build_rankings(cfg: dict):
         if a.error is None:
             analyses.append(a)
 
-    buys = sorted([a for a in analyses], key=lambda x: x.score, reverse=True)[:top_n]
-    sells = sorted([a for a in analyses], key=lambda x: x.score)[:top_n]
+    analyses.sort(key=lambda x: x.score, reverse=True)
+    return analyses
+
+
+def build_rankings(cfg: dict):
+    """買い/売り Top-N と分析総数を返す（通知用）。"""
+    top_n = int(cfg.get("top_n", 5))
+    analyses = analyze_universe(cfg)
+    buys = analyses[:top_n]
+    sells = sorted(analyses, key=lambda x: x.score)[:top_n]
     return buys, sells, len(analyses)
 
 

@@ -1,17 +1,16 @@
 # ===== 株オラクル 設定ファイル =====
 # これを config.yaml にコピーして編集してください（config.yaml は .gitignore 済み）
 
-# 監視銘柄（証券コード。.T は自動付与）
-# ここに入れた銘柄は intraday-watch で売買タイミングを監視します
-watchlist:
-  - 7203   # トヨタ自動車
-  - 6758   # ソニーグループ
-  - 9984   # ソフトバンクグループ
-  - 8035   # 東京エレクトロン
-  - 6861   # キーエンス
+# 場中の push 通知(intraday-watch)の対象銘柄。
+# ※ダッシュボードの「マイ銘柄」はブラウザ保存で、これとは別物です。
+#   LINE/メールでも知らせてほしい銘柄ができたら、下に追記してください。
+#   例:
+#   watchlist:
+#     - 7203   # トヨタ自動車
+watchlist: []
 
 # ランキング対象ユニバース（code,name の CSV）
-universe_file: nikkei_majors.csv
+universe_file: universe_all.csv
 
 # ランキング表示件数（買い・売り 各 Top-N）
 top_n: 5

@@ -39,36 +39,40 @@ def fetch_one(code: str, period: str = "1y", interval: str = "1d",
 
 
 def fetch_many(codes: Iterable[str], period: str = "1y",
-               interval: str = "1d") -> dict[str, pd.DataFrame]:
-    """一括ダウンロード（高速）。{code: DataFrame} を返す。"""
+               interval: str = "1d", chunk_size: int = 120,
+               pause: float = 0.8) -> dict[str, pd.DataFrame]:
+    """一括ダウンロード。全銘柄(数千)でも安定するようバッチ分割して取得。
+
+    Yahoo の一度のリクエストに大量ティッカーを渡すと失敗/制限されるため、
+    chunk_size ごとに分割し、各バッチの間に pause 秒の小休止を入れる。
+    取得できなかった銘柄は単純にスキップ（{code: DataFrame} のみ返す）。
+    """
     codes = [str(c).strip() for c in codes]
-    tickers = [to_ticker(c) for c in codes]
     out: dict[str, pd.DataFrame] = {}
-    try:
-        data = yf.download(tickers, period=period, interval=interval,
-                           auto_adjust=True, progress=False,
-                           group_by="ticker", threads=True)
-    except Exception:
-        data = None
+    total = len(codes)
 
-    if data is None or data.empty:
-        # フォールバック: 1銘柄ずつ
-        for c in codes:
-            d = fetch_one(c, period, interval)
-            if d is not None:
-                out[c] = d
-        return out
-
-    for c, t in zip(codes, tickers):
+    for start in range(0, total, chunk_size):
+        chunk = codes[start:start + chunk_size]
+        tickers = [to_ticker(c) for c in chunk]
         try:
-            if isinstance(data.columns, pd.MultiIndex):
-                sub = data[t].dropna()
-            else:
-                sub = data.dropna()
-            if not sub.empty:
-                out[c] = sub
+            data = yf.download(tickers, period=period, interval=interval,
+                               auto_adjust=True, progress=False,
+                               group_by="ticker", threads=True)
         except Exception:
-            d = fetch_one(c, period, interval)
-            if d is not None:
-                out[c] = d
+            data = None
+
+        if data is not None and not getattr(data, "empty", True):
+            multi = isinstance(data.columns, pd.MultiIndex)
+            for c, t in zip(chunk, tickers):
+                try:
+                    sub = (data[t].dropna() if multi else data.dropna())
+                    if not sub.empty:
+                        out[c] = sub
+                except Exception:
+                    pass
+
+        if total > chunk_size:
+            print(f"  取得 {min(start + chunk_size, total)}/{total} "
+                  f"（成功 {len(out)}）")
+            time.sleep(pause)
     return out

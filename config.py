@@ -8,12 +8,33 @@ import yaml
 ROOT = Path(__file__).resolve().parent
 
 
+def _load_watchlist_txt() -> list[str] | None:
+    """watchlist.txt（1行1コード、# はコメント）を読む。無ければ None。"""
+    p = ROOT / "watchlist.txt"
+    if not p.exists():
+        return None
+    codes: list[str] = []
+    for line in p.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line or line.startswith("#"):
+            continue
+        code = line.replace(",", " ").split()[0].strip()  # 先頭トークン=コード
+        if code:
+            codes.append(code)
+    return codes
+
+
 def load_config(path: str | None = None) -> dict:
     p = Path(path) if path else ROOT / "config.yaml"
     if not p.exists():
         p = ROOT / "config.example.yaml"
     with open(p, encoding="utf-8") as f:
         cfg = yaml.safe_load(f) or {}
+
+    # watchlist.txt があれば push 監視銘柄をそれで上書き（1行1コード・# はコメント）
+    wl = _load_watchlist_txt()
+    if wl is not None:
+        cfg["watchlist"] = wl
 
     # 通知先などの機密情報は環境変数から
     cfg["secrets"] = {
