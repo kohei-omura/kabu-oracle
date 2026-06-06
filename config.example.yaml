@@ -1,0 +1,27 @@
+# ===== 株オラクル 設定ファイル =====
+# これを config.yaml にコピーして編集してください（config.yaml は .gitignore 済み）
+
+# 監視銘柄（証券コード。.T は自動付与）
+# ここに入れた銘柄は intraday-watch で売買タイミングを監視します
+watchlist:
+  - 7203   # トヨタ自動車
+  - 6758   # ソニーグループ
+  - 9984   # ソフトバンクグループ
+  - 8035   # 東京エレクトロン
+  - 6861   # キーエンス
+
+# ランキング対象ユニバース（code,name の CSV）
+universe_file: nikkei_majors.csv
+
+# ランキング表示件数（買い・売り 各 Top-N）
+top_n: 5
+
+# 相対力の基準（^N225 = 日経平均, ^TPX = TOPIX）
+benchmark: "^N225"
+
+# シグナル閾値
+thresholds:
+  rsi_oversold: 30        # これ以下で売られすぎ
+  rsi_overbought: 70      # これ以上で買われすぎ
+  atr_stop_mult: 2.0      # 損切り = 取得値 - ATR×この倍率
+  atr_target_mult: 3.0    # 利確   = 取得値 + ATR×この倍率
