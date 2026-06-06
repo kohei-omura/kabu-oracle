@@ -316,7 +316,15 @@ def build_html(cfg: dict) -> tuple[str, dict]:
         '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
         '<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@600;800'
         '&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=IBM+Plex+Mono:wght@500;600'
-        '&display=swap" rel="stylesheet"><style>' + CSS + '</style></head>'
+        '&display=swap" rel="stylesheet">'
+        '<link rel="manifest" href="manifest.json">'
+        '<meta name="theme-color" content="#0c0e13">'
+        '<meta name="mobile-web-app-capable" content="yes">'
+        '<meta name="apple-mobile-web-app-capable" content="yes">'
+        '<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">'
+        '<meta name="apple-mobile-web-app-title" content="株オラクル">'
+        '<link rel="apple-touch-icon" href="apple-touch-icon.png">'
+        '<style>' + CSS + '</style></head>'
     )
 
     body = f'''<body><div class="wrap">
@@ -370,5 +378,16 @@ def write_dashboard(cfg: dict) -> Path:
     (DOCS / "data.json").write_text(
         json.dumps(data, ensure_ascii=False, default=str, indent=2), encoding="utf-8")
     (DOCS / ".nojekyll").write_text("", encoding="utf-8")
+    manifest = {
+        "name": "株オラクル", "short_name": "株オラクル",
+        "start_url": "./", "scope": "./", "display": "standalone",
+        "background_color": "#0c0e13", "theme_color": "#0c0e13",
+        "icons": [
+            {"src": "icon-192.png", "sizes": "192x192", "type": "image/png"},
+            {"src": "icon-512.png", "sizes": "512x512", "type": "image/png"},
+        ],
+    }
+    (DOCS / "manifest.json").write_text(
+        json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"ダッシュボード生成: {DOCS/'index.html'}")
     return DOCS / "index.html"
