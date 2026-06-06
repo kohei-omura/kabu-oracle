@@ -1,0 +1,388 @@
+{
+  "generated": "2026.06.06 02:05",
+  "total": 40,
+  "buys": [
+    {
+      "code": "8035",
+      "name": "東京エレクトロン",
+      "price": 63660.0,
+      "score": 65.7,
+      "signal": "HOLD",
+      "confidence": 65,
+      "entry": null,
+      "stop": null,
+      "target": null,
+      "rr": null,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "RSI 80（買われすぎ）",
+        "上バンド接近（過熱）",
+        "出来高急増（平均比 1.6倍）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -1.0,
+        "volume": 0.57,
+        "relstr": 1.0
+      },
+      "error": null
+    },
+    {
+      "code": "6981",
+      "name": "村田製作所",
+      "price": 9904.0,
+      "score": 61.2,
+      "signal": "HOLD",
+      "confidence": 61,
+      "entry": null,
+      "stop": null,
+      "target": null,
+      "rr": null,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "RSI 78（買われすぎ）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 0.84,
+        "meanrev": -0.68,
+        "volume": 0.04,
+        "relstr": 1.0
+      },
+      "error": null
+    },
+    {
+      "code": "6758",
+      "name": "ソニーグループ",
+      "price": 3540.0,
+      "score": 60.0,
+      "signal": "BUY",
+      "confidence": 80,
+      "entry": 3540.0,
+      "stop": 3285.4,
+      "target": 3921.8,
+      "rr": 1.5,
+      "reasons": [
+        "ゴールデンクロス発生",
+        "中期上昇トレンド（EMA25>EMA75）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 0.63,
+        "meanrev": -0.04,
+        "volume": 0.35,
+        "relstr": 0.57
+      },
+      "error": null
+    },
+    {
+      "code": "8306",
+      "name": "三菱UFJ",
+      "price": 3169.0,
+      "score": 52.3,
+      "signal": "BUY",
+      "confidence": 72,
+      "entry": 3169.0,
+      "stop": 3006.0,
+      "target": 3413.5,
+      "rr": 1.5,
+      "reasons": [
+        "ゴールデンクロス発生",
+        "中期上昇トレンド（EMA25>EMA75）",
+        "上バンド接近（過熱）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -0.84,
+        "volume": 0.33,
+        "relstr": 0.33
+      },
+      "error": null
+    },
+    {
+      "code": "8411",
+      "name": "みずほFG",
+      "price": 7645.0,
+      "score": 47.2,
+      "signal": "HOLD",
+      "confidence": 47,
+      "entry": null,
+      "stop": null,
+      "target": null,
+      "rr": null,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "上バンド接近（過熱）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -0.9,
+        "volume": -0.03,
+        "relstr": 0.3
+      },
+      "error": null
+    }
+  ],
+  "sells": [
+    {
+      "code": "4519",
+      "name": "中外製薬",
+      "price": 7567.0,
+      "score": -73.1,
+      "signal": "SELL",
+      "confidence": 93,
+      "entry": 7567.0,
+      "stop": 8171.4,
+      "target": 6660.4,
+      "rr": null,
+      "reasons": [
+        "デッドクロス発生",
+        "中期下降トレンド",
+        "指数より弱い"
+      ],
+      "factors": {
+        "trend": -1.0,
+        "momentum": -1.0,
+        "meanrev": 0.21,
+        "volume": -0.13,
+        "relstr": -1.0
+      },
+      "error": null
+    },
+    {
+      "code": "4502",
+      "name": "武田薬品工業",
+      "price": 4850.0,
+      "score": -71.6,
+      "signal": "HOLD",
+      "confidence": 71,
+      "entry": null,
+      "stop": null,
+      "target": null,
+      "rr": null,
+      "reasons": [
+        "中期下降トレンド",
+        "下バンド接近（押し目）",
+        "指数より弱い"
+      ],
+      "factors": {
+        "trend": -1.0,
+        "momentum": -1.0,
+        "meanrev": 0.25,
+        "volume": -0.04,
+        "relstr": -1.0
+      },
+      "error": null
+    },
+    {
+      "code": "9020",
+      "name": "JR東日本",
+      "price": 3280.0,
+      "score": -71.0,
+      "signal": "HOLD",
+      "confidence": 71,
+      "entry": null,
+      "stop": null,
+      "target": null,
+      "rr": null,
+      "reasons": [
+        "中期下降トレンド",
+        "下バンド接近（押し目）",
+        "指数より弱い"
+      ],
+      "factors": {
+        "trend": -1.0,
+        "momentum": -1.0,
+        "meanrev": 0.27,
+        "volume": -0.0,
+        "relstr": -1.0
+      },
+      "error": null
+    },
+    {
+      "code": "9432",
+      "name": "日本電信電話",
+      "price": 146.9,
+      "score": -69.8,
+      "signal": "HOLD",
+      "confidence": 69,
+      "entry": null,
+      "stop": null,
+      "target": null,
+      "rr": null,
+      "reasons": [
+        "中期下降トレンド",
+        "指数より弱い"
+      ],
+      "factors": {
+        "trend": -1.0,
+        "momentum": -1.0,
+        "meanrev": 0.22,
+        "volume": 0.18,
+        "relstr": -1.0
+      },
+      "error": null
+    },
+    {
+      "code": "8031",
+      "name": "三井物産",
+      "price": 5041.0,
+      "score": -68.7,
+      "signal": "SELL",
+      "confidence": 88,
+      "entry": 5041.0,
+      "stop": 5403.8,
+      "target": 4496.8,
+      "rr": null,
+      "reasons": [
+        "デッドクロス発生",
+        "中期下降トレンド",
+        "RSI 28（売られすぎ）",
+        "指数より弱い"
+      ],
+      "factors": {
+        "trend": -1.0,
+        "momentum": -1.0,
+        "meanrev": 0.21,
+        "volume": 0.31,
+        "relstr": -1.0
+      },
+      "error": null
+    }
+  ],
+  "watch": [
+    {
+      "code": "7203",
+      "name": "",
+      "price": 2838.5,
+      "score": -67.9,
+      "signal": "SELL",
+      "confidence": 87,
+      "entry": 2838.5,
+      "stop": 3006.1,
+      "target": 2587.0,
+      "rr": null,
+      "reasons": [
+        "デッドクロス発生",
+        "中期下降トレンド",
+        "指数より弱い"
+      ],
+      "factors": {
+        "trend": -1.0,
+        "momentum": -1.0,
+        "meanrev": 0.24,
+        "volume": 0.36,
+        "relstr": -1.0
+      },
+      "error": null
+    },
+    {
+      "code": "6758",
+      "name": "",
+      "price": 3540.0,
+      "score": 60.0,
+      "signal": "BUY",
+      "confidence": 80,
+      "entry": 3540.0,
+      "stop": 3285.4,
+      "target": 3921.8,
+      "rr": 1.5,
+      "reasons": [
+        "ゴールデンクロス発生",
+        "中期上昇トレンド（EMA25>EMA75）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 0.63,
+        "meanrev": -0.04,
+        "volume": 0.35,
+        "relstr": 0.57
+      },
+      "error": null
+    },
+    {
+      "code": "9984",
+      "name": "",
+      "price": 7377.0,
+      "score": 33.4,
+      "signal": "HOLD",
+      "confidence": 33,
+      "entry": null,
+      "stop": null,
+      "target": null,
+      "rr": null,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": -0.29,
+        "meanrev": -0.31,
+        "volume": 0.05,
+        "relstr": 0.75
+      },
+      "error": null
+    },
+    {
+      "code": "8035",
+      "name": "",
+      "price": 63660.0,
+      "score": 65.7,
+      "signal": "HOLD",
+      "confidence": 65,
+      "entry": null,
+      "stop": null,
+      "target": null,
+      "rr": null,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "RSI 80（買われすぎ）",
+        "上バンド接近（過熱）",
+        "出来高急増（平均比 1.6倍）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -1.0,
+        "volume": 0.57,
+        "relstr": 1.0
+      },
+      "error": null
+    },
+    {
+      "code": "6861",
+      "name": "",
+      "price": 80040.0,
+      "score": 33.1,
+      "signal": "HOLD",
+      "confidence": 33,
+      "entry": null,
+      "stop": null,
+      "target": null,
+      "rr": null,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "指数より弱い"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 0.7,
+        "meanrev": -0.32,
+        "volume": 0.34,
+        "relstr": -0.65
+      },
+      "error": null
+    }
+  ]
+}
