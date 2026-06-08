@@ -50,12 +50,14 @@ def load_config(path: str | None = None) -> dict:
 
 
 def load_universe(cfg: dict) -> list[tuple[str, str]]:
-    """(code, name) のリストを返す。"""
+    """(code, name) のリストを返す。markets 設定で市場区分を絞り込む。"""
     rel = cfg.get("universe_file", "nikkei_majors.csv")
     p = ROOT / rel
     out: list[tuple[str, str]] = []
     if not p.exists():
         return out
+    markets = str(cfg.get("markets", "all")).lower().replace(" ", "")
+    allow = None if markets in ("all", "") else set(markets.split(","))
     import csv
     with open(p, encoding="utf-8") as f:
         for row in csv.reader(f):
@@ -63,5 +65,23 @@ def load_universe(cfg: dict) -> list[tuple[str, str]]:
                 continue
             code = row[0].strip()
             name = row[1].strip() if len(row) > 1 else ""
+            mkt = row[2].strip().lower() if len(row) > 2 else ""
+            if allow is not None and mkt not in allow:
+                continue
             out.append((code, name))
     return out
+
+
+def market_map(cfg: dict) -> dict[str, str]:
+    """{code: market} を返す（表示用・絞り込みなし）。"""
+    rel = cfg.get("universe_file", "nikkei_majors.csv")
+    p = ROOT / rel
+    m: dict[str, str] = {}
+    if not p.exists():
+        return m
+    import csv
+    with open(p, encoding="utf-8") as f:
+        for row in csv.reader(f):
+            if len(row) > 2 and row[0].strip().lower() != "code":
+                m[row[0].strip()] = row[2].strip().lower()
+    return m

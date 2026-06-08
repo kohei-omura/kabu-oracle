@@ -13,10 +13,19 @@ from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
 import ranking as R
+from config import market_map
 
 JST = timezone(timedelta(hours=9))
 ROOT = Path(__file__).resolve().parent
 DOCS = ROOT / "docs"
+
+
+def _seg(market: str) -> str:
+    m = {"prime": ("P", "p"), "standard": ("S", "s"), "growth": ("G", "g")}
+    if market not in m:
+        return ""
+    label, cls = m[market]
+    return f'<span class="seg {cls}">{label}</span>'
 
 
 def _esc(s) -> str:
@@ -39,7 +48,7 @@ def _badge(signal: str) -> str:
     return f'<span class="badge {cls}">{label}</span>'
 
 
-def _card(rank: int, a, show_levels: bool) -> str:
+def _card(rank: int, a, show_levels: bool, market: str = "") -> str:
     levels = ""
     if show_levels and a.signal == "BUY" and a.entry and a.target and a.stop:
         rr = f' ・ RR {a.rr}' if a.rr else ''
@@ -56,7 +65,7 @@ def _card(rank: int, a, show_levels: bool) -> str:
     return (f'<div class="card" style="animation-delay:{rank*0.05:.2f}s">'
             f'<div class="row1"><span class="rank">{rank}</span>'
             f'<div class="title"><span class="code">{_esc(a.code)}</span>'
-            f'<span class="name">{_esc(a.name)}</span></div>{_badge(a.signal)}</div>'
+            f'<span class="name">{_esc(a.name)}</span>{_seg(market)}</div>{_badge(a.signal)}</div>'
             f'<div class="row2"><span class="price" data-px="{_esc(a.code)}">¥{a.price:,.0f}</span>'
             f'<span class="score {sc_cls}">{a.score:+.0f}</span>{_score_bar(a.score)}</div>'
             f'{levels}{reasons}</div>')
@@ -115,6 +124,10 @@ h2 em{font-style:normal;font-family:'IBM Plex Mono',monospace;font-size:10px;
 .title{flex:1;min-width:0;display:flex;align-items:baseline;gap:9px;flex-wrap:wrap}
 .code{font-family:'IBM Plex Mono',monospace;font-size:15px;font-weight:600}
 .name{font-size:13px;color:var(--mut)}
+.seg{flex:none;font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;
+  padding:1px 6px;border-radius:6px;border:1px solid var(--line);color:var(--mut)}
+.seg.p{color:#6fa8ff;border-color:rgba(111,168,255,.4)}
+.seg.g{color:var(--gold);border-color:var(--gold-d)}
 .badge{flex:none;width:26px;height:26px;display:grid;place-items:center;
   border-radius:8px;font-size:13px;font-weight:700}
 .badge.buy{color:var(--buy);background:rgba(70,196,106,.12);border:1px solid rgba(70,196,106,.3)}
@@ -169,6 +182,10 @@ function badge(g){
   const x = m[g] || m.HOLD;
   return '<span class="badge ' + x[1] + '">' + x[0] + '</span>';
 }
+function segTag(mk){
+  const x = {prime:['P','p'], standard:['S','s'], growth:['G','g']}[mk];
+  return x ? '<span class="seg ' + x[1] + '">' + x[0] + '</span>' : '';
+}
 function bar(sc){
   const p = Math.max(-100, Math.min(100, sc)) / 100;
   if (p >= 0) return '<span class="bar"><span class="bar-pos" style="width:' + (p*50) + '%"></span></span>';
@@ -189,7 +206,7 @@ function card(s, removable){
   const rm = removable ? '<button class="rm" data-c="' + s.c + '">×</button>' : '';
   return '<div class="card">' +
     '<div class="row1"><span class="rank">' + s.rk + '</span>' +
-    '<div class="title"><span class="code">' + s.c + '</span><span class="name">' + s.n + '</span></div>' +
+    '<div class="title"><span class="code">' + s.c + '</span><span class="name">' + s.n + '</span>' + segTag(s.m) + '</div>' +
     badge(s.g) + rm + '</div>' +
     '<div class="row2"><span class="price" data-px="' + s.c + '">¥' + s.p.toLocaleString() + '</span>' +
     '<span class="score ' + scls + '">' + (s.sc >= 0 ? '+' : '') + s.sc + '</span>' + bar(s.sc) + '</div>' +
@@ -308,8 +325,9 @@ def build_html(cfg: dict) -> tuple[str, dict]:
     buys = analyses[:top_n]
     sells = sorted(analyses, key=lambda x: x.score)[:top_n]
 
-    buy_cards = "".join(_card(i, a, True) for i, a in enumerate(buys, 1))
-    sell_cards = "".join(_card(i, a, False) for i, a in enumerate(sells, 1))
+    mk = market_map(cfg)
+    buy_cards = "".join(_card(i, a, True, mk.get(a.code, "")) for i, a in enumerate(buys, 1))
+    sell_cards = "".join(_card(i, a, False, mk.get(a.code, "")) for i, a in enumerate(sells, 1))
 
     index = []
     for rank, a in enumerate(analyses, 1):
@@ -319,7 +337,7 @@ def build_html(cfg: dict) -> tuple[str, dict]:
             "t": round(a.target) if a.target else None,
             "st": round(a.stop) if a.stop else None,
             "rr": a.rr, "r": [_esc(x) for x in (a.reasons or [])[:3]],
-            "rk": rank,
+            "rk": rank, "m": mk.get(a.code, ""),
         })
     index_json = json.dumps(index, ensure_ascii=False, default=str).replace("</", "<\\/")
 

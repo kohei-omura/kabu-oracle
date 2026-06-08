@@ -9,8 +9,16 @@
 #     - 7203   # トヨタ自動車
 watchlist: []
 
-# ランキング対象ユニバース（code,name の CSV）
+# ランキング対象ユニバース（code,name,market の CSV）
 universe_file: universe_all.csv
+
+# 対象とする市場区分（安定志向なら prime 推奨）
+#   all       … 全銘柄（プライム＋スタンダード＋グロース 約3,734）
+#   prime     … プライムのみ（大型・中型 約1,564／値動き安定）
+#   standard  … スタンダードのみ
+#   growth    … グロースのみ（新興・小型／値動き激しい）
+#   複数指定も可（例: prime,standard）
+markets: all
 
 # ランキング表示件数（買い・売り 各 Top-N）
 top_n: 5
