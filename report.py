@@ -57,7 +57,7 @@ def _card(rank: int, a, show_levels: bool) -> str:
             f'<div class="row1"><span class="rank">{rank}</span>'
             f'<div class="title"><span class="code">{_esc(a.code)}</span>'
             f'<span class="name">{_esc(a.name)}</span></div>{_badge(a.signal)}</div>'
-            f'<div class="row2"><span class="price">¥{a.price:,.0f}</span>'
+            f'<div class="row2"><span class="price" data-px="{_esc(a.code)}">¥{a.price:,.0f}</span>'
             f'<span class="score {sc_cls}">{a.score:+.0f}</span>{_score_bar(a.score)}</div>'
             f'{levels}{reasons}</div>')
 
@@ -191,7 +191,7 @@ function card(s, removable){
     '<div class="row1"><span class="rank">' + s.rk + '</span>' +
     '<div class="title"><span class="code">' + s.c + '</span><span class="name">' + s.n + '</span></div>' +
     badge(s.g) + rm + '</div>' +
-    '<div class="row2"><span class="price">¥' + s.p.toLocaleString() + '</span>' +
+    '<div class="row2"><span class="price" data-px="' + s.c + '">¥' + s.p.toLocaleString() + '</span>' +
     '<span class="score ' + scls + '">' + (s.sc >= 0 ? '+' : '') + s.sc + '</span>' + bar(s.sc) + '</div>' +
     levels + reasons +
     '<div class="rankline">スコア順 総合 ' + s.rk + ' 位 / ' + TOTAL + ' 銘柄中</div>' +
@@ -274,6 +274,27 @@ function copyMy(){
 mycopy.addEventListener('click', copyMy);
 
 renderMy();
+
+/* ---- 株価の自動更新（市場時間中 約20分遅延） ---- */
+function applyPrices(map){
+  document.querySelectorAll('[data-px]').forEach(function(el){
+    const c = el.getAttribute('data-px');
+    if (map[c] != null){ el.textContent = '¥' + Number(map[c]).toLocaleString(); }
+  });
+  for (let i=0;i<STOCKS.length;i++){ if (map[STOCKS[i].c] != null) STOCKS[i].p = Math.round(map[STOCKS[i].c]); }
+}
+function refreshPrices(){
+  fetch('prices.json?t=' + Date.now()).then(function(r){ return r.ok ? r.json() : null; })
+    .then(function(d){
+      if (!d || !d.px) return;
+      applyPrices(d.px);
+      const lab = document.getElementById('pxasof');
+      if (lab && d.asof) lab.textContent = '株価 ' + d.asof + ' 時点（約20分遅延）';
+      if (q.value.trim()) run();   // 検索結果も最新価格に
+    }).catch(function(){});
+}
+refreshPrices();
+setInterval(refreshPrices, 5 * 60 * 1000);
 """
 
 
@@ -330,7 +351,7 @@ def build_html(cfg: dict) -> tuple[str, dict]:
     body = f'''<body><div class="wrap">
   <header>
     <div class="brand"><h1>株オラクル</h1><span class="en">Kabu Oracle</span></div>
-    <div class="meta"><span>更新 <b>{date_str}</b> JST</span><span>分析 <b>{total}</b> 銘柄</span></div>
+    <div class="meta"><span>更新 <b>{date_str}</b> JST</span><span>分析 <b>{total}</b> 銘柄</span><span id="pxasof"></span></div>
   </header>
 
   <section id="search-sec">
@@ -391,3 +412,27 @@ def write_dashboard(cfg: dict) -> Path:
         json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"ダッシュボード生成: {DOCS/'index.html'}")
     return DOCS / "index.html"
+
+
+def write_prices(cfg: dict) -> dict:
+    """表示中の買い/売りTOPと監視銘柄の最新株価だけを docs/prices.json に書く。"""
+    import data as D
+    DOCS.mkdir(exist_ok=True)
+    codes: set[str] = {str(c).strip() for c in (cfg.get("watchlist") or [])}
+    dj = DOCS / "data.json"
+    if dj.exists():
+        try:
+            d = json.loads(dj.read_text(encoding="utf-8"))
+            for key in ("buys", "sells"):
+                for a in d.get(key, []):
+                    if a.get("code"):
+                        codes.add(str(a["code"]))
+        except Exception:
+            pass
+    prices = D.fetch_last_prices(sorted(codes))
+    now = datetime.now(JST).strftime("%H:%M")
+    out = {"asof": now, "px": {k: round(v) for k, v in prices.items()}}
+    (DOCS / "prices.json").write_text(
+        json.dumps(out, ensure_ascii=False), encoding="utf-8")
+    print(f"価格更新: {len(prices)} 件 @ {now} JST")
+    return out
