@@ -1,14 +1,62 @@
 {
-  "generated": "2026.06.08 19:06",
+  "generated": "2026.06.09 08:49",
   "total": 3717,
   "buys": [
+    {
+      "code": "6882",
+      "name": "三社電機製作所",
+      "price": 1320.0,
+      "score": 78.2,
+      "signal": "HOLD",
+      "confidence": 78,
+      "entry": null,
+      "stop": null,
+      "target": null,
+      "rr": null,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 0.61,
+        "meanrev": 0.58,
+        "volume": 0.42,
+        "relstr": 1.0
+      },
+      "error": null
+    },
+    {
+      "code": "6055",
+      "name": "ジャパンマテリアル",
+      "price": 2084.0,
+      "score": 74.6,
+      "signal": "HOLD",
+      "confidence": 74,
+      "entry": null,
+      "stop": null,
+      "target": null,
+      "rr": null,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": 0.01,
+        "volume": -0.02,
+        "relstr": 0.98
+      },
+      "error": null
+    },
     {
       "code": "7067",
       "name": "ブランディングテクノロジー",
       "price": 1014.0,
-      "score": 74.0,
+      "score": 72.0,
       "signal": "BUY",
-      "confidence": 94,
+      "confidence": 92,
       "entry": 1014.0,
       "stop": 946.6,
       "target": 1115.1,
@@ -23,7 +71,7 @@
         "momentum": 1.0,
         "meanrev": -0.26,
         "volume": 0.77,
-        "relstr": 0.75
+        "relstr": 0.65
       },
       "error": null
     },
@@ -52,87 +100,81 @@
       "error": null
     },
     {
-      "code": "2730",
-      "name": "エディオン",
-      "price": 2570.0,
-      "score": 70.5,
+      "code": "7182",
+      "name": "ゆうちょ銀行",
+      "price": 3126.0,
+      "score": 71.0,
       "signal": "HOLD",
-      "confidence": 70,
+      "confidence": 71,
       "entry": null,
       "stop": null,
       "target": null,
       "rr": null,
       "reasons": [
         "中期上昇トレンド（EMA25>EMA75）",
-        "上バンド接近（過熱）",
-        "出来高急増（平均比 2.0倍）",
         "指数より強い（相対力プラス）"
       ],
       "factors": {
         "trend": 1.0,
         "momentum": 1.0,
-        "meanrev": -0.95,
-        "volume": 0.97,
-        "relstr": 1.0
-      },
-      "error": null
-    },
-    {
-      "code": "4064",
-      "name": "日本カーバイド工業",
-      "price": 3495.0,
-      "score": 70.0,
-      "signal": "HOLD",
-      "confidence": 70,
-      "entry": null,
-      "stop": null,
-      "target": null,
-      "rr": null,
-      "reasons": [
-        "中期上昇トレンド（EMA25>EMA75）",
-        "RSI 74（買われすぎ）",
-        "上バンド接近（過熱）",
-        "出来高急増（平均比 2.3倍）",
-        "指数より強い（相対力プラス）"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -1.0,
-        "volume": 1.0,
-        "relstr": 1.0
-      },
-      "error": null
-    },
-    {
-      "code": "4095",
-      "name": "日本パーカライジング",
-      "price": 1727.0,
-      "score": 70.0,
-      "signal": "HOLD",
-      "confidence": 70,
-      "entry": null,
-      "stop": null,
-      "target": null,
-      "rr": null,
-      "reasons": [
-        "中期上昇トレンド（EMA25>EMA75）",
-        "RSI 79（買われすぎ）",
-        "上バンド接近（過熱）",
-        "出来高急増（平均比 3.1倍）",
-        "指数より強い（相対力プラス）"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -1.0,
-        "volume": 1.0,
-        "relstr": 1.0
+        "meanrev": -0.39,
+        "volume": 0.21,
+        "relstr": 0.98
       },
       "error": null
     }
   ],
   "sells": [
+    {
+      "code": "75505",
+      "name": "ゼンショーホールディングス第１回社債型種類株式",
+      "price": 4970.0,
+      "score": -82.9,
+      "signal": "HOLD",
+      "confidence": 82,
+      "entry": null,
+      "stop": null,
+      "target": null,
+      "rr": null,
+      "reasons": [
+        "中期下降トレンド",
+        "指数より弱い"
+      ],
+      "factors": {
+        "trend": -1.0,
+        "momentum": -1.0,
+        "meanrev": 0.09,
+        "volume": -0.94,
+        "relstr": -1.0
+      },
+      "error": null
+    },
+    {
+      "code": "4372",
+      "name": "ユミルリンク",
+      "price": 1120.0,
+      "score": -82.4,
+      "signal": "SELL",
+      "confidence": 100,
+      "entry": 1120.0,
+      "stop": 1179.5,
+      "target": 1030.8,
+      "rr": null,
+      "reasons": [
+        "デッドクロス発生",
+        "中期下降トレンド",
+        "出来高急増（平均比 2.6倍）",
+        "指数より弱い"
+      ],
+      "factors": {
+        "trend": -1.0,
+        "momentum": -1.0,
+        "meanrev": 0.17,
+        "volume": -1.0,
+        "relstr": -1.0
+      },
+      "error": null
+    },
     {
       "code": "9854",
       "name": "愛眼",
@@ -203,60 +245,6 @@
         "trend": -1.0,
         "momentum": -1.0,
         "meanrev": 0.28,
-        "volume": -1.0,
-        "relstr": -1.0
-      },
-      "error": null
-    },
-    {
-      "code": "9421",
-      "name": "エヌジェイホールディングス",
-      "price": 569.0,
-      "score": -80.6,
-      "signal": "SELL",
-      "confidence": 100,
-      "entry": 569.0,
-      "stop": 597.1,
-      "target": 526.9,
-      "rr": null,
-      "reasons": [
-        "デッドクロス発生",
-        "中期下降トレンド",
-        "RSI 18（売られすぎ）",
-        "下バンド接近（押し目）",
-        "出来高急増（平均比 2.2倍）"
-      ],
-      "factors": {
-        "trend": -1.0,
-        "momentum": -1.0,
-        "meanrev": 0.3,
-        "volume": -1.0,
-        "relstr": -1.0
-      },
-      "error": null
-    },
-    {
-      "code": "6094",
-      "name": "フリークアウト・ホールディングス",
-      "price": 551.0,
-      "score": -80.5,
-      "signal": "SELL",
-      "confidence": 100,
-      "entry": 551.0,
-      "stop": 612.2,
-      "target": 459.2,
-      "rr": null,
-      "reasons": [
-        "デッドクロス発生",
-        "中期下降トレンド",
-        "RSI 30（売られすぎ）",
-        "下バンド接近（押し目）",
-        "出来高急増（平均比 5.4倍）"
-      ],
-      "factors": {
-        "trend": -1.0,
-        "momentum": -1.0,
-        "meanrev": 0.3,
         "volume": -1.0,
         "relstr": -1.0
       },
