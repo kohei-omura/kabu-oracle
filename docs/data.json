@@ -1,37 +1,12 @@
 {
-  "generated": "2026.06.08 13:21",
-  "total": 3716,
+  "generated": "2026.06.08 13:41",
+  "total": 1561,
   "buys": [
     {
-      "code": "7067",
-      "name": "ブランディングテクノロジー",
-      "price": 1030.0,
-      "score": 76.5,
-      "signal": "BUY",
-      "confidence": 96,
-      "entry": 1030.0,
-      "stop": 964.9,
-      "target": 1127.7,
-      "rr": 1.5,
-      "reasons": [
-        "ゴールデンクロス発生",
-        "中期上昇トレンド（EMA25>EMA75）",
-        "指数より強い（相対力プラス）"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -0.38,
-        "volume": 0.91,
-        "relstr": 0.91
-      },
-      "error": null
-    },
-    {
-      "code": "3465",
-      "name": "ケイアイスター不動産",
-      "price": 3540.0,
-      "score": 72.2,
+      "code": "7182",
+      "name": "ゆうちょ銀行",
+      "price": 3117.0,
+      "score": 72.4,
       "signal": "HOLD",
       "confidence": 72,
       "entry": null,
@@ -45,16 +20,16 @@
       "factors": {
         "trend": 1.0,
         "momentum": 1.0,
-        "meanrev": -0.56,
-        "volume": 0.59,
-        "relstr": 0.98
+        "meanrev": -0.35,
+        "volume": 0.51,
+        "relstr": 0.88
       },
       "error": null
     },
     {
       "code": "7173",
       "name": "東京きらぼしフィナンシャルグループ",
-      "price": 11690.0,
+      "price": 11680.0,
       "score": 72.2,
       "signal": "HOLD",
       "confidence": 72,
@@ -69,41 +44,17 @@
       "factors": {
         "trend": 1.0,
         "momentum": 1.0,
-        "meanrev": -0.5,
-        "volume": 0.47,
+        "meanrev": -0.49,
+        "volume": 0.45,
         "relstr": 1.0
       },
       "error": null
     },
     {
-      "code": "7182",
-      "name": "ゆうちょ銀行",
-      "price": 3105.0,
-      "score": 72.2,
-      "signal": "HOLD",
-      "confidence": 72,
-      "entry": null,
-      "stop": null,
-      "target": null,
-      "rr": null,
-      "reasons": [
-        "中期上昇トレンド（EMA25>EMA75）",
-        "指数より強い（相対力プラス）"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -0.31,
-        "volume": 0.52,
-        "relstr": 0.83
-      },
-      "error": null
-    },
-    {
-      "code": "4704",
-      "name": "トレンドマイクロ",
-      "price": 6404.0,
-      "score": 71.3,
+      "code": "3465",
+      "name": "ケイアイスター不動産",
+      "price": 3550.0,
+      "score": 71.8,
       "signal": "HOLD",
       "confidence": 71,
       "entry": null,
@@ -117,96 +68,66 @@
       "factors": {
         "trend": 1.0,
         "momentum": 1.0,
-        "meanrev": -0.53,
-        "volume": 0.43,
+        "meanrev": -0.59,
+        "volume": 0.56,
         "relstr": 1.0
+      },
+      "error": null
+    },
+    {
+      "code": "4704",
+      "name": "トレンドマイクロ",
+      "price": 6374.0,
+      "score": 71.7,
+      "signal": "HOLD",
+      "confidence": 71,
+      "entry": null,
+      "stop": null,
+      "target": null,
+      "rr": null,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -0.49,
+        "volume": 0.41,
+        "relstr": 1.0
+      },
+      "error": null
+    },
+    {
+      "code": "6298",
+      "name": "ワイエイシイホールディングス",
+      "price": 1387.0,
+      "score": 71.7,
+      "signal": "HOLD",
+      "confidence": 71,
+      "entry": null,
+      "stop": null,
+      "target": null,
+      "rr": null,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -0.33,
+        "volume": 0.23,
+        "relstr": 0.96
       },
       "error": null
     }
   ],
   "sells": [
     {
-      "code": "416A",
-      "name": "富士ユナイトホールディングス",
-      "price": 1110.0,
-      "score": -81.4,
-      "signal": "HOLD",
-      "confidence": 81,
-      "entry": null,
-      "stop": null,
-      "target": null,
-      "rr": null,
-      "reasons": [
-        "中期下降トレンド",
-        "下バンド接近（押し目）",
-        "出来高急増（平均比 2.2倍）",
-        "指数より弱い"
-      ],
-      "factors": {
-        "trend": -1.0,
-        "momentum": -1.0,
-        "meanrev": 0.24,
-        "volume": -1.0,
-        "relstr": -1.0
-      },
-      "error": null
-    },
-    {
-      "code": "1897",
-      "name": "金下建設",
-      "price": 3135.0,
-      "score": -81.2,
-      "signal": "SELL",
-      "confidence": 100,
-      "entry": 3135.0,
-      "stop": 3304.2,
-      "target": 2881.1,
-      "rr": null,
-      "reasons": [
-        "デッドクロス発生",
-        "中期下降トレンド",
-        "指数より弱い"
-      ],
-      "factors": {
-        "trend": -1.0,
-        "momentum": -1.0,
-        "meanrev": 0.18,
-        "volume": -0.88,
-        "relstr": -1.0
-      },
-      "error": null
-    },
-    {
-      "code": "6094",
-      "name": "フリークアウト・ホールディングス",
-      "price": 549.0,
-      "score": -80.5,
-      "signal": "SELL",
-      "confidence": 100,
-      "entry": 549.0,
-      "stop": 608.9,
-      "target": 459.1,
-      "rr": null,
-      "reasons": [
-        "デッドクロス発生",
-        "中期下降トレンド",
-        "RSI 30（売られすぎ）",
-        "下バンド接近（押し目）",
-        "出来高急増（平均比 4.2倍）"
-      ],
-      "factors": {
-        "trend": -1.0,
-        "momentum": -1.0,
-        "meanrev": 0.3,
-        "volume": -1.0,
-        "relstr": -1.0
-      },
-      "error": null
-    },
-    {
       "code": "3662",
       "name": "エイチームホールディングス",
-      "price": 895.0,
+      "price": 894.0,
       "score": -80.1,
       "signal": "HOLD",
       "confidence": 80,
@@ -224,17 +145,17 @@
       "factors": {
         "trend": -1.0,
         "momentum": -1.0,
-        "meanrev": 0.32,
+        "meanrev": 0.33,
         "volume": -1.0,
         "relstr": -1.0
       },
       "error": null
     },
     {
-      "code": "302A",
-      "name": "ビースタイルホールディングス",
-      "price": 531.0,
-      "score": -79.8,
+      "code": "9706",
+      "name": "日本空港ビルデング",
+      "price": 4685.0,
+      "score": -79.6,
       "signal": "HOLD",
       "confidence": 79,
       "entry": null,
@@ -243,16 +164,87 @@
       "rr": null,
       "reasons": [
         "中期下降トレンド",
-        "RSI 29（売られすぎ）",
-        "下バンド接近（押し目）",
-        "出来高急増（平均比 2.0倍）",
         "指数より弱い"
       ],
       "factors": {
         "trend": -1.0,
         "momentum": -1.0,
-        "meanrev": 0.35,
-        "volume": -1.0,
+        "meanrev": 0.19,
+        "volume": -0.74,
+        "relstr": -1.0
+      },
+      "error": null
+    },
+    {
+      "code": "2975",
+      "name": "スター・マイカ・ホールディングス",
+      "price": 1485.0,
+      "score": -78.2,
+      "signal": "SELL",
+      "confidence": 98,
+      "entry": 1485.0,
+      "stop": 1600.5,
+      "target": 1311.7,
+      "rr": null,
+      "reasons": [
+        "デッドクロス発生",
+        "中期下降トレンド",
+        "指数より弱い"
+      ],
+      "factors": {
+        "trend": -1.0,
+        "momentum": -1.0,
+        "meanrev": 0.11,
+        "volume": -0.49,
+        "relstr": -1.0
+      },
+      "error": null
+    },
+    {
+      "code": "4534",
+      "name": "持田製薬",
+      "price": 3185.0,
+      "score": -77.8,
+      "signal": "HOLD",
+      "confidence": 77,
+      "entry": null,
+      "stop": null,
+      "target": null,
+      "rr": null,
+      "reasons": [
+        "中期下降トレンド",
+        "指数より弱い"
+      ],
+      "factors": {
+        "trend": -1.0,
+        "momentum": -1.0,
+        "meanrev": 0.21,
+        "volume": -0.59,
+        "relstr": -1.0
+      },
+      "error": null
+    },
+    {
+      "code": "4549",
+      "name": "栄研化学",
+      "price": 2676.0,
+      "score": -77.8,
+      "signal": "SELL",
+      "confidence": 97,
+      "entry": 2676.0,
+      "stop": 2877.8,
+      "target": 2373.4,
+      "rr": null,
+      "reasons": [
+        "デッドクロス発生",
+        "中期下降トレンド",
+        "指数より弱い"
+      ],
+      "factors": {
+        "trend": -1.0,
+        "momentum": -1.0,
+        "meanrev": 0.22,
+        "volume": -0.61,
         "relstr": -1.0
       },
       "error": null
