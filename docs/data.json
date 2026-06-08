@@ -1,17 +1,17 @@
 {
-  "generated": "2026.06.08 12:33",
-  "total": 3717,
+  "generated": "2026.06.08 13:21",
+  "total": 3716,
   "buys": [
     {
       "code": "7067",
       "name": "ブランディングテクノロジー",
-      "price": 1031.0,
-      "score": 77.0,
+      "price": 1030.0,
+      "score": 76.5,
       "signal": "BUY",
-      "confidence": 97,
-      "entry": 1031.0,
-      "stop": 966.0,
-      "target": 1128.5,
+      "confidence": 96,
+      "entry": 1030.0,
+      "stop": 964.9,
+      "target": 1127.7,
       "rr": 1.5,
       "reasons": [
         "ゴールデンクロス発生",
@@ -21,89 +21,17 @@
       "factors": {
         "trend": 1.0,
         "momentum": 1.0,
-        "meanrev": -0.39,
-        "volume": 0.92,
-        "relstr": 0.93
+        "meanrev": -0.38,
+        "volume": 0.91,
+        "relstr": 0.91
       },
       "error": null
     },
     {
-      "code": "7173",
-      "name": "東京きらぼしフィナンシャルグループ",
-      "price": 11560.0,
-      "score": 74.6,
-      "signal": "HOLD",
-      "confidence": 74,
-      "entry": null,
-      "stop": null,
-      "target": null,
-      "rr": null,
-      "reasons": [
-        "中期上昇トレンド（EMA25>EMA75）",
-        "指数より強い（相対力プラス）"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -0.39,
-        "volume": 0.55,
-        "relstr": 1.0
-      },
-      "error": null
-    },
-    {
-      "code": "9903",
-      "name": "カンセキ",
-      "price": 1170.0,
-      "score": 74.4,
-      "signal": "HOLD",
-      "confidence": 74,
-      "entry": null,
-      "stop": null,
-      "target": null,
-      "rr": null,
-      "reasons": [
-        "中期上昇トレンド（EMA25>EMA75）",
-        "指数より強い（相対力プラス）"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 0.98,
-        "meanrev": -0.44,
-        "volume": 0.65,
-        "relstr": 1.0
-      },
-      "error": null
-    },
-    {
-      "code": "6298",
-      "name": "ワイエイシイホールディングス",
-      "price": 1391.0,
-      "score": 73.0,
-      "signal": "HOLD",
-      "confidence": 73,
-      "entry": null,
-      "stop": null,
-      "target": null,
-      "rr": null,
-      "reasons": [
-        "中期上昇トレンド（EMA25>EMA75）",
-        "指数より強い（相対力プラス）"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -0.35,
-        "volume": 0.32,
-        "relstr": 1.0
-      },
-      "error": null
-    },
-    {
-      "code": "7182",
-      "name": "ゆうちょ銀行",
-      "price": 3085.0,
-      "score": 72.8,
+      "code": "3465",
+      "name": "ケイアイスター不動産",
+      "price": 3540.0,
+      "score": 72.2,
       "signal": "HOLD",
       "confidence": 72,
       "entry": null,
@@ -117,14 +45,112 @@
       "factors": {
         "trend": 1.0,
         "momentum": 1.0,
-        "meanrev": -0.23,
-        "volume": 0.58,
-        "relstr": 0.77
+        "meanrev": -0.56,
+        "volume": 0.59,
+        "relstr": 0.98
+      },
+      "error": null
+    },
+    {
+      "code": "7173",
+      "name": "東京きらぼしフィナンシャルグループ",
+      "price": 11690.0,
+      "score": 72.2,
+      "signal": "HOLD",
+      "confidence": 72,
+      "entry": null,
+      "stop": null,
+      "target": null,
+      "rr": null,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -0.5,
+        "volume": 0.47,
+        "relstr": 1.0
+      },
+      "error": null
+    },
+    {
+      "code": "7182",
+      "name": "ゆうちょ銀行",
+      "price": 3105.0,
+      "score": 72.2,
+      "signal": "HOLD",
+      "confidence": 72,
+      "entry": null,
+      "stop": null,
+      "target": null,
+      "rr": null,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -0.31,
+        "volume": 0.52,
+        "relstr": 0.83
+      },
+      "error": null
+    },
+    {
+      "code": "4704",
+      "name": "トレンドマイクロ",
+      "price": 6404.0,
+      "score": 71.3,
+      "signal": "HOLD",
+      "confidence": 71,
+      "entry": null,
+      "stop": null,
+      "target": null,
+      "rr": null,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -0.53,
+        "volume": 0.43,
+        "relstr": 1.0
       },
       "error": null
     }
   ],
   "sells": [
+    {
+      "code": "416A",
+      "name": "富士ユナイトホールディングス",
+      "price": 1110.0,
+      "score": -81.4,
+      "signal": "HOLD",
+      "confidence": 81,
+      "entry": null,
+      "stop": null,
+      "target": null,
+      "rr": null,
+      "reasons": [
+        "中期下降トレンド",
+        "下バンド接近（押し目）",
+        "出来高急増（平均比 2.2倍）",
+        "指数より弱い"
+      ],
+      "factors": {
+        "trend": -1.0,
+        "momentum": -1.0,
+        "meanrev": 0.24,
+        "volume": -1.0,
+        "relstr": -1.0
+      },
+      "error": null
+    },
     {
       "code": "1897",
       "name": "金下建設",
@@ -153,52 +179,25 @@
     {
       "code": "6094",
       "name": "フリークアウト・ホールディングス",
-      "price": 569.0,
-      "score": -81.2,
+      "price": 549.0,
+      "score": -80.5,
       "signal": "SELL",
       "confidence": 100,
-      "entry": 569.0,
-      "stop": 625.8,
-      "target": 483.8,
+      "entry": 549.0,
+      "stop": 608.9,
+      "target": 459.1,
       "rr": null,
       "reasons": [
         "デッドクロス発生",
         "中期下降トレンド",
-        "下バンド接近（押し目）",
-        "出来高急増（平均比 3.3倍）",
-        "指数より弱い"
-      ],
-      "factors": {
-        "trend": -1.0,
-        "momentum": -1.0,
-        "meanrev": 0.26,
-        "volume": -1.0,
-        "relstr": -1.0
-      },
-      "error": null
-    },
-    {
-      "code": "5982",
-      "name": "マルゼン",
-      "price": 3410.0,
-      "score": -81.0,
-      "signal": "HOLD",
-      "confidence": 81,
-      "entry": null,
-      "stop": null,
-      "target": null,
-      "rr": null,
-      "reasons": [
-        "中期下降トレンド",
         "RSI 30（売られすぎ）",
         "下バンド接近（押し目）",
-        "出来高急増（平均比 2.3倍）",
-        "指数より弱い"
+        "出来高急増（平均比 4.2倍）"
       ],
       "factors": {
         "trend": -1.0,
         "momentum": -1.0,
-        "meanrev": 0.27,
+        "meanrev": 0.3,
         "volume": -1.0,
         "relstr": -1.0
       },
@@ -207,8 +206,8 @@
     {
       "code": "3662",
       "name": "エイチームホールディングス",
-      "price": 899.0,
-      "score": -80.4,
+      "price": 895.0,
+      "score": -80.1,
       "signal": "HOLD",
       "confidence": 80,
       "entry": null,
@@ -217,33 +216,34 @@
       "rr": null,
       "reasons": [
         "中期下降トレンド",
+        "RSI 29（売られすぎ）",
         "下バンド接近（押し目）",
-        "出来高急増（平均比 2.0倍）",
+        "出来高急増（平均比 2.4倍）",
         "指数より弱い"
       ],
       "factors": {
         "trend": -1.0,
         "momentum": -1.0,
-        "meanrev": 0.31,
+        "meanrev": 0.32,
         "volume": -1.0,
         "relstr": -1.0
       },
       "error": null
     },
     {
-      "code": "3409",
-      "name": "北紡",
-      "price": 88.0,
-      "score": -80.3,
+      "code": "302A",
+      "name": "ビースタイルホールディングス",
+      "price": 531.0,
+      "score": -79.8,
       "signal": "HOLD",
-      "confidence": 80,
+      "confidence": 79,
       "entry": null,
       "stop": null,
       "target": null,
       "rr": null,
       "reasons": [
         "中期下降トレンド",
-        "RSI 23（売られすぎ）",
+        "RSI 29（売られすぎ）",
         "下バンド接近（押し目）",
         "出来高急増（平均比 2.0倍）",
         "指数より弱い"
@@ -251,7 +251,7 @@
       "factors": {
         "trend": -1.0,
         "momentum": -1.0,
-        "meanrev": 0.31,
+        "meanrev": 0.35,
         "volume": -1.0,
         "relstr": -1.0
       },
