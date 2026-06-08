@@ -18,7 +18,7 @@ universe_file: universe_all.csv
 #   standard  … スタンダードのみ
 #   growth    … グロースのみ（新興・小型／値動き激しい）
 #   複数指定も可（例: prime,standard）
-markets: all
+markets: prime
 
 # ランキング表示件数（買い・売り 各 Top-N）
 top_n: 5
