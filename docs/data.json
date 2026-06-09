@@ -1,38 +1,41 @@
 {
-  "generated": "2026.06.09 08:49",
+  "generated": "2026.06.09 15:10",
   "total": 3717,
   "buys": [
     {
-      "code": "6882",
-      "name": "三社電機製作所",
-      "price": 1320.0,
-      "score": 78.2,
+      "code": "4968",
+      "name": "荒川化学工業",
+      "price": 1623.0,
+      "score": 70.7,
       "signal": "HOLD",
-      "confidence": 78,
+      "confidence": 70,
       "entry": null,
       "stop": null,
       "target": null,
       "rr": null,
       "reasons": [
         "中期上昇トレンド（EMA25>EMA75）",
+        "RSI 70（買われすぎ）",
+        "上バンド接近（過熱）",
+        "出来高急増（平均比 2.4倍）",
         "指数より強い（相対力プラス）"
       ],
       "factors": {
         "trend": 1.0,
-        "momentum": 0.61,
-        "meanrev": 0.58,
-        "volume": 0.42,
+        "momentum": 1.0,
+        "meanrev": -0.95,
+        "volume": 1.0,
         "relstr": 1.0
       },
       "error": null
     },
     {
-      "code": "6055",
-      "name": "ジャパンマテリアル",
-      "price": 2084.0,
-      "score": 74.6,
+      "code": "5310",
+      "name": "東洋炭素",
+      "price": 8060.0,
+      "score": 70.6,
       "signal": "HOLD",
-      "confidence": 74,
+      "confidence": 70,
       "entry": null,
       "stop": null,
       "target": null,
@@ -44,22 +47,75 @@
       "factors": {
         "trend": 1.0,
         "momentum": 1.0,
-        "meanrev": 0.01,
-        "volume": -0.02,
-        "relstr": 0.98
+        "meanrev": -0.5,
+        "volume": 0.31,
+        "relstr": 1.0
       },
       "error": null
     },
     {
-      "code": "7067",
-      "name": "ブランディングテクノロジー",
-      "price": 1014.0,
-      "score": 72.0,
+      "code": "6962",
+      "name": "大真空",
+      "price": 1166.0,
+      "score": 70.4,
+      "signal": "HOLD",
+      "confidence": 70,
+      "entry": null,
+      "stop": null,
+      "target": null,
+      "rr": null,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "上バンド接近（過熱）",
+        "出来高急増（平均比 2.9倍）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -0.97,
+        "volume": 1.0,
+        "relstr": 1.0
+      },
+      "error": null
+    },
+    {
+      "code": "4064",
+      "name": "日本カーバイド工業",
+      "price": 3535.0,
+      "score": 70.1,
+      "signal": "HOLD",
+      "confidence": 70,
+      "entry": null,
+      "stop": null,
+      "target": null,
+      "rr": null,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "RSI 75（買われすぎ）",
+        "上バンド接近（過熱）",
+        "出来高急増（平均比 2.3倍）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -1.0,
+        "volume": 1.0,
+        "relstr": 1.0
+      },
+      "error": null
+    },
+    {
+      "code": "4536",
+      "name": "参天製薬",
+      "price": 1946.5,
+      "score": 70.1,
       "signal": "BUY",
-      "confidence": 92,
-      "entry": 1014.0,
-      "stop": 946.6,
-      "target": 1115.1,
+      "confidence": 90,
+      "entry": 1946.5,
+      "stop": 1825.1,
+      "target": 2128.7,
       "rr": 1.5,
       "reasons": [
         "ゴールデンクロス発生",
@@ -69,57 +125,9 @@
       "factors": {
         "trend": 1.0,
         "momentum": 1.0,
-        "meanrev": -0.26,
-        "volume": 0.77,
-        "relstr": 0.65
-      },
-      "error": null
-    },
-    {
-      "code": "9903",
-      "name": "カンセキ",
-      "price": 1197.0,
-      "score": 71.3,
-      "signal": "HOLD",
-      "confidence": 71,
-      "entry": null,
-      "stop": null,
-      "target": null,
-      "rr": null,
-      "reasons": [
-        "中期上昇トレンド（EMA25>EMA75）",
-        "指数より強い（相対力プラス）"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -0.55,
-        "volume": 0.45,
+        "meanrev": -0.72,
+        "volume": 0.59,
         "relstr": 1.0
-      },
-      "error": null
-    },
-    {
-      "code": "7182",
-      "name": "ゆうちょ銀行",
-      "price": 3126.0,
-      "score": 71.0,
-      "signal": "HOLD",
-      "confidence": 71,
-      "entry": null,
-      "stop": null,
-      "target": null,
-      "rr": null,
-      "reasons": [
-        "中期上昇トレンド（EMA25>EMA75）",
-        "指数より強い（相対力プラス）"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -0.39,
-        "volume": 0.21,
-        "relstr": 0.98
       },
       "error": null
     }
@@ -150,36 +158,61 @@
       "error": null
     },
     {
-      "code": "4372",
-      "name": "ユミルリンク",
-      "price": 1120.0,
-      "score": -82.4,
+      "code": "3512",
+      "name": "日本フエルト",
+      "price": 811.0,
+      "score": -81.9,
       "signal": "SELL",
       "confidence": 100,
-      "entry": 1120.0,
-      "stop": 1179.5,
-      "target": 1030.8,
+      "entry": 811.0,
+      "stop": 901.3,
+      "target": 675.6,
       "rr": null,
       "reasons": [
         "デッドクロス発生",
         "中期下降トレンド",
-        "出来高急増（平均比 2.6倍）",
         "指数より弱い"
       ],
       "factors": {
         "trend": -1.0,
         "momentum": -1.0,
-        "meanrev": 0.17,
+        "meanrev": 0.09,
+        "volume": -0.89,
+        "relstr": -0.97
+      },
+      "error": null
+    },
+    {
+      "code": "2152",
+      "name": "幼児活動研究会",
+      "price": 1384.0,
+      "score": -81.5,
+      "signal": "SELL",
+      "confidence": 100,
+      "entry": 1384.0,
+      "stop": 1450.2,
+      "target": 1284.7,
+      "rr": null,
+      "reasons": [
+        "デッドクロス発生",
+        "中期下降トレンド",
+        "出来高急増（平均比 3.0倍）",
+        "指数より弱い"
+      ],
+      "factors": {
+        "trend": -1.0,
+        "momentum": -1.0,
+        "meanrev": 0.24,
         "volume": -1.0,
         "relstr": -1.0
       },
       "error": null
     },
     {
-      "code": "9854",
-      "name": "愛眼",
-      "price": 221.0,
-      "score": -81.6,
+      "code": "9996",
+      "name": "サトー商会",
+      "price": 1999.0,
+      "score": -81.5,
       "signal": "HOLD",
       "confidence": 81,
       "entry": null,
@@ -188,7 +221,7 @@
       "rr": null,
       "reasons": [
         "中期下降トレンド",
-        "出来高急増（平均比 2.1倍）",
+        "出来高急増（平均比 3.2倍）",
         "指数より弱い"
       ],
       "factors": {
@@ -201,51 +234,26 @@
       "error": null
     },
     {
-      "code": "1811",
-      "name": "錢高組",
-      "price": 7640.0,
-      "score": -81.5,
-      "signal": "HOLD",
-      "confidence": 81,
-      "entry": null,
-      "stop": null,
-      "target": null,
+      "code": "4495",
+      "name": "アイキューブドシステムズ",
+      "price": 1884.0,
+      "score": -81.4,
+      "signal": "SELL",
+      "confidence": 100,
+      "entry": 1884.0,
+      "stop": 2037.0,
+      "target": 1654.6,
       "rr": null,
       "reasons": [
+        "デッドクロス発生",
         "中期下降トレンド",
         "指数より弱い"
       ],
       "factors": {
         "trend": -1.0,
         "momentum": -1.0,
-        "meanrev": 0.14,
-        "volume": -0.86,
-        "relstr": -1.0
-      },
-      "error": null
-    },
-    {
-      "code": "3662",
-      "name": "エイチームホールディングス",
-      "price": 906.0,
-      "score": -80.8,
-      "signal": "HOLD",
-      "confidence": 80,
-      "entry": null,
-      "stop": null,
-      "target": null,
-      "rr": null,
-      "reasons": [
-        "中期下降トレンド",
-        "下バンド接近（押し目）",
-        "出来高急増（平均比 2.7倍）",
-        "指数より弱い"
-      ],
-      "factors": {
-        "trend": -1.0,
-        "momentum": -1.0,
-        "meanrev": 0.28,
-        "volume": -1.0,
+        "meanrev": 0.11,
+        "volume": -0.8,
         "relstr": -1.0
       },
       "error": null
