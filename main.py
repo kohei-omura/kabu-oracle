@@ -68,6 +68,7 @@ def main():
     sub.add_parser("rank")
     sub.add_parser("report")
     sub.add_parser("prices")
+    sub.add_parser("holdings")
     pw = sub.add_parser("watch")
     pw.add_argument("--status", action="store_true")
     pa = sub.add_parser("analyze")
@@ -82,6 +83,8 @@ def main():
         REP.write_dashboard(cfg)
     elif args.cmd == "prices":
         REP.write_prices(cfg)
+    elif args.cmd == "holdings":
+        REP.check_holdings(cfg)
     elif args.cmd == "watch":
         cmd_watch(cfg, args.status)
     elif args.cmd == "analyze":

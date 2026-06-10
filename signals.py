@@ -37,6 +37,7 @@ class Analysis:
     stop: Optional[float] = None
     target: Optional[float] = None
     rr: Optional[float] = None   # リスクリワード比
+    atr: float = 0.0             # ATR(14)。保有銘柄のライン計算に使う
     reasons: list = field(default_factory=list)
     factors: dict = field(default_factory=dict)
     error: Optional[str] = None
@@ -44,6 +45,35 @@ class Analysis:
 
 def _clip(x: float) -> float:
     return float(max(-1.0, min(1.0, x)))
+
+
+def price_limit(base: float) -> float:
+    """東証の制限値幅（基準値段→1日の上下限の値幅・円）を返す。"""
+    table = [
+        (100, 30), (200, 50), (500, 80), (700, 100), (1000, 150),
+        (1500, 300), (2000, 400), (3000, 500), (5000, 700),
+        (7000, 1000), (10000, 1500), (15000, 3000), (20000, 4000),
+        (30000, 5000), (50000, 7000), (70000, 10000), (100000, 15000),
+        (150000, 30000), (200000, 40000), (300000, 50000),
+        (500000, 70000), (700000, 100000), (1000000, 150000),
+        (1500000, 300000), (2000000, 400000), (3000000, 500000),
+        (5000000, 700000),
+    ]
+    for thr, lim in table:
+        if base < thr:
+            return float(lim)
+    return 1000000.0
+
+
+def holding_levels(buy: float, atr: float, cfg: dict | None = None) -> tuple:
+    """保有銘柄の利確/損切ライン（買値基準・ATR）。発注は到達時に行う前提でクランプなし。"""
+    cfg = cfg or {}
+    th = (cfg.get("thresholds") or {})
+    stop_mult = th.get("atr_stop_mult", 2.0)
+    tgt_mult = th.get("atr_target_mult", 3.0)
+    target = round(buy + atr * tgt_mult, 1)
+    stop = round(buy - atr * stop_mult, 1)
+    return target, stop
 
 
 def analyze(
@@ -163,25 +193,25 @@ def analyze(
         if dead: reasons.insert(0, "デッドクロス発生")
         if rsi_turn: reasons.insert(0, "RSIが買われすぎから反落")
 
-    # --- エントリー/損切り/利確（ATR ベース）---
-    entry = stop = target = rr = None
-    if signal == "BUY":
-        entry = price
-        stop = round(price - atr_now * stop_mult, 1)
-        target = round(price + atr_now * tgt_mult, 1)
-        risk = entry - stop
-        rr = round((target - entry) / risk, 2) if risk > 0 else None
-    elif signal == "SELL":
-        # 保有していれば手仕舞い水準として提示
-        entry = price
-        stop = round(price + atr_now * stop_mult, 1)
-        target = round(price - atr_now * tgt_mult, 1)
+    # --- エントリー/損切り/利確（ATRベース＋制限値幅で“発注できる値”に調整）---
+    entry = price
+    raw_stop = price - atr_now * stop_mult
+    raw_target = price + atr_now * tgt_mult
+    lim = price_limit(price)
+    upper = price + lim
+    lower = max(1.0, price - lim)
+    stop = round(max(raw_stop, lower), 1)
+    target = round(min(raw_target, upper), 1)
+    if raw_target > upper or raw_stop < lower:
+        reasons.append("値幅制限内に調整")
+    risk = entry - stop
+    rr = round((target - entry) / risk, 2) if risk > 0 else None
 
     confidence = int(min(100, abs(score) + (20 if signal != "HOLD" else 0)))
 
     return Analysis(
         code=code, name=name, price=round(price, 1), score=score,
         signal=signal, confidence=confidence,
-        entry=entry, stop=stop, target=target, rr=rr,
+        entry=entry, stop=stop, target=target, rr=rr, atr=round(atr_now, 2),
         reasons=reasons[:5], factors={k: round(v, 2) for k, v in f.items()},
     )

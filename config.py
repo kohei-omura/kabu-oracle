@@ -85,3 +85,29 @@ def market_map(cfg: dict) -> dict[str, str]:
             if len(row) > 2 and row[0].strip().lower() != "code":
                 m[row[0].strip()] = row[2].strip().lower()
     return m
+
+
+def load_holdings() -> list[dict]:
+    """holdings.txt を読む。各行 'code,買値[,利確,損切]'（# はコメント）。"""
+    p = ROOT / "holdings.txt"
+    out: list[dict] = []
+    if not p.exists():
+        return out
+
+    def _num(parts, i):
+        try:
+            return float(parts[i])
+        except (IndexError, ValueError):
+            return None
+
+    for line in p.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line or line.startswith("#"):
+            continue
+        parts = [x.strip() for x in line.replace("，", ",").split(",")]
+        code = parts[0]
+        if not code:
+            continue
+        out.append({"code": code, "buy": _num(parts, 1),
+                    "target": _num(parts, 2), "stop": _num(parts, 3)})
+    return out

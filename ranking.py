@@ -47,7 +47,7 @@ def format_ranking(buys, sells, total: int, date_str: str) -> str:
     for i, a in enumerate(buys, 1):
         tag = "🟢買" if a.signal == "BUY" else "・"
         lines.append(f"{i}. {a.code} {a.name} {tag} スコア{a.score:+.0f} ¥{a.price:,.0f}")
-        if a.signal == "BUY" and a.stop and a.target:
+        if a.stop and a.target:
             lines.append(f"   目標¥{a.target:,.0f} / 損切¥{a.stop:,.0f}"
                          + (f" / RR {a.rr}" if a.rr else ""))
         if a.reasons:

@@ -13,7 +13,7 @@ from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
 import ranking as R
-from config import market_map
+from config import market_map, load_holdings
 
 JST = timezone(timedelta(hours=9))
 ROOT = Path(__file__).resolve().parent
@@ -50,7 +50,7 @@ def _badge(signal: str) -> str:
 
 def _card(rank: int, a, show_levels: bool, market: str = "") -> str:
     levels = ""
-    if show_levels and a.signal == "BUY" and a.entry and a.target and a.stop:
+    if show_levels and a.entry and a.target and a.stop:
         rr = f' ・ RR {a.rr}' if a.rr else ''
         levels = ('<div class="levels">'
                   f'<span class="lv tgt">利確 ¥{a.target:,.0f}</span>'
@@ -75,6 +75,46 @@ def _section(title: str, sub: str, cards_html: str, accent: str) -> str:
     return (f'<section><h2 class="{accent}"><span>{_esc(title)}</span>'
             f'<em>{_esc(sub)}</em></h2>'
             f'<div class="cards">{cards_html}</div></section>')
+
+
+def _holding_levels(h, a, cfg):
+    import signals as S
+    cur = a.price
+    tgt, stp = h.get("target"), h.get("stop")
+    if tgt is None or stp is None:
+        at, as_ = S.holding_levels(h.get("buy") or cur, a.atr, cfg)
+        tgt = at if tgt is None else tgt
+        stp = as_ if stp is None else stp
+    return tgt, stp
+
+
+def _holding_card(h, a, cfg) -> str:
+    code = h["code"]
+    buy = h.get("buy")
+    if a is None:
+        return ('<div class="card"><div class="row1"><div class="title">'
+                f'<span class="code">{_esc(code)}</span>'
+                '<span class="name">データ取得待ち</span></div></div></div>')
+    cur, name = a.price, a.name
+    tgt, stp = _holding_levels(h, a, cfg)
+    pl = ((cur - buy) / buy * 100) if buy else 0.0
+    pl_cls = "pos" if pl >= 0 else "neg"
+    if cur >= tgt:
+        st_label, st_cls = "利確圏", "buy"
+    elif cur <= stp:
+        st_label, st_cls = "損切圏", "sell"
+    else:
+        st_label, st_cls = "保有中", "hold"
+    buy_s = f"¥{buy:,.0f}" if buy else "—"
+    return (f'<div class="card"><div class="row1">'
+            f'<div class="title"><span class="code">{_esc(code)}</span>'
+            f'<span class="name">{_esc(name)}</span></div>'
+            f'<span class="hstat {st_cls}">{st_label}</span></div>'
+            f'<div class="row2"><span class="price" data-px="{_esc(code)}">¥{cur:,.0f}</span>'
+            f'<span class="score {pl_cls}">{pl:+.1f}%</span></div>'
+            f'<div class="levels"><span class="lv">買値 {buy_s}</span>'
+            f'<span class="lv tgt">利確 ¥{tgt:,.0f}</span>'
+            f'<span class="lv stp">損切 ¥{stp:,.0f}</span></div></div>')
 
 
 CSS = """
@@ -128,6 +168,10 @@ h2 em{font-style:normal;font-family:'IBM Plex Mono',monospace;font-size:10px;
   padding:1px 6px;border-radius:6px;border:1px solid var(--line);color:var(--mut)}
 .seg.p{color:#6fa8ff;border-color:rgba(111,168,255,.4)}
 .seg.g{color:var(--gold);border-color:var(--gold-d)}
+.hstat{flex:none;font-size:12px;font-weight:700;padding:3px 11px;border-radius:8px;
+  border:1px solid var(--line);color:var(--mut)}
+.hstat.buy{color:var(--buy);border-color:rgba(70,196,106,.35)}
+.hstat.sell{color:var(--sell);border-color:rgba(239,95,122,.35)}
 .badge{flex:none;width:26px;height:26px;display:grid;place-items:center;
   border-radius:8px;font-size:13px;font-weight:700}
 .badge.buy{color:var(--buy);background:rgba(70,196,106,.12);border:1px solid rgba(70,196,106,.3)}
@@ -194,7 +238,7 @@ function bar(sc){
 function card(s, removable){
   const scls = s.sc >= 0 ? 'pos' : 'neg';
   let levels = '';
-  if (s.g === 'BUY' && s.t && s.st) {
+  if (s.t && s.st) {
     levels = '<div class="levels"><span class="lv tgt">利確 ¥' + s.t.toLocaleString() +
       '</span><span class="lv stp">損切 ¥' + s.st.toLocaleString() + '</span>' +
       (s.rr ? '<span class="lv rr">RR ' + s.rr + '</span>' : '') + '</div>';
@@ -236,62 +280,6 @@ function run(){
 }
 q.addEventListener('input', run);
 
-/* ---- マイ銘柄（この端末に保存） ---- */
-const MYKEY = 'kabu_watch';
-const myq = document.getElementById('myq');
-const myadd = document.getElementById('myadd');
-const mylist = document.getElementById('mylist');
-const myhint = document.getElementById('myhint');
-function getMy(){ try { return JSON.parse(localStorage.getItem(MYKEY)) || []; } catch(e){ return []; } }
-function setMy(a){ try { localStorage.setItem(MYKEY, JSON.stringify(a)); } catch(e){} }
-function renderMy(){
-  const list = getMy();
-  if (!list.length){ mylist.innerHTML=''; myhint.style.display=''; return; }
-  myhint.style.display='none';
-  mylist.innerHTML = list.map(function(code){
-    const s = byCode(code);
-    if (s) return card(s, true);
-    return '<div class="card"><div class="row1">' +
-      '<div class="title"><span class="code">' + code + '</span>' +
-      '<span class="name">対象外/データなし</span></div>' +
-      '<button class="rm" data-c="' + code + '">×</button></div></div>';
-  }).join('');
-}
-function addCode(){
-  const v = myq.value.trim();
-  if (!v) return;
-  const list = getMy();
-  const lower = list.map(function(x){return x.toLowerCase();});
-  if (lower.indexOf(v.toLowerCase()) < 0){ list.push(v); setMy(list); }
-  myq.value=''; renderMy();
-}
-myadd.addEventListener('click', addCode);
-myq.addEventListener('keydown', function(e){ if (e.key === 'Enter') addCode(); });
-mylist.addEventListener('click', function(e){
-  if (e.target.classList.contains('rm')){
-    const c = e.target.getAttribute('data-c');
-    setMy(getMy().filter(function(x){ return x.toLowerCase() !== c.toLowerCase(); }));
-    renderMy();
-  }
-});
-
-/* push用にコピー（watchlist.txt へ貼り付ける用） */
-const mycopy = document.getElementById('mycopy');
-const mystatus = document.getElementById('mystatus');
-function copyMy(){
-  const text = getMy().join('\n');
-  if (!text){ mystatus.textContent = '登録がありません'; return; }
-  function done(){ mystatus.textContent = 'コピーしました → watchlist.txt に貼り付け'; }
-  if (navigator.clipboard && navigator.clipboard.writeText){
-    navigator.clipboard.writeText(text).then(done).catch(function(){ window.prompt('コピーしてください:', text); });
-  } else {
-    window.prompt('コピーしてください:', text);
-  }
-}
-mycopy.addEventListener('click', copyMy);
-
-renderMy();
-
 /* ---- 株価の自動更新（市場時間中 約20分遅延） ---- */
 function applyPrices(map){
   document.querySelectorAll('[data-px]').forEach(function(el){
@@ -318,16 +306,21 @@ setInterval(refreshPrices, 5 * 60 * 1000);
 def build_html(cfg: dict) -> tuple[str, dict]:
     now = datetime.now(JST)
     date_str = now.strftime("%Y.%m.%d %H:%M")
-    top_n = int(cfg.get("top_n", 5))
+    top = int(cfg.get("dashboard_top", 10))
 
     analyses = R.analyze_universe(cfg)
     total = len(analyses)
-    buys = analyses[:top_n]
-    sells = sorted(analyses, key=lambda x: x.score)[:top_n]
+    buys = analyses[:top]
 
     mk = market_map(cfg)
     buy_cards = "".join(_card(i, a, True, mk.get(a.code, "")) for i, a in enumerate(buys, 1))
-    sell_cards = "".join(_card(i, a, False, mk.get(a.code, "")) for i, a in enumerate(sells, 1))
+
+    holds = load_holdings()
+    amap = {a.code: a for a in analyses}
+    hold_section = ""
+    if holds:
+        hc = "".join(_holding_card(h, amap.get(h["code"]), cfg) for h in holds)
+        hold_section = _section("保有銘柄", "MY HOLDINGS", hc, "watch")
 
     index = []
     for rank, a in enumerate(analyses, 1):
@@ -344,7 +337,6 @@ def build_html(cfg: dict) -> tuple[str, dict]:
     data = {
         "generated": date_str, "total": total,
         "buys": [vars(a) for a in buys],
-        "sells": [vars(a) for a in sells],
     }
 
     head = (
@@ -377,26 +369,12 @@ def build_html(cfg: dict) -> tuple[str, dict]:
     <input id="q" type="search" inputmode="text" autocomplete="off"
            placeholder="証券コード や 銘柄名（例: 7203 / トヨタ）">
     <div id="results" class="cards"></div>
-    <p id="hint" class="empty">コードや銘柄名を入れると買い/売り判定と総合順位を表示します（最大5件）。</p>
+    <p id="hint" class="empty">コードや銘柄名を入れると買い/売り判定・利確/損切・総合順位を表示します（最大5件）。</p>
   </section>
 
-  <section id="my-sec">
-    <h2 class="watch"><span>マイ銘柄</span><em>MY WATCHLIST</em></h2>
-    <div class="myadd">
-      <input id="myq" type="search" inputmode="text" autocomplete="off"
-             placeholder="証券コードを入力して追加（例: 7203）">
-      <button id="myadd" type="button">追加</button>
-    </div>
-    <div id="mylist" class="cards"></div>
-    <div class="mytools">
-      <button id="mycopy" type="button">push用にコピー</button>
-      <span id="mystatus" class="mut"></span>
-    </div>
-    <p id="myhint" class="empty">よく見る銘柄を登録すると、ここに買い/売り判定が並びます（この端末に保存・更新ごとに最新化）。LINE/メールでも知らせてほしい時は「push用にコピー」→ GitHubの watchlist.txt に貼り付け。</p>
-  </section>
+  {hold_section}
 
-  {_section("買い候補", "BUY SIGNALS", buy_cards, "buy")}
-  {_section("売り・警戒", "SELL / CAUTION", sell_cards, "sell")}
+  {_section("買い候補 TOP10", "BUY SIGNALS", buy_cards, "buy")}
 
   <footer>
     <b>免責</b>：本ページは自分用の分析補助であり投資助言ではありません。
@@ -454,3 +432,73 @@ def write_prices(cfg: dict) -> dict:
         json.dumps(out, ensure_ascii=False), encoding="utf-8")
     print(f"価格更新: {len(prices)} 件 @ {now} JST")
     return out
+
+
+def check_holdings(cfg: dict) -> None:
+    """holdings.txt の各銘柄を監視し、利確/損切ラインに到達したらLINE/メール通知。
+
+    同じ到達は1日1回だけ通知（holdings_state.json で管理）。約15〜20分遅延。
+    """
+    import data as D
+    import signals as S
+    import notify as N
+    from config import load_holdings, load_universe
+
+    holds = load_holdings()
+    if not holds:
+        print("保有銘柄なし（holdings.txt）")
+        return
+
+    codes = [h["code"] for h in holds]
+    px = D.fetch_last_prices(codes)            # 現在値（日中足・約20分遅延）
+    frames = D.fetch_many(codes)               # ATR用の日足
+    namemap = {c: n for c, n in load_universe(
+        {"universe_file": cfg.get("universe_file", "universe_all.csv"), "markets": "all"})}
+
+    state_path = ROOT / "holdings_state.json"
+    try:
+        state = json.loads(state_path.read_text(encoding="utf-8"))
+    except Exception:
+        state = {}
+    today = datetime.now(JST).strftime("%Y-%m-%d")
+
+    tp, sl = [], []
+    for h in holds:
+        c = h["code"]
+        buy = h.get("buy")
+        cur = px.get(c)
+        if cur is None:
+            continue
+        df = frames.get(c)
+        atr = float(S.ind.atr(df, 14).iloc[-1]) if (df is not None and len(df) > 20) else 0.0
+        tgt, stp = h.get("target"), h.get("stop")
+        if tgt is None or stp is None:
+            at, as_ = S.holding_levels(buy or cur, atr, cfg)
+            tgt = at if tgt is None else tgt
+            stp = as_ if stp is None else stp
+        name = namemap.get(c, "")
+        pl = ((cur - buy) / buy * 100) if buy else 0.0
+        if tgt and cur >= tgt and state.get(f"{c}:tp") != today:
+            tp.append(f"  {c} {name}  現在¥{cur:,.0f} / 買値¥{(buy or 0):,.0f} ({pl:+.1f}%)  利確¥{tgt:,.0f}")
+            state[f"{c}:tp"] = today
+        if stp and cur <= stp and state.get(f"{c}:sl") != today:
+            sl.append(f"  {c} {name}  現在¥{cur:,.0f} / 買値¥{(buy or 0):,.0f} ({pl:+.1f}%)  損切¥{stp:,.0f}")
+            state[f"{c}:sl"] = today
+
+    if tp or sl:
+        now = datetime.now(JST).strftime("%H:%M")
+        parts = [f"🔔 株オラクル｜保有アラート（{now} JST・約20分遅延）"]
+        if tp:
+            parts.append("✅ 利確の目安に到達")
+            parts += tp
+        if sl:
+            parts.append("🛑 損切の目安に到達")
+            parts += sl
+        parts.append("※自分用の目安です。最終判断はご自身で。")
+        msg = "\n".join(parts)
+        print(msg)
+        N.notify_all(cfg, "【株オラクル】保有アラート", msg)
+    else:
+        print("到達アラートなし")
+
+    state_path.write_text(json.dumps(state, ensure_ascii=False), encoding="utf-8")
