@@ -1,30 +1,30 @@
 {
-  "generated": "2026.06.10 15:25",
+  "generated": "2026.06.10 18:05",
   "total": 3717,
   "buys": [
     {
       "code": "8132",
       "name": "シナネンホールディングス",
-      "price": 8250.0,
-      "score": 75.2,
+      "price": 8350.0,
+      "score": 76.3,
       "signal": "BUY",
-      "confidence": 95,
-      "entry": 8250.0,
-      "stop": 7435.4,
-      "target": 9471.8,
+      "confidence": 96,
+      "entry": 8350.0,
+      "stop": 7535.4,
+      "target": 9571.8,
       "rr": 1.5,
       "atr": 407.28,
       "reasons": [
         "ゴールデンクロス発生",
         "中期上昇トレンド（EMA25>EMA75）",
-        "出来高急増（平均比 1.7倍）",
+        "出来高急増（平均比 2.3倍）",
         "指数より強い（相対力プラス）"
       ],
       "factors": {
         "trend": 1.0,
         "momentum": 1.0,
-        "meanrev": -0.47,
-        "volume": 0.73,
+        "meanrev": -0.58,
+        "volume": 1.0,
         "relstr": 1.0
       },
       "error": null
@@ -55,10 +55,35 @@
       "error": null
     },
     {
+      "code": "7990",
+      "name": "グローブライド",
+      "price": 2478.0,
+      "score": 73.3,
+      "signal": "HOLD",
+      "confidence": 73,
+      "entry": 2478.0,
+      "stop": 2325.7,
+      "target": 2706.5,
+      "rr": 1.5,
+      "atr": 76.16,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 0.65,
+        "meanrev": 0.15,
+        "volume": 0.48,
+        "relstr": 1.0
+      },
+      "error": null
+    },
+    {
       "code": "7067",
       "name": "ブランディングテクノロジー",
       "price": 1005.0,
-      "score": 72.6,
+      "score": 72.8,
       "signal": "HOLD",
       "confidence": 72,
       "entry": 1005.0,
@@ -74,136 +99,32 @@
         "trend": 1.0,
         "momentum": 1.0,
         "meanrev": -0.11,
-        "volume": 0.83,
-        "relstr": 0.55
+        "volume": 0.81,
+        "relstr": 0.57
       },
       "error": null
     },
     {
-      "code": "7173",
-      "name": "東京きらぼしフィナンシャルグループ",
-      "price": 12110.0,
-      "score": 71.3,
-      "signal": "HOLD",
-      "confidence": 71,
-      "entry": 12110.0,
-      "stop": 11093.3,
-      "target": 13635.0,
-      "rr": 1.5,
-      "atr": 508.33,
-      "reasons": [
-        "中期上昇トレンド（EMA25>EMA75）",
-        "指数より強い（相対力プラス）"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -0.68,
-        "volume": 0.65,
-        "relstr": 1.0
-      },
-      "error": null
-    },
-    {
-      "code": "6013",
-      "name": "タクマ",
-      "price": 3425.0,
-      "score": 71.2,
-      "signal": "BUY",
-      "confidence": 91,
-      "entry": 3425.0,
-      "stop": 3218.2,
-      "target": 3735.3,
-      "rr": 1.5,
-      "atr": 103.42,
-      "reasons": [
-        "ゴールデンクロス発生",
-        "中期上昇トレンド（EMA25>EMA75）",
-        "指数より強い（相対力プラス）"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -0.49,
-        "volume": 0.36,
-        "relstr": 1.0
-      },
-      "error": null
-    },
-    {
-      "code": "7069",
-      "name": "サイバー・バズ",
-      "price": 1245.0,
-      "score": 71.1,
-      "signal": "BUY",
-      "confidence": 91,
-      "entry": 1245.0,
-      "stop": 1103.0,
-      "target": 1458.1,
-      "rr": 1.5,
-      "atr": 71.02,
-      "reasons": [
-        "ゴールデンクロス発生",
-        "中期上昇トレンド（EMA25>EMA75）",
-        "RSI 80（買われすぎ）",
-        "上バンド接近（過熱）",
-        "出来高急増（平均比 4.4倍）"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -0.93,
-        "volume": 1.0,
-        "relstr": 1.0
-      },
-      "error": null
-    },
-    {
-      "code": "4376",
-      "name": "くふうカンパニーホールディングス",
-      "price": 173.0,
-      "score": 70.5,
+      "code": "1945",
+      "name": "東京エネシス",
+      "price": 2352.0,
+      "score": 70.1,
       "signal": "HOLD",
       "confidence": 70,
-      "entry": 173.0,
-      "stop": 156.4,
-      "target": 197.9,
+      "entry": 2352.0,
+      "stop": 2130.7,
+      "target": 2683.9,
       "rr": 1.5,
-      "atr": 8.29,
+      "atr": 110.64,
       "reasons": [
         "中期上昇トレンド（EMA25>EMA75）",
         "指数より強い（相対力プラス）"
       ],
       "factors": {
         "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -0.44,
-        "volume": 0.23,
-        "relstr": 0.99
-      },
-      "error": null
-    },
-    {
-      "code": "4536",
-      "name": "参天製薬",
-      "price": 1950.0,
-      "score": 70.3,
-      "signal": "HOLD",
-      "confidence": 70,
-      "entry": 1950.0,
-      "stop": 1832.0,
-      "target": 2127.0,
-      "rr": 1.5,
-      "atr": 58.99,
-      "reasons": [
-        "中期上昇トレンド（EMA25>EMA75）",
-        "指数より強い（相対力プラス）"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -0.71,
-        "volume": 0.59,
+        "momentum": 0.65,
+        "meanrev": 0.1,
+        "volume": 0.24,
         "relstr": 1.0
       },
       "error": null
@@ -211,21 +132,49 @@
     {
       "code": "196A",
       "name": "ＭＦＳ",
-      "price": 308.0,
+      "price": 307.0,
       "score": 70.0,
       "signal": "BUY",
       "confidence": 90,
-      "entry": 308.0,
-      "stop": 278.1,
-      "target": 352.8,
+      "entry": 307.0,
+      "stop": 277.1,
+      "target": 351.8,
       "rr": 1.5,
       "atr": 14.95,
       "reasons": [
         "ゴールデンクロス発生",
         "中期上昇トレンド（EMA25>EMA75）",
-        "RSI 70（買われすぎ）",
         "上バンド接近（過熱）",
-        "出来高急増（平均比 2.7倍）"
+        "出来高急増（平均比 2.8倍）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -1.0,
+        "volume": 1.0,
+        "relstr": 1.0
+      },
+      "error": null
+    },
+    {
+      "code": "2222",
+      "name": "寿スピリッツ",
+      "price": 2396.0,
+      "score": 70.0,
+      "signal": "HOLD",
+      "confidence": 70,
+      "entry": 2396.0,
+      "stop": 2239.1,
+      "target": 2631.3,
+      "rr": 1.5,
+      "atr": 78.45,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "RSI 78（買われすぎ）",
+        "上バンド接近（過熱）",
+        "出来高急増（平均比 2.2倍）",
+        "指数より強い（相対力プラス）"
       ],
       "factors": {
         "trend": 1.0,
@@ -239,21 +188,77 @@
     {
       "code": "2393",
       "name": "日本ケアサプライ",
-      "price": 3935.0,
+      "price": 4065.0,
       "score": 70.0,
       "signal": "HOLD",
       "confidence": 70,
-      "entry": 3935.0,
-      "stop": 3584.5,
-      "target": 4460.7,
+      "entry": 4065.0,
+      "stop": 3714.5,
+      "target": 4590.7,
       "rr": 1.5,
       "atr": 175.24,
       "reasons": [
         "中期上昇トレンド（EMA25>EMA75）",
-        "RSI 93（買われすぎ）",
+        "RSI 94（買われすぎ）",
         "上バンド接近（過熱）",
-        "出来高急増（平均比 14.1倍）",
+        "出来高急増（平均比 14.4倍）",
         "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -1.0,
+        "volume": 1.0,
+        "relstr": 1.0
+      },
+      "error": null
+    },
+    {
+      "code": "3663",
+      "name": "セルシス",
+      "price": 1941.0,
+      "score": 70.0,
+      "signal": "HOLD",
+      "confidence": 70,
+      "entry": 1941.0,
+      "stop": 1781.5,
+      "target": 2180.2,
+      "rr": 1.5,
+      "atr": 79.74,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "RSI 78（買われすぎ）",
+        "上バンド接近（過熱）",
+        "出来高急増（平均比 2.1倍）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -1.0,
+        "volume": 1.0,
+        "relstr": 1.0
+      },
+      "error": null
+    },
+    {
+      "code": "4174",
+      "name": "アピリッツ",
+      "price": 865.0,
+      "score": 70.0,
+      "signal": "BUY",
+      "confidence": 90,
+      "entry": 865.0,
+      "stop": 818.4,
+      "target": 934.9,
+      "rr": 1.5,
+      "atr": 23.29,
+      "reasons": [
+        "ゴールデンクロス発生",
+        "中期上昇トレンド（EMA25>EMA75）",
+        "RSI 91（買われすぎ）",
+        "上バンド接近（過熱）",
+        "出来高急増（平均比 5.6倍）"
       ],
       "factors": {
         "trend": 1.0,
