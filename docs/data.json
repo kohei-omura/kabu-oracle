@@ -1,17 +1,17 @@
 {
-  "generated": "2026.06.09 17:47",
+  "generated": "2026.06.10 08:54",
   "total": 3717,
   "buys": [
     {
-      "code": "3936",
-      "name": "グローバルウェイ",
-      "price": 176.0,
-      "score": 75.6,
+      "code": "6775",
+      "name": "ＴＢグループ",
+      "price": 140.0,
+      "score": 71.6,
       "signal": "BUY",
-      "confidence": 95,
-      "entry": 176.0,
-      "stop": 144.8,
-      "target": 222.8,
+      "confidence": 91,
+      "entry": 140.0,
+      "stop": 116.8,
+      "target": 174.8,
       "rr": 1.5,
       "reasons": [
         "ゴールデンクロス発生",
@@ -21,9 +21,9 @@
       "factors": {
         "trend": 1.0,
         "momentum": 1.0,
-        "meanrev": -0.14,
-        "volume": 0.56,
-        "relstr": 0.86
+        "meanrev": -0.44,
+        "volume": 0.31,
+        "relstr": 1.0
       },
       "error": null
     },
@@ -49,6 +49,31 @@
         "meanrev": -0.65,
         "volume": 1.0,
         "relstr": 1.0
+      },
+      "error": null
+    },
+    {
+      "code": "7067",
+      "name": "ブランディングテクノロジー",
+      "price": 1010.0,
+      "score": 71.1,
+      "signal": "BUY",
+      "confidence": 91,
+      "entry": 1010.0,
+      "stop": 942.0,
+      "target": 1112.0,
+      "rr": 1.5,
+      "reasons": [
+        "ゴールデンクロス発生",
+        "中期上昇トレンド（EMA25>EMA75）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -0.19,
+        "volume": 0.4,
+        "relstr": 0.75
       },
       "error": null
     },
@@ -105,57 +130,55 @@
         "relstr": 1.0
       },
       "error": null
-    },
-    {
-      "code": "6376",
-      "name": "日機装",
-      "price": 3420.0,
-      "score": 70.2,
-      "signal": "BUY",
-      "confidence": 90,
-      "entry": 3420.0,
-      "stop": 3048.6,
-      "target": 3977.0,
-      "rr": 1.5,
-      "reasons": [
-        "ゴールデンクロス発生",
-        "中期上昇トレンド（EMA25>EMA75）",
-        "指数より強い（相対力プラス）"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -0.63,
-        "volume": 0.46,
-        "relstr": 1.0
-      },
-      "error": null
     }
   ],
   "sells": [
     {
-      "code": "2152",
-      "name": "幼児活動研究会",
-      "price": 1392.0,
-      "score": -81.8,
+      "code": "3512",
+      "name": "日本フエルト",
+      "price": 817.0,
+      "score": -82.4,
       "signal": "SELL",
       "confidence": 100,
-      "entry": 1392.0,
-      "stop": 1458.2,
-      "target": 1292.7,
+      "entry": 817.0,
+      "stop": 907.4,
+      "target": 681.3,
       "rr": null,
       "reasons": [
         "デッドクロス発生",
         "中期下降トレンド",
-        "出来高急増（平均比 3.4倍）",
         "指数より弱い"
       ],
       "factors": {
         "trend": -1.0,
         "momentum": -1.0,
-        "meanrev": 0.21,
-        "volume": -1.0,
+        "meanrev": 0.07,
+        "volume": -0.85,
         "relstr": -1.0
+      },
+      "error": null
+    },
+    {
+      "code": "9227",
+      "name": "マイクロ波化学",
+      "price": 927.0,
+      "score": -82.3,
+      "signal": "HOLD",
+      "confidence": 82,
+      "entry": null,
+      "stop": null,
+      "target": null,
+      "rr": null,
+      "reasons": [
+        "中期下降トレンド",
+        "指数より弱い"
+      ],
+      "factors": {
+        "trend": -1.0,
+        "momentum": -1.0,
+        "meanrev": 0.01,
+        "volume": -0.9,
+        "relstr": -0.92
       },
       "error": null
     },
@@ -185,9 +208,9 @@
       "error": null
     },
     {
-      "code": "7827",
-      "name": "オービス",
-      "price": 1598.0,
+      "code": "8225",
+      "name": "タカチホ",
+      "price": 3310.0,
       "score": -81.4,
       "signal": "HOLD",
       "confidence": 81,
@@ -197,40 +220,13 @@
       "rr": null,
       "reasons": [
         "中期下降トレンド",
-        "下バンド接近（押し目）",
-        "出来高急増（平均比 2.2倍）",
         "指数より弱い"
       ],
       "factors": {
         "trend": -1.0,
         "momentum": -1.0,
-        "meanrev": 0.24,
-        "volume": -1.0,
-        "relstr": -1.0
-      },
-      "error": null
-    },
-    {
-      "code": "7983",
-      "name": "ミロク",
-      "price": 1051.0,
-      "score": -81.4,
-      "signal": "HOLD",
-      "confidence": 81,
-      "entry": null,
-      "stop": null,
-      "target": null,
-      "rr": null,
-      "reasons": [
-        "中期下降トレンド",
-        "出来高急増（平均比 2.5倍）",
-        "指数より弱い"
-      ],
-      "factors": {
-        "trend": -1.0,
-        "momentum": -1.0,
-        "meanrev": 0.24,
-        "volume": -1.0,
+        "meanrev": 0.07,
+        "volume": -0.74,
         "relstr": -1.0
       },
       "error": null
