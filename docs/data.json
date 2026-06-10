@@ -1,17 +1,119 @@
 {
-  "generated": "2026.06.10 10:49",
+  "generated": "2026.06.10 15:25",
   "total": 3717,
   "buys": [
     {
-      "code": "6013",
-      "name": "タクマ",
-      "price": 3415.0,
+      "code": "8132",
+      "name": "シナネンホールディングス",
+      "price": 8250.0,
       "score": 75.2,
       "signal": "BUY",
       "confidence": 95,
-      "entry": 3415.0,
-      "stop": 3208.2,
-      "target": 3725.3,
+      "entry": 8250.0,
+      "stop": 7435.4,
+      "target": 9471.8,
+      "rr": 1.5,
+      "atr": 407.28,
+      "reasons": [
+        "ゴールデンクロス発生",
+        "中期上昇トレンド（EMA25>EMA75）",
+        "出来高急増（平均比 1.7倍）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -0.47,
+        "volume": 0.73,
+        "relstr": 1.0
+      },
+      "error": null
+    },
+    {
+      "code": "4255",
+      "name": "ＴＨＥＣＯＯ",
+      "price": 2439.0,
+      "score": 73.7,
+      "signal": "HOLD",
+      "confidence": 73,
+      "entry": 2439.0,
+      "stop": 2226.5,
+      "target": 2757.7,
+      "rr": 1.5,
+      "atr": 106.24,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 0.68,
+        "meanrev": -0.06,
+        "volume": 0.77,
+        "relstr": 1.0
+      },
+      "error": null
+    },
+    {
+      "code": "7067",
+      "name": "ブランディングテクノロジー",
+      "price": 1005.0,
+      "score": 72.6,
+      "signal": "HOLD",
+      "confidence": 72,
+      "entry": 1005.0,
+      "stop": 941.1,
+      "target": 1100.8,
+      "rr": 1.5,
+      "atr": 31.94,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -0.11,
+        "volume": 0.83,
+        "relstr": 0.55
+      },
+      "error": null
+    },
+    {
+      "code": "7173",
+      "name": "東京きらぼしフィナンシャルグループ",
+      "price": 12110.0,
+      "score": 71.3,
+      "signal": "HOLD",
+      "confidence": 71,
+      "entry": 12110.0,
+      "stop": 11093.3,
+      "target": 13635.0,
+      "rr": 1.5,
+      "atr": 508.33,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -0.68,
+        "volume": 0.65,
+        "relstr": 1.0
+      },
+      "error": null
+    },
+    {
+      "code": "6013",
+      "name": "タクマ",
+      "price": 3425.0,
+      "score": 71.2,
+      "signal": "BUY",
+      "confidence": 91,
+      "entry": 3425.0,
+      "stop": 3218.2,
+      "target": 3735.3,
       "rr": 1.5,
       "atr": 103.42,
       "reasons": [
@@ -22,61 +124,8 @@
       "factors": {
         "trend": 1.0,
         "momentum": 1.0,
-        "meanrev": -0.46,
-        "volume": 0.71,
-        "relstr": 1.0
-      },
-      "error": null
-    },
-    {
-      "code": "1945",
-      "name": "東京エネシス",
-      "price": 2390.0,
-      "score": 72.1,
-      "signal": "HOLD",
-      "confidence": 72,
-      "entry": 2390.0,
-      "stop": 2168.7,
-      "target": 2721.9,
-      "rr": 1.5,
-      "atr": 110.64,
-      "reasons": [
-        "中期上昇トレンド（EMA25>EMA75）",
-        "指数より強い（相対力プラス）"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 0.67,
-        "meanrev": -0.09,
-        "volume": 0.68,
-        "relstr": 1.0
-      },
-      "error": null
-    },
-    {
-      "code": "4179",
-      "name": "ジーネクスト",
-      "price": 425.0,
-      "score": 72.1,
-      "signal": "HOLD",
-      "confidence": 72,
-      "entry": 425.0,
-      "stop": 349.5,
-      "target": 505.0,
-      "rr": 1.06,
-      "atr": 37.76,
-      "reasons": [
-        "中期上昇トレンド（EMA25>EMA75）",
-        "上バンド接近（過熱）",
-        "出来高急増（平均比 4.9倍）",
-        "指数より強い（相対力プラス）",
-        "値幅制限内に調整"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -0.86,
-        "volume": 1.0,
+        "meanrev": -0.49,
+        "volume": 0.36,
         "relstr": 1.0
       },
       "error": null
@@ -84,78 +133,27 @@
     {
       "code": "7069",
       "name": "サイバー・バズ",
-      "price": 1235.0,
-      "score": 71.8,
+      "price": 1245.0,
+      "score": 71.1,
       "signal": "BUY",
       "confidence": 91,
-      "entry": 1235.0,
-      "stop": 1097.1,
-      "target": 1441.8,
+      "entry": 1245.0,
+      "stop": 1103.0,
+      "target": 1458.1,
       "rr": 1.5,
-      "atr": 68.95,
+      "atr": 71.02,
       "reasons": [
         "ゴールデンクロス発生",
         "中期上昇トレンド（EMA25>EMA75）",
-        "RSI 79（買われすぎ）",
+        "RSI 80（買われすぎ）",
         "上バンド接近（過熱）",
-        "出来高急増（平均比 4.1倍）"
+        "出来高急増（平均比 4.4倍）"
       ],
       "factors": {
         "trend": 1.0,
         "momentum": 1.0,
-        "meanrev": -0.88,
+        "meanrev": -0.93,
         "volume": 1.0,
-        "relstr": 1.0
-      },
-      "error": null
-    },
-    {
-      "code": "4109",
-      "name": "ステラ　ケミファ",
-      "price": 7830.0,
-      "score": 71.5,
-      "signal": "HOLD",
-      "confidence": 71,
-      "entry": 7830.0,
-      "stop": 7012.3,
-      "target": 9056.6,
-      "rr": 1.5,
-      "atr": 408.86,
-      "reasons": [
-        "中期上昇トレンド（EMA25>EMA75）",
-        "RSI 71（買われすぎ）",
-        "指数より強い（相対力プラス）"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -0.62,
-        "volume": 0.58,
-        "relstr": 1.0
-      },
-      "error": null
-    },
-    {
-      "code": "7173",
-      "name": "東京きらぼしフィナンシャルグループ",
-      "price": 12270.0,
-      "score": 70.9,
-      "signal": "HOLD",
-      "confidence": 70,
-      "entry": 12270.0,
-      "stop": 11271.9,
-      "target": 13767.1,
-      "rr": 1.5,
-      "atr": 499.05,
-      "reasons": [
-        "中期上昇トレンド（EMA25>EMA75）",
-        "指数より強い（相対力プラス）"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -0.8,
-        "volume": 0.79,
         "relstr": 1.0
       },
       "error": null
@@ -163,15 +161,15 @@
     {
       "code": "4376",
       "name": "くふうカンパニーホールディングス",
-      "price": 180.0,
-      "score": 70.3,
+      "price": 173.0,
+      "score": 70.5,
       "signal": "HOLD",
       "confidence": 70,
-      "entry": 180.0,
-      "stop": 164.3,
-      "target": 203.6,
+      "entry": 173.0,
+      "stop": 156.4,
+      "target": 197.9,
       "rr": 1.5,
-      "atr": 7.86,
+      "atr": 8.29,
       "reasons": [
         "中期上昇トレンド（EMA25>EMA75）",
         "指数より強い（相対力プラス）"
@@ -179,8 +177,61 @@
       "factors": {
         "trend": 1.0,
         "momentum": 1.0,
-        "meanrev": -0.72,
-        "volume": 0.61,
+        "meanrev": -0.44,
+        "volume": 0.23,
+        "relstr": 0.99
+      },
+      "error": null
+    },
+    {
+      "code": "4536",
+      "name": "参天製薬",
+      "price": 1950.0,
+      "score": 70.3,
+      "signal": "HOLD",
+      "confidence": 70,
+      "entry": 1950.0,
+      "stop": 1832.0,
+      "target": 2127.0,
+      "rr": 1.5,
+      "atr": 58.99,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -0.71,
+        "volume": 0.59,
+        "relstr": 1.0
+      },
+      "error": null
+    },
+    {
+      "code": "196A",
+      "name": "ＭＦＳ",
+      "price": 308.0,
+      "score": 70.0,
+      "signal": "BUY",
+      "confidence": 90,
+      "entry": 308.0,
+      "stop": 278.1,
+      "target": 352.8,
+      "rr": 1.5,
+      "atr": 14.95,
+      "reasons": [
+        "ゴールデンクロス発生",
+        "中期上昇トレンド（EMA25>EMA75）",
+        "RSI 70（買われすぎ）",
+        "上バンド接近（過熱）",
+        "出来高急増（平均比 2.7倍）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -1.0,
+        "volume": 1.0,
         "relstr": 1.0
       },
       "error": null
@@ -188,77 +239,21 @@
     {
       "code": "2393",
       "name": "日本ケアサプライ",
-      "price": 3830.0,
+      "price": 3935.0,
       "score": 70.0,
       "signal": "HOLD",
       "confidence": 70,
-      "entry": 3830.0,
-      "stop": 3479.5,
-      "target": 4355.7,
+      "entry": 3935.0,
+      "stop": 3584.5,
+      "target": 4460.7,
       "rr": 1.5,
       "atr": 175.24,
       "reasons": [
         "中期上昇トレンド（EMA25>EMA75）",
         "RSI 93（買われすぎ）",
         "上バンド接近（過熱）",
-        "出来高急増（平均比 13.1倍）",
+        "出来高急増（平均比 14.1倍）",
         "指数より強い（相対力プラス）"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -1.0,
-        "volume": 1.0,
-        "relstr": 1.0
-      },
-      "error": null
-    },
-    {
-      "code": "4378",
-      "name": "ＣＩＮＣ",
-      "price": 1482.0,
-      "score": 70.0,
-      "signal": "HOLD",
-      "confidence": 70,
-      "entry": 1482.0,
-      "stop": 1307.7,
-      "target": 1743.5,
-      "rr": 1.5,
-      "atr": 87.17,
-      "reasons": [
-        "中期上昇トレンド（EMA25>EMA75）",
-        "RSI 98（買われすぎ）",
-        "上バンド接近（過熱）",
-        "出来高急増（平均比 5.6倍）",
-        "指数より強い（相対力プラス）"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -1.0,
-        "volume": 1.0,
-        "relstr": 1.0
-      },
-      "error": null
-    },
-    {
-      "code": "6336",
-      "name": "石井表記",
-      "price": 1735.0,
-      "score": 70.0,
-      "signal": "BUY",
-      "confidence": 90,
-      "entry": 1735.0,
-      "stop": 1506.0,
-      "target": 2078.5,
-      "rr": 1.5,
-      "atr": 114.5,
-      "reasons": [
-        "ゴールデンクロス発生",
-        "中期上昇トレンド（EMA25>EMA75）",
-        "RSI 79（買われすぎ）",
-        "上バンド接近（過熱）",
-        "出来高急増（平均比 5.5倍）"
       ],
       "factors": {
         "trend": 1.0,
