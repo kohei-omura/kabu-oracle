@@ -1,6 +1,6 @@
 {
-  "generated": "2026.06.11 22:46",
-  "total": 3715,
+  "generated": "2026.06.11 23:26",
+  "total": 3713,
   "buys": [
     {
       "code": "8132",
@@ -26,8 +26,16 @@
         "relstr": 1.0
       },
       "error": null,
-      "fund": null,
-      "combined": null
+      "fund": {
+        "per": 29.9,
+        "pbr": 1.63,
+        "roe": 5.3,
+        "eqr": 51.1,
+        "divy": 1.09,
+        "growth": -4.9,
+        "score": 36.0
+      },
+      "combined": 74.5
     },
     {
       "code": "166A",
@@ -56,38 +64,16 @@
         "relstr": 1.0
       },
       "error": null,
-      "fund": null,
-      "combined": null
-    },
-    {
-      "code": "9331",
-      "name": "キャスター",
-      "price": 1308.0,
-      "score": 70.0,
-      "signal": "HOLD",
-      "confidence": 70,
-      "entry": 1308.0,
-      "stop": 1058.8,
-      "target": 1608.0,
-      "rr": 1.2,
-      "atr": 124.58,
-      "reasons": [
-        "中期上昇トレンド（EMA25>EMA75）",
-        "RSI 74（買われすぎ）",
-        "上バンド接近（過熱）",
-        "出来高急増（平均比 4.5倍）",
-        "指数より強い（相対力プラス）"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -1.0,
-        "volume": 1.0,
-        "relstr": 1.0
+      "fund": {
+        "per": 11.3,
+        "pbr": 2.05,
+        "roe": 19.1,
+        "eqr": 31.2,
+        "divy": 3.77,
+        "growth": 17.6,
+        "score": 73.0
       },
-      "error": null,
-      "fund": null,
-      "combined": null
+      "combined": 64.7
     },
     {
       "code": "4718",
@@ -113,8 +99,16 @@
         "relstr": 1.0
       },
       "error": null,
-      "fund": null,
-      "combined": null
+      "fund": {
+        "per": 18.0,
+        "pbr": 3.08,
+        "roe": 16.5,
+        "eqr": 59.7,
+        "divy": 2.18,
+        "growth": 10.7,
+        "score": 57.0
+      },
+      "combined": 57.6
     },
     {
       "code": "8173",
@@ -143,8 +137,54 @@
         "relstr": 1.0
       },
       "error": null,
-      "fund": null,
-      "combined": null
+      "fund": {
+        "per": 36.0,
+        "pbr": 0.96,
+        "roe": 2.7,
+        "eqr": 42.0,
+        "divy": 2.56,
+        "growth": -17.8,
+        "score": 34.0
+      },
+      "combined": 47.7
+    },
+    {
+      "code": "9331",
+      "name": "キャスター",
+      "price": 1308.0,
+      "score": 70.0,
+      "signal": "HOLD",
+      "confidence": 70,
+      "entry": 1308.0,
+      "stop": 1058.8,
+      "target": 1608.0,
+      "rr": 1.2,
+      "atr": 124.58,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "RSI 74（買われすぎ）",
+        "上バンド接近（過熱）",
+        "出来高急増（平均比 4.5倍）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -1.0,
+        "volume": 1.0,
+        "relstr": 1.0
+      },
+      "error": null,
+      "fund": {
+        "per": null,
+        "pbr": 3.61,
+        "roe": -3.6,
+        "eqr": 37.8,
+        "divy": 0.0,
+        "growth": 93.4,
+        "score": 28.0
+      },
+      "combined": 47.1
     },
     {
       "code": "2433",
@@ -171,8 +211,16 @@
         "relstr": 0.7
       },
       "error": null,
-      "fund": null,
-      "combined": null
+      "fund": {
+        "per": 21.4,
+        "pbr": 1.11,
+        "roe": 4.9,
+        "eqr": 37.9,
+        "divy": 2.72,
+        "growth": 85.7,
+        "score": 48.0
+      },
+      "combined": 46.7
     },
     {
       "code": "366A",
@@ -198,66 +246,51 @@
         "relstr": 1.0
       },
       "error": null,
-      "fund": null,
-      "combined": null
-    },
-    {
-      "code": "3135",
-      "name": "マーケットエンタープライズ",
-      "price": 1407.0,
-      "score": 66.8,
-      "signal": "BUY",
-      "confidence": 86,
-      "entry": 1407.0,
-      "stop": 1319.9,
-      "target": 1537.7,
-      "rr": 1.5,
-      "atr": 43.56,
-      "reasons": [
-        "ゴールデンクロス発生",
-        "中期上昇トレンド（EMA25>EMA75）",
-        "RSI 77（買われすぎ）",
-        "上バンド接近（過熱）",
-        "出来高急増（平均比 1.6倍）"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -0.97,
-        "volume": 0.63,
-        "relstr": 1.0
+      "fund": {
+        "per": 15.1,
+        "pbr": null,
+        "roe": 15.0,
+        "eqr": 62.2,
+        "divy": 3.21,
+        "growth": null,
+        "score": 70.0
       },
-      "error": null,
-      "fund": null,
-      "combined": null
+      "combined": 42.5
     },
     {
-      "code": "8281",
-      "name": "ゼビオホールディングス",
-      "price": 1055.0,
-      "score": 66.8,
-      "signal": "BUY",
-      "confidence": 86,
-      "entry": 1055.0,
-      "stop": 1010.7,
-      "target": 1121.5,
+      "code": "9769",
+      "name": "学究社",
+      "price": 2543.0,
+      "score": 66.5,
+      "signal": "HOLD",
+      "confidence": 66,
+      "entry": 2543.0,
+      "stop": 2434.1,
+      "target": 2706.4,
       "rr": 1.5,
-      "atr": 22.15,
+      "atr": 54.46,
       "reasons": [
-        "ゴールデンクロス発生",
         "中期上昇トレンド（EMA25>EMA75）",
         "指数より強い（相対力プラス）"
       ],
       "factors": {
         "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -0.49,
-        "volume": 0.53,
-        "relstr": 0.69
+        "momentum": 0.7,
+        "meanrev": -0.27,
+        "volume": 0.63,
+        "relstr": 0.83
       },
       "error": null,
-      "fund": null,
-      "combined": null
+      "fund": {
+        "per": 13.9,
+        "pbr": 3.77,
+        "roe": 25.0,
+        "eqr": 61.8,
+        "divy": 4.05,
+        "growth": 6.7,
+        "score": 70.0
+      },
+      "combined": 36.9
     },
     {
       "code": "9076",
@@ -283,8 +316,51 @@
         "relstr": 0.82
       },
       "error": null,
-      "fund": null,
-      "combined": null
+      "fund": {
+        "per": 18.5,
+        "pbr": 1.0,
+        "roe": 5.1,
+        "eqr": 52.2,
+        "divy": 3.74,
+        "growth": 14.3,
+        "score": 55.0
+      },
+      "combined": 33.3
+    },
+    {
+      "code": "3465",
+      "name": "ケイアイスター不動産",
+      "price": 3765.0,
+      "score": 65.3,
+      "signal": "HOLD",
+      "confidence": 65,
+      "entry": 3765.0,
+      "stop": 3448.9,
+      "target": 4239.2,
+      "rr": 1.5,
+      "atr": 158.07,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -0.78,
+        "volume": 0.2,
+        "relstr": 1.0
+      },
+      "error": null,
+      "fund": {
+        "per": 4.1,
+        "pbr": 0.97,
+        "roe": 18.5,
+        "eqr": 20.3,
+        "divy": 6.11,
+        "growth": 61.4,
+        "score": 80.0
+      },
+      "combined": 32.0
     }
   ]
 }
