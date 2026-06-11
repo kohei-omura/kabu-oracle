@@ -1,6 +1,6 @@
 {
-  "generated": "2026.06.11 15:50",
-  "total": 3713,
+  "generated": "2026.06.11 18:51",
+  "total": 3717,
   "buys": [
     {
       "code": "8132",
@@ -25,83 +25,9 @@
         "volume": 0.44,
         "relstr": 1.0
       },
-      "error": null
-    },
-    {
-      "code": "2433",
-      "name": "博報堂ＤＹホールディングス",
-      "price": 1174.5,
-      "score": 71.8,
-      "signal": "BUY",
-      "confidence": 91,
-      "entry": 1174.5,
-      "stop": 1114.0,
-      "target": 1265.2,
-      "rr": 1.5,
-      "atr": 30.23,
-      "reasons": [
-        "ゴールデンクロス発生",
-        "中期上昇トレンド（EMA25>EMA75）",
-        "指数より強い（相対力プラス）"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -0.32,
-        "volume": 0.46,
-        "relstr": 0.84
-      },
-      "error": null
-    },
-    {
-      "code": "4554",
-      "name": "富士製薬工業",
-      "price": 2266.0,
-      "score": 70.4,
-      "signal": "HOLD",
-      "confidence": 70,
-      "entry": 2266.0,
-      "stop": 2099.4,
-      "target": 2516.0,
-      "rr": 1.5,
-      "atr": 83.32,
-      "reasons": [
-        "中期上昇トレンド（EMA25>EMA75）",
-        "指数より強い（相対力プラス）"
-      ],
-      "factors": {
-        "trend": 0.99,
-        "momentum": 1.0,
-        "meanrev": -0.47,
-        "volume": 0.26,
-        "relstr": 1.0
-      },
-      "error": null
-    },
-    {
-      "code": "9076",
-      "name": "セイノーホールディングス",
-      "price": 2727.0,
-      "score": 70.4,
-      "signal": "HOLD",
-      "confidence": 70,
-      "entry": 2727.0,
-      "stop": 2623.4,
-      "target": 2882.4,
-      "rr": 1.5,
-      "atr": 51.8,
-      "reasons": [
-        "中期上昇トレンド（EMA25>EMA75）",
-        "指数より強い（相対力プラス）"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -0.54,
-        "volume": 0.35,
-        "relstr": 1.0
-      },
-      "error": null
+      "error": null,
+      "fund": null,
+      "combined": null
     },
     {
       "code": "166A",
@@ -129,7 +55,9 @@
         "volume": 1.0,
         "relstr": 1.0
       },
-      "error": null
+      "error": null,
+      "fund": null,
+      "combined": null
     },
     {
       "code": "9331",
@@ -157,7 +85,9 @@
         "volume": 1.0,
         "relstr": 1.0
       },
-      "error": null
+      "error": null,
+      "fund": null,
+      "combined": null
     },
     {
       "code": "4718",
@@ -182,7 +112,9 @@
         "volume": 0.4,
         "relstr": 1.0
       },
-      "error": null
+      "error": null,
+      "fund": null,
+      "combined": null
     },
     {
       "code": "8173",
@@ -210,20 +142,22 @@
         "volume": 0.98,
         "relstr": 1.0
       },
-      "error": null
+      "error": null,
+      "fund": null,
+      "combined": null
     },
     {
-      "code": "8281",
-      "name": "ゼビオホールディングス",
-      "price": 1055.0,
-      "score": 68.3,
+      "code": "2433",
+      "name": "博報堂ＤＹホールディングス",
+      "price": 1174.5,
+      "score": 68.9,
       "signal": "BUY",
       "confidence": 88,
-      "entry": 1055.0,
-      "stop": 1010.7,
-      "target": 1121.5,
+      "entry": 1174.5,
+      "stop": 1114.0,
+      "target": 1265.2,
       "rr": 1.5,
-      "atr": 22.15,
+      "atr": 30.23,
       "reasons": [
         "ゴールデンクロス発生",
         "中期上昇トレンド（EMA25>EMA75）",
@@ -232,11 +166,40 @@
       "factors": {
         "trend": 1.0,
         "momentum": 1.0,
-        "meanrev": -0.49,
-        "volume": 0.53,
-        "relstr": 0.77
+        "meanrev": -0.32,
+        "volume": 0.46,
+        "relstr": 0.7
       },
-      "error": null
+      "error": null,
+      "fund": null,
+      "combined": null
+    },
+    {
+      "code": "366A",
+      "name": "ウェルネス・コミュニケーションズ",
+      "price": 1072.0,
+      "score": 67.2,
+      "signal": "HOLD",
+      "confidence": 67,
+      "entry": 1072.0,
+      "stop": 991.6,
+      "target": 1192.7,
+      "rr": 1.5,
+      "atr": 40.22,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 0.65,
+        "meanrev": 0.08,
+        "volume": 0.0,
+        "relstr": 1.0
+      },
+      "error": null,
+      "fund": null,
+      "combined": null
     },
     {
       "code": "3135",
@@ -264,7 +227,64 @@
         "volume": 0.63,
         "relstr": 1.0
       },
-      "error": null
+      "error": null,
+      "fund": null,
+      "combined": null
+    },
+    {
+      "code": "8281",
+      "name": "ゼビオホールディングス",
+      "price": 1055.0,
+      "score": 66.8,
+      "signal": "BUY",
+      "confidence": 86,
+      "entry": 1055.0,
+      "stop": 1010.7,
+      "target": 1121.5,
+      "rr": 1.5,
+      "atr": 22.15,
+      "reasons": [
+        "ゴールデンクロス発生",
+        "中期上昇トレンド（EMA25>EMA75）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -0.49,
+        "volume": 0.53,
+        "relstr": 0.69
+      },
+      "error": null,
+      "fund": null,
+      "combined": null
+    },
+    {
+      "code": "9076",
+      "name": "セイノーホールディングス",
+      "price": 2727.0,
+      "score": 66.8,
+      "signal": "HOLD",
+      "confidence": 66,
+      "entry": 2727.0,
+      "stop": 2623.4,
+      "target": 2882.4,
+      "rr": 1.5,
+      "atr": 51.8,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -0.54,
+        "volume": 0.35,
+        "relstr": 0.82
+      },
+      "error": null,
+      "fund": null,
+      "combined": null
     }
   ]
 }
