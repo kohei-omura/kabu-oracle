@@ -23,6 +23,8 @@ jobs:
           SMTP_USER: ${{ secrets.SMTP_USER }}
           SMTP_PASS: ${{ secrets.SMTP_PASS }}
           MAIL_TO: ${{ secrets.MAIL_TO }}
+          JQUANTS_MAIL: ${{ secrets.JQUANTS_MAIL }}
+          JQUANTS_PASS: ${{ secrets.JQUANTS_PASS }}
         run: |
           cp config.example.yaml config.yaml
           python main.py rank
