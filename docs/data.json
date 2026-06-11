@@ -1,154 +1,125 @@
 {
-  "generated": "2026.06.11 08:59",
-  "total": 3712,
+  "generated": "2026.06.11 15:50",
+  "total": 3713,
   "buys": [
     {
       "code": "8132",
       "name": "シナネンホールディングス",
-      "price": 8350.0,
-      "score": 76.3,
-      "signal": "BUY",
-      "confidence": 96,
-      "entry": 8350.0,
-      "stop": 7535.4,
-      "target": 9571.8,
+      "price": 8250.0,
+      "score": 73.2,
+      "signal": "HOLD",
+      "confidence": 73,
+      "entry": 8250.0,
+      "stop": 7415.0,
+      "target": 9502.4,
       "rr": 1.5,
-      "atr": 407.28,
+      "atr": 417.48,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -0.42,
+        "volume": 0.44,
+        "relstr": 1.0
+      },
+      "error": null
+    },
+    {
+      "code": "2433",
+      "name": "博報堂ＤＹホールディングス",
+      "price": 1174.5,
+      "score": 71.8,
+      "signal": "BUY",
+      "confidence": 91,
+      "entry": 1174.5,
+      "stop": 1114.0,
+      "target": 1265.2,
+      "rr": 1.5,
+      "atr": 30.23,
       "reasons": [
         "ゴールデンクロス発生",
         "中期上昇トレンド（EMA25>EMA75）",
-        "出来高急増（平均比 2.3倍）",
         "指数より強い（相対力プラス）"
       ],
       "factors": {
         "trend": 1.0,
         "momentum": 1.0,
-        "meanrev": -0.58,
-        "volume": 1.0,
-        "relstr": 1.0
+        "meanrev": -0.32,
+        "volume": 0.46,
+        "relstr": 0.84
       },
       "error": null
     },
     {
-      "code": "4255",
-      "name": "ＴＨＥＣＯＯ",
-      "price": 2439.0,
-      "score": 73.7,
-      "signal": "HOLD",
-      "confidence": 73,
-      "entry": 2439.0,
-      "stop": 2226.5,
-      "target": 2757.7,
-      "rr": 1.5,
-      "atr": 106.24,
-      "reasons": [
-        "中期上昇トレンド（EMA25>EMA75）",
-        "指数より強い（相対力プラス）"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 0.68,
-        "meanrev": -0.06,
-        "volume": 0.77,
-        "relstr": 1.0
-      },
-      "error": null
-    },
-    {
-      "code": "7990",
-      "name": "グローブライド",
-      "price": 2478.0,
-      "score": 73.3,
-      "signal": "HOLD",
-      "confidence": 73,
-      "entry": 2478.0,
-      "stop": 2325.7,
-      "target": 2706.5,
-      "rr": 1.5,
-      "atr": 76.16,
-      "reasons": [
-        "中期上昇トレンド（EMA25>EMA75）",
-        "指数より強い（相対力プラス）"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 0.65,
-        "meanrev": 0.15,
-        "volume": 0.48,
-        "relstr": 1.0
-      },
-      "error": null
-    },
-    {
-      "code": "1945",
-      "name": "東京エネシス",
-      "price": 2352.0,
-      "score": 70.1,
+      "code": "4554",
+      "name": "富士製薬工業",
+      "price": 2266.0,
+      "score": 70.4,
       "signal": "HOLD",
       "confidence": 70,
-      "entry": 2352.0,
-      "stop": 2130.7,
-      "target": 2683.9,
+      "entry": 2266.0,
+      "stop": 2099.4,
+      "target": 2516.0,
       "rr": 1.5,
-      "atr": 110.64,
+      "atr": 83.32,
       "reasons": [
         "中期上昇トレンド（EMA25>EMA75）",
         "指数より強い（相対力プラス）"
       ],
       "factors": {
-        "trend": 1.0,
-        "momentum": 0.65,
-        "meanrev": 0.1,
-        "volume": 0.24,
+        "trend": 0.99,
+        "momentum": 1.0,
+        "meanrev": -0.47,
+        "volume": 0.26,
         "relstr": 1.0
       },
       "error": null
     },
     {
-      "code": "2393",
-      "name": "日本ケアサプライ",
-      "price": 4065.0,
-      "score": 70.0,
+      "code": "9076",
+      "name": "セイノーホールディングス",
+      "price": 2727.0,
+      "score": 70.4,
       "signal": "HOLD",
       "confidence": 70,
-      "entry": 4065.0,
-      "stop": 3714.5,
-      "target": 4590.7,
+      "entry": 2727.0,
+      "stop": 2623.4,
+      "target": 2882.4,
       "rr": 1.5,
-      "atr": 175.24,
+      "atr": 51.8,
       "reasons": [
         "中期上昇トレンド（EMA25>EMA75）",
-        "RSI 94（買われすぎ）",
-        "上バンド接近（過熱）",
-        "出来高急増（平均比 14.4倍）",
         "指数より強い（相対力プラス）"
       ],
       "factors": {
         "trend": 1.0,
         "momentum": 1.0,
-        "meanrev": -1.0,
-        "volume": 1.0,
+        "meanrev": -0.54,
+        "volume": 0.35,
         "relstr": 1.0
       },
       "error": null
     },
     {
-      "code": "3663",
-      "name": "セルシス",
-      "price": 1941.0,
+      "code": "166A",
+      "name": "タスキホールディングス",
+      "price": 1061.0,
       "score": 70.0,
       "signal": "HOLD",
       "confidence": 70,
-      "entry": 1941.0,
-      "stop": 1781.5,
-      "target": 2180.2,
+      "entry": 1061.0,
+      "stop": 988.3,
+      "target": 1170.1,
       "rr": 1.5,
-      "atr": 79.74,
+      "atr": 36.37,
       "reasons": [
         "中期上昇トレンド（EMA25>EMA75）",
         "RSI 78（買われすぎ）",
         "上バンド接近（過熱）",
-        "出来高急増（平均比 2.1倍）",
+        "出来高急増（平均比 2.4倍）",
         "指数より強い（相対力プラス）"
       ],
       "factors": {
@@ -161,22 +132,22 @@
       "error": null
     },
     {
-      "code": "4968",
-      "name": "荒川化学工業",
-      "price": 1676.0,
+      "code": "9331",
+      "name": "キャスター",
+      "price": 1308.0,
       "score": 70.0,
       "signal": "HOLD",
       "confidence": 70,
-      "entry": 1676.0,
-      "stop": 1522.9,
-      "target": 1905.6,
-      "rr": 1.5,
-      "atr": 76.53,
+      "entry": 1308.0,
+      "stop": 1058.8,
+      "target": 1608.0,
+      "rr": 1.2,
+      "atr": 124.58,
       "reasons": [
         "中期上昇トレンド（EMA25>EMA75）",
-        "RSI 73（買われすぎ）",
+        "RSI 74（買われすぎ）",
         "上バンド接近（過熱）",
-        "出来高急増（平均比 3.1倍）",
+        "出来高急増（平均比 4.5倍）",
         "指数より強い（相対力プラス）"
       ],
       "factors": {
@@ -189,85 +160,108 @@
       "error": null
     },
     {
-      "code": "6336",
-      "name": "石井表記",
-      "price": 1676.0,
-      "score": 70.0,
-      "signal": "BUY",
-      "confidence": 90,
-      "entry": 1676.0,
-      "stop": 1446.6,
-      "target": 2020.1,
+      "code": "4718",
+      "name": "早稲田アカデミー",
+      "price": 2527.0,
+      "score": 69.9,
+      "signal": "HOLD",
+      "confidence": 69,
+      "entry": 2527.0,
+      "stop": 2387.5,
+      "target": 2736.3,
       "rr": 1.5,
-      "atr": 114.71,
+      "atr": 69.76,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -0.61,
+        "volume": 0.4,
+        "relstr": 1.0
+      },
+      "error": null
+    },
+    {
+      "code": "8173",
+      "name": "Ｊｏｓｈｉｎ",
+      "price": 3900.0,
+      "score": 69.8,
+      "signal": "HOLD",
+      "confidence": 69,
+      "entry": 3900.0,
+      "stop": 3700.7,
+      "target": 4199.0,
+      "rr": 1.5,
+      "atr": 99.67,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "RSI 90（買われすぎ）",
+        "上バンド接近（過熱）",
+        "出来高急増（平均比 2.0倍）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -1.0,
+        "volume": 0.98,
+        "relstr": 1.0
+      },
+      "error": null
+    },
+    {
+      "code": "8281",
+      "name": "ゼビオホールディングス",
+      "price": 1055.0,
+      "score": 68.3,
+      "signal": "BUY",
+      "confidence": 88,
+      "entry": 1055.0,
+      "stop": 1010.7,
+      "target": 1121.5,
+      "rr": 1.5,
+      "atr": 22.15,
+      "reasons": [
+        "ゴールデンクロス発生",
+        "中期上昇トレンド（EMA25>EMA75）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -0.49,
+        "volume": 0.53,
+        "relstr": 0.77
+      },
+      "error": null
+    },
+    {
+      "code": "3135",
+      "name": "マーケットエンタープライズ",
+      "price": 1407.0,
+      "score": 66.8,
+      "signal": "BUY",
+      "confidence": 86,
+      "entry": 1407.0,
+      "stop": 1319.9,
+      "target": 1537.7,
+      "rr": 1.5,
+      "atr": 43.56,
       "reasons": [
         "ゴールデンクロス発生",
         "中期上昇トレンド（EMA25>EMA75）",
         "RSI 77（買われすぎ）",
         "上バンド接近（過熱）",
-        "出来高急増（平均比 8.1倍）"
+        "出来高急増（平均比 1.6倍）"
       ],
       "factors": {
         "trend": 1.0,
         "momentum": 1.0,
-        "meanrev": -1.0,
-        "volume": 1.0,
-        "relstr": 1.0
-      },
-      "error": null
-    },
-    {
-      "code": "6858",
-      "name": "小野測器",
-      "price": 946.0,
-      "score": 70.0,
-      "signal": "HOLD",
-      "confidence": 70,
-      "entry": 946.0,
-      "stop": 878.4,
-      "target": 1047.5,
-      "rr": 1.5,
-      "atr": 33.82,
-      "reasons": [
-        "中期上昇トレンド（EMA25>EMA75）",
-        "RSI 75（買われすぎ）",
-        "上バンド接近（過熱）",
-        "出来高急増（平均比 5.2倍）",
-        "指数より強い（相対力プラス）"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -1.0,
-        "volume": 1.0,
-        "relstr": 1.0
-      },
-      "error": null
-    },
-    {
-      "code": "7069",
-      "name": "サイバー・バズ",
-      "price": 1400.0,
-      "score": 70.0,
-      "signal": "BUY",
-      "confidence": 90,
-      "entry": 1400.0,
-      "stop": 1258.0,
-      "target": 1613.1,
-      "rr": 1.5,
-      "atr": 71.02,
-      "reasons": [
-        "ゴールデンクロス発生",
-        "中期上昇トレンド（EMA25>EMA75）",
-        "RSI 86（買われすぎ）",
-        "上バンド接近（過熱）",
-        "出来高急増（平均比 4.6倍）"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -1.0,
-        "volume": 1.0,
+        "meanrev": -0.97,
+        "volume": 0.63,
         "relstr": 1.0
       },
       "error": null
