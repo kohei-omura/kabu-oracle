@@ -61,14 +61,28 @@ def _card(rank: int, a, show_levels: bool, market: str = "") -> str:
         chips = "".join(f'<span class="chip">{_esc(r)}</span>'
                         for r in a.reasons[:3])
         reasons = f'<div class="reasons">{chips}</div>'
-    sc_cls = "pos" if a.score >= 0 else "neg"
+    fund = ""
+    if a.fund:
+        f = a.fund
+        fc = []
+        if f.get("per") is not None: fc.append(f'<span class="fchip">PER {f["per"]:.1f}</span>')
+        if f.get("pbr") is not None: fc.append(f'<span class="fchip">PBR {f["pbr"]:.2f}</span>')
+        if f.get("roe") is not None: fc.append(f'<span class="fchip">ROE {f["roe"]:.1f}%</span>')
+        if f.get("divy") is not None: fc.append(f'<span class="fchip">利回り {f["divy"]:.1f}%</span>')
+        if f.get("growth") is not None: fc.append(f'<span class="fchip">増益 {f["growth"]:+.0f}%</span>')
+        if fc:
+            fund = f'<div class="funds">{"".join(fc)}</div>'
+    has_c = a.combined is not None
+    disp = a.combined if has_c else a.score
+    sc_cls = "pos" if disp >= 0 else "neg"
+    sc_txt = f'複合 {a.combined:.0f}' if has_c else f'{a.score:+.0f}'
     return (f'<div class="card" style="animation-delay:{rank*0.05:.2f}s">'
             f'<div class="row1"><span class="rank">{rank}</span>'
             f'<div class="title"><span class="code">{_esc(a.code)}</span>'
             f'<span class="name">{_esc(a.name)}</span>{_seg(market)}</div>{_badge(a.signal)}</div>'
             f'<div class="row2"><span class="price" data-px="{_esc(a.code)}">¥{a.price:,.0f}</span>'
-            f'<span class="score {sc_cls}">{a.score:+.0f}</span>{_score_bar(a.score)}</div>'
-            f'{levels}{reasons}</div>')
+            f'<span class="score {sc_cls}">{sc_txt}</span>{_score_bar(disp)}</div>'
+            f'{levels}{fund}{reasons}</div>')
 
 
 def _section(title: str, sub: str, cards_html: str, accent: str) -> str:
@@ -172,6 +186,9 @@ h2 em{font-style:normal;font-family:'IBM Plex Mono',monospace;font-size:10px;
   border:1px solid var(--line);color:var(--mut)}
 .hstat.buy{color:var(--buy);border-color:rgba(70,196,106,.35)}
 .hstat.sell{color:var(--sell);border-color:rgba(239,95,122,.35)}
+.funds{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.fchip{font-size:11px;font-weight:700;color:var(--gold);background:rgba(212,175,99,.08);
+  border:1px solid var(--gold-d);border-radius:7px;padding:2px 8px}
 .badge{flex:none;width:26px;height:26px;display:grid;place-items:center;
   border-radius:8px;font-size:13px;font-weight:700}
 .badge.buy{color:var(--buy);background:rgba(70,196,106,.12);border:1px solid rgba(70,196,106,.3)}
@@ -310,9 +327,11 @@ def build_html(cfg: dict) -> tuple[str, dict]:
 
     analyses = R.analyze_universe(cfg)
     total = len(analyses)
+    analyses = R.apply_fundamentals(analyses, cfg)
     buys = analyses[:top]
 
     mk = market_map(cfg)
+    buy_sub = "TECH × FUNDAMENTAL" if any(b.combined is not None for b in buys) else "BUY SIGNALS"
     buy_cards = "".join(_card(i, a, True, mk.get(a.code, "")) for i, a in enumerate(buys, 1))
 
     holds = load_holdings()
@@ -374,7 +393,7 @@ def build_html(cfg: dict) -> tuple[str, dict]:
 
   {hold_section}
 
-  {_section("買い候補 TOP10", "BUY SIGNALS", buy_cards, "buy")}
+  {_section("買い候補 TOP10", buy_sub, buy_cards, "buy")}
 
   <footer>
     <b>免責</b>：本ページは自分用の分析補助であり投資助言ではありません。

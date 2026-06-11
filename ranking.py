@@ -35,9 +35,115 @@ def build_rankings(cfg: dict):
     """買い/売り Top-N と分析総数を返す（通知用）。"""
     top_n = int(cfg.get("top_n", 5))
     analyses = analyze_universe(cfg)
+    analyses = apply_fundamentals(analyses, cfg)
     buys = analyses[:top_n]
     sells = sorted(analyses, key=lambda x: x.score)[:top_n]
     return buys, sells, len(analyses)
+
+
+# ---------- テクニカル × ファンダ 複合ランキング ----------
+
+def _rank_norm(values: dict, higher_better: bool = True) -> dict:
+    """{code: 値} を 0〜1 に順位正規化（1=最良）。値Noneは対象外。"""
+    items = [(c, v) for c, v in values.items() if v is not None]
+    if len(items) <= 1:
+        return {c: 0.5 for c, _ in items}
+    items.sort(key=lambda x: x[1])
+    n = len(items)
+    out = {}
+    for rank, (c, _) in enumerate(items):
+        p = rank / (n - 1)              # 低い値→0, 高い値→1
+        out[c] = p if higher_better else (1 - p)
+    return out
+
+
+def _metrics(price: float, raw: dict) -> dict:
+    """生財務値＋現在値から PER/PBR/ROE/自己資本比率/配当利回り/予想増益率 を算出。"""
+    per = pbr = roe = eqr = divy = growth = None
+    eps = raw.get("eps_fore") or raw.get("eps_fy")
+    if eps and eps > 0 and price > 0:
+        per = round(price / eps, 1)
+    bps = raw.get("bps")
+    if bps and bps > 0 and price > 0:
+        pbr = round(price / bps, 2)
+    eq = raw.get("equity")
+    pf = raw.get("profit_fore") or raw.get("profit_fy")
+    if eq and eq > 0 and pf is not None:
+        roe = round(pf / eq * 100, 1)
+    if raw.get("equity_ratio") is not None:
+        eqr = round(raw["equity_ratio"] * 100, 1)
+    dv = raw.get("div_fore") or raw.get("div_result")
+    if dv is not None and price > 0:
+        divy = round(dv / price * 100, 2)
+    pfo, pfy = raw.get("profit_fore"), raw.get("profit_fy")
+    if pfo is not None and pfy not in (None, 0):
+        growth = round((pfo - pfy) / abs(pfy) * 100, 1)
+    return {"per": per, "pbr": pbr, "roe": roe, "eqr": eqr, "divy": divy, "growth": growth}
+
+
+def apply_fundamentals(analyses: list, cfg: dict) -> list:
+    """テクニカル上位にJ-Quants財務を付与し、複合スコアで再ランキング。
+
+    認証情報なし／API失敗／無効時は何もせず元のリストを返す（テクニカルのみ）。
+    """
+    fc = (cfg.get("fundamentals") or {})
+    if not fc.get("enabled", False) or not analyses:
+        return analyses
+    try:
+        import jquants as JQ
+        token = JQ.get_id_token()
+        if not token:
+            return analyses
+
+        top = int(fc.get("screen_top", 60))
+        w_tech = float(fc.get("weight_tech", 0.6))
+        w_fund = float(fc.get("weight_fund", 0.4))
+        mw = {"per": 0.25, "pbr": 0.15, "roe": 0.25, "eqr": 0.10,
+              "divy": 0.10, "growth": 0.15}
+        mw.update(fc.get("metric_weights") or {})
+
+        cands = analyses[:top]
+        raw = JQ.fundamentals_for([a.code for a in cands], token,
+                                  float(fc.get("request_sleep", 0.25)))
+        if not raw:
+            print("[JQ] 財務取得0件 → テクニカルのみ")
+            return analyses
+
+        # 各指標を算出
+        met = {a.code: _metrics(a.price, raw[a.code]) for a in cands if a.code in raw}
+        # 指標ごとの順位正規化
+        keys = ["per", "pbr", "roe", "eqr", "divy", "growth"]
+        lower = {"per", "pbr"}
+        norms = {k: _rank_norm({c: m[k] for c, m in met.items()},
+                               higher_better=(k not in lower)) for k in keys}
+
+        # ファンダスコア（取得できた指標だけで加重平均）
+        fscore = {}
+        for c in met:
+            num = den = 0.0
+            for k in keys:
+                if c in norms[k]:
+                    num += mw[k] * norms[k][c]
+                    den += mw[k]
+            fscore[c] = (100 * num / den) if den > 0 else None
+
+        # テクニカルを候補内で min-max 正規化
+        scs = [a.score for a in cands]
+        tmin, tmax = min(scs), max(scs)
+        for a in cands:
+            tnorm = (a.score - tmin) / (tmax - tmin) if tmax > tmin else 0.5
+            fs = fscore.get(a.code)
+            fnorm = (fs / 100) if fs is not None else 0.5
+            a.combined = round(100 * (w_tech * tnorm + w_fund * fnorm) / (w_tech + w_fund), 1)
+            if a.code in met:
+                a.fund = dict(met[a.code], score=(round(fs, 0) if fs is not None else None))
+
+        cands.sort(key=lambda x: (x.combined if x.combined is not None else -1), reverse=True)
+        print(f"[JQ] 財務 {len(met)}/{len(cands)} 銘柄に付与・複合スコアで再ランキング")
+        return cands + analyses[top:]
+    except Exception as e:  # noqa
+        print(f"[JQ] 複合ランキング失敗（テクニカルのみで継続）: {e}")
+        return analyses
 
 
 def format_ranking(buys, sells, total: int, date_str: str) -> str:
@@ -46,10 +152,18 @@ def format_ranking(buys, sells, total: int, date_str: str) -> str:
              "── 買い候補 TOP ──"]
     for i, a in enumerate(buys, 1):
         tag = "🟢買" if a.signal == "BUY" else "・"
-        lines.append(f"{i}. {a.code} {a.name} {tag} スコア{a.score:+.0f} ¥{a.price:,.0f}")
+        sc = f"複合{a.combined:.0f}" if a.combined is not None else f"スコア{a.score:+.0f}"
+        lines.append(f"{i}. {a.code} {a.name} {tag} {sc} ¥{a.price:,.0f}")
         if a.stop and a.target:
             lines.append(f"   目標¥{a.target:,.0f} / 損切¥{a.stop:,.0f}"
                          + (f" / RR {a.rr}" if a.rr else ""))
+        if a.fund:
+            fp = []
+            if a.fund.get("per") is not None: fp.append(f"PER{a.fund['per']:.1f}")
+            if a.fund.get("roe") is not None: fp.append(f"ROE{a.fund['roe']:.1f}%")
+            if a.fund.get("divy") is not None: fp.append(f"利回り{a.fund['divy']:.1f}%")
+            if fp:
+                lines.append("   " + " ".join(fp))
         if a.reasons:
             lines.append(f"   {' / '.join(a.reasons[:2])}")
     lines.append("\n── 売り/警戒 TOP ──")

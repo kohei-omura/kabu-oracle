@@ -41,6 +41,8 @@ class Analysis:
     reasons: list = field(default_factory=list)
     factors: dict = field(default_factory=dict)
     error: Optional[str] = None
+    fund: Optional[dict] = None        # ファンダ指標(PER/PBR/ROE/利回り/増益率/スコア)
+    combined: Optional[float] = None   # テク×ファンダ複合スコア(0〜100)
 
 
 def _clip(x: float) -> float:

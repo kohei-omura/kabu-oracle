@@ -32,3 +32,23 @@ thresholds:
   rsi_overbought: 70      # これ以上で買われすぎ
   atr_stop_mult: 2.0      # 損切り = 取得値 - ATR×この倍率
   atr_target_mult: 3.0    # 利確   = 取得値 + ATR×この倍率
+
+# ===== テクニカル × ファンダメンタル複合ランキング（J-Quants 無料枠）=====
+# enabled: true で有効。GitHub Secrets に JQUANTS_REFRESH_TOKEN（推奨）
+# もしくは JQUANTS_MAIL と JQUANTS_PASS を登録してください。
+# 認証情報が無い/失敗した場合は自動でテクニカルのみに切り替わります（壊れません）。
+# 無料枠は「過去2年・約12週間遅延」。財務は変化が遅いので実用上は問題ありません。
+fundamentals:
+  enabled: true
+  weight_tech: 0.6        # 複合スコアにおけるテクニカルの比重
+  weight_fund: 0.4        # 同・ファンダの比重
+  screen_top: 60          # テクニカル上位この件数にだけ財務を付与（API節約）
+  request_sleep: 0.25     # 1銘柄ごとの待機秒（レート制限対策）
+  # 指標の重み（合計は自動正規化。小さいPER/PBR=高評価、ROE/自己資本比率/利回り/増益=高評価）
+  metric_weights:
+    per: 0.25
+    pbr: 0.15
+    roe: 0.25
+    eqr: 0.10
+    divy: 0.10
+    growth: 0.15
