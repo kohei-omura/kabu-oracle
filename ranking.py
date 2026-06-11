@@ -32,12 +32,18 @@ def analyze_universe(cfg: dict) -> list[S.Analysis]:
 
 
 def build_rankings(cfg: dict):
-    """買い/売り Top-N と分析総数を返す（通知用）。"""
-    top_n = int(cfg.get("top_n", 5))
+    """買い Top-N（既定10・Web同等）と分析総数を返す（通知用）。
+
+    売り/警戒は既定で通知しない。出したい場合は config に notify_sells: true。
+    """
+    top = int(cfg.get("buy_top", cfg.get("dashboard_top", 10)))
     analyses = analyze_universe(cfg)
     analyses = apply_fundamentals(analyses, cfg)
-    buys = analyses[:top_n]
-    sells = sorted(analyses, key=lambda x: x.score)[:top_n]
+    buys = analyses[:top]
+    if cfg.get("notify_sells", False):
+        sells = sorted(analyses, key=lambda x: x.score)[:int(cfg.get("top_n", 5))]
+    else:
+        sells = []
     return buys, sells, len(analyses)
 
 
@@ -166,11 +172,12 @@ def format_ranking(buys, sells, total: int, date_str: str) -> str:
                 lines.append("   " + " ".join(fp))
         if a.reasons:
             lines.append(f"   {' / '.join(a.reasons[:2])}")
-    lines.append("\n── 売り/警戒 TOP ──")
-    for i, a in enumerate(sells, 1):
-        tag = "🔴売" if a.signal == "SELL" else "・"
-        lines.append(f"{i}. {a.code} {a.name} {tag} スコア{a.score:+.0f} ¥{a.price:,.0f}")
-        if a.reasons:
-            lines.append(f"   {' / '.join(a.reasons[:2])}")
+    if sells:
+        lines.append("\n── 売り/警戒 TOP ──")
+        for i, a in enumerate(sells, 1):
+            tag = "🔴売" if a.signal == "SELL" else "・"
+            lines.append(f"{i}. {a.code} {a.name} {tag} スコア{a.score:+.0f} ¥{a.price:,.0f}")
+            if a.reasons:
+                lines.append(f"   {' / '.join(a.reasons[:2])}")
     lines.append("\n※自分用の分析補助です。投資は自己責任で。")
     return "\n".join(lines)
