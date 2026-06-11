@@ -91,11 +91,11 @@ def apply_fundamentals(analyses: list, cfg: dict) -> list:
         return analyses
     try:
         import jquants as JQ
-        token = JQ.get_id_token()
-        if not token:
+        key = JQ.get_api_key()
+        if not key:
             return analyses
 
-        top = int(fc.get("screen_top", 60))
+        top = int(fc.get("screen_top", 15))
         w_tech = float(fc.get("weight_tech", 0.6))
         w_fund = float(fc.get("weight_fund", 0.4))
         mw = {"per": 0.25, "pbr": 0.15, "roe": 0.25, "eqr": 0.10,
@@ -103,8 +103,8 @@ def apply_fundamentals(analyses: list, cfg: dict) -> list:
         mw.update(fc.get("metric_weights") or {})
 
         cands = analyses[:top]
-        raw = JQ.fundamentals_for([a.code for a in cands], token,
-                                  float(fc.get("request_sleep", 0.25)))
+        raw = JQ.fundamentals_for([a.code for a in cands], key,
+                                  float(fc.get("request_sleep", 13.0)))
         if not raw:
             print("[JQ] 財務取得0件 → テクニカルのみ")
             return analyses
