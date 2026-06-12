@@ -1,95 +1,95 @@
 {
-  "generated": "2026.06.12 09:07",
-  "total": 3717,
+  "generated": "2026.06.12 15:51",
+  "total": 3718,
   "buys": [
     {
-      "code": "2433",
-      "name": "博報堂ＤＹホールディングス",
-      "price": 1174.5,
-      "score": 74.7,
-      "signal": "BUY",
-      "confidence": 94,
-      "entry": 1174.5,
-      "stop": 1114.0,
-      "target": 1265.2,
-      "rr": 1.5,
-      "atr": 30.23,
-      "reasons": [
-        "ゴールデンクロス発生",
-        "中期上昇トレンド（EMA25>EMA75）",
-        "指数より強い（相対力プラス）"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -0.32,
-        "volume": 0.46,
-        "relstr": 0.99
-      },
-      "error": null,
-      "fund": {
-        "per": 21.4,
-        "pbr": 1.11,
-        "roe": 4.9,
-        "eqr": 37.9,
-        "divy": 2.72,
-        "growth": 85.7,
-        "score": 47.0
-      },
-      "combined": 78.8
-    },
-    {
-      "code": "8132",
-      "name": "シナネンホールディングス",
-      "price": 8250.0,
-      "score": 73.2,
+      "code": "6579",
+      "name": "ログリー",
+      "price": 350.0,
+      "score": 76.7,
       "signal": "HOLD",
-      "confidence": 73,
-      "entry": 8250.0,
-      "stop": 7415.0,
-      "target": 9502.4,
+      "confidence": 76,
+      "entry": 350.0,
+      "stop": 296.8,
+      "target": 429.7,
       "rr": 1.5,
-      "atr": 417.48,
+      "atr": 26.58,
       "reasons": [
         "中期上昇トレンド（EMA25>EMA75）",
         "指数より強い（相対力プラス）"
       ],
       "factors": {
         "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -0.42,
-        "volume": 0.44,
+        "momentum": 0.61,
+        "meanrev": 0.28,
+        "volume": 0.72,
         "relstr": 1.0
       },
       "error": null,
       "fund": {
-        "per": 29.9,
-        "pbr": 1.63,
-        "roe": 5.3,
-        "eqr": 51.1,
-        "divy": 1.09,
-        "growth": -4.9,
-        "score": 33.0
+        "per": null,
+        "pbr": 2.78,
+        "roe": -21.1,
+        "eqr": 45.8,
+        "divy": 0.0,
+        "growth": 54.5,
+        "score": 34.0
       },
-      "combined": 61.9
+      "combined": 73.7
+    },
+    {
+      "code": "9941",
+      "name": "太洋物産",
+      "price": 1216.0,
+      "score": 71.0,
+      "signal": "HOLD",
+      "confidence": 71,
+      "entry": 1216.0,
+      "stop": 1006.6,
+      "target": 1516.0,
+      "rr": 1.43,
+      "atr": 104.7,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "指数より強い（相対力プラス）",
+        "値幅制限内に調整"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -0.71,
+        "volume": 0.66,
+        "relstr": 1.0
+      },
+      "error": null,
+      "fund": {
+        "per": 12.9,
+        "pbr": 2.24,
+        "roe": 17.4,
+        "eqr": 12.4,
+        "divy": 0.0,
+        "growth": 23.0,
+        "score": 61.0
+      },
+      "combined": 47.2
     },
     {
       "code": "166A",
       "name": "タスキホールディングス",
-      "price": 1061.0,
+      "price": 1111.0,
       "score": 70.0,
       "signal": "HOLD",
       "confidence": 70,
-      "entry": 1061.0,
-      "stop": 988.3,
-      "target": 1170.1,
+      "entry": 1111.0,
+      "stop": 1033.7,
+      "target": 1226.9,
       "rr": 1.5,
-      "atr": 36.37,
+      "atr": 38.63,
       "reasons": [
         "中期上昇トレンド（EMA25>EMA75）",
-        "RSI 78（買われすぎ）",
+        "RSI 82（買われすぎ）",
         "上バンド接近（過熱）",
-        "出来高急増（平均比 2.4倍）",
+        "出来高急増（平均比 2.2倍）",
         "指数より強い（相対力プラス）"
       ],
       "factors": {
@@ -101,207 +101,144 @@
       },
       "error": null,
       "fund": {
-        "per": 11.3,
-        "pbr": 2.05,
+        "per": 11.8,
+        "pbr": 2.14,
         "roe": 19.1,
         "eqr": 31.2,
-        "divy": 3.77,
+        "divy": 3.6,
         "growth": 17.6,
-        "score": 70.0
+        "score": 77.0
       },
-      "combined": 51.7
+      "combined": 47.1
     },
     {
-      "code": "9076",
-      "name": "セイノーホールディングス",
-      "price": 2727.0,
+      "code": "4095",
+      "name": "日本パーカライジング",
+      "price": 1791.0,
       "score": 70.4,
       "signal": "HOLD",
       "confidence": 70,
-      "entry": 2727.0,
-      "stop": 2623.4,
-      "target": 2882.4,
+      "entry": 1791.0,
+      "stop": 1697.9,
+      "target": 1930.7,
       "rr": 1.5,
-      "atr": 51.8,
+      "atr": 46.57,
       "reasons": [
         "中期上昇トレンド（EMA25>EMA75）",
+        "RSI 83（買われすぎ）",
+        "上バンド接近（過熱）",
+        "出来高急増（平均比 2.8倍）",
         "指数より強い（相対力プラス）"
       ],
       "factors": {
         "trend": 1.0,
         "momentum": 1.0,
-        "meanrev": -0.54,
-        "volume": 0.35,
-        "relstr": 1.0
+        "meanrev": -0.9,
+        "volume": 1.0,
+        "relstr": 0.95
       },
       "error": null,
       "fund": {
-        "per": 18.5,
+        "per": 16.2,
         "pbr": 1.0,
-        "roe": 5.1,
-        "eqr": 52.2,
-        "divy": 3.74,
-        "growth": 14.3,
-        "score": 58.0
+        "roe": 5.6,
+        "eqr": 74.9,
+        "divy": 2.79,
+        "growth": -8.5,
+        "score": 63.0
       },
-      "combined": 50.2
+      "combined": 44.1
     },
     {
-      "code": "4718",
-      "name": "早稲田アカデミー",
-      "price": 2527.0,
-      "score": 69.9,
-      "signal": "HOLD",
-      "confidence": 69,
-      "entry": 2527.0,
-      "stop": 2387.5,
-      "target": 2736.3,
-      "rr": 1.5,
-      "atr": 69.76,
-      "reasons": [
-        "中期上昇トレンド（EMA25>EMA75）",
-        "指数より強い（相対力プラス）"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -0.61,
-        "volume": 0.4,
-        "relstr": 1.0
-      },
-      "error": null,
-      "fund": {
-        "per": 18.0,
-        "pbr": 3.08,
-        "roe": 16.5,
-        "eqr": 59.7,
-        "divy": 2.18,
-        "growth": 10.7,
-        "score": 53.0
-      },
-      "combined": 44.3
-    },
-    {
-      "code": "8281",
-      "name": "ゼビオホールディングス",
-      "price": 1055.0,
-      "score": 70.5,
-      "signal": "BUY",
-      "confidence": 90,
-      "entry": 1055.0,
-      "stop": 1010.7,
-      "target": 1121.5,
-      "rr": 1.5,
-      "atr": 22.15,
-      "reasons": [
-        "ゴールデンクロス発生",
-        "中期上昇トレンド（EMA25>EMA75）",
-        "指数より強い（相対力プラス）"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -0.49,
-        "volume": 0.53,
-        "relstr": 0.88
-      },
-      "error": null,
-      "fund": {
-        "per": 192.2,
-        "pbr": 0.36,
-        "roe": 0.2,
-        "eqr": 55.3,
-        "divy": 3.32,
-        "growth": -75.7,
-        "score": 32.0
-      },
-      "combined": 40.7
-    },
-    {
-      "code": "4554",
-      "name": "富士製薬工業",
-      "price": 2266.0,
-      "score": 70.4,
+      "code": "6336",
+      "name": "石井表記",
+      "price": 1750.0,
+      "score": 70.0,
       "signal": "HOLD",
       "confidence": 70,
-      "entry": 2266.0,
-      "stop": 2099.4,
-      "target": 2516.0,
+      "entry": 1750.0,
+      "stop": 1500.7,
+      "target": 2124.0,
       "rr": 1.5,
-      "atr": 83.32,
+      "atr": 124.66,
       "reasons": [
         "中期上昇トレンド（EMA25>EMA75）",
-        "指数より強い（相対力プラス）"
-      ],
-      "factors": {
-        "trend": 0.99,
-        "momentum": 1.0,
-        "meanrev": -0.47,
-        "volume": 0.26,
-        "relstr": 1.0
-      },
-      "error": null,
-      "fund": {
-        "per": 24.8,
-        "pbr": 1.18,
-        "roe": 4.7,
-        "eqr": 50.4,
-        "divy": 2.16,
-        "growth": -25.3,
-        "score": 30.0
-      },
-      "combined": 38.9
-    },
-    {
-      "code": "9769",
-      "name": "学究社",
-      "price": 2543.0,
-      "score": 68.1,
-      "signal": "HOLD",
-      "confidence": 68,
-      "entry": 2543.0,
-      "stop": 2434.1,
-      "target": 2706.4,
-      "rr": 1.5,
-      "atr": 54.46,
-      "reasons": [
-        "中期上昇トレンド（EMA25>EMA75）",
+        "RSI 75（買われすぎ）",
+        "上バンド接近（過熱）",
+        "出来高急増（平均比 2.1倍）",
         "指数より強い（相対力プラス）"
       ],
       "factors": {
         "trend": 1.0,
-        "momentum": 0.7,
-        "meanrev": -0.27,
-        "volume": 0.63,
-        "relstr": 0.91
+        "momentum": 1.0,
+        "meanrev": -1.0,
+        "volume": 1.0,
+        "relstr": 1.0
       },
       "error": null,
       "fund": {
-        "per": 13.9,
-        "pbr": 3.77,
-        "roe": 25.0,
-        "eqr": 61.8,
-        "divy": 4.05,
-        "growth": 6.7,
-        "score": 70.0
+        "per": 17.6,
+        "pbr": 1.31,
+        "roe": 7.6,
+        "eqr": 66.9,
+        "divy": 1.6,
+        "growth": -9.7,
+        "score": 55.0
       },
-      "combined": 37.1
+      "combined": 38.5
     },
     {
-      "code": "8173",
-      "name": "Ｊｏｓｈｉｎ",
-      "price": 3900.0,
-      "score": 69.8,
+      "code": "4462",
+      "name": "石原ケミカル",
+      "price": 3175.0,
+      "score": 69.0,
       "signal": "HOLD",
       "confidence": 69,
-      "entry": 3900.0,
-      "stop": 3700.7,
-      "target": 4199.0,
+      "entry": 3175.0,
+      "stop": 2875.0,
+      "target": 3624.9,
       "rr": 1.5,
-      "atr": 99.67,
+      "atr": 149.98,
       "reasons": [
         "中期上昇トレンド（EMA25>EMA75）",
-        "RSI 90（買われすぎ）",
+        "RSI 70（買われすぎ）",
+        "上バンド接近（過熱）",
+        "出来高急増（平均比 1.9倍）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -1.0,
+        "volume": 0.9,
+        "relstr": 1.0
+      },
+      "error": null,
+      "fund": {
+        "per": 17.0,
+        "pbr": 1.98,
+        "roe": 10.8,
+        "eqr": 83.6,
+        "divy": 1.39,
+        "growth": 3.4,
+        "score": 65.0
+      },
+      "combined": 35.8
+    },
+    {
+      "code": "6146",
+      "name": "ディスコ",
+      "price": 79900.0,
+      "score": 70.0,
+      "signal": "HOLD",
+      "confidence": 70,
+      "entry": 79900.0,
+      "stop": 71234.4,
+      "target": 92898.4,
+      "rr": 1.5,
+      "atr": 4332.78,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
         "上バンド接近（過熱）",
         "出来高急増（平均比 2.0倍）",
         "指数より強い（相対力プラス）"
@@ -310,58 +247,128 @@
         "trend": 1.0,
         "momentum": 1.0,
         "meanrev": -1.0,
-        "volume": 0.98,
+        "volume": 1.0,
         "relstr": 1.0
       },
       "error": null,
       "fund": {
-        "per": 36.0,
-        "pbr": 0.96,
-        "roe": 2.7,
-        "eqr": 42.0,
-        "divy": 2.56,
-        "growth": -17.8,
-        "score": 32.0
+        "per": 68.5,
+        "pbr": 17.63,
+        "roe": 23.3,
+        "eqr": 79.8,
+        "divy": 0.55,
+        "growth": 2.0,
+        "score": 43.0
       },
-      "combined": 34.9
+      "combined": 33.6
     },
     {
-      "code": "9331",
-      "name": "キャスター",
-      "price": 1308.0,
-      "score": 70.0,
+      "code": "4238",
+      "name": "ミライアル",
+      "price": 1903.0,
+      "score": 69.1,
       "signal": "HOLD",
-      "confidence": 70,
-      "entry": 1308.0,
-      "stop": 1058.8,
-      "target": 1608.0,
-      "rr": 1.2,
-      "atr": 124.58,
+      "confidence": 69,
+      "entry": 1903.0,
+      "stop": 1694.3,
+      "target": 2216.1,
+      "rr": 1.5,
+      "atr": 104.37,
       "reasons": [
         "中期上昇トレンド（EMA25>EMA75）",
-        "RSI 74（買われすぎ）",
+        "RSI 75（買われすぎ）",
         "上バンド接近（過熱）",
-        "出来高急増（平均比 4.5倍）",
+        "出来高急増（平均比 1.9倍）",
         "指数より強い（相対力プラス）"
       ],
       "factors": {
         "trend": 1.0,
         "momentum": 1.0,
         "meanrev": -1.0,
-        "volume": 1.0,
+        "volume": 0.91,
         "relstr": 1.0
       },
       "error": null,
       "fund": {
-        "per": null,
-        "pbr": 3.61,
-        "roe": -3.6,
-        "eqr": 37.8,
-        "divy": 0.0,
-        "growth": 93.4,
-        "score": 26.0
+        "per": 24.9,
+        "pbr": 0.75,
+        "roe": 3.0,
+        "eqr": 85.7,
+        "divy": 2.63,
+        "growth": 7.6,
+        "score": 57.0
       },
-      "combined": 34.1
+      "combined": 33.2
+    },
+    {
+      "code": "319A",
+      "name": "技術承継機構",
+      "price": 16540.0,
+      "score": 69.1,
+      "signal": "HOLD",
+      "confidence": 69,
+      "entry": 16540.0,
+      "stop": 14458.8,
+      "target": 19661.8,
+      "rr": 1.5,
+      "atr": 1040.6,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 0.64,
+        "meanrev": 0.11,
+        "volume": 0.13,
+        "relstr": 1.0
+      },
+      "error": null,
+      "fund": {
+        "per": 46.7,
+        "pbr": 16.06,
+        "roe": 33.6,
+        "eqr": 29.6,
+        "divy": 0.0,
+        "growth": null,
+        "score": 43.0
+      },
+      "combined": 27.8
+    },
+    {
+      "code": "4718",
+      "name": "早稲田アカデミー",
+      "price": 2501.0,
+      "score": 67.5,
+      "signal": "HOLD",
+      "confidence": 67,
+      "entry": 2501.0,
+      "stop": 2364.2,
+      "target": 2706.3,
+      "rr": 1.5,
+      "atr": 68.42,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -0.46,
+        "volume": 0.41,
+        "relstr": 0.76
+      },
+      "error": null,
+      "fund": {
+        "per": 17.8,
+        "pbr": 3.04,
+        "roe": 16.5,
+        "eqr": 59.7,
+        "divy": 2.2,
+        "growth": 10.7,
+        "score": 59.0
+      },
+      "combined": 23.4
     }
   ]
 }
