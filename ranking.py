@@ -63,6 +63,15 @@ def _rank_norm(values: dict, higher_better: bool = True) -> dict:
     return out
 
 
+def _pct(v, values, higher_better: bool = True) -> float | None:
+    """value が候補群 values の中でどの位置か（0〜1, 1=最良）。値Noneは対象外。"""
+    vals = [x for x in values if x is not None]
+    if v is None or not vals:
+        return None
+    below = sum(1 for x in vals if x < v) / len(vals)  # v より下にある割合
+    return below if higher_better else (1 - below)
+
+
 def _metrics(price: float, raw: dict) -> dict:
     """生財務値＋現在値から PER/PBR/ROE/自己資本比率/配当利回り/予想増益率 を算出。"""
     per = pbr = roe = eqr = divy = growth = None
@@ -87,9 +96,10 @@ def _metrics(price: float, raw: dict) -> dict:
     return {"per": per, "pbr": pbr, "roe": roe, "eqr": eqr, "divy": divy, "growth": growth}
 
 
-def apply_fundamentals(analyses: list, cfg: dict) -> list:
+def apply_fundamentals(analyses: list, cfg: dict, extra_codes=None) -> list:
     """テクニカル上位にJ-Quants財務を付与し、複合スコアで再ランキング。
 
+    extra_codes（保有銘柄など）も財務取得の対象に含め、表示用に fund を付与する。
     認証情報なし／API失敗／無効時は何もせず元のリストを返す（テクニカルのみ）。
     """
     fc = (cfg.get("fundamentals") or {})
@@ -109,43 +119,68 @@ def apply_fundamentals(analyses: list, cfg: dict) -> list:
         mw.update(fc.get("metric_weights") or {})
 
         cands = analyses[:top]
-        raw = JQ.fundamentals_for([a.code for a in cands], key,
+        extra = [c for c in (extra_codes or []) if c]
+        fetch_codes = list(dict.fromkeys([a.code for a in cands] + extra))
+        raw = JQ.fundamentals_for(fetch_codes, key,
                                   float(fc.get("request_sleep", 13.0)))
         if not raw:
             print("[JQ] 財務取得0件 → テクニカルのみ")
             return analyses
 
-        # 各指標を算出
+        amap = {a.code: a for a in analyses}
+
+        # 各指標を算出（買い候補）
         met = {a.code: _metrics(a.price, raw[a.code]) for a in cands if a.code in raw}
-        # 指標ごとの順位正規化
         keys = ["per", "pbr", "roe", "eqr", "divy", "growth"]
         lower = {"per", "pbr"}
         norms = {k: _rank_norm({c: m[k] for c, m in met.items()},
                                higher_better=(k not in lower)) for k in keys}
 
-        # ファンダスコア（取得できた指標だけで加重平均）
-        fscore = {}
-        for c in met:
+        def _fscore(c):
             num = den = 0.0
             for k in keys:
                 if c in norms[k]:
                     num += mw[k] * norms[k][c]
                     den += mw[k]
-            fscore[c] = (100 * num / den) if den > 0 else None
+            return (100 * num / den) if den > 0 else None
 
         # テクニカルを候補内で min-max 正規化
         scs = [a.score for a in cands]
         tmin, tmax = min(scs), max(scs)
-        for a in cands:
-            tnorm = (a.score - tmin) / (tmax - tmin) if tmax > tmin else 0.5
-            fs = fscore.get(a.code)
+
+        def _tnorm(score):
+            t = (score - tmin) / (tmax - tmin) if tmax > tmin else 0.5
+            return max(0.0, min(1.0, t))
+
+        def _combined(score, fs):
             fnorm = (fs / 100) if fs is not None else 0.5
-            a.combined = round(100 * (w_tech * tnorm + w_fund * fnorm) / (w_tech + w_fund), 1)
+            return round(100 * (w_tech * _tnorm(score) + w_fund * fnorm) / (w_tech + w_fund), 1)
+
+        for a in cands:
+            fs = _fscore(a.code)
+            a.combined = _combined(a.score, fs)
             if a.code in met:
                 a.fund = dict(met[a.code], score=(round(fs, 0) if fs is not None else None))
 
+        # 保有銘柄など（候補外）：買い候補の分布に対する相対評価で複合スコアを付与
+        cand_vals = {k: [m[k] for m in met.values() if m[k] is not None] for k in keys}
+        for c in [x for x in (extra_codes or []) if x]:
+            a = amap.get(c)
+            if a is None or c not in raw or a.fund is not None:
+                continue
+            m = _metrics(a.price, raw[c])
+            num = den = 0.0
+            for k in keys:
+                p = _pct(m[k], cand_vals[k], higher_better=(k not in lower))
+                if p is not None:
+                    num += mw[k] * p
+                    den += mw[k]
+            fs = (100 * num / den) if den > 0 else None
+            a.combined = _combined(a.score, fs)
+            a.fund = dict(m, score=(round(fs, 0) if fs is not None else None))
+
         cands.sort(key=lambda x: (x.combined if x.combined is not None else -1), reverse=True)
-        print(f"[JQ] 財務 {len(met)}/{len(cands)} 銘柄に付与・複合スコアで再ランキング")
+        print(f"[JQ] 財務 {len(raw)} 銘柄取得（候補{len(met)}＋保有等）・複合スコアで再ランキング")
         return cands + analyses[top:]
     except Exception as e:  # noqa
         print(f"[JQ] 複合ランキング失敗（テクニカルのみで継続）: {e}")

@@ -120,6 +120,19 @@ def _holding_card(h, a, cfg) -> str:
     else:
         st_label, st_cls = "保有中", "hold"
     buy_s = f"¥{buy:,.0f}" if buy else "—"
+    fund = ""
+    if a.fund:
+        f = a.fund
+        fc = []
+        if a.combined is not None:
+            fc.append(f'<span class="fchip cmb">複合 {a.combined:.0f}</span>')
+        if f.get("per") is not None: fc.append(f'<span class="fchip">PER {f["per"]:.1f}</span>')
+        if f.get("pbr") is not None: fc.append(f'<span class="fchip">PBR {f["pbr"]:.2f}</span>')
+        if f.get("roe") is not None: fc.append(f'<span class="fchip">ROE {f["roe"]:.1f}%</span>')
+        if f.get("divy") is not None: fc.append(f'<span class="fchip">利回り {f["divy"]:.1f}%</span>')
+        if f.get("growth") is not None: fc.append(f'<span class="fchip">増益 {f["growth"]:+.0f}%</span>')
+        if fc:
+            fund = f'<div class="funds">{"".join(fc)}</div>'
     return (f'<div class="card"><div class="row1">'
             f'<div class="title"><span class="code">{_esc(code)}</span>'
             f'<span class="name">{_esc(name)}</span></div>'
@@ -128,7 +141,7 @@ def _holding_card(h, a, cfg) -> str:
             f'<span class="score {pl_cls}">{pl:+.1f}%</span></div>'
             f'<div class="levels"><span class="lv">買値 {buy_s}</span>'
             f'<span class="lv tgt">利確 ¥{tgt:,.0f}</span>'
-            f'<span class="lv stp">損切 ¥{stp:,.0f}</span></div></div>')
+            f'<span class="lv stp">損切 ¥{stp:,.0f}</span></div>{fund}</div>')
 
 
 CSS = """
@@ -189,6 +202,7 @@ h2 em{font-style:normal;font-family:'IBM Plex Mono',monospace;font-size:10px;
 .funds{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
 .fchip{font-size:11px;font-weight:700;color:var(--gold);background:rgba(212,175,99,.08);
   border:1px solid var(--gold-d);border-radius:7px;padding:2px 8px}
+.fchip.cmb{color:#0c1118;background:var(--gold);border-color:var(--gold)}
 .badge{flex:none;width:26px;height:26px;display:grid;place-items:center;
   border-radius:8px;font-size:13px;font-weight:700}
 .badge.buy{color:var(--buy);background:rgba(70,196,106,.12);border:1px solid rgba(70,196,106,.3)}
@@ -327,14 +341,15 @@ def build_html(cfg: dict) -> tuple[str, dict]:
 
     analyses = R.analyze_universe(cfg)
     total = len(analyses)
-    analyses = R.apply_fundamentals(analyses, cfg)
+    holds = load_holdings()
+    analyses = R.apply_fundamentals(analyses, cfg,
+                                    extra_codes=[h["code"] for h in holds])
     buys = analyses[:top]
 
     mk = market_map(cfg)
     buy_sub = "TECH × FUNDAMENTAL" if any(b.combined is not None for b in buys) else "BUY SIGNALS"
     buy_cards = "".join(_card(i, a, True, mk.get(a.code, "")) for i, a in enumerate(buys, 1))
 
-    holds = load_holdings()
     amap = {a.code: a for a in analyses}
     hold_section = ""
     if holds:
