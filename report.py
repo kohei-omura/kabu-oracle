@@ -133,15 +133,24 @@ def _holding_card(h, a, cfg) -> str:
         if f.get("growth") is not None: fc.append(f'<span class="fchip">増益 {f["growth"]:+.0f}%</span>')
         if fc:
             fund = f'<div class="funds">{"".join(fc)}</div>'
+    sig_badge = _badge(a.signal)
+    sell_warn = ""
+    if a.signal == "SELL":
+        sell_warn = '<div class="hsell">⚠ テクニカルは売りシグナル</div>'
+    reasons = ""
+    if a.reasons:
+        chips = "".join(f'<span class="chip">{_esc(r)}</span>' for r in a.reasons[:3])
+        reasons = f'<div class="reasons">{chips}</div>'
     return (f'<div class="card"><div class="row1">'
             f'<div class="title"><span class="code">{_esc(code)}</span>'
             f'<span class="name">{_esc(name)}</span></div>'
-            f'<span class="hstat {st_cls}">{st_label}</span></div>'
+            f'<span class="hstat {st_cls}">{st_label}</span>{sig_badge}</div>'
             f'<div class="row2"><span class="price" data-px="{_esc(code)}">¥{cur:,.0f}</span>'
             f'<span class="score {pl_cls}">{pl:+.1f}%</span></div>'
             f'<div class="levels"><span class="lv">買値 {buy_s}</span>'
             f'<span class="lv tgt">利確 ¥{tgt:,.0f}</span>'
-            f'<span class="lv stp">損切 ¥{stp:,.0f}</span></div>{fund}</div>')
+            f'<span class="lv stp">損切 ¥{stp:,.0f}</span></div>'
+            f'{fund}{sell_warn}{reasons}</div>')
 
 
 CSS = """
@@ -203,6 +212,9 @@ h2 em{font-style:normal;font-family:'IBM Plex Mono',monospace;font-size:10px;
 .fchip{font-size:11px;font-weight:700;color:var(--gold);background:rgba(212,175,99,.08);
   border:1px solid var(--gold-d);border-radius:7px;padding:2px 8px}
 .fchip.cmb{color:#0c1118;background:var(--gold);border-color:var(--gold)}
+.hsell{margin-top:8px;font-size:13px;font-weight:700;color:var(--sell);
+  background:rgba(239,95,122,.10);border:1px solid rgba(239,95,122,.35);
+  border-radius:9px;padding:7px 11px}
 .badge{flex:none;width:26px;height:26px;display:grid;place-items:center;
   border-radius:8px;font-size:13px;font-weight:700}
 .badge.buy{color:var(--buy);background:rgba(70,196,106,.12);border:1px solid rgba(70,196,106,.3)}
@@ -485,7 +497,9 @@ def check_holdings(cfg: dict) -> None:
 
     codes = [h["code"] for h in holds]
     px = D.fetch_last_prices(codes)            # 現在値（日中足・約20分遅延）
-    frames = D.fetch_many(codes)               # ATR用の日足
+    frames = D.fetch_many(codes)               # ATR・シグナル用の日足
+    bench_df = D.fetch_one(cfg.get("benchmark", "^N225"))
+    bench = bench_df["Close"] if bench_df is not None else None
     namemap = {c: n for c, n in load_universe(
         {"universe_file": cfg.get("universe_file", "universe_all.csv"), "markets": "all"})}
 
@@ -496,13 +510,14 @@ def check_holdings(cfg: dict) -> None:
         state = {}
     today = datetime.now(JST).strftime("%Y-%m-%d")
 
-    tp, sl = [], []
+    tp, sl, sg = [], [], []
     for h in holds:
         c = h["code"]
         buy = h.get("buy")
         cur = px.get(c)
         if cur is None:
             continue
+        name = namemap.get(c, "")
         df = frames.get(c)
         atr = float(S.ind.atr(df, 14).iloc[-1]) if (df is not None and len(df) > 20) else 0.0
         tgt, stp = h.get("target"), h.get("stop")
@@ -510,7 +525,6 @@ def check_holdings(cfg: dict) -> None:
             at, as_ = S.holding_levels(buy or cur, atr, cfg)
             tgt = at if tgt is None else tgt
             stp = as_ if stp is None else stp
-        name = namemap.get(c, "")
         pl = ((cur - buy) / buy * 100) if buy else 0.0
         if tgt and cur >= tgt and state.get(f"{c}:tp") != today:
             tp.append(f"  {c} {name}  現在¥{cur:,.0f} / 買値¥{(buy or 0):,.0f} ({pl:+.1f}%)  利確¥{tgt:,.0f}")
@@ -518,8 +532,15 @@ def check_holdings(cfg: dict) -> None:
         if stp and cur <= stp and state.get(f"{c}:sl") != today:
             sl.append(f"  {c} {name}  現在¥{cur:,.0f} / 買値¥{(buy or 0):,.0f} ({pl:+.1f}%)  損切¥{stp:,.0f}")
             state[f"{c}:sl"] = today
+        # テクニカルの売りシグナル転換（価格ラインとは別の早期サイン）
+        if df is not None and len(df) > 80:
+            an = S.analyze(df, c, name, bench=bench, cfg=cfg)
+            if an.error is None and an.signal == "SELL" and state.get(f"{c}:sg") != today:
+                reason = an.reasons[0] if an.reasons else "下降サイン"
+                sg.append(f"  {c} {name}  現在¥{cur:,.0f} ({pl:+.1f}%)  {reason}")
+                state[f"{c}:sg"] = today
 
-    if tp or sl:
+    if tp or sl or sg:
         now = datetime.now(JST).strftime("%H:%M")
         parts = [f"🔔 株オラクル｜保有アラート（{now} JST・約20分遅延）"]
         if tp:
@@ -528,6 +549,9 @@ def check_holdings(cfg: dict) -> None:
         if sl:
             parts.append("🛑 損切の目安に到達")
             parts += sl
+        if sg:
+            parts.append("⚠ 売りシグナルに転換（テクニカル）")
+            parts += sg
         parts.append("※自分用の目安です。最終判断はご自身で。")
         msg = "\n".join(parts)
         print(msg)
