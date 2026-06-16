@@ -1,0 +1,30 @@
+name: daily-ranking
+
+on:
+  schedule:
+    - cron: "0 22 * * 0-4"    # 07:00 JST（寄り付き前・前日終値）
+    - cron: "30 7 * * 1-5"    # 16:30 JST（大引け後・確定終値／取引判断用）
+  workflow_dispatch:
+
+jobs:
+  rank:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Send ranking
+        env:
+          LINE_CHANNEL_ACCESS_TOKEN: ${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}
+          LINE_USER_ID: ${{ secrets.LINE_USER_ID }}
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          MAIL_TO: ${{ secrets.MAIL_TO }}
+          JQUANTS_API_KEY: ${{ secrets.JQUANTS_API_KEY }}
+        run: |
+          cp config.example.yaml config.yaml
+          python main.py rank
