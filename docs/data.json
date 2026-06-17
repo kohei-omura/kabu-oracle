@@ -1,19 +1,19 @@
 {
-  "generated": "2026.06.17 08:57",
+  "generated": "2026.06.17 16:19",
   "total": 3717,
   "buys": [
     {
-      "code": "6613",
-      "name": "ＱＤレーザ",
-      "price": 2620.0,
-      "score": 73.7,
+      "code": "9984",
+      "name": "ソフトバンクグループ",
+      "price": 6880.0,
+      "score": 73.1,
       "signal": "HOLD",
       "confidence": 73,
-      "entry": 2620.0,
-      "stop": 2120.0,
-      "target": 3120.0,
+      "entry": 6880.0,
+      "stop": 5880.0,
+      "target": 7880.0,
       "rr": 1.0,
-      "atr": 324.5,
+      "atr": 582.47,
       "reasons": [
         "中期上昇トレンド（EMA25>EMA75）",
         "指数より強い（相対力プラス）",
@@ -21,351 +21,358 @@
       ],
       "factors": {
         "trend": 1.0,
-        "momentum": 0.66,
-        "meanrev": 0.09,
-        "volume": 0.59,
+        "momentum": 0.62,
+        "meanrev": 0.24,
+        "volume": 0.39,
         "relstr": 1.0
       },
       "error": null,
       "fund": {
-        "per": null,
-        "pbr": 20.96,
-        "roe": -8.9,
-        "eqr": 95.5,
-        "divy": 0.0,
-        "growth": 0.0,
-        "score": 23.0
+        "per": 8.8,
+        "pbr": 0.87,
+        "roe": 6.3,
+        "eqr": 28.1,
+        "divy": 0.64,
+        "growth": null,
+        "score": 69.0
       },
-      "combined": 69.3
+      "combined": 72.6
     },
     {
-      "code": "5384",
-      "name": "フジミインコーポレーテッド",
-      "price": 4220.0,
-      "score": 71.3,
+      "code": "5367",
+      "name": "ニッカトー",
+      "price": 1533.0,
+      "score": 73.7,
       "signal": "BUY",
-      "confidence": 91,
-      "entry": 4220.0,
-      "stop": 3785.8,
-      "target": 4871.2,
-      "rr": 1.5,
-      "atr": 217.08,
+      "confidence": 93,
+      "entry": 1533.0,
+      "stop": 1197.9,
+      "target": 1933.0,
+      "rr": 1.19,
+      "atr": 167.53,
       "reasons": [
         "ゴールデンクロス発生",
         "中期上昇トレンド（EMA25>EMA75）",
-        "指数より強い（相対力プラス）"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -0.54,
-        "volume": 0.44,
-        "relstr": 1.0
-      },
-      "error": null,
-      "fund": {
-        "per": 33.3,
-        "pbr": 3.86,
-        "roe": 11.5,
-        "eqr": 67.0,
-        "divy": 1.74,
-        "growth": -0.3,
-        "score": 48.0
-      },
-      "combined": 66.8
-    },
-    {
-      "code": "3480",
-      "name": "ジェイ・エス・ビー",
-      "price": 8980.0,
-      "score": 70.0,
-      "signal": "BUY",
-      "confidence": 90,
-      "entry": 8980.0,
-      "stop": 8285.9,
-      "target": 10021.1,
-      "rr": 1.5,
-      "atr": 347.04,
-      "reasons": [
-        "ゴールデンクロス発生",
-        "中期上昇トレンド（EMA25>EMA75）",
-        "RSI 86（買われすぎ）",
-        "上バンド接近（過熱）",
-        "出来高急増（平均比 11.7倍）"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -1.0,
-        "volume": 1.0,
-        "relstr": 1.0
-      },
-      "error": null,
-      "fund": {
-        "per": 31.9,
-        "pbr": 4.75,
-        "roe": 14.9,
-        "eqr": 45.4,
-        "divy": 1.28,
-        "growth": 15.2,
-        "score": 52.0
-      },
-      "combined": 61.5
-    },
-    {
-      "code": "6387",
-      "name": "サムコ",
-      "price": 16220.0,
-      "score": 70.0,
-      "signal": "BUY",
-      "confidence": 90,
-      "entry": 16220.0,
-      "stop": 13745.7,
-      "target": 19931.4,
-      "rr": 1.5,
-      "atr": 1237.15,
-      "reasons": [
-        "ゴールデンクロス発生",
-        "中期上昇トレンド（EMA25>EMA75）",
-        "上バンド接近（過熱）",
         "出来高急増（平均比 2.3倍）",
-        "指数より強い（相対力プラス）"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -1.0,
-        "volume": 1.0,
-        "relstr": 1.0
-      },
-      "error": null,
-      "fund": {
-        "per": 75.7,
-        "pbr": 9.38,
-        "roe": 12.4,
-        "eqr": 73.9,
-        "divy": 0.37,
-        "growth": 1.4,
-        "score": 40.0
-      },
-      "combined": 56.8
-    },
-    {
-      "code": "7072",
-      "name": "インティメート・マージャー",
-      "price": 987.0,
-      "score": 66.5,
-      "signal": "HOLD",
-      "confidence": 66,
-      "entry": 987.0,
-      "stop": 837.9,
-      "target": 1137.0,
-      "rr": 1.01,
-      "atr": 74.55,
-      "reasons": [
-        "中期上昇トレンド（EMA25>EMA75）",
         "指数より強い（相対力プラス）",
         "値幅制限内に調整"
       ],
       "factors": {
         "trend": 1.0,
-        "momentum": 0.61,
-        "meanrev": 0.18,
-        "volume": 0.91,
-        "relstr": 0.48
-      },
-      "error": null,
-      "fund": {
-        "per": 16.5,
-        "pbr": 2.02,
-        "roe": 11.5,
-        "eqr": 71.3,
-        "divy": 0.0,
-        "growth": 20.9,
-        "score": 62.0
-      },
-      "combined": 47.2
-    },
-    {
-      "code": "4208",
-      "name": "ＵＢＥ",
-      "price": 3196.0,
-      "score": 64.9,
-      "signal": "BUY",
-      "confidence": 84,
-      "entry": 3196.0,
-      "stop": 3026.3,
-      "target": 3450.6,
-      "rr": 1.5,
-      "atr": 84.87,
-      "reasons": [
-        "ゴールデンクロス発生",
-        "中期上昇トレンド（EMA25>EMA75）",
-        "RSI 73（買われすぎ）",
-        "上バンド接近（過熱）",
-        "指数より強い（相対力プラス）"
-      ],
-      "factors": {
-        "trend": 1.0,
         "momentum": 1.0,
-        "meanrev": -1.0,
-        "volume": 0.49,
+        "meanrev": -0.75,
+        "volume": 1.0,
         "relstr": 1.0
       },
       "error": null,
       "fund": {
-        "per": 11.3,
-        "pbr": 0.79,
-        "roe": 6.2,
-        "eqr": 45.7,
-        "divy": 3.44,
-        "growth": 671.0,
-        "score": 73.0
+        "per": 25.9,
+        "pbr": 1.32,
+        "roe": 5.1,
+        "eqr": 76.2,
+        "divy": 1.37,
+        "growth": 40.1,
+        "score": 55.0
       },
-      "combined": 43.4
-    },
-    {
-      "code": "5232",
-      "name": "住友大阪セメント",
-      "price": 5729.0,
-      "score": 66.1,
-      "signal": "BUY",
-      "confidence": 86,
-      "entry": 5729.0,
-      "stop": 5177.7,
-      "target": 6556.0,
-      "rr": 1.5,
-      "atr": 275.67,
-      "reasons": [
-        "ゴールデンクロス発生",
-        "中期上昇トレンド（EMA25>EMA75）",
-        "指数より強い（相対力プラス）"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -0.77,
-        "volume": 0.48,
-        "relstr": 0.89
-      },
-      "error": null,
-      "fund": {
-        "per": 18.4,
-        "pbr": 0.99,
-        "roe": 5.2,
-        "eqr": 52.6,
-        "divy": 2.09,
-        "growth": 11.0,
-        "score": 52.0
-      },
-      "combined": 41.3
+      "combined": 71.6
     },
     {
       "code": "9204",
       "name": "スカイマーク",
-      "price": 429.0,
-      "score": 68.2,
-      "signal": "BUY",
-      "confidence": 88,
-      "entry": 429.0,
-      "stop": 394.1,
-      "target": 481.4,
+      "price": 416.0,
+      "score": 75.2,
+      "signal": "HOLD",
+      "confidence": 75,
+      "entry": 416.0,
+      "stop": 381.3,
+      "target": 468.1,
       "rr": 1.5,
-      "atr": 17.47,
+      "atr": 17.36,
       "reasons": [
-        "ゴールデンクロス発生",
         "中期上昇トレンド（EMA25>EMA75）",
         "指数より強い（相対力プラス）"
       ],
       "factors": {
         "trend": 1.0,
         "momentum": 1.0,
-        "meanrev": -0.56,
-        "volume": 0.15,
+        "meanrev": -0.32,
+        "volume": 0.5,
         "relstr": 1.0
       },
       "error": null,
       "fund": {
-        "per": 258.4,
-        "pbr": 0.95,
+        "per": 250.6,
+        "pbr": 0.92,
         "roe": 0.4,
         "eqr": 26.0,
-        "divy": 0.7,
+        "divy": 0.72,
         "growth": -95.3,
-        "score": 20.0
+        "score": 19.0
       },
-      "combined": 39.3
+      "combined": 67.5
     },
     {
-      "code": "456A",
-      "name": "ＨＵＭＡＮ　ＭＡＤＥ",
-      "price": 1781.0,
-      "score": 64.3,
+      "code": "3905",
+      "name": "データセクション",
+      "price": 4915.0,
+      "score": 72.1,
       "signal": "HOLD",
-      "confidence": 64,
-      "entry": 1781.0,
-      "stop": 1548.0,
-      "target": 2130.5,
-      "rr": 1.5,
-      "atr": 116.48,
+      "confidence": 72,
+      "entry": 4915.0,
+      "stop": 4215.0,
+      "target": 5615.0,
+      "rr": 1.0,
+      "atr": 554.86,
       "reasons": [
         "中期上昇トレンド（EMA25>EMA75）",
+        "指数より強い（相対力プラス）",
+        "値幅制限内に調整"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 0.67,
+        "meanrev": -0.07,
+        "volume": 0.63,
+        "relstr": 1.0
+      },
+      "error": null,
+      "fund": {
+        "per": 82.8,
+        "pbr": 37.59,
+        "roe": 11.7,
+        "eqr": 66.8,
+        "divy": 0.0,
+        "growth": 391.7,
+        "score": 41.0
+      },
+      "combined": 54.6
+    },
+    {
+      "code": "3441",
+      "name": "山王",
+      "price": 3200.0,
+      "score": 70.0,
+      "signal": "BUY",
+      "confidence": 90,
+      "entry": 3200.0,
+      "stop": 2758.9,
+      "target": 3861.6,
+      "rr": 1.5,
+      "atr": 220.54,
+      "reasons": [
+        "ゴールデンクロス発生",
+        "中期上昇トレンド（EMA25>EMA75）",
         "上バンド接近（過熱）",
+        "出来高急増（平均比 2.8倍）",
         "指数より強い（相対力プラス）"
       ],
       "factors": {
         "trend": 1.0,
         "momentum": 1.0,
         "meanrev": -1.0,
-        "volume": 0.43,
+        "volume": 1.0,
         "relstr": 1.0
       },
       "error": null,
       "fund": {
-        "per": 15.2,
-        "pbr": 3.46,
-        "roe": 22.0,
-        "eqr": 81.3,
-        "divy": 0.0,
-        "growth": -11.7,
-        "score": 64.0
+        "per": 10.8,
+        "pbr": 1.77,
+        "roe": 16.3,
+        "eqr": 56.0,
+        "divy": 0.78,
+        "growth": 67.3,
+        "score": 74.0
       },
-      "combined": 36.6
+      "combined": 52.8
     },
     {
       "code": "6336",
       "name": "石井表記",
-      "price": 1622.0,
-      "score": 64.5,
+      "price": 1947.0,
+      "score": 70.0,
       "signal": "HOLD",
-      "confidence": 64,
-      "entry": 1622.0,
-      "stop": 1357.9,
-      "target": 2018.2,
-      "rr": 1.5,
-      "atr": 132.07,
+      "confidence": 70,
+      "entry": 1947.0,
+      "stop": 1650.9,
+      "target": 2347.0,
+      "rr": 1.35,
+      "atr": 148.06,
       "reasons": [
         "中期上昇トレンド（EMA25>EMA75）",
+        "RSI 75（買われすぎ）",
+        "上バンド接近（過熱）",
+        "出来高急増（平均比 2.1倍）",
         "指数より強い（相対力プラス）"
       ],
       "factors": {
         "trend": 1.0,
         "momentum": 1.0,
-        "meanrev": -0.69,
-        "volume": -0.02,
+        "meanrev": -1.0,
+        "volume": 1.0,
         "relstr": 1.0
       },
       "error": null,
       "fund": {
-        "per": 16.3,
-        "pbr": 1.22,
+        "per": 19.6,
+        "pbr": 1.46,
         "roe": 7.6,
         "eqr": 66.9,
-        "divy": 1.73,
+        "divy": 1.44,
         "growth": -9.7,
-        "score": 56.0
+        "score": 60.0
       },
-      "combined": 34.5
+      "combined": 47.2
+    },
+    {
+      "code": "6966",
+      "name": "三井ハイテック",
+      "price": 1320.0,
+      "score": 70.0,
+      "signal": "BUY",
+      "confidence": 90,
+      "entry": 1320.0,
+      "stop": 1163.2,
+      "target": 1555.1,
+      "rr": 1.5,
+      "atr": 78.38,
+      "reasons": [
+        "ゴールデンクロス発生",
+        "中期上昇トレンド（EMA25>EMA75）",
+        "RSI 81（買われすぎ）",
+        "上バンド接近（過熱）",
+        "出来高急増（平均比 4.6倍）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -1.0,
+        "volume": 1.0,
+        "relstr": 1.0
+      },
+      "error": null,
+      "fund": {
+        "per": 34.5,
+        "pbr": 2.13,
+        "roe": 6.2,
+        "eqr": 47.0,
+        "divy": 1.36,
+        "growth": 122.2,
+        "score": 52.0
+      },
+      "combined": 44.2
+    },
+    {
+      "code": "7740",
+      "name": "タムロン",
+      "price": 1280.0,
+      "score": 68.9,
+      "signal": "BUY",
+      "confidence": 88,
+      "entry": 1280.0,
+      "stop": 1195.5,
+      "target": 1406.8,
+      "rr": 1.5,
+      "atr": 42.27,
+      "reasons": [
+        "ゴールデンクロス発生",
+        "中期上昇トレンド（EMA25>EMA75）",
+        "RSI 79（買われすぎ）",
+        "上バンド接近（過熱）",
+        "出来高急増（平均比 6.7倍）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -1.0,
+        "volume": 1.0,
+        "relstr": 0.95
+      },
+      "error": null,
+      "fund": {
+        "per": 15.3,
+        "pbr": 2.4,
+        "roe": 15.8,
+        "eqr": 81.0,
+        "divy": null,
+        "growth": 15.3,
+        "score": 71.0
+      },
+      "combined": 44.1
+    },
+    {
+      "code": "7600",
+      "name": "日本エム・ディ・エム",
+      "price": 926.0,
+      "score": 70.0,
+      "signal": "BUY",
+      "confidence": 90,
+      "entry": 926.0,
+      "stop": 836.7,
+      "target": 1060.0,
+      "rr": 1.5,
+      "atr": 44.65,
+      "reasons": [
+        "ゴールデンクロス発生",
+        "中期上昇トレンド（EMA25>EMA75）",
+        "RSI 75（買われすぎ）",
+        "上バンド接近（過熱）",
+        "出来高急増（平均比 2.6倍）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -1.0,
+        "volume": 1.0,
+        "relstr": 1.0
+      },
+      "error": null,
+      "fund": {
+        "per": 81.4,
+        "pbr": 0.99,
+        "roe": 1.2,
+        "eqr": 72.9,
+        "divy": 1.84,
+        "growth": 165.1,
+        "score": 50.0
+      },
+      "combined": 43.2
+    },
+    {
+      "code": "6920",
+      "name": "レーザーテック",
+      "price": 52700.0,
+      "score": 70.0,
+      "signal": "HOLD",
+      "confidence": 70,
+      "entry": 52700.0,
+      "stop": 46604.5,
+      "target": 61843.3,
+      "rr": 1.5,
+      "atr": 3047.75,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "上バンド接近（過熱）",
+        "出来高急増（平均比 2.4倍）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -1.0,
+        "volume": 1.0,
+        "relstr": 1.0
+      },
+      "error": null,
+      "fund": {
+        "per": 65.7,
+        "pbr": 20.94,
+        "roe": 31.9,
+        "eqr": 72.8,
+        "divy": 0.62,
+        "growth": -14.9,
+        "score": 46.0
+      },
+      "combined": 41.6
     }
   ]
 }
