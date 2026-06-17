@@ -1,7 +1,43 @@
 {
-  "generated": "2026.06.16 21:23",
-  "total": 3718,
+  "generated": "2026.06.17 08:57",
+  "total": 3717,
   "buys": [
+    {
+      "code": "6613",
+      "name": "ＱＤレーザ",
+      "price": 2620.0,
+      "score": 73.7,
+      "signal": "HOLD",
+      "confidence": 73,
+      "entry": 2620.0,
+      "stop": 2120.0,
+      "target": 3120.0,
+      "rr": 1.0,
+      "atr": 324.5,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "指数より強い（相対力プラス）",
+        "値幅制限内に調整"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 0.66,
+        "meanrev": 0.09,
+        "volume": 0.59,
+        "relstr": 1.0
+      },
+      "error": null,
+      "fund": {
+        "per": null,
+        "pbr": 20.96,
+        "roe": -8.9,
+        "eqr": 95.5,
+        "divy": 0.0,
+        "growth": 0.0,
+        "score": 23.0
+      },
+      "combined": 69.3
+    },
     {
       "code": "5384",
       "name": "フジミインコーポレーテッド",
@@ -34,9 +70,9 @@
         "eqr": 67.0,
         "divy": 1.74,
         "growth": -0.3,
-        "score": 49.0
+        "score": 48.0
       },
-      "combined": 79.4
+      "combined": 66.8
     },
     {
       "code": "3480",
@@ -74,83 +110,7 @@
         "growth": 15.2,
         "score": 52.0
       },
-      "combined": 71.9
-    },
-    {
-      "code": "3441",
-      "name": "山王",
-      "price": 3065.0,
-      "score": 68.3,
-      "signal": "BUY",
-      "confidence": 88,
-      "entry": 3065.0,
-      "stop": 2650.0,
-      "target": 3687.5,
-      "rr": 1.5,
-      "atr": 207.51,
-      "reasons": [
-        "ゴールデンクロス発生",
-        "中期上昇トレンド（EMA25>EMA75）",
-        "上バンド接近（過熱）",
-        "出来高急増（平均比 2.5倍）",
-        "指数より強い（相対力プラス）"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -1.0,
-        "volume": 1.0,
-        "relstr": 0.92
-      },
-      "error": null,
-      "fund": {
-        "per": 10.4,
-        "pbr": 1.7,
-        "roe": 16.3,
-        "eqr": 56.0,
-        "divy": 0.82,
-        "growth": 67.3,
-        "score": 77.0
-      },
-      "combined": 70.0
-    },
-    {
-      "code": "166A",
-      "name": "タスキホールディングス",
-      "price": 1112.0,
-      "score": 68.4,
-      "signal": "HOLD",
-      "confidence": 68,
-      "entry": 1112.0,
-      "stop": 1020.6,
-      "target": 1249.1,
-      "rr": 1.5,
-      "atr": 45.71,
-      "reasons": [
-        "中期上昇トレンド（EMA25>EMA75）",
-        "RSI 80（買われすぎ）",
-        "上バンド接近（過熱）",
-        "出来高急増（平均比 1.8倍）",
-        "指数より強い（相対力プラス）"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -0.95,
-        "volume": 0.77,
-        "relstr": 1.0
-      },
-      "error": null,
-      "fund": {
-        "per": 11.8,
-        "pbr": 2.15,
-        "roe": 19.1,
-        "eqr": 31.2,
-        "divy": 3.6,
-        "growth": 17.6,
-        "score": 74.0
-      },
-      "combined": 69.6
+      "combined": 61.5
     },
     {
       "code": "6387",
@@ -186,45 +146,45 @@
         "eqr": 73.9,
         "divy": 0.37,
         "growth": 1.4,
-        "score": 37.0
+        "score": 40.0
       },
-      "combined": 66.0
+      "combined": 56.8
     },
     {
-      "code": "9204",
-      "name": "スカイマーク",
-      "price": 429.0,
-      "score": 68.2,
-      "signal": "BUY",
-      "confidence": 88,
-      "entry": 429.0,
-      "stop": 394.1,
-      "target": 481.4,
-      "rr": 1.5,
-      "atr": 17.47,
+      "code": "7072",
+      "name": "インティメート・マージャー",
+      "price": 987.0,
+      "score": 66.5,
+      "signal": "HOLD",
+      "confidence": 66,
+      "entry": 987.0,
+      "stop": 837.9,
+      "target": 1137.0,
+      "rr": 1.01,
+      "atr": 74.55,
       "reasons": [
-        "ゴールデンクロス発生",
         "中期上昇トレンド（EMA25>EMA75）",
-        "指数より強い（相対力プラス）"
+        "指数より強い（相対力プラス）",
+        "値幅制限内に調整"
       ],
       "factors": {
         "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -0.56,
-        "volume": 0.15,
-        "relstr": 1.0
+        "momentum": 0.61,
+        "meanrev": 0.18,
+        "volume": 0.91,
+        "relstr": 0.48
       },
       "error": null,
       "fund": {
-        "per": 258.4,
-        "pbr": 0.95,
-        "roe": 0.4,
-        "eqr": 26.0,
-        "divy": 0.7,
-        "growth": -95.3,
-        "score": 15.0
+        "per": 16.5,
+        "pbr": 2.02,
+        "roe": 11.5,
+        "eqr": 71.3,
+        "divy": 0.0,
+        "growth": 20.9,
+        "score": 62.0
       },
-      "combined": 44.6
+      "combined": 47.2
     },
     {
       "code": "4208",
@@ -260,44 +220,117 @@
         "eqr": 45.7,
         "divy": 3.44,
         "growth": 671.0,
-        "score": 66.0
+        "score": 73.0
       },
-      "combined": 42.3
+      "combined": 43.4
     },
     {
-      "code": "262A",
-      "name": "インターメスティック",
-      "price": 2248.0,
-      "score": 65.3,
-      "signal": "HOLD",
-      "confidence": 65,
-      "entry": 2248.0,
-      "stop": 2013.4,
-      "target": 2599.9,
+      "code": "5232",
+      "name": "住友大阪セメント",
+      "price": 5729.0,
+      "score": 66.1,
+      "signal": "BUY",
+      "confidence": 86,
+      "entry": 5729.0,
+      "stop": 5177.7,
+      "target": 6556.0,
       "rr": 1.5,
-      "atr": 117.29,
+      "atr": 275.67,
       "reasons": [
+        "ゴールデンクロス発生",
         "中期上昇トレンド（EMA25>EMA75）",
         "指数より強い（相対力プラス）"
       ],
       "factors": {
         "trend": 1.0,
         "momentum": 1.0,
-        "meanrev": -0.73,
-        "volume": 0.42,
-        "relstr": 0.86
+        "meanrev": -0.77,
+        "volume": 0.48,
+        "relstr": 0.89
       },
       "error": null,
       "fund": {
-        "per": 18.3,
-        "pbr": 2.65,
-        "roe": 14.4,
-        "eqr": 41.2,
-        "divy": 1.91,
-        "growth": -9.0,
-        "score": 54.0
+        "per": 18.4,
+        "pbr": 0.99,
+        "roe": 5.2,
+        "eqr": 52.6,
+        "divy": 2.09,
+        "growth": 11.0,
+        "score": 52.0
       },
-      "combined": 40.2
+      "combined": 41.3
+    },
+    {
+      "code": "9204",
+      "name": "スカイマーク",
+      "price": 429.0,
+      "score": 68.2,
+      "signal": "BUY",
+      "confidence": 88,
+      "entry": 429.0,
+      "stop": 394.1,
+      "target": 481.4,
+      "rr": 1.5,
+      "atr": 17.47,
+      "reasons": [
+        "ゴールデンクロス発生",
+        "中期上昇トレンド（EMA25>EMA75）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -0.56,
+        "volume": 0.15,
+        "relstr": 1.0
+      },
+      "error": null,
+      "fund": {
+        "per": 258.4,
+        "pbr": 0.95,
+        "roe": 0.4,
+        "eqr": 26.0,
+        "divy": 0.7,
+        "growth": -95.3,
+        "score": 20.0
+      },
+      "combined": 39.3
+    },
+    {
+      "code": "456A",
+      "name": "ＨＵＭＡＮ　ＭＡＤＥ",
+      "price": 1781.0,
+      "score": 64.3,
+      "signal": "HOLD",
+      "confidence": 64,
+      "entry": 1781.0,
+      "stop": 1548.0,
+      "target": 2130.5,
+      "rr": 1.5,
+      "atr": 116.48,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "上バンド接近（過熱）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -1.0,
+        "volume": 0.43,
+        "relstr": 1.0
+      },
+      "error": null,
+      "fund": {
+        "per": 15.2,
+        "pbr": 3.46,
+        "roe": 22.0,
+        "eqr": 81.3,
+        "divy": 0.0,
+        "growth": -11.7,
+        "score": 64.0
+      },
+      "combined": 36.6
     },
     {
       "code": "6336",
@@ -330,46 +363,9 @@
         "eqr": 66.9,
         "divy": 1.73,
         "growth": -9.7,
-        "score": 54.0
+        "score": 56.0
       },
       "combined": 34.5
-    },
-    {
-      "code": "5331",
-      "name": "ノリタケ",
-      "price": 4230.0,
-      "score": 63.3,
-      "signal": "BUY",
-      "confidence": 83,
-      "entry": 4230.0,
-      "stop": 3756.2,
-      "target": 4930.0,
-      "rr": 1.48,
-      "atr": 236.92,
-      "reasons": [
-        "ゴールデンクロス発生",
-        "中期上昇トレンド（EMA25>EMA75）",
-        "指数より強い（相対力プラス）",
-        "値幅制限内に調整"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -0.7,
-        "volume": -0.03,
-        "relstr": 0.96
-      },
-      "error": null,
-      "fund": {
-        "per": 9.7,
-        "pbr": 0.73,
-        "roe": 7.5,
-        "eqr": 71.0,
-        "divy": 3.78,
-        "growth": -7.3,
-        "score": 71.0
-      },
-      "combined": 33.3
     }
   ]
 }
