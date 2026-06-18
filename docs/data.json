@@ -1,5 +1,5 @@
 {
-  "generated": "2026.06.17 21:04",
+  "generated": "2026.06.18 08:57",
   "total": 3717,
   "buys": [
     {
@@ -36,7 +36,7 @@
         "growth": null,
         "score": 69.0
       },
-      "combined": 72.6
+      "combined": 73.2
     },
     {
       "code": "5367",
@@ -72,9 +72,9 @@
         "eqr": 76.2,
         "divy": 1.37,
         "growth": 40.1,
-        "score": 55.0
+        "score": 53.0
       },
-      "combined": 71.6
+      "combined": 70.9
     },
     {
       "code": "9204",
@@ -107,9 +107,9 @@
         "eqr": 26.0,
         "divy": 0.72,
         "growth": -95.3,
-        "score": 19.0
+        "score": 17.0
       },
-      "combined": 67.5
+      "combined": 66.9
     },
     {
       "code": "3905",
@@ -143,9 +143,9 @@
         "eqr": 66.8,
         "divy": 0.0,
         "growth": 391.7,
-        "score": 41.0
+        "score": 44.0
       },
-      "combined": 54.6
+      "combined": 56.6
     },
     {
       "code": "3441",
@@ -183,7 +183,7 @@
         "growth": 67.3,
         "score": 74.0
       },
-      "combined": 52.8
+      "combined": 54.1
     },
     {
       "code": "6336",
@@ -219,9 +219,9 @@
         "eqr": 66.9,
         "divy": 1.44,
         "growth": -9.7,
-        "score": 60.0
+        "score": 62.0
       },
-      "combined": 47.2
+      "combined": 49.3
     },
     {
       "code": "6966",
@@ -257,85 +257,9 @@
         "eqr": 47.0,
         "divy": 1.36,
         "growth": 122.2,
-        "score": 52.0
+        "score": 48.0
       },
-      "combined": 44.2
-    },
-    {
-      "code": "7740",
-      "name": "タムロン",
-      "price": 1280.0,
-      "score": 68.9,
-      "signal": "BUY",
-      "confidence": 88,
-      "entry": 1280.0,
-      "stop": 1195.5,
-      "target": 1406.8,
-      "rr": 1.5,
-      "atr": 42.27,
-      "reasons": [
-        "ゴールデンクロス発生",
-        "中期上昇トレンド（EMA25>EMA75）",
-        "RSI 79（買われすぎ）",
-        "上バンド接近（過熱）",
-        "出来高急増（平均比 6.7倍）"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -1.0,
-        "volume": 1.0,
-        "relstr": 0.95
-      },
-      "error": null,
-      "fund": {
-        "per": 15.3,
-        "pbr": 2.4,
-        "roe": 15.8,
-        "eqr": 81.0,
-        "divy": null,
-        "growth": 15.3,
-        "score": 71.0
-      },
-      "combined": 44.1
-    },
-    {
-      "code": "7600",
-      "name": "日本エム・ディ・エム",
-      "price": 926.0,
-      "score": 70.0,
-      "signal": "BUY",
-      "confidence": 90,
-      "entry": 926.0,
-      "stop": 836.7,
-      "target": 1060.0,
-      "rr": 1.5,
-      "atr": 44.65,
-      "reasons": [
-        "ゴールデンクロス発生",
-        "中期上昇トレンド（EMA25>EMA75）",
-        "RSI 75（買われすぎ）",
-        "上バンド接近（過熱）",
-        "出来高急増（平均比 2.6倍）"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -1.0,
-        "volume": 1.0,
-        "relstr": 1.0
-      },
-      "error": null,
-      "fund": {
-        "per": 81.4,
-        "pbr": 0.99,
-        "roe": 1.2,
-        "eqr": 72.9,
-        "divy": 1.84,
-        "growth": 165.1,
-        "score": 50.0
-      },
-      "combined": 43.2
+      "combined": 43.8
     },
     {
       "code": "6920",
@@ -370,9 +294,81 @@
         "eqr": 72.8,
         "divy": 0.62,
         "growth": -14.9,
-        "score": 46.0
+        "score": 42.0
       },
-      "combined": 41.6
+      "combined": 41.5
+    },
+    {
+      "code": "4208",
+      "name": "ＵＢＥ",
+      "price": 3163.0,
+      "score": 67.5,
+      "signal": "HOLD",
+      "confidence": 67,
+      "entry": 3163.0,
+      "stop": 2998.0,
+      "target": 3410.6,
+      "rr": 1.5,
+      "atr": 82.52,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "上バンド接近（過熱）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -0.88,
+        "volume": 0.57,
+        "relstr": 1.0
+      },
+      "error": null,
+      "fund": {
+        "per": 11.2,
+        "pbr": 0.78,
+        "roe": 6.2,
+        "eqr": 45.7,
+        "divy": 3.48,
+        "growth": 671.0,
+        "score": 79.0
+      },
+      "combined": 39.1
+    },
+    {
+      "code": "5726",
+      "name": "大阪チタニウムテクノロジーズ",
+      "price": 2859.0,
+      "score": 69.9,
+      "signal": "HOLD",
+      "confidence": 69,
+      "entry": 2859.0,
+      "stop": 2494.4,
+      "target": 3359.0,
+      "rr": 1.37,
+      "atr": 182.32,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "指数より強い（相対力プラス）",
+        "値幅制限内に調整"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -0.52,
+        "volume": 0.27,
+        "relstr": 1.0
+      },
+      "error": null,
+      "fund": {
+        "per": 47.8,
+        "pbr": 2.46,
+        "roe": 4.9,
+        "eqr": 41.8,
+        "divy": 0.52,
+        "growth": -69.0,
+        "score": 20.0
+      },
+      "combined": 31.7
     }
   ]
 }
