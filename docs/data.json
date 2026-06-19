@@ -1,5 +1,5 @@
 {
-  "generated": "2026.06.19 16:19",
+  "generated": "2026.06.19 18:58",
   "total": 3717,
   "buys": [
     {
@@ -35,9 +35,45 @@
         "eqr": 22.6,
         "divy": 0.0,
         "growth": 80.4,
-        "score": 25.0
+        "score": 23.0
       },
-      "combined": 70.1
+      "combined": 69.1
+    },
+    {
+      "code": "4022",
+      "name": "ラサ工業",
+      "price": 2243.0,
+      "score": 72.5,
+      "signal": "HOLD",
+      "confidence": 72,
+      "entry": 2243.0,
+      "stop": 1835.7,
+      "target": 2743.0,
+      "rr": 1.23,
+      "atr": 203.65,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "指数より強い（相対力プラス）",
+        "値幅制限内に調整"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -0.29,
+        "volume": 0.48,
+        "relstr": 0.85
+      },
+      "error": null,
+      "fund": {
+        "per": 4.2,
+        "pbr": 0.63,
+        "roe": 13.9,
+        "eqr": 62.9,
+        "divy": 7.58,
+        "growth": 34.1,
+        "score": 87.0
+      },
+      "combined": 63.5
     },
     {
       "code": "7435",
@@ -70,82 +106,9 @@
         "eqr": 64.3,
         "divy": 2.48,
         "growth": 159.0,
-        "score": 72.0
+        "score": 68.0
       },
-      "combined": 58.7
-    },
-    {
-      "code": "5802",
-      "name": "住友電気工業",
-      "price": 13485.0,
-      "score": 73.3,
-      "signal": "BUY",
-      "confidence": 93,
-      "entry": 13485.0,
-      "stop": 11520.4,
-      "target": 16431.8,
-      "rr": 1.5,
-      "atr": 982.28,
-      "reasons": [
-        "ゴールデンクロス発生",
-        "中期上昇トレンド（EMA25>EMA75）",
-        "出来高急増（平均比 1.9倍）",
-        "指数より強い（相対力プラス）"
-      ],
-      "factors": {
-        "trend": 0.98,
-        "momentum": 1.0,
-        "meanrev": -0.64,
-        "volume": 0.86,
-        "relstr": 1.0
-      },
-      "error": null,
-      "fund": {
-        "per": 32.9,
-        "pbr": 4.59,
-        "roe": 12.0,
-        "eqr": 51.3,
-        "divy": 0.88,
-        "growth": 65.1,
-        "score": 47.0
-      },
-      "combined": 53.2
-    },
-    {
-      "code": "280A",
-      "name": "ＴＭＨ",
-      "price": 2240.0,
-      "score": 73.0,
-      "signal": "HOLD",
-      "confidence": 73,
-      "entry": 2240.0,
-      "stop": 1802.3,
-      "target": 2740.0,
-      "rr": 1.14,
-      "atr": 218.87,
-      "reasons": [
-        "中期上昇トレンド（EMA25>EMA75）",
-        "指数より強い（相対力プラス）",
-        "値幅制限内に調整"
-      ],
-      "factors": {
-        "trend": 0.97,
-        "momentum": 0.66,
-        "meanrev": 0.08,
-        "volume": 0.62,
-        "relstr": 1.0
-      },
-      "error": null,
-      "fund": {
-        "per": 33.1,
-        "pbr": 5.82,
-        "roe": 17.5,
-        "eqr": 51.4,
-        "divy": 0.0,
-        "growth": null,
-        "score": 44.0
-      },
-      "combined": 49.5
+      "combined": 58.5
     },
     {
       "code": "5998",
@@ -181,9 +144,9 @@
         "eqr": 30.0,
         "divy": 1.08,
         "growth": 203.5,
-        "score": 52.0
+        "score": 50.0
       },
-      "combined": 41.3
+      "combined": 42.2
     },
     {
       "code": "7875",
@@ -219,9 +182,9 @@
         "eqr": 56.8,
         "divy": 4.17,
         "growth": -19.9,
-        "score": 77.0
+        "score": 75.0
       },
-      "combined": 36.7
+      "combined": 38.4
     },
     {
       "code": "9247",
@@ -257,9 +220,9 @@
         "eqr": 47.6,
         "divy": 2.35,
         "growth": 5.8,
-        "score": 72.0
+        "score": 70.0
       },
-      "combined": 34.9
+      "combined": 36.4
     },
     {
       "code": "6844",
@@ -295,47 +258,44 @@
         "eqr": 47.2,
         "divy": 2.53,
         "growth": 297.0,
-        "score": 78.0
+        "score": 79.0
       },
-      "combined": 32.2
+      "combined": 34.8
     },
     {
-      "code": "7717",
-      "name": "ブイ・テクノロジー",
-      "price": 8430.0,
+      "code": "4366",
+      "name": "ダイトーケミックス",
+      "price": 505.0,
       "score": 70.0,
       "signal": "HOLD",
       "confidence": 70,
-      "entry": 8430.0,
-      "stop": 7297.5,
-      "target": 9930.0,
-      "rr": 1.32,
-      "atr": 566.26,
+      "entry": 505.0,
+      "stop": 439.2,
+      "target": 603.7,
+      "rr": 1.5,
+      "atr": 32.91,
       "reasons": [
         "中期上昇トレンド（EMA25>EMA75）",
-        "RSI 79（買われすぎ）",
-        "上バンド接近（過熱）",
-        "出来高急増（平均比 3.2倍）",
         "指数より強い（相対力プラス）"
       ],
       "factors": {
         "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -1.0,
-        "volume": 1.0,
-        "relstr": 1.0
+        "momentum": 0.64,
+        "meanrev": 0.06,
+        "volume": 0.76,
+        "relstr": 0.77
       },
       "error": null,
       "fund": {
-        "per": 29.5,
-        "pbr": 2.38,
-        "roe": 7.8,
-        "eqr": 45.2,
-        "divy": 0.95,
-        "growth": 237.5,
-        "score": 55.0
+        "per": 21.1,
+        "pbr": 0.36,
+        "roe": 4.8,
+        "eqr": 55.9,
+        "divy": 1.58,
+        "growth": -6.1,
+        "score": 56.0
       },
-      "combined": 27.8
+      "combined": 30.8
     },
     {
       "code": "7245",
@@ -371,9 +331,47 @@
         "eqr": 37.4,
         "divy": 1.88,
         "growth": 47.1,
-        "score": 53.0
+        "score": 50.0
       },
-      "combined": 27.2
+      "combined": 28.1
+    },
+    {
+      "code": "7717",
+      "name": "ブイ・テクノロジー",
+      "price": 8430.0,
+      "score": 70.0,
+      "signal": "HOLD",
+      "confidence": 70,
+      "entry": 8430.0,
+      "stop": 7297.5,
+      "target": 9930.0,
+      "rr": 1.32,
+      "atr": 566.26,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "RSI 79（買われすぎ）",
+        "上バンド接近（過熱）",
+        "出来高急増（平均比 3.2倍）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -1.0,
+        "volume": 1.0,
+        "relstr": 1.0
+      },
+      "error": null,
+      "fund": {
+        "per": 29.5,
+        "pbr": 2.38,
+        "roe": 7.8,
+        "eqr": 45.2,
+        "divy": 0.95,
+        "growth": 237.5,
+        "score": 48.0
+      },
+      "combined": 27.6
     }
   ]
 }
