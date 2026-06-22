@@ -1,6 +1,6 @@
 {
-  "generated": "2026.06.22 22:11",
-  "total": 3718,
+  "generated": "2026.06.23 05:33",
+  "total": 3717,
   "buys": [
     {
       "code": "3436",
@@ -34,9 +34,15 @@
         "eqr": 51.3,
         "divy": 0.47,
         "growth": -43.8,
-        "score": 15.0
+        "score": 13.0
       },
-      "combined": 65.9
+      "combined": 65.1,
+      "bt": {
+        "win_rate": 82,
+        "days_tp": 19,
+        "days_sl": 12,
+        "n": 237
+      }
     },
     {
       "code": "6245",
@@ -69,9 +75,15 @@
         "eqr": 66.4,
         "divy": 4.16,
         "growth": 76.8,
-        "score": 66.0
+        "score": 62.0
       },
-      "combined": 62.5
+      "combined": 65.0,
+      "bt": {
+        "win_rate": 77,
+        "days_tp": 33,
+        "days_sl": 23,
+        "n": 95
+      }
     },
     {
       "code": "6844",
@@ -107,9 +119,15 @@
         "eqr": 47.2,
         "divy": 2.45,
         "growth": 297.0,
-        "score": 85.0
+        "score": 80.0
       },
-      "combined": 51.9
+      "combined": 57.4,
+      "bt": {
+        "win_rate": 60,
+        "days_tp": 20,
+        "days_sl": 14,
+        "n": 220
+      }
     },
     {
       "code": "7875",
@@ -145,9 +163,15 @@
         "eqr": 56.8,
         "divy": 3.78,
         "growth": -19.9,
-        "score": 70.0
+        "score": 65.0
       },
-      "combined": 46.0
+      "combined": 51.3,
+      "bt": {
+        "win_rate": 100,
+        "days_tp": 19,
+        "days_sl": null,
+        "n": 232
+      }
     },
     {
       "code": "4691",
@@ -183,9 +207,15 @@
         "eqr": 35.2,
         "divy": 1.32,
         "growth": 45.4,
-        "score": 64.0
+        "score": 62.0
       },
-      "combined": 43.8
+      "combined": 50.2,
+      "bt": {
+        "win_rate": 51,
+        "days_tp": 14,
+        "days_sl": 24,
+        "n": 242
+      }
     },
     {
       "code": "6966",
@@ -218,141 +248,75 @@
         "eqr": 47.0,
         "divy": 1.55,
         "growth": 122.2,
-        "score": 53.0
+        "score": 50.0
       },
-      "combined": 42.3
+      "combined": 47.6,
+      "bt": {
+        "win_rate": 64,
+        "days_tp": 24,
+        "days_sl": 20,
+        "n": 152
+      }
     },
     {
-      "code": "6570",
-      "name": "共和コーポレーション",
-      "price": 2014.0,
-      "score": 70.0,
-      "signal": "BUY",
-      "confidence": 90,
-      "entry": 2014.0,
-      "stop": 1881.2,
-      "target": 2213.3,
-      "rr": 1.5,
-      "atr": 66.42,
+      "code": "4092",
+      "name": "日本化学工業",
+      "price": 5190.0,
+      "score": 69.2,
+      "signal": "HOLD",
+      "confidence": 69,
+      "entry": 5190.0,
+      "stop": 4257.3,
+      "target": 6190.0,
+      "rr": 1.07,
+      "atr": 466.34,
       "reasons": [
-        "ゴールデンクロス発生",
         "中期上昇トレンド（EMA25>EMA75）",
-        "RSI 80（買われすぎ）",
-        "上バンド接近（過熱）",
-        "出来高急増（平均比 5.9倍）"
+        "指数より強い（相対力プラス）",
+        "値幅制限内に調整"
       ],
       "factors": {
         "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -1.0,
-        "volume": 1.0,
+        "momentum": 0.67,
+        "meanrev": -0.16,
+        "volume": 0.47,
         "relstr": 1.0
       },
       "error": null,
       "fund": {
-        "per": 13.7,
-        "pbr": 2.46,
-        "roe": 16.2,
-        "eqr": 30.9,
-        "divy": 1.24,
-        "growth": -4.1,
-        "score": 59.0
+        "per": 17.4,
+        "pbr": 0.98,
+        "roe": 5.4,
+        "eqr": 61.5,
+        "divy": 2.31,
+        "growth": 1.6,
+        "score": 60.0
       },
-      "combined": 41.6
+      "combined": 42.9,
+      "bt": {
+        "win_rate": 96,
+        "days_tp": 23,
+        "days_sl": 16,
+        "n": 169
+      }
     },
     {
-      "code": "4667",
-      "name": "アイサンテクノロジー",
-      "price": 2104.0,
-      "score": 70.0,
-      "signal": "BUY",
-      "confidence": 90,
-      "entry": 2104.0,
-      "stop": 1857.3,
-      "target": 2474.0,
-      "rr": 1.5,
-      "atr": 123.35,
-      "reasons": [
-        "ゴールデンクロス発生",
-        "中期上昇トレンド（EMA25>EMA75）",
-        "上バンド接近（過熱）",
-        "出来高急増（平均比 6.7倍）",
-        "指数より強い（相対力プラス）"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -1.0,
-        "volume": 1.0,
-        "relstr": 1.0
-      },
-      "error": null,
-      "fund": {
-        "per": 29.7,
-        "pbr": 1.78,
-        "roe": 6.0,
-        "eqr": 75.1,
-        "divy": 1.66,
-        "growth": 33.6,
-        "score": 57.0
-      },
-      "combined": 40.8
-    },
-    {
-      "code": "3086",
-      "name": "Ｊ．フロント　リテイリング",
-      "price": 2905.0,
-      "score": 70.0,
-      "signal": "BUY",
-      "confidence": 90,
-      "entry": 2905.0,
-      "stop": 2693.9,
-      "target": 3221.7,
-      "rr": 1.5,
-      "atr": 105.55,
-      "reasons": [
-        "ゴールデンクロス発生",
-        "中期上昇トレンド（EMA25>EMA75）",
-        "RSI 81（買われすぎ）",
-        "上バンド接近（過熱）",
-        "出来高急増（平均比 5.3倍）"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -1.0,
-        "volume": 1.0,
-        "relstr": 1.0
-      },
-      "error": null,
-      "fund": {
-        "per": 28.2,
-        "pbr": 1.78,
-        "roe": 6.2,
-        "eqr": 35.2,
-        "divy": 1.86,
-        "growth": -37.2,
-        "score": 48.0
-      },
-      "combined": 37.3
-    },
-    {
-      "code": "6265",
-      "name": "コンバム",
-      "price": 3840.0,
+      "code": "4968",
+      "name": "荒川化学工業",
+      "price": 2389.0,
       "score": 70.0,
       "signal": "HOLD",
       "confidence": 70,
-      "entry": 3840.0,
-      "stop": 3579.6,
-      "target": 4230.7,
+      "entry": 2389.0,
+      "stop": 2156.3,
+      "target": 2738.0,
       "rr": 1.5,
-      "atr": 130.22,
+      "atr": 116.33,
       "reasons": [
         "中期上昇トレンド（EMA25>EMA75）",
-        "RSI 76（買われすぎ）",
+        "RSI 86（買われすぎ）",
         "上バンド接近（過熱）",
-        "出来高急増（平均比 2.5倍）",
+        "出来高急増（平均比 3.3倍）",
         "指数より強い（相対力プラス）"
       ],
       "factors": {
@@ -364,15 +328,107 @@
       },
       "error": null,
       "fund": {
-        "per": 27.1,
-        "pbr": 0.97,
-        "roe": 3.6,
-        "eqr": 93.6,
-        "divy": 1.3,
-        "growth": -11.3,
-        "score": 47.0
+        "per": 26.3,
+        "pbr": 0.81,
+        "roe": 3.2,
+        "eqr": 46.8,
+        "divy": 2.09,
+        "growth": -31.9,
+        "score": 35.0
       },
-      "combined": 37.1
+      "combined": 39.4,
+      "bt": {
+        "win_rate": 86,
+        "days_tp": 25,
+        "days_sl": 9,
+        "n": 180
+      }
+    },
+    {
+      "code": "6996",
+      "name": "ニチコン",
+      "price": 4505.0,
+      "score": 69.3,
+      "signal": "HOLD",
+      "confidence": 69,
+      "entry": 4505.0,
+      "stop": 3816.3,
+      "target": 5205.0,
+      "rr": 1.02,
+      "atr": 344.34,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "指数より強い（相対力プラス）",
+        "値幅制限内に調整"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -0.53,
+        "volume": 0.23,
+        "relstr": 1.0
+      },
+      "error": null,
+      "fund": {
+        "per": 50.4,
+        "pbr": 2.74,
+        "roe": 5.0,
+        "eqr": 58.4,
+        "divy": 0.8,
+        "growth": 2.1,
+        "score": 28.0
+      },
+      "combined": 31.1,
+      "bt": {
+        "win_rate": 83,
+        "days_tp": 23,
+        "days_sl": 15,
+        "n": 237
+      }
+    },
+    {
+      "code": "7717",
+      "name": "ブイ・テクノロジー",
+      "price": 8500.0,
+      "score": 68.1,
+      "signal": "HOLD",
+      "confidence": 68,
+      "entry": 8500.0,
+      "stop": 7362.7,
+      "target": 10000.0,
+      "rr": 1.32,
+      "atr": 568.67,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "RSI 80（買われすぎ）",
+        "上バンド接近（過熱）",
+        "出来高急増（平均比 1.8倍）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -1.0,
+        "volume": 0.81,
+        "relstr": 1.0
+      },
+      "error": null,
+      "fund": {
+        "per": 29.8,
+        "pbr": 2.4,
+        "roe": 7.8,
+        "eqr": 45.2,
+        "divy": 0.94,
+        "growth": 237.5,
+        "score": 51.0
+      },
+      "combined": 30.5,
+      "bt": {
+        "win_rate": 78,
+        "days_tp": 23,
+        "days_sl": 16,
+        "n": 240
+      }
     }
   ]
 }
