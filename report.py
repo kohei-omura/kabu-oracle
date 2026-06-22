@@ -72,6 +72,15 @@ def _card(rank: int, a, show_levels: bool, market: str = "") -> str:
         if f.get("growth") is not None: fc.append(f'<span class="fchip">増益 {f["growth"]:+.0f}%</span>')
         if fc:
             fund = f'<div class="funds">{"".join(fc)}</div>'
+    bt_html = ""
+    if a.bt:
+        b = a.bt
+        items = [f'<span class="btchip win">利確勝率 {b["win_rate"]}%</span>']
+        if b.get("days_tp"):
+            items.append(f'<span class="btchip">利確まで ~{b["days_tp"]}日</span>')
+        if b.get("days_sl"):
+            items.append(f'<span class="btchip">損切まで ~{b["days_sl"]}日</span>')
+        bt_html = f'<div class="bt">{"".join(items)}</div>'
     has_c = a.combined is not None
     disp = a.combined if has_c else a.score
     sc_cls = "pos" if disp >= 0 else "neg"
@@ -82,7 +91,7 @@ def _card(rank: int, a, show_levels: bool, market: str = "") -> str:
             f'<span class="name">{_esc(a.name)}</span>{_seg(market)}</div>{_badge(a.signal)}</div>'
             f'<div class="row2"><span class="price" data-px="{_esc(a.code)}">¥{a.price:,.0f}</span>'
             f'<span class="score {sc_cls}">{sc_txt}</span>{_score_bar(disp)}</div>'
-            f'{levels}{fund}{reasons}</div>')
+            f'{levels}{fund}{bt_html}{reasons}</div>')
 
 
 def _section(title: str, sub: str, cards_html: str, accent: str) -> str:
@@ -134,6 +143,15 @@ def _holding_card(h, a, cfg) -> str:
         if fc:
             fund = f'<div class="funds">{"".join(fc)}</div>'
     sig_badge = _badge(a.signal)
+    bt_html = ""
+    if a.bt:
+        b = a.bt
+        items = [f'<span class="btchip win">利確勝率 {b["win_rate"]}%</span>']
+        if b.get("days_tp"):
+            items.append(f'<span class="btchip">利確まで ~{b["days_tp"]}日</span>')
+        if b.get("days_sl"):
+            items.append(f'<span class="btchip">損切まで ~{b["days_sl"]}日</span>')
+        bt_html = f'<div class="bt">{"".join(items)}</div>'
     sell_warn = ""
     if a.signal == "SELL":
         sell_warn = '<div class="hsell">⚠ テクニカルは売りシグナル</div>'
@@ -150,7 +168,7 @@ def _holding_card(h, a, cfg) -> str:
             f'<div class="levels"><span class="lv">買値 {buy_s}</span>'
             f'<span class="lv tgt">利確 ¥{tgt:,.0f}</span>'
             f'<span class="lv stp">損切 ¥{stp:,.0f}</span></div>'
-            f'{fund}{sell_warn}{reasons}</div>')
+            f'{bt_html}{fund}{sell_warn}{reasons}</div>')
 
 
 CSS = """
@@ -215,6 +233,10 @@ h2 em{font-style:normal;font-family:'IBM Plex Mono',monospace;font-size:10px;
 .hsell{margin-top:8px;font-size:13px;font-weight:700;color:var(--sell);
   background:rgba(239,95,122,.10);border:1px solid rgba(239,95,122,.35);
   border-radius:9px;padding:7px 11px}
+.bt{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.btchip{font-size:11px;font-weight:700;color:var(--mut);background:rgba(139,147,167,.10);
+  border:1px solid var(--line);border-radius:7px;padding:2px 8px}
+.btchip.win{color:var(--buy);border-color:rgba(70,196,106,.35)}
 .badge{flex:none;width:26px;height:26px;display:grid;place-items:center;
   border-radius:8px;font-size:13px;font-weight:700}
 .badge.buy{color:var(--buy);background:rgba(70,196,106,.12);border:1px solid rgba(70,196,106,.3)}
@@ -357,6 +379,7 @@ def build_html(cfg: dict) -> tuple[str, dict]:
     analyses = R.apply_fundamentals(analyses, cfg,
                                     extra_codes=[h["code"] for h in holds])
     buys = analyses[:top]
+    R.attach_barrier_stats(buys, cfg)
 
     mk = market_map(cfg)
     buy_sub = "TECH × FUNDAMENTAL" if any(b.combined is not None for b in buys) else "BUY SIGNALS"
@@ -365,6 +388,17 @@ def build_html(cfg: dict) -> tuple[str, dict]:
     amap = {a.code: a for a in analyses}
     hold_section = ""
     if holds:
+        # 保有株の「利確勝率・想定保有日数」を日足から試算
+        try:
+            hframes = R.D.fetch_many([h["code"] for h in holds])
+        except Exception:
+            hframes = {}
+        for h in holds:
+            a = amap.get(h["code"])
+            if a is None:
+                continue
+            tgt, stp = _holding_levels(h, a, cfg)
+            a.bt = R.S.barrier_stats(hframes.get(h["code"]), a.price, tgt, stp)
         hc = "".join(_holding_card(h, amap.get(h["code"]), cfg) for h in holds)
         hold_section = _section("保有銘柄", "MY HOLDINGS", hc, "watch")
 

@@ -40,11 +40,25 @@ def build_rankings(cfg: dict):
     analyses = analyze_universe(cfg)
     analyses = apply_fundamentals(analyses, cfg)
     buys = analyses[:top]
+    attach_barrier_stats(buys, cfg)
     if cfg.get("notify_sells", False):
         sells = sorted(analyses, key=lambda x: x.score)[:int(cfg.get("top_n", 5))]
     else:
         sells = []
     return buys, sells, len(analyses)
+
+
+def attach_barrier_stats(items: list, cfg: dict) -> None:
+    """各銘柄に利確勝率・想定保有日数（バリア試算）を付与。現在値→各自の利確/損切で判定。"""
+    targets = [a for a in items if a.target and a.stop]
+    if not targets:
+        return
+    try:
+        frames = D.fetch_many([a.code for a in targets])
+    except Exception:
+        frames = {}
+    for a in targets:
+        a.bt = S.barrier_stats(frames.get(a.code), a.price, a.target, a.stop)
 
 
 # ---------- テクニカル × ファンダ 複合ランキング ----------
@@ -205,6 +219,11 @@ def format_ranking(buys, sells, total: int, date_str: str) -> str:
             if a.fund.get("divy") is not None: fp.append(f"利回り{a.fund['divy']:.1f}%")
             if fp:
                 lines.append("   " + " ".join(fp))
+        if a.bt:
+            bp = [f"勝率{a.bt['win_rate']}%"]
+            if a.bt.get("days_tp"): bp.append(f"利確~{a.bt['days_tp']}日")
+            if a.bt.get("days_sl"): bp.append(f"損切~{a.bt['days_sl']}日")
+            lines.append("   " + " ".join(bp))
         if a.reasons:
             lines.append(f"   {' / '.join(a.reasons[:2])}")
     if sells:
