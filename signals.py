@@ -43,6 +43,7 @@ class Analysis:
     error: Optional[str] = None
     fund: Optional[dict] = None        # ファンダ指標(PER/PBR/ROE/利回り/増益率/スコア)
     combined: Optional[float] = None   # テク×ファンダ複合スコア(0〜100)
+    bt: Optional[dict] = None          # バリア試算(勝率/想定保有日数)
 
 
 def _clip(x: float) -> float:
@@ -217,3 +218,55 @@ def analyze(
         entry=entry, stop=stop, target=target, rr=rr, atr=round(atr_now, 2),
         reasons=reasons[:5], factors={k: round(v, 2) for k, v in f.items()},
     )
+
+
+def barrier_stats(df, entry: float, target: float, stop: float,
+                  horizon: int = 60, lookback: int = 480) -> dict | None:
+    """トリプルバリア法で「利確勝率」と「想定保有日数」を過去データから試算。
+
+    現在値(entry)から見た 利確(target)/損切(stop) と同じ上下率の壁を、過去の各日を
+    擬似エントリーとして当て、どちらに先に当たったか・何営業日かかったかを集計する。
+    返す: {win_rate, days_tp, days_sl, n}（%・営業日）。算出不可なら None。
+    あくまで過去ボラからの目安（将来を保証しない）。
+    """
+    if df is None or entry <= 0 or target <= entry or stop <= 0 or stop >= entry:
+        return None
+    up = target / entry - 1.0       # 利確までの上昇率
+    dn = 1.0 - stop / entry         # 損切までの下落率
+    if up <= 0 or dn <= 0:
+        return None
+    try:
+        hi = df["High"].to_numpy(dtype="float64")
+        lo = df["Low"].to_numpy(dtype="float64")
+        cl = df["Close"].to_numpy(dtype="float64")
+    except Exception:
+        return None
+    n = len(cl)
+    if n < 80:
+        return None
+    start = max(0, n - lookback)
+    win_days, loss_days = [], []
+    last = n - 1
+    for i in range(start, last):
+        e = cl[i]
+        if e <= 0:
+            continue
+        tp = e * (1 + up)
+        sl = e * (1 - dn)
+        end = min(i + horizon, last)
+        for j in range(i + 1, end + 1):
+            if lo[j] <= sl:            # 同日に両方なら損切優先（保守的）
+                loss_days.append(j - i)
+                break
+            if hi[j] >= tp:
+                win_days.append(j - i)
+                break
+    wins, losses = len(win_days), len(loss_days)
+    if wins + losses < 15:             # サンプル不足
+        return None
+    return {
+        "win_rate": round(100 * wins / (wins + losses)),
+        "days_tp": round(sum(win_days) / wins) if wins else None,
+        "days_sl": round(sum(loss_days) / losses) if losses else None,
+        "n": wins + losses,
+    }
