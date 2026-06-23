@@ -1,102 +1,60 @@
 {
-  "generated": "2026.06.23 15:14",
+  "generated": "2026.06.23 17:43",
   "total": 3718,
   "buys": [
     {
-      "code": "6245",
-      "name": "ヒラノテクシード",
-      "price": 1952.0,
-      "score": 75.2,
-      "signal": "HOLD",
-      "confidence": 75,
-      "entry": 1952.0,
-      "stop": 1661.1,
-      "target": 2352.0,
-      "rr": 1.38,
-      "atr": 145.44,
-      "reasons": [
-        "中期上昇トレンド（EMA25>EMA75）",
-        "指数より強い（相対力プラス）",
-        "値幅制限内に調整"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 0.61,
-        "meanrev": 0.18,
-        "volume": 0.74,
-        "relstr": 1.0
-      },
-      "error": null,
-      "fund": {
-        "per": 18.4,
-        "pbr": 0.77,
-        "roe": 4.1,
-        "eqr": 66.4,
-        "divy": 4.3,
-        "growth": 76.8,
-        "score": 72.0
-      },
-      "combined": 88.9,
-      "bt": {
-        "win_rate": 78,
-        "days_tp": 31,
-        "days_sl": 23,
-        "n": 99
-      }
-    },
-    {
       "code": "6977",
       "name": "日本抵抗器製作所",
-      "price": 1255.0,
-      "score": 73.9,
+      "price": 1200.0,
+      "score": 76.2,
       "signal": "HOLD",
-      "confidence": 73,
-      "entry": 1255.0,
-      "stop": 1094.8,
-      "target": 1495.3,
+      "confidence": 76,
+      "entry": 1200.0,
+      "stop": 1036.2,
+      "target": 1445.7,
       "rr": 1.5,
-      "atr": 80.1,
+      "atr": 81.88,
       "reasons": [
         "中期上昇トレンド（EMA25>EMA75）",
         "指数より強い（相対力プラス）"
       ],
       "factors": {
         "trend": 1.0,
-        "momentum": 0.66,
-        "meanrev": -0.11,
-        "volume": 0.9,
-        "relstr": 1.0
+        "momentum": 0.61,
+        "meanrev": 0.23,
+        "volume": 0.86,
+        "relstr": 0.94
       },
       "error": null,
       "fund": {
         "per": null,
-        "pbr": 1.33,
+        "pbr": 1.27,
         "roe": -5.4,
         "eqr": 16.2,
-        "divy": 2.39,
+        "divy": 2.5,
         "growth": 76.1,
-        "score": 46.0
+        "score": 50.0
       },
-      "combined": 62.6,
+      "combined": 79.8,
       "bt": {
-        "win_rate": 90,
+        "win_rate": 93,
         "days_tp": 32,
-        "days_sl": 10,
-        "n": 142
+        "days_sl": 8,
+        "n": 136
       }
     },
     {
       "code": "6997",
       "name": "日本ケミコン",
-      "price": 5410.0,
+      "price": 5340.0,
       "score": 72.9,
       "signal": "HOLD",
       "confidence": 72,
-      "entry": 5410.0,
-      "stop": 4410.0,
-      "target": 6410.0,
+      "entry": 5340.0,
+      "stop": 4340.0,
+      "target": 6340.0,
       "rr": 1.0,
-      "atr": 541.76,
+      "atr": 543.18,
       "reasons": [
         "中期上昇トレンド（EMA25>EMA75）",
         "指数より強い（相対力プラス）",
@@ -105,164 +63,38 @@
       "factors": {
         "trend": 1.0,
         "momentum": 1.0,
-        "meanrev": -0.49,
-        "volume": 0.53,
+        "meanrev": -0.44,
+        "volume": 0.44,
         "relstr": 1.0
       },
       "error": null,
       "fund": {
-        "per": 40.2,
-        "pbr": 2.84,
+        "per": 39.7,
+        "pbr": 2.81,
         "roe": 5.2,
         "eqr": 35.1,
         "divy": 0.37,
         "growth": 8008.1,
-        "score": 45.0
+        "score": 54.0
       },
-      "combined": 50.0,
+      "combined": 49.5,
       "bt": {
         "win_rate": 76,
         "days_tp": 20,
-        "days_sl": 19,
-        "n": 239
-      }
-    },
-    {
-      "code": "4889",
-      "name": "レナサイエンス",
-      "price": 1689.0,
-      "score": 73.8,
-      "signal": "BUY",
-      "confidence": 93,
-      "entry": 1689.0,
-      "stop": 1431.3,
-      "target": 2075.6,
-      "rr": 1.5,
-      "atr": 128.86,
-      "reasons": [
-        "ゴールデンクロス発生",
-        "中期上昇トレンド（EMA25>EMA75）",
-        "指数より強い（相対力プラス）"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -0.42,
-        "volume": 0.51,
-        "relstr": 1.0
-      },
-      "error": null,
-      "fund": {
-        "per": null,
-        "pbr": 12.48,
-        "roe": -14.3,
-        "eqr": 94.2,
-        "divy": 0.0,
-        "growth": -405.3,
-        "score": 16.0
-      },
-      "combined": 49.1,
-      "bt": {
-        "win_rate": 31,
-        "days_tp": 12,
-        "days_sl": 15,
-        "n": 228
-      }
-    },
-    {
-      "code": "3891",
-      "name": "ニッポン高度紙工業",
-      "price": 9610.0,
-      "score": 72.6,
-      "signal": "HOLD",
-      "confidence": 72,
-      "entry": 9610.0,
-      "stop": 8110.0,
-      "target": 11110.0,
-      "rr": 1.0,
-      "atr": 878.54,
-      "reasons": [
-        "中期上昇トレンド（EMA25>EMA75）",
-        "指数より強い（相対力プラス）",
-        "値幅制限内に調整"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -0.31,
-        "volume": 0.22,
-        "relstr": 1.0
-      },
-      "error": null,
-      "fund": {
-        "per": 48.2,
-        "pbr": 4.24,
-        "roe": 8.3,
-        "eqr": 70.3,
-        "divy": 0.83,
-        "growth": 17.9,
-        "score": 42.0
-      },
-      "combined": 45.2,
-      "bt": {
-        "win_rate": 91,
-        "days_tp": 19,
-        "days_sl": 12,
-        "n": 239
-      }
-    },
-    {
-      "code": "2334",
-      "name": "イオレ",
-      "price": 612.0,
-      "score": 73.2,
-      "signal": "HOLD",
-      "confidence": 73,
-      "entry": 612.0,
-      "stop": 512.0,
-      "target": 712.0,
-      "rr": 1.0,
-      "atr": 59.81,
-      "reasons": [
-        "中期上昇トレンド（EMA25>EMA75）",
-        "指数より強い（相対力プラス）",
-        "値幅制限内に調整"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -0.31,
-        "volume": 0.28,
-        "relstr": 1.0
-      },
-      "error": null,
-      "fund": {
-        "per": null,
-        "pbr": 5.28,
-        "roe": -17.4,
-        "eqr": 46.4,
-        "divy": 0.0,
-        "growth": -2.4,
-        "score": 17.0
-      },
-      "combined": 42.2,
-      "bt": {
-        "win_rate": 76,
-        "days_tp": 16,
-        "days_sl": 13,
-        "n": 206
+        "days_sl": 20,
+        "n": 237
       }
     },
     {
       "code": "5367",
       "name": "ニッカトー",
-      "price": 1671.0,
+      "price": 1662.0,
       "score": 71.7,
       "signal": "HOLD",
       "confidence": 71,
-      "entry": 1671.0,
-      "stop": 1286.0,
-      "target": 2071.0,
+      "entry": 1662.0,
+      "stop": 1277.0,
+      "target": 2062.0,
       "rr": 1.04,
       "atr": 192.51,
       "reasons": [
@@ -273,21 +105,21 @@
       "factors": {
         "trend": 1.0,
         "momentum": 1.0,
-        "meanrev": -0.68,
-        "volume": 0.69,
+        "meanrev": -0.66,
+        "volume": 0.67,
         "relstr": 1.0
       },
       "error": null,
       "fund": {
-        "per": 28.3,
-        "pbr": 1.44,
+        "per": 28.1,
+        "pbr": 1.43,
         "roe": 5.1,
         "eqr": 76.2,
         "divy": 1.26,
         "growth": 40.1,
-        "score": 58.0
+        "score": 64.0
       },
-      "combined": 40.3,
+      "combined": 42.0,
       "bt": {
         "win_rate": 99,
         "days_tp": 28,
@@ -296,99 +128,102 @@
       }
     },
     {
-      "code": "6498",
-      "name": "キッツ",
-      "price": 2580.0,
-      "score": 70.9,
-      "signal": "HOLD",
-      "confidence": 70,
-      "entry": 2580.0,
-      "stop": 2357.3,
-      "target": 2914.0,
-      "rr": 1.5,
-      "atr": 111.34,
+      "code": "6999",
+      "name": "ＫＯＡ",
+      "price": 2908.0,
+      "score": 71.6,
+      "signal": "BUY",
+      "confidence": 91,
+      "entry": 2908.0,
+      "stop": 2520.8,
+      "target": 3408.0,
+      "rr": 1.29,
+      "atr": 193.61,
       "reasons": [
+        "ゴールデンクロス発生",
         "中期上昇トレンド（EMA25>EMA75）",
-        "指数より強い（相対力プラス）"
+        "指数より強い（相対力プラス）",
+        "値幅制限内に調整"
       ],
       "factors": {
         "trend": 1.0,
         "momentum": 1.0,
-        "meanrev": -0.56,
-        "volume": 0.43,
+        "meanrev": -0.4,
+        "volume": 0.26,
         "relstr": 1.0
       },
       "error": null,
       "fund": {
-        "per": 20.0,
-        "pbr": 1.9,
-        "roe": 9.3,
-        "eqr": 64.1,
-        "divy": 1.86,
-        "growth": -2.3,
-        "score": 70.0
+        "per": 31.7,
+        "pbr": 1.27,
+        "roe": 4.0,
+        "eqr": 57.2,
+        "divy": 1.03,
+        "growth": 1211.5,
+        "score": 62.0
       },
-      "combined": 35.2,
+      "combined": 40.3,
       "bt": {
-        "win_rate": 75,
-        "days_tp": 18,
-        "days_sl": 9,
-        "n": 219
+        "win_rate": 87,
+        "days_tp": 22,
+        "days_sl": 6,
+        "n": 238
       }
     },
     {
       "code": "6981",
       "name": "村田製作所",
-      "price": 11275.0,
-      "score": 71.8,
+      "price": 11005.0,
+      "score": 72.2,
       "signal": "HOLD",
-      "confidence": 71,
-      "entry": 11275.0,
-      "stop": 9279.7,
-      "target": 14267.9,
-      "rr": 1.5,
-      "atr": 997.63,
+      "confidence": 72,
+      "entry": 11005.0,
+      "stop": 8979.0,
+      "target": 14005.0,
+      "rr": 1.48,
+      "atr": 1012.98,
       "reasons": [
         "中期上昇トレンド（EMA25>EMA75）",
-        "指数より強い（相対力プラス）"
+        "指数より強い（相対力プラス）",
+        "値幅制限内に調整"
       ],
       "factors": {
         "trend": 1.0,
         "momentum": 1.0,
-        "meanrev": -0.53,
-        "volume": 0.47,
+        "meanrev": -0.43,
+        "volume": 0.36,
         "relstr": 1.0
       },
       "error": null,
       "fund": {
-        "per": 93.3,
-        "pbr": 7.85,
+        "per": 91.1,
+        "pbr": 7.66,
         "roe": 8.4,
         "eqr": 84.6,
-        "divy": 0.53,
+        "divy": 0.55,
         "growth": -5.9,
-        "score": 36.0
+        "score": 42.0
       },
-      "combined": 32.9,
+      "combined": 38.0,
       "bt": {
-        "win_rate": 95,
-        "days_tp": 29,
-        "days_sl": 15,
-        "n": 206
+        "win_rate": 97,
+        "days_tp": 30,
+        "days_sl": 7,
+        "n": 199
       }
     },
     {
       "code": "6837",
       "name": "京写",
-      "price": 385.0,
-      "score": 71.6,
+      "price": 383.0,
+      "score": 72.0,
       "signal": "HOLD",
-      "confidence": 71,
-      "entry": 385.0,
-      "stop": 340.9,
-      "target": 451.2,
+      "confidence": 72,
+      "entry": 383.0,
+      "stop": 338.6,
+      "target": 449.6,
       "rr": 1.5,
-      "atr": 22.05,
+      "atr": 22.19,
       "reasons": [
         "中期上昇トレンド（EMA25>EMA75）",
         "指数より強い（相対力プラス）"
@@ -396,9 +231,9 @@
       "factors": {
         "trend": 1.0,
         "momentum": 1.0,
-        "meanrev": -0.57,
-        "volume": 0.78,
-        "relstr": 0.86
+        "meanrev": -0.52,
+        "volume": 0.74,
+        "relstr": 0.87
       },
       "error": null,
       "fund": {
@@ -406,16 +241,185 @@
         "pbr": 0.57,
         "roe": -0.6,
         "eqr": 39.0,
-        "divy": 1.3,
+        "divy": 1.31,
         "growth": -109.8,
-        "score": 39.0
+        "score": 42.0
       },
-      "combined": 31.5,
+      "combined": 36.1,
       "bt": {
         "win_rate": 42,
         "days_tp": 29,
         "days_sl": 26,
         "n": 155
+      }
+    },
+    {
+      "code": "3891",
+      "name": "ニッポン高度紙工業",
+      "price": 9590.0,
+      "score": 71.6,
+      "signal": "HOLD",
+      "confidence": 71,
+      "entry": 9590.0,
+      "stop": 8090.0,
+      "target": 11090.0,
+      "rr": 1.0,
+      "atr": 878.54,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "指数より強い（相対力プラス）",
+        "値幅制限内に調整"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -0.3,
+        "volume": 0.11,
+        "relstr": 1.0
+      },
+      "error": null,
+      "fund": {
+        "per": 48.1,
+        "pbr": 4.23,
+        "roe": 8.3,
+        "eqr": 70.3,
+        "divy": 0.83,
+        "growth": 17.9,
+        "score": 50.0
+      },
+      "combined": 35.5,
+      "bt": {
+        "win_rate": 91,
+        "days_tp": 19,
+        "days_sl": 12,
+        "n": 239
+      }
+    },
+    {
+      "code": "6941",
+      "name": "山一電機",
+      "price": 10170.0,
+      "score": 70.3,
+      "signal": "HOLD",
+      "confidence": 70,
+      "entry": 10170.0,
+      "stop": 8691.6,
+      "target": 12387.6,
+      "rr": 1.5,
+      "atr": 739.21,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -0.41,
+        "volume": 0.15,
+        "relstr": 1.0
+      },
+      "error": null,
+      "fund": {
+        "per": 23.3,
+        "pbr": 4.25,
+        "roe": 18.2,
+        "eqr": 75.5,
+        "divy": 1.3,
+        "growth": 53.6,
+        "score": 77.0
+      },
+      "combined": 33.8,
+      "bt": {
+        "win_rate": 81,
+        "days_tp": 24,
+        "days_sl": 12,
+        "n": 237
+      }
+    },
+    {
+      "code": "6994",
+      "name": "指月電機製作所",
+      "price": 1400.0,
+      "score": 70.0,
+      "signal": "HOLD",
+      "confidence": 70,
+      "entry": 1400.0,
+      "stop": 1161.4,
+      "target": 1700.0,
+      "rr": 1.26,
+      "atr": 119.29,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "上バンド接近（過熱）",
+        "出来高急増（平均比 2.5倍）",
+        "指数より強い（相対力プラス）",
+        "値幅制限内に調整"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -1.0,
+        "volume": 1.0,
+        "relstr": 1.0
+      },
+      "error": null,
+      "fund": {
+        "per": 19.6,
+        "pbr": 1.43,
+        "roe": 7.2,
+        "eqr": 61.8,
+        "divy": 1.5,
+        "growth": 50.8,
+        "score": 74.0
+      },
+      "combined": 29.4,
+      "bt": {
+        "win_rate": 90,
+        "days_tp": 23,
+        "days_sl": 9,
+        "n": 241
+      }
+    },
+    {
+      "code": "6323",
+      "name": "ローツェ",
+      "price": 4580.0,
+      "score": 70.3,
+      "signal": "HOLD",
+      "confidence": 70,
+      "entry": 4580.0,
+      "stop": 4006.3,
+      "target": 5280.0,
+      "rr": 1.22,
+      "atr": 286.83,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "指数より強い（相対力プラス）",
+        "値幅制限内に調整"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -0.44,
+        "volume": 0.19,
+        "relstr": 1.0
+      },
+      "error": null,
+      "fund": {
+        "per": 41.9,
+        "pbr": 6.85,
+        "roe": 14.2,
+        "eqr": 68.2,
+        "divy": 0.37,
+        "growth": -19.4,
+        "score": 49.0
+      },
+      "combined": 22.6,
+      "bt": {
+        "win_rate": 54,
+        "days_tp": 13,
+        "days_sl": 18,
+        "n": 238
       }
     }
   ]
