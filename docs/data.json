@@ -1,17 +1,17 @@
 {
-  "generated": "2026.06.24 15:12",
-  "total": 3717,
+  "generated": "2026.06.24 17:39",
+  "total": 3718,
   "buys": [
     {
       "code": "4022",
       "name": "ラサ工業",
-      "price": 2288.0,
-      "score": 74.6,
+      "price": 2263.0,
+      "score": 74.4,
       "signal": "HOLD",
       "confidence": 74,
-      "entry": 2288.0,
-      "stop": 1876.2,
-      "target": 2788.0,
+      "entry": 2263.0,
+      "stop": 1851.2,
+      "target": 2763.0,
       "rr": 1.21,
       "atr": 205.89,
       "reasons": [
@@ -22,79 +22,80 @@
       "factors": {
         "trend": 1.0,
         "momentum": 1.0,
-        "meanrev": -0.23,
-        "volume": 0.3,
+        "meanrev": -0.18,
+        "volume": 0.2,
         "relstr": 1.0
       },
       "error": null,
       "fund": {
-        "per": 4.3,
-        "pbr": 0.64,
+        "per": 4.2,
+        "pbr": 0.63,
         "roe": 13.9,
         "eqr": 62.9,
-        "divy": 7.43,
+        "divy": 7.51,
         "growth": 34.1,
-        "score": 82.0
+        "score": 86.0
       },
-      "combined": 92.7,
+      "combined": 94.3,
       "bt": {
         "win_rate": 88,
         "days_tp": 26,
         "days_sl": 9,
-        "n": 220
+        "n": 219
       }
     },
     {
-      "code": "6806",
-      "name": "ヒロセ電機",
-      "price": 28900.0,
-      "score": 74.3,
+      "code": "7256",
+      "name": "河西工業",
+      "price": 453.0,
+      "score": 72.5,
       "signal": "HOLD",
-      "confidence": 74,
-      "entry": 28900.0,
-      "stop": 26456.8,
-      "target": 32564.8,
-      "rr": 1.5,
-      "atr": 1221.61,
+      "confidence": 72,
+      "entry": 453.0,
+      "stop": 374.5,
+      "target": 533.0,
+      "rr": 1.02,
+      "atr": 39.25,
       "reasons": [
         "中期上昇トレンド（EMA25>EMA75）",
-        "指数より強い（相対力プラス）"
+        "指数より強い（相対力プラス）",
+        "値幅制限内に調整"
       ],
       "factors": {
         "trend": 1.0,
         "momentum": 1.0,
-        "meanrev": -0.25,
-        "volume": 0.31,
+        "meanrev": -0.55,
+        "volume": 0.57,
         "relstr": 1.0
       },
       "error": null,
       "fund": {
-        "per": 31.7,
-        "pbr": 2.64,
-        "roe": 8.1,
-        "eqr": 88.3,
-        "divy": 1.7,
-        "growth": -7.7,
-        "score": 54.0
+        "per": 30.2,
+        "pbr": 2.79,
+        "roe": 5.3,
+        "eqr": 6.9,
+        "divy": 0.0,
+        "growth": 110.9,
+        "score": 34.0
       },
-      "combined": 78.8,
+      "combined": 50.3,
       "bt": {
-        "win_rate": 85,
-        "days_tp": 26,
-        "days_sl": 18,
-        "n": 232
+        "win_rate": 68,
+        "days_tp": 12,
+        "days_sl": 15,
+        "n": 238
       }
     },
     {
       "code": "6941",
       "name": "山一電機",
-      "price": 9980.0,
-      "score": 72.8,
+      "price": 9930.0,
+      "score": 71.2,
       "signal": "HOLD",
-      "confidence": 72,
-      "entry": 9980.0,
-      "stop": 8480.0,
-      "target": 11480.0,
+      "confidence": 71,
+      "entry": 9930.0,
+      "stop": 8430.0,
+      "target": 11430.0,
       "rr": 1.0,
       "atr": 757.13,
       "reasons": [
@@ -105,80 +106,79 @@
       "factors": {
         "trend": 1.0,
         "momentum": 1.0,
-        "meanrev": -0.25,
-        "volume": 0.28,
-        "relstr": 0.94
+        "meanrev": -0.21,
+        "volume": 0.15,
+        "relstr": 0.89
       },
       "error": null,
       "fund": {
-        "per": 22.8,
-        "pbr": 4.17,
+        "per": 22.7,
+        "pbr": 4.15,
         "roe": 18.2,
         "eqr": 75.5,
-        "divy": 1.32,
+        "divy": 1.33,
         "growth": 53.6,
-        "score": 68.0
+        "score": 69.0
       },
-      "combined": 71.4,
+      "combined": 48.5,
       "bt": {
         "win_rate": 82,
-        "days_tp": 18,
+        "days_tp": 19,
         "days_sl": 12,
         "n": 238
       }
     },
     {
-      "code": "7256",
-      "name": "河西工業",
-      "price": 458.0,
-      "score": 72.7,
+      "code": "6806",
+      "name": "ヒロセ電機",
+      "price": 28850.0,
+      "score": 71.3,
       "signal": "HOLD",
-      "confidence": 72,
-      "entry": 458.0,
-      "stop": 380.6,
-      "target": 538.0,
-      "rr": 1.03,
-      "atr": 38.68,
+      "confidence": 71,
+      "entry": 28850.0,
+      "stop": 26406.8,
+      "target": 32514.8,
+      "rr": 1.5,
+      "atr": 1221.61,
       "reasons": [
         "中期上昇トレンド（EMA25>EMA75）",
-        "指数より強い（相対力プラス）",
-        "値幅制限内に調整"
+        "指数より強い（相対力プラス）"
       ],
       "factors": {
         "trend": 1.0,
         "momentum": 1.0,
-        "meanrev": -0.59,
-        "volume": 0.66,
+        "meanrev": -0.23,
+        "volume": -0.02,
         "relstr": 1.0
       },
       "error": null,
       "fund": {
-        "per": 30.6,
-        "pbr": 2.82,
-        "roe": 5.3,
-        "eqr": 6.9,
-        "divy": 0.0,
-        "growth": 110.9,
-        "score": 35.0
+        "per": 31.7,
+        "pbr": 2.64,
+        "roe": 8.1,
+        "eqr": 88.3,
+        "divy": 1.7,
+        "growth": -7.7,
+        "score": 50.0
       },
-      "combined": 57.4,
+      "combined": 42.2,
       "bt": {
-        "win_rate": 68,
-        "days_tp": 12,
-        "days_sl": 15,
-        "n": 238
+        "win_rate": 85,
+        "days_tp": 26,
+        "days_sl": 18,
+        "n": 231
       }
     },
     {
       "code": "4667",
       "name": "アイサンテクノロジー",
-      "price": 2008.0,
-      "score": 70.6,
+      "price": 1996.0,
+      "score": 70.7,
       "signal": "BUY",
       "confidence": 90,
-      "entry": 2008.0,
-      "stop": 1771.4,
-      "target": 2362.9,
+      "entry": 1996.0,
+      "stop": 1759.4,
+      "target": 2350.9,
       "rr": 1.5,
       "atr": 118.3,
       "reasons": [
@@ -189,38 +189,81 @@
       "factors": {
         "trend": 1.0,
         "momentum": 1.0,
-        "meanrev": -0.69,
-        "volume": 0.59,
+        "meanrev": -0.66,
+        "volume": 0.56,
         "relstr": 1.0
       },
       "error": null,
       "fund": {
-        "per": 28.3,
-        "pbr": 1.7,
+        "per": 28.2,
+        "pbr": 1.69,
         "roe": 6.0,
         "eqr": 75.1,
-        "divy": 1.74,
+        "divy": 1.75,
         "growth": 33.6,
-        "score": 59.0
+        "score": 56.0
       },
-      "combined": 48.1,
+      "combined": 37.0,
       "bt": {
         "win_rate": 67,
         "days_tp": 25,
         "days_sl": 22,
-        "n": 232
+        "n": 231
+      }
+    },
+    {
+      "code": "7717",
+      "name": "ブイ・テクノロジー",
+      "price": 7990.0,
+      "score": 70.6,
+      "signal": "HOLD",
+      "confidence": 70,
+      "entry": 7990.0,
+      "stop": 6797.2,
+      "target": 9490.0,
+      "rr": 1.26,
+      "atr": 596.4,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "出来高急増（平均比 1.7倍）",
+        "指数より強い（相対力プラス）",
+        "値幅制限内に調整"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -0.73,
+        "volume": 0.66,
+        "relstr": 1.0
+      },
+      "error": null,
+      "fund": {
+        "per": 28.0,
+        "pbr": 2.25,
+        "roe": 7.8,
+        "eqr": 45.2,
+        "divy": 1.0,
+        "growth": 237.5,
+        "score": 59.0
+      },
+      "combined": 37.0,
+      "bt": {
+        "win_rate": 79,
+        "days_tp": 24,
+        "days_sl": 17,
+        "n": 239
       }
     },
     {
       "code": "6656",
       "name": "インスペック",
-      "price": 1218.0,
-      "score": 71.8,
+      "price": 1216.0,
+      "score": 71.4,
       "signal": "HOLD",
       "confidence": 71,
-      "entry": 1218.0,
-      "stop": 918.0,
-      "target": 1518.0,
+      "entry": 1216.0,
+      "stop": 916.0,
+      "target": 1516.0,
       "rr": 1.0,
       "atr": 155.71,
       "reasons": [
@@ -230,22 +273,22 @@
       ],
       "factors": {
         "trend": 1.0,
-        "momentum": 0.69,
+        "momentum": 0.68,
         "meanrev": -0.18,
-        "volume": 0.74,
+        "volume": 0.69,
         "relstr": 1.0
       },
       "error": null,
       "fund": {
-        "per": 81.4,
-        "pbr": 6.53,
+        "per": 81.2,
+        "pbr": 6.52,
         "roe": 7.8,
         "eqr": 15.0,
         "divy": 0.0,
         "growth": 142.3,
-        "score": 30.0
+        "score": 28.0
       },
-      "combined": 47.4,
+      "combined": 34.4,
       "bt": {
         "win_rate": 89,
         "days_tp": 25,
@@ -256,13 +299,13 @@
     {
       "code": "3687",
       "name": "フィックスターズ",
-      "price": 2585.0,
-      "score": 71.1,
+      "price": 2590.0,
+      "score": 70.6,
       "signal": "HOLD",
-      "confidence": 71,
-      "entry": 2585.0,
-      "stop": 2085.0,
-      "target": 3085.0,
+      "confidence": 70,
+      "entry": 2590.0,
+      "stop": 2090.0,
+      "target": 3090.0,
       "rr": 1.0,
       "atr": 324.29,
       "reasons": [
@@ -273,21 +316,21 @@
       "factors": {
         "trend": 1.0,
         "momentum": 0.64,
-        "meanrev": 0.09,
-        "volume": 0.37,
+        "meanrev": 0.08,
+        "volume": 0.33,
         "relstr": 1.0
       },
       "error": null,
       "fund": {
-        "per": 52.1,
-        "pbr": 10.26,
+        "per": 52.2,
+        "pbr": 10.28,
         "roe": 19.2,
         "eqr": 85.2,
-        "divy": 0.7,
+        "divy": 0.69,
         "growth": -17.7,
-        "score": 44.0
+        "score": 46.0
       },
-      "combined": 46.7,
+      "combined": 31.8,
       "bt": {
         "win_rate": 57,
         "days_tp": 18,
@@ -296,105 +339,23 @@
       }
     },
     {
-      "code": "6298",
-      "name": "ワイエイシイホールディングス",
-      "price": 1425.0,
-      "score": 69.4,
-      "signal": "HOLD",
-      "confidence": 69,
-      "entry": 1425.0,
-      "stop": 1250.9,
-      "target": 1686.1,
-      "rr": 1.5,
-      "atr": 87.04,
-      "reasons": [
-        "中期上昇トレンド（EMA25>EMA75）",
-        "指数より強い（相対力プラス）"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -0.23,
-        "volume": 0.49,
-        "relstr": 0.65
-      },
-      "error": null,
-      "fund": {
-        "per": 21.7,
-        "pbr": 1.56,
-        "roe": 7.2,
-        "eqr": 39.7,
-        "divy": 2.81,
-        "growth": 114.7,
-        "score": 66.0
-      },
-      "combined": 40.4,
-      "bt": {
-        "win_rate": 85,
-        "days_tp": 30,
-        "days_sl": 17,
-        "n": 185
-      }
-    },
-    {
-      "code": "5757",
-      "name": "ＣＫサンエツ",
-      "price": 5430.0,
-      "score": 69.7,
-      "signal": "HOLD",
-      "confidence": 69,
-      "entry": 5430.0,
-      "stop": 5015.3,
-      "target": 6052.1,
-      "rr": 1.5,
-      "atr": 207.37,
-      "reasons": [
-        "中期上昇トレンド（EMA25>EMA75）",
-        "指数より強い（相対力プラス）"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -0.63,
-        "volume": 0.49,
-        "relstr": 0.96
-      },
-      "error": null,
-      "fund": {
-        "per": 19.4,
-        "pbr": 0.88,
-        "roe": 3.9,
-        "eqr": 49.3,
-        "divy": 1.66,
-        "growth": -55.8,
-        "score": 52.0
-      },
-      "combined": 37.8,
-      "bt": {
-        "win_rate": 69,
-        "days_tp": 21,
-        "days_sl": 24,
-        "n": 222
-      }
-    },
-    {
-      "code": "6897",
-      "name": "ツインバード",
-      "price": 727.0,
+      "code": "6533",
+      "name": "Ｏｒｃｈｅｓｔｒａ　Ｈｏｌｄｉｎｇｓ",
+      "price": 1261.0,
       "score": 70.0,
       "signal": "BUY",
       "confidence": 90,
-      "entry": 727.0,
-      "stop": 665.2,
-      "target": 819.7,
+      "entry": 1261.0,
+      "stop": 1174.1,
+      "target": 1391.4,
       "rr": 1.5,
-      "atr": 30.91,
+      "atr": 43.47,
       "reasons": [
         "ゴールデンクロス発生",
         "中期上昇トレンド（EMA25>EMA75）",
-        "RSI 97（買われすぎ）",
+        "RSI 82（買われすぎ）",
         "上バンド接近（過熱）",
-        "出来高急増（平均比 16.8倍）"
+        "出来高急増（平均比 2.0倍）"
       ],
       "factors": {
         "trend": 1.0,
@@ -405,20 +366,64 @@
       },
       "error": null,
       "fund": {
-        "per": 77.4,
-        "pbr": 1.06,
-        "roe": 1.4,
-        "eqr": 66.3,
-        "divy": 1.79,
-        "growth": 199.0,
-        "score": 44.0
+        "per": 14.9,
+        "pbr": 1.83,
+        "roe": 11.4,
+        "eqr": 40.2,
+        "divy": 0.95,
+        "growth": -2.0,
+        "score": 64.0
       },
-      "combined": 37.1,
+      "combined": 31.6,
       "bt": {
-        "win_rate": 100,
-        "days_tp": 31,
-        "days_sl": null,
-        "n": 87
+        "win_rate": 66,
+        "days_tp": 21,
+        "days_sl": 15,
+        "n": 235
+      }
+    },
+    {
+      "code": "5695",
+      "name": "パウダーテック",
+      "price": 3100.0,
+      "score": 70.0,
+      "signal": "HOLD",
+      "confidence": 70,
+      "entry": 3100.0,
+      "stop": 2905.3,
+      "target": 3392.0,
+      "rr": 1.5,
+      "atr": 97.34,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "RSI 80（買われすぎ）",
+        "上バンド接近（過熱）",
+        "出来高急増（平均比 2.4倍）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -1.0,
+        "volume": 1.0,
+        "relstr": 1.0
+      },
+      "error": null,
+      "fund": {
+        "per": 30.0,
+        "pbr": 0.7,
+        "roe": 2.4,
+        "eqr": 80.3,
+        "divy": 3.23,
+        "growth": -5.7,
+        "score": 51.0
+      },
+      "combined": 26.7,
+      "bt": {
+        "win_rate": 92,
+        "days_tp": 29,
+        "days_sl": 9,
+        "n": 189
       }
     }
   ]
