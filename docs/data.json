@@ -1,5 +1,5 @@
 {
-  "generated": "2026.06.24 19:32",
+  "generated": "2026.06.25 08:43",
   "total": 3718,
   "buys": [
     {
@@ -36,7 +36,7 @@
         "growth": 34.1,
         "score": 86.0
       },
-      "combined": 94.3,
+      "combined": 94.4,
       "bt": {
         "win_rate": 88,
         "days_tp": 26,
@@ -45,17 +45,17 @@
       }
     },
     {
-      "code": "7256",
-      "name": "河西工業",
-      "price": 453.0,
-      "score": 72.5,
+      "code": "4174",
+      "name": "アピリッツ",
+      "price": 688.0,
+      "score": 74.3,
       "signal": "HOLD",
-      "confidence": 72,
-      "entry": 453.0,
-      "stop": 374.5,
-      "target": 533.0,
-      "rr": 1.02,
-      "atr": 39.25,
+      "confidence": 74,
+      "entry": 688.0,
+      "stop": 606.1,
+      "target": 788.0,
+      "rr": 1.22,
+      "atr": 40.95,
       "reasons": [
         "中期上昇トレンド（EMA25>EMA75）",
         "指数より強い（相対力プラス）",
@@ -64,35 +64,35 @@
       "factors": {
         "trend": 1.0,
         "momentum": 1.0,
-        "meanrev": -0.55,
-        "volume": 0.57,
-        "relstr": 1.0
+        "meanrev": -0.21,
+        "volume": 0.8,
+        "relstr": 0.72
       },
       "error": null,
       "fund": {
-        "per": 30.2,
-        "pbr": 2.79,
-        "roe": 5.3,
-        "eqr": 6.9,
-        "divy": 0.0,
-        "growth": 110.9,
-        "score": 34.0
+        "per": null,
+        "pbr": 1.56,
+        "roe": -25.0,
+        "eqr": 31.2,
+        "divy": 4.07,
+        "growth": 0.0,
+        "score": 39.0
       },
-      "combined": 50.3,
+      "combined": 74.3,
       "bt": {
-        "win_rate": 68,
-        "days_tp": 12,
-        "days_sl": 15,
-        "n": 238
+        "win_rate": 78,
+        "days_tp": 28,
+        "days_sl": 25,
+        "n": 83
       }
     },
     {
       "code": "6941",
       "name": "山一電機",
       "price": 9930.0,
-      "score": 71.2,
+      "score": 73.3,
       "signal": "HOLD",
-      "confidence": 71,
+      "confidence": 73,
       "entry": 9930.0,
       "stop": 8430.0,
       "target": 11430.0,
@@ -108,7 +108,7 @@
         "momentum": 1.0,
         "meanrev": -0.21,
         "volume": 0.15,
-        "relstr": 0.89
+        "relstr": 1.0
       },
       "error": null,
       "fund": {
@@ -118,14 +118,137 @@
         "eqr": 75.5,
         "divy": 1.33,
         "growth": 53.6,
-        "score": 69.0
+        "score": 70.0
       },
-      "combined": 48.5,
+      "combined": 72.8,
       "bt": {
         "win_rate": 82,
         "days_tp": 19,
         "days_sl": 12,
         "n": 238
+      }
+    },
+    {
+      "code": "4419",
+      "name": "Ｆｉｎａｔｅｘｔホールディングス",
+      "price": 1317.0,
+      "score": 74.1,
+      "signal": "HOLD",
+      "confidence": 74,
+      "entry": 1317.0,
+      "stop": 1156.3,
+      "target": 1558.0,
+      "rr": 1.5,
+      "atr": 80.35,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -0.37,
+        "volume": 0.51,
+        "relstr": 0.98
+      },
+      "error": null,
+      "fund": {
+        "per": 57.2,
+        "pbr": 7.55,
+        "roe": 11.3,
+        "eqr": 43.8,
+        "divy": 0.0,
+        "growth": 83.6,
+        "score": 40.0
+      },
+      "combined": 71.7,
+      "bt": {
+        "win_rate": 44,
+        "days_tp": 15,
+        "days_sl": 19,
+        "n": 222
+      }
+    },
+    {
+      "code": "5998",
+      "name": "アドバネクス",
+      "price": 3020.0,
+      "score": 72.7,
+      "signal": "HOLD",
+      "confidence": 72,
+      "entry": 3020.0,
+      "stop": 2619.7,
+      "target": 3620.5,
+      "rr": 1.5,
+      "atr": 200.17,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -0.24,
+        "volume": 0.12,
+        "relstr": 1.0
+      },
+      "error": null,
+      "fund": {
+        "per": 19.1,
+        "pbr": 1.53,
+        "roe": 6.7,
+        "eqr": 30.0,
+        "divy": 1.16,
+        "growth": 203.5,
+        "score": 67.0
+      },
+      "combined": 63.5,
+      "bt": {
+        "win_rate": 74,
+        "days_tp": 17,
+        "days_sl": 11,
+        "n": 239
+      }
+    },
+    {
+      "code": "4366",
+      "name": "ダイトーケミックス",
+      "price": 512.0,
+      "score": 71.3,
+      "signal": "HOLD",
+      "confidence": 71,
+      "entry": 512.0,
+      "stop": 450.1,
+      "target": 604.9,
+      "rr": 1.5,
+      "atr": 30.95,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 0.64,
+        "meanrev": 0.08,
+        "volume": 0.73,
+        "relstr": 0.84
+      },
+      "error": null,
+      "fund": {
+        "per": 21.4,
+        "pbr": 0.37,
+        "roe": 4.8,
+        "eqr": 55.9,
+        "divy": 1.56,
+        "growth": -6.1,
+        "score": 60.0
+      },
+      "combined": 41.9,
+      "bt": {
+        "win_rate": 64,
+        "days_tp": 17,
+        "days_sl": 16,
+        "n": 232
       }
     },
     {
@@ -159,14 +282,98 @@
         "eqr": 88.3,
         "divy": 1.7,
         "growth": -7.7,
-        "score": 50.0
+        "score": 54.0
       },
-      "combined": 42.2,
+      "combined": 39.4,
       "bt": {
         "win_rate": 85,
         "days_tp": 26,
         "days_sl": 18,
         "n": 231
+      }
+    },
+    {
+      "code": "7726",
+      "name": "黒田精工",
+      "price": 1436.0,
+      "score": 71.7,
+      "signal": "HOLD",
+      "confidence": 71,
+      "entry": 1436.0,
+      "stop": 1265.1,
+      "target": 1692.3,
+      "rr": 1.5,
+      "atr": 85.44,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -0.29,
+        "volume": 0.21,
+        "relstr": 0.95
+      },
+      "error": null,
+      "fund": {
+        "per": 63.2,
+        "pbr": 0.71,
+        "roe": 1.1,
+        "eqr": 38.0,
+        "divy": 1.39,
+        "growth": -24.4,
+        "score": 29.0
+      },
+      "combined": 34.7,
+      "bt": {
+        "win_rate": 89,
+        "days_tp": 27,
+        "days_sl": 12,
+        "n": 150
+      }
+    },
+    {
+      "code": "7717",
+      "name": "ブイ・テクノロジー",
+      "price": 7990.0,
+      "score": 70.6,
+      "signal": "HOLD",
+      "confidence": 70,
+      "entry": 7990.0,
+      "stop": 6797.2,
+      "target": 9490.0,
+      "rr": 1.26,
+      "atr": 596.4,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "出来高急増（平均比 1.7倍）",
+        "指数より強い（相対力プラス）",
+        "値幅制限内に調整"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -0.73,
+        "volume": 0.66,
+        "relstr": 1.0
+      },
+      "error": null,
+      "fund": {
+        "per": 28.0,
+        "pbr": 2.25,
+        "roe": 7.8,
+        "eqr": 45.2,
+        "divy": 1.0,
+        "growth": 237.5,
+        "score": 61.0
+      },
+      "combined": 32.8,
+      "bt": {
+        "win_rate": 79,
+        "days_tp": 24,
+        "days_sl": 17,
+        "n": 239
       }
     },
     {
@@ -203,227 +410,12 @@
         "growth": 33.6,
         "score": 56.0
       },
-      "combined": 37.0,
+      "combined": 31.9,
       "bt": {
         "win_rate": 67,
         "days_tp": 25,
         "days_sl": 22,
         "n": 231
-      }
-    },
-    {
-      "code": "7717",
-      "name": "ブイ・テクノロジー",
-      "price": 7990.0,
-      "score": 70.6,
-      "signal": "HOLD",
-      "confidence": 70,
-      "entry": 7990.0,
-      "stop": 6797.2,
-      "target": 9490.0,
-      "rr": 1.26,
-      "atr": 596.4,
-      "reasons": [
-        "中期上昇トレンド（EMA25>EMA75）",
-        "出来高急増（平均比 1.7倍）",
-        "指数より強い（相対力プラス）",
-        "値幅制限内に調整"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -0.73,
-        "volume": 0.66,
-        "relstr": 1.0
-      },
-      "error": null,
-      "fund": {
-        "per": 28.0,
-        "pbr": 2.25,
-        "roe": 7.8,
-        "eqr": 45.2,
-        "divy": 1.0,
-        "growth": 237.5,
-        "score": 59.0
-      },
-      "combined": 37.0,
-      "bt": {
-        "win_rate": 79,
-        "days_tp": 24,
-        "days_sl": 17,
-        "n": 239
-      }
-    },
-    {
-      "code": "6656",
-      "name": "インスペック",
-      "price": 1216.0,
-      "score": 71.4,
-      "signal": "HOLD",
-      "confidence": 71,
-      "entry": 1216.0,
-      "stop": 916.0,
-      "target": 1516.0,
-      "rr": 1.0,
-      "atr": 155.71,
-      "reasons": [
-        "中期上昇トレンド（EMA25>EMA75）",
-        "指数より強い（相対力プラス）",
-        "値幅制限内に調整"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 0.68,
-        "meanrev": -0.18,
-        "volume": 0.69,
-        "relstr": 1.0
-      },
-      "error": null,
-      "fund": {
-        "per": 81.2,
-        "pbr": 6.52,
-        "roe": 7.8,
-        "eqr": 15.0,
-        "divy": 0.0,
-        "growth": 142.3,
-        "score": 28.0
-      },
-      "combined": 34.4,
-      "bt": {
-        "win_rate": 89,
-        "days_tp": 25,
-        "days_sl": 38,
-        "n": 150
-      }
-    },
-    {
-      "code": "3687",
-      "name": "フィックスターズ",
-      "price": 2590.0,
-      "score": 70.6,
-      "signal": "HOLD",
-      "confidence": 70,
-      "entry": 2590.0,
-      "stop": 2090.0,
-      "target": 3090.0,
-      "rr": 1.0,
-      "atr": 324.29,
-      "reasons": [
-        "中期上昇トレンド（EMA25>EMA75）",
-        "指数より強い（相対力プラス）",
-        "値幅制限内に調整"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 0.64,
-        "meanrev": 0.08,
-        "volume": 0.33,
-        "relstr": 1.0
-      },
-      "error": null,
-      "fund": {
-        "per": 52.2,
-        "pbr": 10.28,
-        "roe": 19.2,
-        "eqr": 85.2,
-        "divy": 0.69,
-        "growth": -17.7,
-        "score": 46.0
-      },
-      "combined": 31.8,
-      "bt": {
-        "win_rate": 57,
-        "days_tp": 18,
-        "days_sl": 36,
-        "n": 166
-      }
-    },
-    {
-      "code": "6533",
-      "name": "Ｏｒｃｈｅｓｔｒａ　Ｈｏｌｄｉｎｇｓ",
-      "price": 1261.0,
-      "score": 70.0,
-      "signal": "BUY",
-      "confidence": 90,
-      "entry": 1261.0,
-      "stop": 1174.1,
-      "target": 1391.4,
-      "rr": 1.5,
-      "atr": 43.47,
-      "reasons": [
-        "ゴールデンクロス発生",
-        "中期上昇トレンド（EMA25>EMA75）",
-        "RSI 82（買われすぎ）",
-        "上バンド接近（過熱）",
-        "出来高急増（平均比 2.0倍）"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -1.0,
-        "volume": 1.0,
-        "relstr": 1.0
-      },
-      "error": null,
-      "fund": {
-        "per": 14.9,
-        "pbr": 1.83,
-        "roe": 11.4,
-        "eqr": 40.2,
-        "divy": 0.95,
-        "growth": -2.0,
-        "score": 64.0
-      },
-      "combined": 31.6,
-      "bt": {
-        "win_rate": 66,
-        "days_tp": 21,
-        "days_sl": 15,
-        "n": 235
-      }
-    },
-    {
-      "code": "5695",
-      "name": "パウダーテック",
-      "price": 3100.0,
-      "score": 70.0,
-      "signal": "HOLD",
-      "confidence": 70,
-      "entry": 3100.0,
-      "stop": 2905.3,
-      "target": 3392.0,
-      "rr": 1.5,
-      "atr": 97.34,
-      "reasons": [
-        "中期上昇トレンド（EMA25>EMA75）",
-        "RSI 80（買われすぎ）",
-        "上バンド接近（過熱）",
-        "出来高急増（平均比 2.4倍）",
-        "指数より強い（相対力プラス）"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -1.0,
-        "volume": 1.0,
-        "relstr": 1.0
-      },
-      "error": null,
-      "fund": {
-        "per": 30.0,
-        "pbr": 0.7,
-        "roe": 2.4,
-        "eqr": 80.3,
-        "divy": 3.23,
-        "growth": -5.7,
-        "score": 51.0
-      },
-      "combined": 26.7,
-      "bt": {
-        "win_rate": 92,
-        "days_tp": 29,
-        "days_sl": 9,
-        "n": 189
       }
     }
   ]
