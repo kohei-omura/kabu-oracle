@@ -1,48 +1,47 @@
 {
-  "generated": "2026.06.25 19:25",
+  "generated": "2026.06.26 08:53",
   "total": 3719,
   "buys": [
     {
-      "code": "6844",
-      "name": "新電元工業",
-      "price": 4180.0,
-      "score": 70.0,
-      "signal": "HOLD",
-      "confidence": 70,
-      "entry": 4180.0,
-      "stop": 3738.7,
-      "target": 4842.0,
+      "code": "325A",
+      "name": "ＴＥＮＴＩＡＬ",
+      "price": 4105.0,
+      "score": 69.2,
+      "signal": "BUY",
+      "confidence": 89,
+      "entry": 4105.0,
+      "stop": 3751.1,
+      "target": 4635.8,
       "rr": 1.5,
-      "atr": 220.66,
+      "atr": 176.94,
       "reasons": [
+        "ゴールデンクロス発生",
         "中期上昇トレンド（EMA25>EMA75）",
-        "上バンド接近（過熱）",
-        "出来高急増（平均比 2.0倍）",
         "指数より強い（相対力プラス）"
       ],
       "factors": {
         "trend": 1.0,
         "momentum": 1.0,
-        "meanrev": -1.0,
-        "volume": 1.0,
+        "meanrev": -0.7,
+        "volume": 0.48,
         "relstr": 1.0
       },
       "error": null,
       "fund": {
-        "per": 9.0,
-        "pbr": 0.65,
-        "roe": 6.9,
-        "eqr": 47.2,
-        "divy": 2.39,
-        "growth": 297.0,
-        "score": 79.0
+        "per": 15.2,
+        "pbr": 6.68,
+        "roe": 45.1,
+        "eqr": 45.5,
+        "divy": 0.0,
+        "growth": 151.4,
+        "score": 68.0
       },
-      "combined": 88.7,
+      "combined": 76.3,
       "bt": {
-        "win_rate": 62,
-        "days_tp": 23,
-        "days_sl": 15,
-        "n": 205
+        "win_rate": 50,
+        "days_tp": 15,
+        "days_sl": 8,
+        "n": 232
       }
     },
     {
@@ -77,9 +76,9 @@
         "eqr": 61.5,
         "divy": 0.0,
         "growth": 135.7,
-        "score": 34.0
+        "score": 36.0
       },
-      "combined": 73.5,
+      "combined": 74.5,
       "bt": {
         "win_rate": 84,
         "days_tp": 24,
@@ -165,14 +164,14 @@
         "eqr": 20.1,
         "divy": 0.97,
         "growth": -47.8,
-        "score": 30.0
+        "score": 32.0
       },
-      "combined": 69.3,
+      "combined": 69.7,
       "bt": {
         "win_rate": 42,
         "days_tp": 25,
-        "days_sl": 18,
-        "n": 112
+        "days_sl": 17,
+        "n": 111
       }
     },
     {
@@ -207,9 +206,9 @@
         "eqr": 56.8,
         "divy": 3.76,
         "growth": -19.9,
-        "score": 70.0
+        "score": 75.0
       },
-      "combined": 64.9,
+      "combined": 65.9,
       "bt": {
         "win_rate": 98,
         "days_tp": 27,
@@ -251,9 +250,9 @@
         "eqr": 27.3,
         "divy": 0.0,
         "growth": 101.0,
-        "score": 19.0
+        "score": 20.0
       },
-      "combined": 64.5,
+      "combined": 65.1,
       "bt": {
         "win_rate": 82,
         "days_tp": 16,
@@ -295,14 +294,55 @@
         "eqr": 35.7,
         "divy": 1.31,
         "growth": -126.6,
-        "score": 26.0
+        "score": 28.0
       },
-      "combined": 63.5,
+      "combined": 64.2,
       "bt": {
         "win_rate": 80,
         "days_tp": 17,
         "days_sl": 8,
-        "n": 241
+        "n": 240
+      }
+    },
+    {
+      "code": "6674",
+      "name": "ジーエス・ユアサ　コーポレーション",
+      "price": 7129.0,
+      "score": 67.8,
+      "signal": "HOLD",
+      "confidence": 67,
+      "entry": 7129.0,
+      "stop": 6340.4,
+      "target": 8311.9,
+      "rr": 1.5,
+      "atr": 394.3,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -0.38,
+        "volume": 0.3,
+        "relstr": 0.78
+      },
+      "error": null,
+      "fund": {
+        "per": 19.9,
+        "pbr": 2.06,
+        "roe": 8.7,
+        "eqr": 51.5,
+        "divy": 1.26,
+        "growth": 18.4,
+        "score": 64.0
+      },
+      "combined": 60.8,
+      "bt": {
+        "win_rate": 86,
+        "days_tp": 21,
+        "days_sl": 18,
+        "n": 222
       }
     },
     {
@@ -339,14 +379,14 @@
         "eqr": 37.4,
         "divy": 1.6,
         "growth": 47.1,
-        "score": 60.0
+        "score": 61.0
       },
-      "combined": 57.8,
+      "combined": 57.6,
       "bt": {
         "win_rate": 80,
         "days_tp": 17,
         "days_sl": 6,
-        "n": 241
+        "n": 240
       }
     },
     {
@@ -383,58 +423,14 @@
         "eqr": 54.4,
         "divy": 1.39,
         "growth": 2.7,
-        "score": 34.0
+        "score": 40.0
       },
-      "combined": 53.2,
+      "combined": 55.0,
       "bt": {
-        "win_rate": 64,
+        "win_rate": 63,
         "days_tp": 15,
         "days_sl": 15,
-        "n": 236
-      }
-    },
-    {
-      "code": "4680",
-      "name": "ラウンドワン",
-      "price": 1173.0,
-      "score": 66.6,
-      "signal": "HOLD",
-      "confidence": 66,
-      "entry": 1173.0,
-      "stop": 1081.8,
-      "target": 1309.8,
-      "rr": 1.5,
-      "atr": 45.6,
-      "reasons": [
-        "中期上昇トレンド（EMA25>EMA75）",
-        "RSI 75（買われすぎ）",
-        "上バンド接近（過熱）",
-        "出来高急増（平均比 1.7倍）",
-        "指数より強い（相対力プラス）"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -1.0,
-        "volume": 0.66,
-        "relstr": 1.0
-      },
-      "error": null,
-      "fund": {
-        "per": 17.3,
-        "pbr": 4.62,
-        "roe": 23.0,
-        "eqr": 26.5,
-        "divy": 1.53,
-        "growth": 15.8,
-        "score": 64.0
-      },
-      "combined": 49.7,
-      "bt": {
-        "win_rate": 29,
-        "days_tp": 14,
-        "days_sl": 14,
-        "n": 241
+        "n": 235
       }
     }
   ]
