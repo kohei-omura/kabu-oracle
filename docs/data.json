@@ -1,65 +1,198 @@
 {
-  "generated": "2026.06.29 08:38",
+  "generated": "2026.06.29 15:56",
   "total": 3719,
   "buys": [
     {
-      "code": "2652",
-      "name": "まんだらけ",
-      "price": 404.0,
-      "score": 71.2,
+      "code": "6656",
+      "name": "インスペック",
+      "price": 1222.0,
+      "score": 74.6,
       "signal": "HOLD",
-      "confidence": 71,
-      "entry": 404.0,
-      "stop": 380.6,
-      "target": 439.1,
-      "rr": 1.5,
-      "atr": 11.72,
+      "confidence": 74,
+      "entry": 1222.0,
+      "stop": 922.0,
+      "target": 1522.0,
+      "rr": 1.0,
+      "atr": 151.97,
       "reasons": [
         "中期上昇トレンド（EMA25>EMA75）",
+        "指数より強い（相対力プラス）",
+        "値幅制限内に調整"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 0.67,
+        "meanrev": -0.03,
+        "volume": 0.84,
+        "relstr": 1.0
+      },
+      "error": null,
+      "fund": {
+        "per": 81.6,
+        "pbr": 6.55,
+        "roe": 7.8,
+        "eqr": 15.0,
+        "divy": 0.0,
+        "growth": 142.3,
+        "score": 29.0
+      },
+      "combined": 71.5,
+      "bt": {
+        "win_rate": 88,
+        "days_tp": 25,
+        "days_sl": 39,
+        "n": 155
+      }
+    },
+    {
+      "code": "3698",
+      "name": "ＣＲＩ・ミドルウェア",
+      "price": 1275.0,
+      "score": 70.0,
+      "signal": "HOLD",
+      "confidence": 70,
+      "entry": 1275.0,
+      "stop": 1182.4,
+      "target": 1413.9,
+      "rr": 1.5,
+      "atr": 46.29,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "RSI 74（買われすぎ）",
+        "上バンド接近（過熱）",
+        "出来高急増（平均比 3.1倍）",
         "指数より強い（相対力プラス）"
       ],
       "factors": {
         "trend": 1.0,
         "momentum": 1.0,
-        "meanrev": -0.6,
-        "volume": 0.52,
+        "meanrev": -1.0,
+        "volume": 1.0,
         "relstr": 1.0
       },
       "error": null,
       "fund": {
-        "per": 9.4,
-        "pbr": 1.11,
-        "roe": 11.4,
-        "eqr": 62.3,
-        "divy": 0.25,
-        "growth": 24.0,
-        "score": 70.0
+        "per": 14.4,
+        "pbr": 1.65,
+        "roe": 11.5,
+        "eqr": 85.7,
+        "divy": 2.12,
+        "growth": 10.0,
+        "score": 72.0
       },
-      "combined": 88.2,
+      "combined": 54.3,
       "bt": {
-        "win_rate": 70,
-        "days_tp": 19,
-        "days_sl": 8,
-        "n": 231
+        "win_rate": 44,
+        "days_tp": 20,
+        "days_sl": 16,
+        "n": 239
+      }
+    },
+    {
+      "code": "5997",
+      "name": "協立エアテック",
+      "price": 915.0,
+      "score": 70.0,
+      "signal": "HOLD",
+      "confidence": 70,
+      "entry": 915.0,
+      "stop": 876.0,
+      "target": 973.5,
+      "rr": 1.5,
+      "atr": 19.49,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "RSI 78（買われすぎ）",
+        "上バンド接近（過熱）",
+        "出来高急増（平均比 3.8倍）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -1.0,
+        "volume": 1.0,
+        "relstr": 1.0
+      },
+      "error": null,
+      "fund": {
+        "per": 10.3,
+        "pbr": 0.45,
+        "roe": 4.4,
+        "eqr": 62.6,
+        "divy": 1.64,
+        "growth": -6.5,
+        "score": 66.0
+      },
+      "combined": 51.8,
+      "bt": {
+        "win_rate": 73,
+        "days_tp": 18,
+        "days_sl": 9,
+        "n": 237
+      }
+    },
+    {
+      "code": "4120",
+      "name": "スガイ化学工業",
+      "price": 2900.0,
+      "score": 70.0,
+      "signal": "HOLD",
+      "confidence": 70,
+      "entry": 2900.0,
+      "stop": 2779.3,
+      "target": 3081.1,
+      "rr": 1.5,
+      "atr": 60.36,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "RSI 81（買われすぎ）",
+        "上バンド接近（過熱）",
+        "出来高急増（平均比 3.4倍）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -1.0,
+        "volume": 1.0,
+        "relstr": 1.0
+      },
+      "error": null,
+      "fund": {
+        "per": 12.6,
+        "pbr": 0.51,
+        "roe": 3.8,
+        "eqr": 66.6,
+        "divy": 2.41,
+        "growth": -17.4,
+        "score": 61.0
+      },
+      "combined": 49.8,
+      "bt": {
+        "win_rate": 65,
+        "days_tp": 18,
+        "days_sl": 9,
+        "n": 238
       }
     },
     {
       "code": "2961",
       "name": "日本調理機",
-      "price": 6700.0,
+      "price": 6900.0,
       "score": 70.0,
       "signal": "HOLD",
       "confidence": 70,
-      "entry": 6700.0,
-      "stop": 6200.5,
-      "target": 7449.3,
+      "entry": 6900.0,
+      "stop": 6407.6,
+      "target": 7638.6,
       "rr": 1.5,
-      "atr": 249.76,
+      "atr": 246.2,
       "reasons": [
         "中期上昇トレンド（EMA25>EMA75）",
-        "RSI 88（買われすぎ）",
+        "RSI 89（買われすぎ）",
         "上バンド接近（過熱）",
-        "出来高急増（平均比 13.7倍）",
+        "出来高急増（平均比 2.4倍）",
         "指数より強い（相対力プラス）"
       ],
       "factors": {
@@ -71,360 +204,240 @@
       },
       "error": null,
       "fund": {
-        "per": 14.9,
-        "pbr": 1.0,
+        "per": 15.3,
+        "pbr": 1.03,
         "roe": 7.0,
         "eqr": 56.8,
-        "divy": 2.69,
+        "divy": 2.61,
         "growth": -16.8,
-        "score": 58.0
+        "score": 59.0
       },
-      "combined": 72.6,
+      "combined": 49.2,
       "bt": {
         "win_rate": 87,
-        "days_tp": 26,
+        "days_tp": 25,
         "days_sl": 7,
-        "n": 189
+        "n": 190
       }
     },
     {
-      "code": "2801",
-      "name": "キッコーマン",
-      "price": 1633.5,
-      "score": 69.9,
-      "signal": "HOLD",
-      "confidence": 69,
-      "entry": 1633.5,
-      "stop": 1536.4,
-      "target": 1779.1,
+      "code": "3093",
+      "name": "トレジャー・ファクトリー",
+      "price": 2241.0,
+      "score": 70.0,
+      "signal": "BUY",
+      "confidence": 90,
+      "entry": 2241.0,
+      "stop": 2084.6,
+      "target": 2475.6,
       "rr": 1.5,
-      "atr": 48.54,
+      "atr": 78.21,
       "reasons": [
+        "ゴールデンクロス発生",
         "中期上昇トレンド（EMA25>EMA75）",
-        "指数より強い（相対力プラス）"
+        "RSI 73（買われすぎ）",
+        "上バンド接近（過熱）",
+        "出来高急増（平均比 2.0倍）"
       ],
       "factors": {
         "trend": 1.0,
         "momentum": 1.0,
-        "meanrev": -0.64,
-        "volume": 0.46,
+        "meanrev": -1.0,
+        "volume": 1.0,
         "relstr": 1.0
       },
       "error": null,
       "fund": {
-        "per": 25.4,
-        "pbr": 3.03,
-        "roe": 10.8,
-        "eqr": 74.8,
-        "divy": 1.53,
-        "growth": -2.7,
-        "score": 54.0
+        "per": 17.4,
+        "pbr": 5.04,
+        "roe": 26.3,
+        "eqr": 47.9,
+        "divy": 1.78,
+        "growth": 15.9,
+        "score": 58.0
       },
-      "combined": 70.2,
+      "combined": 48.8,
       "bt": {
-        "win_rate": 43,
-        "days_tp": 19,
-        "days_sl": 22,
-        "n": 214
+        "win_rate": 68,
+        "days_tp": 22,
+        "days_sl": 13,
+        "n": 228
       }
     },
     {
-      "code": "4174",
-      "name": "アピリッツ",
-      "price": 682.0,
-      "score": 69.7,
+      "code": "9941",
+      "name": "太洋物産",
+      "price": 1520.0,
+      "score": 70.0,
       "signal": "HOLD",
-      "confidence": 69,
-      "entry": 682.0,
-      "stop": 598.3,
-      "target": 782.0,
-      "rr": 1.19,
-      "atr": 41.84,
+      "confidence": 70,
+      "entry": 1520.0,
+      "stop": 1249.3,
+      "target": 1920.0,
+      "rr": 1.48,
+      "atr": 135.34,
       "reasons": [
         "中期上昇トレンド（EMA25>EMA75）",
+        "上バンド接近（過熱）",
+        "出来高急増（平均比 4.9倍）",
         "指数より強い（相対力プラス）",
         "値幅制限内に調整"
       ],
       "factors": {
         "trend": 1.0,
         "momentum": 1.0,
-        "meanrev": -0.1,
-        "volume": 0.67,
-        "relstr": 0.47
-      },
-      "error": null,
-      "fund": {
-        "per": null,
-        "pbr": 1.55,
-        "roe": -25.0,
-        "eqr": 31.2,
-        "divy": 4.11,
-        "growth": 0.0,
-        "score": 40.0
-      },
-      "combined": 62.8,
-      "bt": {
-        "win_rate": 79,
-        "days_tp": 28,
-        "days_sl": 23,
-        "n": 82
-      }
-    },
-    {
-      "code": "2222",
-      "name": "寿スピリッツ",
-      "price": 2421.5,
-      "score": 68.7,
-      "signal": "HOLD",
-      "confidence": 68,
-      "entry": 2421.5,
-      "stop": 2261.0,
-      "target": 2662.2,
-      "rr": 1.5,
-      "atr": 80.25,
-      "reasons": [
-        "中期上昇トレンド（EMA25>EMA75）",
-        "指数より強い（相対力プラス）"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -0.61,
-        "volume": 0.29,
+        "meanrev": -1.0,
+        "volume": 1.0,
         "relstr": 1.0
       },
       "error": null,
       "fund": {
-        "per": 27.9,
-        "pbr": 8.38,
-        "roe": 30.0,
-        "eqr": 80.6,
-        "divy": 1.45,
-        "growth": 10.5,
-        "score": 56.0
+        "per": 16.1,
+        "pbr": 2.81,
+        "roe": 17.4,
+        "eqr": 12.4,
+        "divy": 0.0,
+        "growth": 23.0,
+        "score": 55.0
       },
-      "combined": 60.8,
+      "combined": 47.7,
       "bt": {
-        "win_rate": 60,
-        "days_tp": 23,
+        "win_rate": 61,
+        "days_tp": 21,
+        "days_sl": 31,
+        "n": 205
+      }
+    },
+    {
+      "code": "9828",
+      "name": "Ｇｅｎｋｉ　Ｇｌｏｂａｌ　Ｄｉｎｉｎｇ　Ｃｏｎｃｅｐｔｓ",
+      "price": 3170.0,
+      "score": 69.1,
+      "signal": "BUY",
+      "confidence": 89,
+      "entry": 3170.0,
+      "stop": 3023.8,
+      "target": 3389.3,
+      "rr": 1.5,
+      "atr": 73.1,
+      "reasons": [
+        "ゴールデンクロス発生",
+        "中期上昇トレンド（EMA25>EMA75）",
+        "RSI 78（買われすぎ）",
+        "上バンド接近（過熱）",
+        "出来高急増（平均比 1.9倍）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -1.0,
+        "volume": 0.91,
+        "relstr": 1.0
+      },
+      "error": null,
+      "fund": {
+        "per": 13.7,
+        "pbr": 3.28,
+        "roe": 21.3,
+        "eqr": 47.1,
+        "divy": 2.21,
+        "growth": -17.3,
+        "score": 63.0
+      },
+      "combined": 43.8,
+      "bt": {
+        "win_rate": 19,
+        "days_tp": 20,
         "days_sl": 20,
-        "n": 226
+        "n": 238
       }
     },
     {
       "code": "3544",
       "name": "サツドラホールディングス",
-      "price": 1253.0,
-      "score": 70.0,
+      "price": 1281.0,
+      "score": 70.1,
       "signal": "HOLD",
       "confidence": 70,
-      "entry": 1253.0,
-      "stop": 1177.7,
-      "target": 1365.9,
+      "entry": 1281.0,
+      "stop": 1200.4,
+      "target": 1401.9,
       "rr": 1.5,
-      "atr": 37.63,
+      "atr": 40.3,
       "reasons": [
         "中期上昇トレンド（EMA25>EMA75）",
         "RSI 91（買われすぎ）",
         "上バンド接近（過熱）",
-        "出来高急増（平均比 2.8倍）",
+        "出来高急増（平均比 2.5倍）",
         "指数より強い（相対力プラス）"
       ],
       "factors": {
         "trend": 1.0,
         "momentum": 1.0,
-        "meanrev": -1.0,
+        "meanrev": -0.99,
         "volume": 1.0,
         "relstr": 1.0
       },
       "error": null,
       "fund": {
-        "per": 43.1,
-        "pbr": 1.76,
+        "per": 44.1,
+        "pbr": 1.8,
         "roe": 3.9,
         "eqr": 20.1,
-        "divy": 0.96,
+        "divy": 0.94,
         "growth": -47.8,
-        "score": 26.0
+        "score": 27.0
       },
-      "combined": 60.1,
+      "combined": 37.0,
       "bt": {
-        "win_rate": 42,
-        "days_tp": 26,
-        "days_sl": 17,
-        "n": 120
+        "win_rate": 44,
+        "days_tp": 25,
+        "days_sl": 15,
+        "n": 100
       }
     },
     {
-      "code": "3696",
-      "name": "セレス",
-      "price": 2039.0,
-      "score": 67.3,
+      "code": "6620",
+      "name": "宮越ホールディングス",
+      "price": 1010.0,
+      "score": 70.0,
       "signal": "BUY",
-      "confidence": 87,
-      "entry": 2039.0,
-      "stop": 1860.1,
-      "target": 2307.4,
+      "confidence": 90,
+      "entry": 1010.0,
+      "stop": 901.0,
+      "target": 1173.5,
       "rr": 1.5,
-      "atr": 89.46,
+      "atr": 54.5,
       "reasons": [
         "ゴールデンクロス発生",
         "中期上昇トレンド（EMA25>EMA75）",
+        "RSI 80（買われすぎ）",
         "上バンド接近（過熱）",
-        "出来高急増（平均比 6.6倍）",
-        "指数より強い（相対力プラス）"
+        "出来高急増（平均比 4.4倍）"
       ],
       "factors": {
-        "trend": 0.99,
+        "trend": 1.0,
         "momentum": 1.0,
         "meanrev": -1.0,
         "volume": 1.0,
-        "relstr": 0.88
+        "relstr": 1.0
       },
       "error": null,
       "fund": {
-        "per": 7.0,
-        "pbr": 1.77,
-        "roe": 24.0,
-        "eqr": 35.5,
-        "divy": 3.92,
-        "growth": 34.2,
-        "score": 79.0
+        "per": null,
+        "pbr": 1.62,
+        "roe": -3.8,
+        "eqr": 92.4,
+        "divy": 0.0,
+        "growth": -374.0,
+        "score": 29.0
       },
-      "combined": 57.7,
+      "combined": 36.9,
       "bt": {
         "win_rate": 36,
-        "days_tp": 14,
-        "days_sl": 18,
-        "n": 243
-      }
-    },
-    {
-      "code": "2962",
-      "name": "テクニスコ",
-      "price": 1888.0,
-      "score": 70.0,
-      "signal": "HOLD",
-      "confidence": 70,
-      "entry": 1888.0,
-      "stop": 1566.4,
-      "target": 2288.0,
-      "rr": 1.24,
-      "atr": 160.78,
-      "reasons": [
-        "中期上昇トレンド（EMA25>EMA75）",
-        "RSI 76（買われすぎ）",
-        "上バンド接近（過熱）",
-        "出来高急増（平均比 5.9倍）",
-        "指数より強い（相対力プラス）"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -1.0,
-        "volume": 1.0,
-        "relstr": 1.0
-      },
-      "error": null,
-      "fund": {
-        "per": 577.4,
-        "pbr": 10.66,
-        "roe": 1.8,
-        "eqr": 27.3,
-        "divy": 0.0,
-        "growth": 101.0,
-        "score": 19.0
-      },
-      "combined": 57.3,
-      "bt": {
-        "win_rate": 84,
-        "days_tp": 15,
-        "days_sl": 11,
+        "days_tp": 20,
+        "days_sl": 19,
         "n": 237
-      }
-    },
-    {
-      "code": "6656",
-      "name": "インスペック",
-      "price": 1253.0,
-      "score": 69.0,
-      "signal": "HOLD",
-      "confidence": 69,
-      "entry": 1253.0,
-      "stop": 953.0,
-      "target": 1553.0,
-      "rr": 1.0,
-      "atr": 156.51,
-      "reasons": [
-        "中期上昇トレンド（EMA25>EMA75）",
-        "指数より強い（相対力プラス）",
-        "値幅制限内に調整"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 0.69,
-        "meanrev": -0.2,
-        "volume": 0.48,
-        "relstr": 1.0
-      },
-      "error": null,
-      "fund": {
-        "per": 83.7,
-        "pbr": 6.72,
-        "roe": 7.8,
-        "eqr": 15.0,
-        "divy": 0.0,
-        "growth": 142.3,
-        "score": 34.0
-      },
-      "combined": 54.4,
-      "bt": {
-        "win_rate": 86,
-        "days_tp": 25,
-        "days_sl": 40,
-        "n": 158
-      }
-    },
-    {
-      "code": "7069",
-      "name": "サイバー・バズ",
-      "price": 639.5,
-      "score": 68.2,
-      "signal": "HOLD",
-      "confidence": 68,
-      "entry": 639.5,
-      "stop": 555.5,
-      "target": 739.5,
-      "rr": 1.19,
-      "atr": 42.02,
-      "reasons": [
-        "中期上昇トレンド（EMA25>EMA75）",
-        "指数より強い（相対力プラス）",
-        "値幅制限内に調整"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 0.74,
-        "meanrev": -0.42,
-        "volume": 0.61,
-        "relstr": 1.0
-      },
-      "error": null,
-      "fund": {
-        "per": 13.9,
-        "pbr": 4.4,
-        "roe": 21.6,
-        "eqr": 22.6,
-        "divy": 0.0,
-        "growth": -51.9,
-        "score": 49.0
-      },
-      "combined": 53.3,
-      "bt": {
-        "win_rate": 76,
-        "days_tp": 22,
-        "days_sl": 17,
-        "n": 227
       }
     }
   ]
