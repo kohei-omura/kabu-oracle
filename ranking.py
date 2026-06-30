@@ -205,7 +205,9 @@ def apply_fundamentals(analyses: list, cfg: dict, extra_codes=None) -> list:
             a.fund = dict(m, score=(round(fs, 0) if fs is not None else None))
 
         cands.sort(key=lambda x: (x.combined if x.combined is not None else -1), reverse=True)
-        print(f"[JQ] 財務 {len(raw)} 銘柄取得（候補{len(met)}＋保有等）・複合スコアで再ランキング")
+        n_theo = sum(1 for a in cands if a.fund and a.fund.get("theo"))
+        print(f"[JQ] 財務 {len(raw)} 銘柄取得（候補{len(met)}＋保有等）・"
+              f"複合スコアで再ランキング・理論株価 {n_theo}件")
         return cands + analyses[top:]
     except Exception as e:  # noqa
         print(f"[JQ] 複合ランキング失敗（テクニカルのみで継続）: {e}")
