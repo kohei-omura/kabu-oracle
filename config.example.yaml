@@ -41,10 +41,12 @@ thresholds:
 # 毎分5件制限のため、テクニカル上位 screen_top 銘柄だけを request_sleep 秒間隔で取得します。
 fundamentals:
   enabled: true
-  weight_tech: 0.6        # 複合スコアにおけるテクニカルの比重
-  weight_fund: 0.4        # 同・ファンダの比重
+  weight_tech: 0.5        # 複合スコアにおけるテクニカルの比重
+  weight_fund: 0.5        # 同・ファンダの比重
   screen_top: 15          # テクニカル上位この件数にだけ財務を付与（多いほど時間がかかる）
   request_sleep: 13       # 1銘柄ごとの待機秒（無料枠=毎分5件 → 13秒が安全）
+  fair_per: 15            # 理論株価の収益基準PER（標準的な水準）
+  fair_return: 0.08       # 理論株価の期待利回り（ROE基準の割引率）
   # 指標の重み（合計は自動正規化。小さいPER/PBR=高評価、ROE/自己資本比率/利回り/増益=高評価）
   metric_weights:
     per: 0.25

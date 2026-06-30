@@ -86,8 +86,8 @@ def _pct(v, values, higher_better: bool = True) -> float | None:
     return below if higher_better else (1 - below)
 
 
-def _metrics(price: float, raw: dict) -> dict:
-    """生財務値＋現在値から PER/PBR/ROE/自己資本比率/配当利回り/予想増益率 を算出。"""
+def _metrics(price: float, raw: dict, ref_per: float = 15.0, r: float = 0.08) -> dict:
+    """生財務値＋現在値から PER/PBR/ROE/自己資本比率/配当利回り/予想増益率/理論株価 を算出。"""
     per = pbr = roe = eqr = divy = growth = None
     eps = raw.get("eps_fore") or raw.get("eps_fy")
     if eps and eps > 0 and price > 0:
@@ -107,7 +107,15 @@ def _metrics(price: float, raw: dict) -> dict:
     pfo, pfy = raw.get("profit_fore"), raw.get("profit_fy")
     if pfo is not None and pfy not in (None, 0):
         growth = round((pfo - pfy) / abs(pfy) * 100, 1)
-    return {"per": per, "pbr": pbr, "roe": roe, "eqr": eqr, "divy": divy, "growth": growth}
+    # 理論株価＝「収益基準(EPS×標準PER)」と「資産収益基準(BPS×ROE÷期待利回り)」の平均
+    parts = []
+    if eps and eps > 0:
+        parts.append(eps * ref_per)
+    if bps and bps > 0 and roe is not None and roe > 0 and r > 0:
+        parts.append(bps * min(roe / 100 / r, 10.0))   # 高ROEの暴走を抑制
+    theo = round(sum(parts) / len(parts)) if parts else None
+    return {"per": per, "pbr": pbr, "roe": roe, "eqr": eqr, "divy": divy,
+            "growth": growth, "theo": theo}
 
 
 def apply_fundamentals(analyses: list, cfg: dict, extra_codes=None) -> list:
@@ -131,6 +139,8 @@ def apply_fundamentals(analyses: list, cfg: dict, extra_codes=None) -> list:
         mw = {"per": 0.25, "pbr": 0.15, "roe": 0.25, "eqr": 0.10,
               "divy": 0.10, "growth": 0.15}
         mw.update(fc.get("metric_weights") or {})
+        ref_per = float(fc.get("fair_per", 15.0))
+        fair_r = float(fc.get("fair_return", 0.08))
 
         cands = analyses[:top]
         extra = [c for c in (extra_codes or []) if c]
@@ -144,7 +154,8 @@ def apply_fundamentals(analyses: list, cfg: dict, extra_codes=None) -> list:
         amap = {a.code: a for a in analyses}
 
         # 各指標を算出（買い候補）
-        met = {a.code: _metrics(a.price, raw[a.code]) for a in cands if a.code in raw}
+        met = {a.code: _metrics(a.price, raw[a.code], ref_per, fair_r)
+               for a in cands if a.code in raw}
         keys = ["per", "pbr", "roe", "eqr", "divy", "growth"]
         lower = {"per", "pbr"}
         norms = {k: _rank_norm({c: m[k] for c, m in met.items()},
@@ -182,7 +193,7 @@ def apply_fundamentals(analyses: list, cfg: dict, extra_codes=None) -> list:
             a = amap.get(c)
             if a is None or c not in raw or a.fund is not None:
                 continue
-            m = _metrics(a.price, raw[c])
+            m = _metrics(a.price, raw[c], ref_per, fair_r)
             num = den = 0.0
             for k in keys:
                 p = _pct(m[k], cand_vals[k], higher_better=(k not in lower))
@@ -219,6 +230,12 @@ def format_ranking(buys, sells, total: int, date_str: str) -> str:
             if a.fund.get("divy") is not None: fp.append(f"利回り{a.fund['divy']:.1f}%")
             if fp:
                 lines.append("   " + " ".join(fp))
+        if a.fund and a.fund.get("theo"):
+            theo = a.fund["theo"]
+            gap = (a.price / theo - 1) * 100 if theo else 0
+            lab = (f"割安{abs(gap):.0f}%" if gap <= -5
+                   else (f"割高{gap:.0f}%" if gap >= 5 else "ほぼ適正"))
+            lines.append(f"   理論株価¥{theo:,} {lab}")
         if a.bt:
             bp = [f"勝率{a.bt['win_rate']}%"]
             if a.bt.get("days_tp"): bp.append(f"利確~{a.bt['days_tp']}日")

@@ -72,6 +72,18 @@ def _card(rank: int, a, show_levels: bool, market: str = "") -> str:
         if f.get("growth") is not None: fc.append(f'<span class="fchip">増益 {f["growth"]:+.0f}%</span>')
         if fc:
             fund = f'<div class="funds">{"".join(fc)}</div>'
+    val = ""
+    if a.fund and a.fund.get("theo"):
+        theo = a.fund["theo"]
+        gap = (a.price / theo - 1) * 100 if theo else 0
+        if gap <= -5:
+            lab, vcls = f"割安 {abs(gap):.0f}%", "und"
+        elif gap >= 5:
+            lab, vcls = f"割高 {gap:.0f}%", "over"
+        else:
+            lab, vcls = "ほぼ適正", "fair"
+        val = (f'<div class="val"><span class="tchip {vcls}">'
+               f'理論株価 ¥{theo:,} ・ {lab}</span></div>')
     bt_html = ""
     if a.bt:
         b = a.bt
@@ -91,7 +103,7 @@ def _card(rank: int, a, show_levels: bool, market: str = "") -> str:
             f'<span class="name">{_esc(a.name)}</span>{_seg(market)}</div>{_badge(a.signal)}</div>'
             f'<div class="row2"><span class="price" data-px="{_esc(a.code)}">¥{a.price:,.0f}</span>'
             f'<span class="score {sc_cls}">{sc_txt}</span>{_score_bar(disp)}</div>'
-            f'{levels}{fund}{bt_html}{reasons}</div>')
+            f'{levels}{fund}{val}{bt_html}{reasons}</div>')
 
 
 def _section(title: str, sub: str, cards_html: str, accent: str) -> str:
@@ -142,6 +154,18 @@ def _holding_card(h, a, cfg) -> str:
         if f.get("growth") is not None: fc.append(f'<span class="fchip">増益 {f["growth"]:+.0f}%</span>')
         if fc:
             fund = f'<div class="funds">{"".join(fc)}</div>'
+    val = ""
+    if a.fund and a.fund.get("theo"):
+        theo = a.fund["theo"]
+        gap = (cur / theo - 1) * 100 if theo else 0
+        if gap <= -5:
+            vlab, vcls = f"割安 {abs(gap):.0f}%", "und"
+        elif gap >= 5:
+            vlab, vcls = f"割高 {gap:.0f}%", "over"
+        else:
+            vlab, vcls = "ほぼ適正", "fair"
+        val = (f'<div class="val"><span class="tchip {vcls}">'
+               f'理論株価 ¥{theo:,} ・ {vlab}</span></div>')
     sig_badge = _badge(a.signal)
     bt_html = ""
     if a.bt:
@@ -168,7 +192,7 @@ def _holding_card(h, a, cfg) -> str:
             f'<div class="levels"><span class="lv">買値 {buy_s}</span>'
             f'<span class="lv tgt">利確 ¥{tgt:,.0f}</span>'
             f'<span class="lv stp">損切 ¥{stp:,.0f}</span></div>'
-            f'{bt_html}{fund}{sell_warn}{reasons}</div>')
+            f'{bt_html}{fund}{val}{sell_warn}{reasons}</div>')
 
 
 CSS = """
@@ -237,6 +261,11 @@ h2 em{font-style:normal;font-family:'IBM Plex Mono',monospace;font-size:10px;
 .btchip{font-size:11px;font-weight:700;color:var(--mut);background:rgba(139,147,167,.10);
   border:1px solid var(--line);border-radius:7px;padding:2px 8px}
 .btchip.win{color:var(--buy);border-color:rgba(70,196,106,.35)}
+.val{margin-top:8px}
+.tchip{display:inline-block;font-size:12px;font-weight:800;border-radius:8px;
+  padding:3px 11px;border:1px solid var(--line);color:var(--mut)}
+.tchip.und{color:var(--buy);background:rgba(70,196,106,.10);border-color:rgba(70,196,106,.35)}
+.tchip.over{color:var(--sell);background:rgba(239,95,122,.10);border-color:rgba(239,95,122,.35)}
 .badge{flex:none;width:26px;height:26px;display:grid;place-items:center;
   border-radius:8px;font-size:13px;font-weight:700}
 .badge.buy{color:var(--buy);background:rgba(70,196,106,.12);border:1px solid rgba(70,196,106,.3)}
