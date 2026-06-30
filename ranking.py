@@ -86,8 +86,17 @@ def _pct(v, values, higher_better: bool = True) -> float | None:
     return below if higher_better else (1 - below)
 
 
-def _metrics(price: float, raw: dict, ref_per: float = 15.0, r: float = 0.08) -> dict:
-    """生財務値＋現在値から PER/PBR/ROE/自己資本比率/配当利回り/予想増益率/理論株価 を算出。"""
+def _metrics(price: float, raw: dict, profit_years: float = 10.0,
+             growth_years: float = 5.0, ref_per: float = 15.0,
+             r: float = 0.08, band: float = 0.05) -> dict:
+    """生財務値＋現在値から各指標＋理論株価＋3方式の割安コンセンサスを算出。
+
+    理論株価(株マップ/ZAi式)：資産価値(BPS)＋利益価値(予想EPS×profit_years)
+                              ＋成長価値(予想EPS×増益率×growth_years)
+    桐谷方式コンセンサス：下記3方式の理論値と現在値を比べ、band(5%)超で割安/割高を判定。
+      ①株マップ式  ②PER基準(予想EPS×ref_per)  ③ROE基準(BPS×ROE÷r)
+      2方式以上で割安なら「購入検討」フラグ。
+    """
     per = pbr = roe = eqr = divy = growth = None
     eps = raw.get("eps_fore") or raw.get("eps_fy")
     if eps and eps > 0 and price > 0:
@@ -107,15 +116,36 @@ def _metrics(price: float, raw: dict, ref_per: float = 15.0, r: float = 0.08) ->
     pfo, pfy = raw.get("profit_fore"), raw.get("profit_fy")
     if pfo is not None and pfy not in (None, 0):
         growth = round((pfo - pfy) / abs(pfy) * 100, 1)
-    # 理論株価＝「収益基準(EPS×標準PER)」と「資産収益基準(BPS×ROE÷期待利回り)」の平均
-    parts = []
+    # 理論株価 ＝ 資産価値 ＋ 利益価値 ＋ 成長価値（株マップ/ZAi式）
+    theo = None
+    asset_val = bps if (bps and bps > 0) else 0.0
     if eps and eps > 0:
-        parts.append(eps * ref_per)
-    if bps and bps > 0 and roe is not None and roe > 0 and r > 0:
-        parts.append(bps * min(roe / 100 / r, 10.0))   # 高ROEの暴走を抑制
-    theo = round(sum(parts) / len(parts)) if parts else None
+        profit_val = eps * profit_years
+        g = 0.0
+        if pfo is not None and pfy not in (None, 0) and pfy > 0:
+            g = max(0.0, min((pfo - pfy) / pfy, 0.30))   # 増益率を成長率の代理に（0〜30%）
+        growth_val = eps * g * growth_years
+        theo = round(asset_val + profit_val + growth_val)
+    elif asset_val > 0:
+        theo = round(asset_val)   # 赤字等でEPS無 → 資産価値のみ
+    # 桐谷方式：3つの評価方式で割安/割高を判定し、2方式以上の割安で購入検討
+    fair_per_v = round(eps * ref_per) if (eps and eps > 0) else None
+    fair_roe_v = (round(bps * min(roe / 100 / r, 10.0))
+                  if (bps and bps > 0 and roe is not None and roe > 0 and r > 0) else None)
+    methods = {"株マップ": theo, "PER": fair_per_v, "ROE": fair_roe_v}
+    judg = {}
+    und = avail = 0
+    for k, F in methods.items():
+        if F and F > 0 and price > 0:
+            gap = price / F - 1.0
+            lab = "u" if gap <= -band else ("o" if gap >= band else "f")
+            judg[k] = {"fair": F, "lab": lab, "gap": round(gap * 100)}
+            avail += 1
+            if lab == "u":
+                und += 1
+    cons = {"judg": judg, "und": und, "avail": avail, "buy": (und >= 2)}
     return {"per": per, "pbr": pbr, "roe": roe, "eqr": eqr, "divy": divy,
-            "growth": growth, "theo": theo}
+            "growth": growth, "theo": theo, "cons": cons}
 
 
 def apply_fundamentals(analyses: list, cfg: dict, extra_codes=None) -> list:
@@ -139,6 +169,8 @@ def apply_fundamentals(analyses: list, cfg: dict, extra_codes=None) -> list:
         mw = {"per": 0.25, "pbr": 0.15, "roe": 0.25, "eqr": 0.10,
               "divy": 0.10, "growth": 0.15}
         mw.update(fc.get("metric_weights") or {})
+        p_years = float(fc.get("theo_profit_years", 10.0))
+        g_years = float(fc.get("theo_growth_years", 5.0))
         ref_per = float(fc.get("fair_per", 15.0))
         fair_r = float(fc.get("fair_return", 0.08))
 
@@ -154,7 +186,7 @@ def apply_fundamentals(analyses: list, cfg: dict, extra_codes=None) -> list:
         amap = {a.code: a for a in analyses}
 
         # 各指標を算出（買い候補）
-        met = {a.code: _metrics(a.price, raw[a.code], ref_per, fair_r)
+        met = {a.code: _metrics(a.price, raw[a.code], p_years, g_years, ref_per, fair_r)
                for a in cands if a.code in raw}
         keys = ["per", "pbr", "roe", "eqr", "divy", "growth"]
         lower = {"per", "pbr"}
@@ -193,7 +225,7 @@ def apply_fundamentals(analyses: list, cfg: dict, extra_codes=None) -> list:
             a = amap.get(c)
             if a is None or c not in raw or a.fund is not None:
                 continue
-            m = _metrics(a.price, raw[c], ref_per, fair_r)
+            m = _metrics(a.price, raw[c], p_years, g_years, ref_per, fair_r)
             num = den = 0.0
             for k in keys:
                 p = _pct(m[k], cand_vals[k], higher_better=(k not in lower))
@@ -232,7 +264,13 @@ def format_ranking(buys, sells, total: int, date_str: str) -> str:
             if a.fund.get("divy") is not None: fp.append(f"利回り{a.fund['divy']:.1f}%")
             if fp:
                 lines.append("   " + " ".join(fp))
-        if a.fund and a.fund.get("theo"):
+        cons = (a.fund or {}).get("cons") if a.fund else None
+        if cons and cons.get("avail"):
+            sym = {"u": "○", "o": "×", "f": "-"}
+            parts = " ".join(f"{n}{sym[d['lab']]}" for n, d in cons["judg"].items())
+            tail = " ✅購入検討" if cons["buy"] else ""
+            lines.append(f"   割安 {cons['und']}/{cons['avail']}（{parts}）{tail}")
+        elif a.fund and a.fund.get("theo"):
             theo = a.fund["theo"]
             gap = (a.price / theo - 1) * 100 if theo else 0
             lab = (f"割安{abs(gap):.0f}%" if gap <= -5

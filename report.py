@@ -48,6 +48,31 @@ def _badge(signal: str) -> str:
     return f'<span class="badge {cls}">{label}</span>'
 
 
+def _val_block(price: float, fund) -> str:
+    """桐谷方式：3方式の割安/割高チップ＋『割安N/M（購入検討）』判定を描画。"""
+    cons = (fund or {}).get("cons")
+    if not cons or not cons.get("judg"):
+        theo = (fund or {}).get("theo")
+        if not theo:
+            return ""
+        gap = (price / theo - 1) * 100
+        lab = "割安" if gap <= -5 else ("割高" if gap >= 5 else "ほぼ適正")
+        cls = "und" if gap <= -5 else ("over" if gap >= 5 else "fair")
+        return (f'<div class="val"><span class="tchip {cls}">'
+                f'理論株価 ¥{theo:,} ・ {lab}</span></div>')
+    cmap = {"u": "und", "o": "over", "f": "fair"}
+    lmap = {"u": "割安", "o": "割高", "f": "適正"}
+    chips = "".join(
+        f'<span class="cchip {cmap[d["lab"]]}">{_esc(name)} ¥{d["fair"]:,}'
+        f'<i>{lmap[d["lab"]]}</i></span>'
+        for name, d in cons["judg"].items())
+    und, avail, buy = cons["und"], cons["avail"], cons["buy"]
+    vcls = "buy" if buy else ""
+    verdict = f'コンセンサス 割安 {und}/{avail}' + ('　✅ 購入検討' if buy else '')
+    return (f'<div class="cons"><div class="cchips">{chips}</div>'
+            f'<div class="cverdict {vcls}">{verdict}</div></div>')
+
+
 def _card(rank: int, a, show_levels: bool, market: str = "") -> str:
     levels = ""
     if show_levels and a.entry and a.target and a.stop:
@@ -72,18 +97,7 @@ def _card(rank: int, a, show_levels: bool, market: str = "") -> str:
         if f.get("growth") is not None: fc.append(f'<span class="fchip">増益 {f["growth"]:+.0f}%</span>')
         if fc:
             fund = f'<div class="funds">{"".join(fc)}</div>'
-    val = ""
-    if a.fund and a.fund.get("theo"):
-        theo = a.fund["theo"]
-        gap = (a.price / theo - 1) * 100 if theo else 0
-        if gap <= -5:
-            lab, vcls = f"割安 {abs(gap):.0f}%", "und"
-        elif gap >= 5:
-            lab, vcls = f"割高 {gap:.0f}%", "over"
-        else:
-            lab, vcls = "ほぼ適正", "fair"
-        val = (f'<div class="val"><span class="tchip {vcls}">'
-               f'理論株価 ¥{theo:,} ・ {lab}</span></div>')
+    val = _val_block(a.price, a.fund)
     bt_html = ""
     if a.bt:
         b = a.bt
@@ -154,18 +168,7 @@ def _holding_card(h, a, cfg) -> str:
         if f.get("growth") is not None: fc.append(f'<span class="fchip">増益 {f["growth"]:+.0f}%</span>')
         if fc:
             fund = f'<div class="funds">{"".join(fc)}</div>'
-    val = ""
-    if a.fund and a.fund.get("theo"):
-        theo = a.fund["theo"]
-        gap = (cur / theo - 1) * 100 if theo else 0
-        if gap <= -5:
-            vlab, vcls = f"割安 {abs(gap):.0f}%", "und"
-        elif gap >= 5:
-            vlab, vcls = f"割高 {gap:.0f}%", "over"
-        else:
-            vlab, vcls = "ほぼ適正", "fair"
-        val = (f'<div class="val"><span class="tchip {vcls}">'
-               f'理論株価 ¥{theo:,} ・ {vlab}</span></div>')
+    val = _val_block(cur, a.fund)
     sig_badge = _badge(a.signal)
     bt_html = ""
     if a.bt:
@@ -266,6 +269,16 @@ h2 em{font-style:normal;font-family:'IBM Plex Mono',monospace;font-size:10px;
   padding:3px 11px;border:1px solid var(--line);color:var(--mut)}
 .tchip.und{color:var(--buy);background:rgba(70,196,106,.10);border-color:rgba(70,196,106,.35)}
 .tchip.over{color:var(--sell);background:rgba(239,95,122,.10);border-color:rgba(239,95,122,.35)}
+.cons{margin-top:8px}
+.cchips{display:flex;flex-wrap:wrap;gap:6px}
+.cchip{font-size:11px;font-weight:700;border-radius:7px;padding:2px 8px;
+  border:1px solid var(--line);color:var(--mut)}
+.cchip i{font-style:normal;font-weight:800;margin-left:5px}
+.cchip.und{color:var(--buy);border-color:rgba(70,196,106,.40);background:rgba(70,196,106,.08)}
+.cchip.over{color:var(--sell);border-color:rgba(239,95,122,.40);background:rgba(239,95,122,.08)}
+.cchip.fair{color:var(--mut)}
+.cverdict{margin-top:6px;font-size:12px;font-weight:800;color:var(--mut)}
+.cverdict.buy{color:var(--buy)}
 .badge{flex:none;width:26px;height:26px;display:grid;place-items:center;
   border-radius:8px;font-size:13px;font-weight:700}
 .badge.buy{color:var(--buy);background:rgba(70,196,106,.12);border:1px solid rgba(70,196,106,.3)}

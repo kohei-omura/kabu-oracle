@@ -45,8 +45,12 @@ fundamentals:
   weight_fund: 0.5        # 同・ファンダの比重
   screen_top: 15          # テクニカル上位この件数にだけ財務を付与（多いほど時間がかかる）
   request_sleep: 13       # 1銘柄ごとの待機秒（無料枠=毎分5件 → 13秒が安全）
-  fair_per: 15            # 理論株価の収益基準PER（標準的な水準）
-  fair_return: 0.08       # 理論株価の期待利回り（ROE基準の割引率）
+  # 理論株価＝資産価値(BPS)＋利益価値(予想EPS×利益年数)＋成長価値(予想EPS×増益率×成長年数)
+  theo_profit_years: 10   # 利益価値の年数（業種で変動。大きいほど理論株価↑＝割安判定が増える）
+  theo_growth_years: 5    # 成長価値の年数
+  # 桐谷方式コンセンサス用（3方式で割安判定）
+  fair_per: 15            # PER基準の標準PER
+  fair_return: 0.08       # ROE基準の期待利回り
   # 指標の重み（合計は自動正規化。小さいPER/PBR=高評価、ROE/自己資本比率/利回り/増益=高評価）
   metric_weights:
     per: 0.25
