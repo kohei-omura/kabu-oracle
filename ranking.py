@@ -248,8 +248,19 @@ def apply_fundamentals(analyses: list, cfg: dict, extra_codes=None) -> list:
 
 def format_ranking(buys, sells, total: int, date_str: str) -> str:
     lines = [f"📊 株オラクル｜本日のランキング（{date_str}）",
-             f"対象 {total} 銘柄を分析\n",
-             "── 買い候補 TOP ──"]
+             f"対象 {total} 銘柄を分析\n"]
+    # 🔥 全方式割安（3/3）＝強い買い速報（買い候補の中から抽出）
+    strong = [a for a in buys
+              if (a.fund or {}).get("cons", {}).get("avail") == 3
+              and (a.fund or {}).get("cons", {}).get("und") == 3]
+    if strong:
+        lines.append("🔥 全方式割安（3/3）＝強い買い")
+        for a in strong:
+            theo = (a.fund or {}).get("theo")
+            extra = f"／理論株価¥{theo:,}" if theo else ""
+            lines.append(f"  {a.code} {a.name}  ¥{a.price:,.0f}{extra}")
+        lines.append("")
+    lines.append("── 買い候補 TOP ──")
     for i, a in enumerate(buys, 1):
         tag = "🟢買" if a.signal == "BUY" else "・"
         sc = f"複合{a.combined:.0f}" if a.combined is not None else f"スコア{a.score:+.0f}"
