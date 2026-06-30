@@ -1,19 +1,19 @@
 {
-  "generated": "2026.06.30 08:34",
+  "generated": "2026.06.30 15:18",
   "total": 3719,
   "buys": [
     {
       "code": "6656",
       "name": "インスペック",
-      "price": 1222.0,
-      "score": 74.6,
+      "price": 1199.0,
+      "score": 76.6,
       "signal": "HOLD",
-      "confidence": 74,
-      "entry": 1222.0,
-      "stop": 922.0,
-      "target": 1522.0,
-      "rr": 1.0,
-      "atr": 151.97,
+      "confidence": 76,
+      "entry": 1199.0,
+      "stop": 906.6,
+      "target": 1499.0,
+      "rr": 1.03,
+      "atr": 146.19,
       "reasons": [
         "中期上昇トレンド（EMA25>EMA75）",
         "指数より強い（相対力プラス）",
@@ -21,46 +21,87 @@
       ],
       "factors": {
         "trend": 1.0,
-        "momentum": 0.67,
-        "meanrev": -0.03,
+        "momentum": 0.65,
+        "meanrev": 0.12,
         "volume": 0.84,
         "relstr": 1.0
       },
       "error": null,
       "fund": {
-        "per": 81.6,
-        "pbr": 6.55,
+        "per": 80.1,
+        "pbr": 6.43,
         "roe": 7.8,
         "eqr": 15.0,
         "divy": 0.0,
         "growth": 142.3,
-        "score": 34.0
+        "score": 33.0
       },
-      "combined": 73.4,
+      "combined": 73.1,
       "bt": {
-        "win_rate": 88,
+        "win_rate": 87,
         "days_tp": 25,
-        "days_sl": 39,
-        "n": 155
+        "days_sl": 40,
+        "n": 153
       }
     },
     {
-      "code": "2961",
-      "name": "日本調理機",
-      "price": 6900.0,
+      "code": "2607",
+      "name": "不二製油",
+      "price": 3979.0,
+      "score": 73.1,
+      "signal": "HOLD",
+      "confidence": 73,
+      "entry": 3979.0,
+      "stop": 3689.6,
+      "target": 4413.1,
+      "rr": 1.5,
+      "atr": 144.71,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -0.55,
+        "volume": 0.64,
+        "relstr": 1.0
+      },
+      "error": null,
+      "fund": {
+        "per": 20.7,
+        "pbr": 1.63,
+        "roe": 6.8,
+        "eqr": 35.2,
+        "divy": 1.31,
+        "growth": 639.9,
+        "score": 59.0
+      },
+      "combined": 62.6,
+      "bt": {
+        "win_rate": 54,
+        "days_tp": 16,
+        "days_sl": 17,
+        "n": 234
+      }
+    },
+    {
+      "code": "6870",
+      "name": "日本フェンオール",
+      "price": 2800.0,
       "score": 70.0,
       "signal": "HOLD",
       "confidence": 70,
-      "entry": 6900.0,
-      "stop": 6407.6,
-      "target": 7638.6,
+      "entry": 2800.0,
+      "stop": 2659.1,
+      "target": 3011.3,
       "rr": 1.5,
-      "atr": 246.2,
+      "atr": 70.44,
       "reasons": [
         "中期上昇トレンド（EMA25>EMA75）",
-        "RSI 89（買われすぎ）",
+        "RSI 77（買われすぎ）",
         "上バンド接近（過熱）",
-        "出来高急増（平均比 2.4倍）",
+        "出来高急増（平均比 2.6倍）",
         "指数より強い（相対力プラス）"
       ],
       "factors": {
@@ -72,126 +113,82 @@
       },
       "error": null,
       "fund": {
-        "per": 15.3,
-        "pbr": 1.03,
-        "roe": 7.0,
-        "eqr": 56.8,
-        "divy": 2.61,
-        "growth": -16.8,
-        "score": 63.0
+        "per": 16.9,
+        "pbr": 1.07,
+        "roe": 6.4,
+        "eqr": 76.0,
+        "divy": 2.64,
+        "growth": -25.4,
+        "score": 61.0
       },
-      "combined": 57.2,
+      "combined": 45.0,
       "bt": {
-        "win_rate": 87,
-        "days_tp": 25,
-        "days_sl": 7,
-        "n": 190
+        "win_rate": 90,
+        "days_tp": 28,
+        "days_sl": 4,
+        "n": 187
       }
     },
     {
-      "code": "3444",
-      "name": "菊池製作所",
-      "price": 1157.0,
-      "score": 70.1,
-      "signal": "HOLD",
-      "confidence": 70,
-      "entry": 1157.0,
-      "stop": 883.1,
-      "target": 1457.0,
-      "rr": 1.1,
-      "atr": 136.97,
-      "reasons": [
-        "中期上昇トレンド（EMA25>EMA75）",
-        "指数より強い（相対力プラス）",
-        "値幅制限内に調整"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -0.34,
-        "volume": 0.57,
-        "relstr": 0.73
-      },
-      "error": null,
-      "fund": {
-        "per": 87.7,
-        "pbr": 2.75,
-        "roe": 2.9,
-        "eqr": 62.1,
-        "divy": 0.86,
-        "growth": 269.8,
-        "score": 31.0
-      },
-      "combined": 45.2,
-      "bt": {
-        "win_rate": 80,
-        "days_tp": 22,
-        "days_sl": 16,
-        "n": 192
-      }
-    },
-    {
-      "code": "3544",
-      "name": "サツドラホールディングス",
-      "price": 1281.0,
-      "score": 70.1,
-      "signal": "HOLD",
-      "confidence": 70,
-      "entry": 1281.0,
-      "stop": 1200.4,
-      "target": 1401.9,
+      "code": "5929",
+      "name": "三和ホールディングス",
+      "price": 3794.0,
+      "score": 68.5,
+      "signal": "BUY",
+      "confidence": 88,
+      "entry": 3794.0,
+      "stop": 3590.2,
+      "target": 4099.8,
       "rr": 1.5,
-      "atr": 40.3,
+      "atr": 101.92,
       "reasons": [
+        "ゴールデンクロス発生",
         "中期上昇トレンド（EMA25>EMA75）",
-        "RSI 91（買われすぎ）",
-        "上バンド接近（過熱）",
-        "出来高急増（平均比 2.5倍）",
         "指数より強い（相対力プラス）"
       ],
       "factors": {
         "trend": 1.0,
         "momentum": 1.0,
-        "meanrev": -0.99,
-        "volume": 1.0,
-        "relstr": 1.0
+        "meanrev": -0.65,
+        "volume": 0.65,
+        "relstr": 0.84
       },
       "error": null,
       "fund": {
-        "per": 44.1,
-        "pbr": 1.8,
-        "roe": 3.9,
-        "eqr": 20.1,
-        "divy": 0.94,
-        "growth": -47.8,
-        "score": 27.0
+        "per": 14.0,
+        "pbr": 2.53,
+        "roe": 18.3,
+        "eqr": 60.4,
+        "divy": 3.27,
+        "growth": 0.8,
+        "score": 70.0
       },
-      "combined": 43.5,
+      "combined": 39.9,
       "bt": {
-        "win_rate": 44,
-        "days_tp": 25,
+        "win_rate": 15,
+        "days_tp": 11,
         "days_sl": 15,
-        "n": 100
+        "n": 228
       }
     },
     {
-      "code": "6620",
-      "name": "宮越ホールディングス",
-      "price": 1010.0,
+      "code": "6977",
+      "name": "日本抵抗器製作所",
+      "price": 1899.0,
       "score": 70.0,
-      "signal": "BUY",
-      "confidence": 90,
-      "entry": 1010.0,
-      "stop": 901.0,
-      "target": 1173.5,
+      "signal": "HOLD",
+      "confidence": 70,
+      "entry": 1899.0,
+      "stop": 1651.5,
+      "target": 2270.3,
       "rr": 1.5,
-      "atr": 54.5,
+      "atr": 123.75,
       "reasons": [
-        "ゴールデンクロス発生",
         "中期上昇トレンド（EMA25>EMA75）",
-        "RSI 80（買われすぎ）",
+        "RSI 81（買われすぎ）",
         "上バンド接近（過熱）",
-        "出来高急増（平均比 4.4倍）"
+        "出来高急増（平均比 3.1倍）",
+        "指数より強い（相対力プラス）"
       ],
       "factors": {
         "trend": 1.0,
@@ -203,236 +200,236 @@
       "error": null,
       "fund": {
         "per": null,
-        "pbr": 1.62,
-        "roe": -3.8,
-        "eqr": 92.4,
-        "divy": 0.0,
-        "growth": -374.0,
-        "score": 27.0
+        "pbr": 2.01,
+        "roe": -5.4,
+        "eqr": 16.2,
+        "divy": 1.58,
+        "growth": 76.1,
+        "score": 42.0
       },
-      "combined": 42.8,
+      "combined": 37.7,
       "bt": {
-        "win_rate": 36,
-        "days_tp": 20,
-        "days_sl": 19,
-        "n": 237
-      }
-    },
-    {
-      "code": "7173",
-      "name": "東京きらぼしフィナンシャルグループ",
-      "price": 1887.0,
-      "score": 66.6,
-      "signal": "HOLD",
-      "confidence": 66,
-      "entry": 1887.0,
-      "stop": 1736.7,
-      "target": 2112.5,
-      "rr": 1.5,
-      "atr": 75.16,
-      "reasons": [
-        "中期上昇トレンド（EMA25>EMA75）",
-        "RSI 80（買われすぎ）",
-        "上バンド接近（過熱）",
-        "出来高急増（平均比 1.7倍）",
-        "指数より強い（相対力プラス）"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -1.0,
-        "volume": 0.66,
-        "relstr": 1.0
-      },
-      "error": null,
-      "fund": {
-        "per": 1.8,
-        "pbr": 0.18,
-        "roe": 8.1,
-        "eqr": 5.5,
-        "divy": 9.01,
-        "growth": 5.2,
-        "score": 77.0
-      },
-      "combined": 42.4,
-      "bt": {
-        "win_rate": 82,
-        "days_tp": 22,
+        "win_rate": 92,
+        "days_tp": 29,
         "days_sl": 9,
-        "n": 236
+        "n": 156
       }
     },
     {
-      "code": "4212",
-      "name": "積水樹脂",
-      "price": 2650.0,
-      "score": 66.9,
-      "signal": "HOLD",
-      "confidence": 66,
-      "entry": 2650.0,
-      "stop": 2509.9,
-      "target": 2860.1,
+      "code": "3930",
+      "name": "はてな",
+      "price": 1139.0,
+      "score": 70.0,
+      "signal": "BUY",
+      "confidence": 90,
+      "entry": 1139.0,
+      "stop": 1061.1,
+      "target": 1255.8,
       "rr": 1.5,
-      "atr": 70.03,
+      "atr": 38.94,
       "reasons": [
+        "ゴールデンクロス発生",
         "中期上昇トレンド（EMA25>EMA75）",
-        "RSI 79（買われすぎ）",
+        "RSI 73（買われすぎ）",
         "上バンド接近（過熱）",
-        "出来高急増（平均比 1.7倍）",
-        "指数より強い（相対力プラス）"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -1.0,
-        "volume": 0.69,
-        "relstr": 1.0
-      },
-      "error": null,
-      "fund": {
-        "per": 18.5,
-        "pbr": 0.86,
-        "roe": 4.4,
-        "eqr": 67.8,
-        "divy": 2.72,
-        "growth": 21.3,
-        "score": 66.0
-      },
-      "combined": 39.6,
-      "bt": {
-        "win_rate": 44,
-        "days_tp": 21,
-        "days_sl": 18,
-        "n": 212
-      }
-    },
-    {
-      "code": "6135",
-      "name": "牧野フライス製作所",
-      "price": 15130.0,
-      "score": 66.5,
-      "signal": "HOLD",
-      "confidence": 66,
-      "entry": 15130.0,
-      "stop": 14026.5,
-      "target": 16785.3,
-      "rr": 1.5,
-      "atr": 551.77,
-      "reasons": [
-        "中期上昇トレンド（EMA25>EMA75）",
-        "指数より強い（相対力プラス）"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -0.7,
-        "volume": 0.19,
-        "relstr": 1.0
-      },
-      "error": null,
-      "fund": {
-        "per": 18.2,
-        "pbr": 1.56,
-        "roe": 7.7,
-        "eqr": 62.1,
-        "divy": 1.19,
-        "growth": 34.6,
-        "score": 65.0
-      },
-      "combined": 36.7,
-      "bt": {
-        "win_rate": 29,
-        "days_tp": 15,
-        "days_sl": 33,
-        "n": 129
-      }
-    },
-    {
-      "code": "4120",
-      "name": "スガイ化学工業",
-      "price": 2900.0,
-      "score": 66.1,
-      "signal": "HOLD",
-      "confidence": 66,
-      "entry": 2900.0,
-      "stop": 2779.3,
-      "target": 3081.1,
-      "rr": 1.5,
-      "atr": 60.36,
-      "reasons": [
-        "中期上昇トレンド（EMA25>EMA75）",
-        "RSI 81（買われすぎ）",
-        "上バンド接近（過熱）",
-        "出来高急増（平均比 3.4倍）",
-        "指数より強い（相対力プラス）"
+        "出来高急増（平均比 2.0倍）"
       ],
       "factors": {
         "trend": 1.0,
         "momentum": 1.0,
         "meanrev": -1.0,
         "volume": 1.0,
-        "relstr": 0.8
+        "relstr": 1.0
       },
       "error": null,
       "fund": {
-        "per": 12.6,
-        "pbr": 0.51,
-        "roe": 3.8,
-        "eqr": 66.6,
-        "divy": 2.41,
-        "growth": -17.4,
-        "score": 62.0
+        "per": 33.5,
+        "pbr": 1.21,
+        "roe": 3.5,
+        "eqr": 81.8,
+        "divy": 0.0,
+        "growth": -56.1,
+        "score": 38.0
       },
-      "combined": 33.2,
+      "combined": 36.1,
       "bt": {
-        "win_rate": 65,
-        "days_tp": 18,
-        "days_sl": 9,
-        "n": 238
+        "win_rate": 46,
+        "days_tp": 15,
+        "days_sl": 19,
+        "n": 242
       }
     },
     {
-      "code": "3696",
-      "name": "セレス",
-      "price": 2054.0,
-      "score": 65.1,
+      "code": "4265",
+      "name": "Ｉｎｓｔｉｔｕｔｉｏｎ　ｆｏｒ　ａ　Ｇｌｏｂａｌ　Ｓｏｃｉｅｔｙ",
+      "price": 441.0,
+      "score": 70.0,
       "signal": "BUY",
-      "confidence": 85,
-      "entry": 2054.0,
-      "stop": 1876.1,
-      "target": 2320.8,
-      "rr": 1.5,
-      "atr": 88.93,
+      "confidence": 90,
+      "entry": 441.0,
+      "stop": 361.0,
+      "target": 521.0,
+      "rr": 1.0,
+      "atr": 40.88,
       "reasons": [
         "ゴールデンクロス発生",
         "中期上昇トレンド（EMA25>EMA75）",
+        "RSI 75（買われすぎ）",
         "上バンド接近（過熱）",
-        "出来高急増（平均比 1.7倍）",
+        "出来高急増（平均比 2.6倍）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -1.0,
+        "volume": 1.0,
+        "relstr": 1.0
+      },
+      "error": null,
+      "fund": {
+        "per": null,
+        "pbr": 2.93,
+        "roe": -36.3,
+        "eqr": 72.1,
+        "divy": 0.0,
+        "growth": 27.7,
+        "score": 35.0
+      },
+      "combined": 34.9,
+      "bt": {
+        "win_rate": 54,
+        "days_tp": 14,
+        "days_sl": 26,
+        "n": 218
+      }
+    },
+    {
+      "code": "3950",
+      "name": "ザ・パック",
+      "price": 1353.0,
+      "score": 67.0,
+      "signal": "HOLD",
+      "confidence": 67,
+      "entry": 1353.0,
+      "stop": 1295.7,
+      "target": 1438.9,
+      "rr": 1.5,
+      "atr": 28.64,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -0.51,
+        "volume": 0.64,
+        "relstr": 0.66
+      },
+      "error": null,
+      "fund": {
+        "per": 12.5,
+        "pbr": 0.98,
+        "roe": 7.9,
+        "eqr": 73.9,
+        "divy": 9.02,
+        "growth": 1.3,
+        "score": 78.0
+      },
+      "combined": 34.2,
+      "bt": {
+        "win_rate": 66,
+        "days_tp": 25,
+        "days_sl": 9,
+        "n": 234
+      }
+    },
+    {
+      "code": "7140",
+      "name": "ペットゴー",
+      "price": 974.0,
+      "score": 70.0,
+      "signal": "BUY",
+      "confidence": 90,
+      "entry": 974.0,
+      "stop": 917.5,
+      "target": 1058.7,
+      "rr": 1.5,
+      "atr": 28.23,
+      "reasons": [
+        "ゴールデンクロス発生",
+        "中期上昇トレンド（EMA25>EMA75）",
+        "RSI 72（買われすぎ）",
+        "上バンド接近（過熱）",
+        "出来高急増（平均比 11.6倍）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -1.0,
+        "volume": 1.0,
+        "relstr": 1.0
+      },
+      "error": null,
+      "fund": {
+        "per": null,
+        "pbr": 1.45,
+        "roe": -12.0,
+        "eqr": 32.5,
+        "divy": 0.0,
+        "growth": -210.9,
+        "score": 25.0
+      },
+      "combined": 30.9,
+      "bt": {
+        "win_rate": 60,
+        "days_tp": 25,
+        "days_sl": 15,
+        "n": 227
+      }
+    },
+    {
+      "code": "5997",
+      "name": "協立エアテック",
+      "price": 916.0,
+      "score": 67.1,
+      "signal": "HOLD",
+      "confidence": 67,
+      "entry": 916.0,
+      "stop": 877.2,
+      "target": 974.1,
+      "rr": 1.5,
+      "atr": 19.38,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "RSI 78（買われすぎ）",
+        "上バンド接近（過熱）",
+        "出来高急増（平均比 1.8倍）",
         "指数より強い（相対力プラス）"
       ],
       "factors": {
         "trend": 1.0,
         "momentum": 1.0,
         "meanrev": -1.0,
-        "volume": 0.75,
-        "relstr": 0.88
+        "volume": 0.79,
+        "relstr": 0.96
       },
       "error": null,
       "fund": {
-        "per": 7.1,
-        "pbr": 1.78,
-        "roe": 24.0,
-        "eqr": 35.5,
-        "divy": 3.89,
-        "growth": 34.2,
-        "score": 76.0
+        "per": 10.3,
+        "pbr": 0.45,
+        "roe": 4.4,
+        "eqr": 62.6,
+        "divy": 1.64,
+        "growth": -6.5,
+        "score": 68.0
       },
-      "combined": 33.0,
+      "combined": 30.7,
       "bt": {
-        "win_rate": 36,
-        "days_tp": 14,
-        "days_sl": 17,
-        "n": 241
+        "win_rate": 73,
+        "days_tp": 18,
+        "days_sl": 9,
+        "n": 237
       }
     }
   ]
