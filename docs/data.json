@@ -1,5 +1,5 @@
 {
-  "generated": "2026.07.01 00:29",
+  "generated": "2026.07.01 01:26",
   "total": 3719,
   "buys": [
     {
@@ -34,7 +34,29 @@
         "eqr": 15.0,
         "divy": 0.0,
         "growth": 142.3,
-        "theo": 203,
+        "theo": 336,
+        "cons": {
+          "judg": {
+            "株マップ": {
+              "fair": 336,
+              "lab": "o",
+              "gap": 264
+            },
+            "PER": {
+              "fair": 225,
+              "lab": "o",
+              "gap": 443
+            },
+            "ROE": {
+              "fair": 182,
+              "lab": "o",
+              "gap": 571
+            }
+          },
+          "und": 0,
+          "avail": 3,
+          "buy": false
+        },
         "score": 29.0
       },
       "combined": 64.4,
@@ -79,7 +101,29 @@
         "eqr": 85.7,
         "divy": 2.12,
         "growth": 10.0,
-        "theo": 1220,
+        "theo": 1703,
+        "cons": {
+          "judg": {
+            "株マップ": {
+              "fair": 1703,
+              "lab": "u",
+              "gap": -25
+            },
+            "PER": {
+              "fair": 1326,
+              "lab": "f",
+              "gap": -4
+            },
+            "ROE": {
+              "fair": 1113,
+              "lab": "o",
+              "gap": 15
+            }
+          },
+          "und": 1,
+          "avail": 3,
+          "buy": false
+        },
         "score": 72.0
       },
       "combined": 57.2,
@@ -124,7 +168,29 @@
         "eqr": 62.6,
         "divy": 1.64,
         "growth": -6.5,
-        "theo": 1230,
+        "theo": 2931,
+        "cons": {
+          "judg": {
+            "株マップ": {
+              "fair": 2931,
+              "lab": "u",
+              "gap": -69
+            },
+            "PER": {
+              "fair": 1339,
+              "lab": "u",
+              "gap": -32
+            },
+            "ROE": {
+              "fair": 1121,
+              "lab": "u",
+              "gap": -18
+            }
+          },
+          "und": 3,
+          "avail": 3,
+          "buy": true
+        },
         "score": 66.0
       },
       "combined": 54.2,
@@ -169,7 +235,29 @@
         "eqr": 66.6,
         "divy": 2.41,
         "growth": -17.4,
-        "theo": 3077,
+        "theo": 8001,
+        "cons": {
+          "judg": {
+            "株マップ": {
+              "fair": 8001,
+              "lab": "u",
+              "gap": -64
+            },
+            "PER": {
+              "fair": 3445,
+              "lab": "u",
+              "gap": -16
+            },
+            "ROE": {
+              "fair": 2710,
+              "lab": "o",
+              "gap": 7
+            }
+          },
+          "und": 2,
+          "avail": 3,
+          "buy": true
+        },
         "score": 61.0
       },
       "combined": 51.6,
@@ -214,7 +302,29 @@
         "eqr": 56.8,
         "divy": 2.61,
         "growth": -16.8,
-        "theo": 6313,
+        "theo": 11216,
+        "cons": {
+          "judg": {
+            "株マップ": {
+              "fair": 11216,
+              "lab": "u",
+              "gap": -38
+            },
+            "PER": {
+              "fair": 6748,
+              "lab": "f",
+              "gap": 2
+            },
+            "ROE": {
+              "fair": 5878,
+              "lab": "o",
+              "gap": 17
+            }
+          },
+          "und": 1,
+          "avail": 3,
+          "buy": false
+        },
         "score": 59.0
       },
       "combined": 50.9,
@@ -259,7 +369,29 @@
         "eqr": 47.9,
         "divy": 1.78,
         "growth": 15.9,
-        "theo": 1698,
+        "theo": 1837,
+        "cons": {
+          "judg": {
+            "株マップ": {
+              "fair": 1837,
+              "lab": "o",
+              "gap": 22
+            },
+            "PER": {
+              "fair": 1935,
+              "lab": "o",
+              "gap": 16
+            },
+            "ROE": {
+              "fair": 1461,
+              "lab": "o",
+              "gap": 53
+            }
+          },
+          "und": 0,
+          "avail": 3,
+          "buy": false
+        },
         "score": 58.0
       },
       "combined": 50.4,
@@ -304,7 +436,29 @@
         "eqr": 12.4,
         "divy": 0.0,
         "growth": 23.0,
-        "theo": 1297,
+        "theo": 1594,
+        "cons": {
+          "judg": {
+            "株マップ": {
+              "fair": 1594,
+              "lab": "f",
+              "gap": -5
+            },
+            "PER": {
+              "fair": 1415,
+              "lab": "o",
+              "gap": 7
+            },
+            "ROE": {
+              "fair": 1178,
+              "lab": "o",
+              "gap": 29
+            }
+          },
+          "und": 0,
+          "avail": 3,
+          "buy": false
+        },
         "score": 55.0
       },
       "combined": 49.0,
@@ -349,7 +503,29 @@
         "eqr": 47.1,
         "divy": 2.21,
         "growth": -17.3,
-        "theo": 3027,
+        "theo": 3288,
+        "cons": {
+          "judg": {
+            "株マップ": {
+              "fair": 3288,
+              "lab": "f",
+              "gap": -4
+            },
+            "PER": {
+              "fair": 3483,
+              "lab": "u",
+              "gap": -9
+            },
+            "ROE": {
+              "fair": 2572,
+              "lab": "o",
+              "gap": 23
+            }
+          },
+          "und": 1,
+          "avail": 3,
+          "buy": false
+        },
         "score": 63.0
       },
       "combined": 46.9,
@@ -394,7 +570,19 @@
         "eqr": 92.4,
         "divy": 0.0,
         "growth": -374.0,
-        "theo": null,
+        "theo": 623,
+        "cons": {
+          "judg": {
+            "株マップ": {
+              "fair": 623,
+              "lab": "o",
+              "gap": 62
+            }
+          },
+          "und": 0,
+          "avail": 1,
+          "buy": false
+        },
         "score": 29.0
       },
       "combined": 35.5,
@@ -439,7 +627,29 @@
         "eqr": 20.1,
         "divy": 0.94,
         "growth": -47.8,
-        "theo": 391,
+        "theo": 1002,
+        "cons": {
+          "judg": {
+            "株マップ": {
+              "fair": 1002,
+              "lab": "o",
+              "gap": 28
+            },
+            "PER": {
+              "fair": 436,
+              "lab": "o",
+              "gap": 194
+            },
+            "ROE": {
+              "fair": 347,
+              "lab": "o",
+              "gap": 269
+            }
+          },
+          "und": 0,
+          "avail": 3,
+          "buy": false
+        },
         "score": 27.0
       },
       "combined": 35.3,
