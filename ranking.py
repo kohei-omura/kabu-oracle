@@ -58,7 +58,9 @@ def attach_barrier_stats(items: list, cfg: dict) -> None:
     except Exception:
         frames = {}
     for a in targets:
-        a.bt = S.barrier_stats(frames.get(a.code), a.price, a.target, a.stop)
+        df = frames.get(a.code)
+        a.bt = S.barrier_stats(df, a.price, a.target, a.stop)
+        a.ez = S.entry_zone(df, a.price, a.atr, a.stop)
 
 
 # ---------- テクニカル × ファンダ 複合ランキング ----------
@@ -268,6 +270,12 @@ def format_ranking(buys, sells, total: int, date_str: str) -> str:
         if a.stop and a.target:
             lines.append(f"   目標¥{a.target:,.0f} / 損切¥{a.stop:,.0f}"
                          + (f" / RR {a.rr}" if a.rr else ""))
+        ez = getattr(a, "ez", None)
+        if ez:
+            if ez["gap"] < 1.0:
+                lines.append(f"   🎯狙い目 現値¥{ez['hi']:,}〜")
+            else:
+                lines.append(f"   🎯狙い目 指値¥{ez['dip']:,}〜現値¥{ez['hi']:,}（-{ez['gap']:.0f}%）")
         if a.fund:
             fp = []
             if a.fund.get("per") is not None: fp.append(f"PER{a.fund['per']:.1f}")

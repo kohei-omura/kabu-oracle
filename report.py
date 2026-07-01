@@ -98,6 +98,15 @@ def _card(rank: int, a, show_levels: bool, market: str = "") -> str:
         if fc:
             fund = f'<div class="funds">{"".join(fc)}</div>'
     val = _val_block(a.price, a.fund)
+    ez_html = ""
+    ez = getattr(a, "ez", None)
+    if ez:
+        if ez["gap"] < 1.0:
+            ez_html = (f'<div class="ez">🎯 狙い目 現値 ¥{ez["hi"]:,}〜'
+                       f'<span class="ezn">押し目余地は小</span></div>')
+        else:
+            ez_html = (f'<div class="ez">🎯 狙い目 指値 ¥{ez["dip"]:,} 〜 現値 ¥{ez["hi"]:,}'
+                       f'<span class="ezn">-{ez["gap"]:.0f}% の押し目</span></div>')
     bt_html = ""
     if a.bt:
         b = a.bt
@@ -117,7 +126,7 @@ def _card(rank: int, a, show_levels: bool, market: str = "") -> str:
             f'<span class="name">{_esc(a.name)}</span>{_seg(market)}</div>{_badge(a.signal)}</div>'
             f'<div class="row2"><span class="price" data-px="{_esc(a.code)}">¥{a.price:,.0f}</span>'
             f'<span class="score {sc_cls}">{sc_txt}</span>{_score_bar(disp)}</div>'
-            f'{levels}{fund}{val}{bt_html}{reasons}</div>')
+            f'{levels}{ez_html}{fund}{val}{bt_html}{reasons}</div>')
 
 
 def _section(title: str, sub: str, cards_html: str, accent: str) -> str:
@@ -279,6 +288,10 @@ h2 em{font-style:normal;font-family:'IBM Plex Mono',monospace;font-size:10px;
 .cchip.fair{color:var(--mut)}
 .cverdict{margin-top:6px;font-size:12px;font-weight:800;color:var(--mut)}
 .cverdict.buy{color:var(--buy)}
+.ez{margin-top:8px;font-size:12px;font-weight:800;color:var(--fg);
+  background:rgba(90,140,255,.10);border:1px solid rgba(90,140,255,.30);
+  border-radius:9px;padding:6px 10px}
+.ezn{margin-left:8px;font-size:11px;font-weight:700;color:var(--mut)}
 .badge{flex:none;width:26px;height:26px;display:grid;place-items:center;
   border-radius:8px;font-size:13px;font-weight:700}
 .badge.buy{color:var(--buy);background:rgba(70,196,106,.12);border:1px solid rgba(70,196,106,.3)}

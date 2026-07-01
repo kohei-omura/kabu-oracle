@@ -44,6 +44,8 @@ class Analysis:
     fund: Optional[dict] = None        # ファンダ指標(PER/PBR/ROE/利回り/増益率/スコア)
     combined: Optional[float] = None   # テク×ファンダ複合スコア(0〜100)
     bt: Optional[dict] = None          # バリア試算(勝率/想定保有日数)
+    ez: Optional[dict] = None          # 推奨エントリー価格帯(押し目の目安)
+    fair: Optional[dict] = None        # 理論株価(price/gap/verdict)
 
 
 def _clip(x: float) -> float:
@@ -270,3 +272,31 @@ def barrier_stats(df, entry: float, target: float, stop: float,
         "days_sl": round(sum(loss_days) / losses) if losses else None,
         "n": wins + losses,
     }
+
+
+def entry_zone(df, price: float, atr: float, stop: float | None = None) -> dict | None:
+    """押し目を考慮した推奨エントリー価格帯（テクニカルな目安・板情報ではない）。
+
+    支持線＝EMA25と直近10日安値の高い方。現値から0.5ATR下か支持線のいずれか浅い方を
+    「狙い目の指値(dip)」とし、損切より上・現値以下にクランプする。
+    返す: {dip, hi, gap, note}。算出不可なら None。
+    """
+    if df is None or price <= 0 or atr <= 0:
+        return None
+    try:
+        close = df["Close"]
+        ema25 = float(close.ewm(span=25, adjust=False).mean().iloc[-1])
+        swing_low = float(df["Low"].iloc[-10:].min())
+    except Exception:
+        return None
+    support = max(ema25, swing_low)
+    dip = min(price - 0.5 * atr, support)      # 現値から0.5ATR下 か 支持線
+    if stop:
+        dip = max(dip, stop + 0.2 * atr)       # 損切のすぐ上より下は狙わない
+    dip = min(dip, price)                       # 現値は超えない
+    gap = (price - dip) / price * 100 if price else 0.0
+    if gap < 1.0:
+        note = "現値〜成行でOK（押し目余地は小さい）"
+    else:
+        note = f"押し目 ¥{dip:,.0f} 前後を指値で狙うと有利（現値比 -{gap:.1f}%）"
+    return {"dip": round(dip), "hi": round(price), "gap": round(gap, 1), "note": note}
