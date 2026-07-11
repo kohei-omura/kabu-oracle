@@ -364,6 +364,23 @@ footer b{color:var(--gold-d)}
 .refresh{margin-left:6px;background:none;border:1px solid var(--line);color:var(--fg);
   border-radius:8px;padding:2px 9px;cursor:pointer;font-size:12px;font-weight:700}
 .refresh:disabled{opacity:.5}
+.sec-tenbagger{margin-top:22px}
+.tb-card{border-color:rgba(212,175,86,.28)}
+.tb-score{margin-left:auto;font-family:var(--mono);font-size:20px;font-weight:600;color:var(--gold)}
+.tb-score i{font-size:11px;color:var(--mut);font-style:normal;margin-left:1px}
+.tb-meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;font-family:var(--mono);font-size:11px;color:var(--mut)}
+.tb-meta .tb-mcap{color:var(--ink)}
+.tb-bar{position:relative;height:7px;border-radius:99px;background:rgba(255,255,255,.06);margin-top:9px;overflow:hidden}
+.tb-bar span{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,var(--gold-d),var(--gold));border-radius:99px}
+.tb-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+.tb-tag{font-family:var(--mono);font-size:10.5px;padding:3px 8px;border-radius:99px;border:1px solid var(--line)}
+.tb-tag.t100{color:var(--gold);border-color:rgba(212,175,86,.5);background:rgba(212,175,86,.08)}
+.tb-tag.t10{color:var(--ink);border-color:rgba(212,175,86,.35)}
+.tb-tag.tbuy{color:var(--buy);border-color:rgba(70,196,106,.4);background:rgba(70,196,106,.08)}
+.tb-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.tb-chips .tb-chip{font-family:var(--mono);font-size:10px;color:var(--mut);padding:2px 7px;border:1px solid var(--line);border-radius:99px}
+.tb-foot{margin-top:12px;font-size:10.5px;line-height:1.7;color:var(--mut)}
+.tb-foot .tb-note2{color:var(--hold)}
 """
 
 APP_JS = r"""
@@ -713,6 +730,273 @@ APP_JS = r"""
 """
 
 
+# ─────────────────────────────────────────────────────────────
+#  🚀 テンバガー候補レーダー（近似設計）
+#  ※ J-Quants無料枠(/fins/summary)は 売上高・営業利益・発行済株式数・業種 を返さない。
+#    そのため取得可能な 純利益(FNP/NP)・EPS・純資産(Eq) で指示書の意図を近似する:
+#      ・時価総額 ≈ 株価 × (純利益 / EPS)   … 発行済株式数=純利益/EPSで近似
+#      ・売上高成長率 → 純利益成長率（2期）で代替
+#      ・営業利益率 → ROE(純利益/純資産)で代替
+#      ・増収継続 → 増益継続で代替 ・ 流動性 → 20日平均売買代金（日足から算出）
+#      ・17業種ボーナスは業種データが無いため対象外（脚注に明記）
+# ─────────────────────────────────────────────────────────────
+TENBAGGER_CACHE = DOCS / "tenbagger_cache.json"
+
+
+def _tb_load_cache() -> dict:
+    try:
+        if TENBAGGER_CACHE.exists():
+            return json.loads(TENBAGGER_CACHE.read_text(encoding="utf-8")) or {}
+    except Exception:
+        pass
+    return {}
+
+
+def _tb_turnover20(df) -> float | None:
+    """日足から直近20日平均売買代金（円）＝ Close×Volume の平均。"""
+    try:
+        if df is None or "Close" not in df or "Volume" not in df:
+            return None
+        c = df["Close"].astype(float)
+        v = df["Volume"].astype(float)
+        tv = (c * v).dropna().tail(20)
+        if tv.empty:
+            return None
+        return float(tv.mean())
+    except Exception:
+        return None
+
+
+def _tb_score(price: float, raw: dict, turnover20: float | None):
+    """近似スコア(100点満点)。対象外は None。返り値: dict(score, mcap_oku, parts, growth, roe)。"""
+    if not raw or price is None or price <= 0:
+        return None
+    eps = raw.get("eps_fore") or raw.get("eps_fy")
+    profit = raw.get("profit_fore")
+    if profit is None:
+        profit = raw.get("profit_fy")
+    # 発行済株式数 ≈ 純利益 / EPS（同期）。EPS/純利益が無い＝時価総額を近似できず対象外
+    if not eps or eps <= 0 or profit is None:
+        return None
+    shares = profit / eps
+    if shares <= 0:
+        return None
+    mcap_oku = price * shares / 1e8  # 億円
+
+    # ① 時価総額(30点)：300億超は候補除外。100億未満=30／100〜300億=反比例で15〜25
+    if mcap_oku > 300:
+        return None
+    if mcap_oku < 100:
+        s_mcap = 30.0
+    else:
+        s_mcap = 25.0 - (mcap_oku - 100.0) / 200.0 * 10.0  # 100億→25 ・ 300億→15
+
+    # ② 純利益成長率(30点・売上高成長率の代替)：直近予想 vs 前期／前期 vs 前々期の2期で判定
+    pf_fore, pf_fy, pf_prev = raw.get("profit_fore"), raw.get("profit_fy"), raw.get("prev_profit_fy")
+    g1 = ((pf_fore - pf_fy) / abs(pf_fy) * 100.0) if (pf_fore is not None and pf_fy not in (None, 0)) else None
+    g2 = ((pf_fy - pf_prev) / abs(pf_prev) * 100.0) if (pf_fy is not None and pf_prev not in (None, 0)) else None
+    if g1 is None:
+        return None  # 成長不明は対象外
+    if g1 >= 20 and (g2 is not None and g2 >= 20):
+        s_growth = 30.0  # 2期連続+20%以上
+    elif g1 >= 20:
+        s_growth = 20.0
+    elif g1 >= 10:
+        s_growth = 10.0
+    else:
+        return None  # 直近+10%未満は候補除外
+
+    # ③ ROE(20点・営業利益率の代替)：15%↑=20／8〜15%=12／黒字〜8%=6／赤字は高成長(+30%超)なら6・他は除外
+    eq = raw.get("equity")
+    roe = (profit / eq * 100.0) if (eq and eq > 0) else None
+    if roe is None:
+        s_prof = 6.0 if profit > 0 else (6.0 if g1 > 30 else None)
+    elif roe >= 15:
+        s_prof = 20.0
+    elif roe >= 8:
+        s_prof = 12.0
+    elif profit > 0:
+        s_prof = 6.0  # 黒字〜8%
+    else:
+        s_prof = 6.0 if g1 > 30 else None  # 営業赤字は高成長なら6
+    if s_prof is None:
+        return None
+
+    # ④ 増益継続(10点・増収継続の代替)：増益連続期数×3（上限10）
+    streak = 0
+    if g2 is not None and g2 > 0:
+        streak += 1
+    if g1 > 0:
+        streak += 1
+    s_cont = min(10.0, streak * 3.0)
+
+    # ⑤ 流動性(10点)：20日平均売買代金 3,000万〜30億=10／低すぎ・大きすぎ=各5／不明=5
+    if turnover20 is None:
+        s_liq = 5.0
+    elif 3.0e7 <= turnover20 <= 3.0e9:
+        s_liq = 10.0
+    else:
+        s_liq = 5.0
+
+    # ※ 17業種ボーナス(+5)は業種データが無いため対象外
+    total = min(100.0, s_mcap + s_growth + s_prof + s_cont + s_liq)
+    return {
+        "score": round(total),
+        "mcap_oku": round(mcap_oku),
+        "growth": round(g1, 1) if g1 is not None else None,
+        "roe": round(roe, 1) if roe is not None else None,
+        "parts": {"mcap": round(s_mcap), "growth": round(s_growth),
+                  "prof": round(s_prof), "cont": round(s_cont), "liq": round(s_liq)},
+    }
+
+
+def build_tenbagger(analyses: list, cfg: dict, buy_codes: set) -> tuple[str, list]:
+    """テンバガー候補レーダー TOP10 を生成。返り値: (section_html, index_rows)。
+    既存出力・スコア計算・判定には非干渉（report.py内の追加のみ）。"""
+    tcfg = (cfg.get("tenbagger") or {})
+    if not tcfg.get("enabled", True):
+        return "", []
+    fetch_cap = int(tcfg.get("fetch_cap", 12))       # 1回あたりの財務API新規取得の上限（+3分以内に抑える）
+    cache_days = int(tcfg.get("cache_days", 7))
+    amap = {a.code: a for a in analyses}
+    today = datetime.now(JST).strftime("%Y-%m-%d")
+
+    cache = _tb_load_cache()
+    # 7日以内キャッシュを有効とし、期限切れ／未取得のみ新規取得（上限fetch_cap）
+    fresh, need = {}, []
+    for a in analyses:
+        e = cache.get(a.code)
+        ok = False
+        if e and e.get("fetched"):
+            try:
+                d0 = datetime.strptime(e["fetched"], "%Y-%m-%d")
+                if (datetime.now() - d0).days < cache_days and e.get("raw") is not None:
+                    fresh[a.code] = e["raw"]
+                    ok = True
+            except Exception:
+                ok = False
+        if not ok:
+            need.append(a.code)
+
+    # 新規財務取得（無料枠5/分・既定13秒間隔。APIエラー銘柄はスキップしログ）
+    key = None
+    try:
+        import jquants as JQ
+        key = JQ.get_api_key()
+    except Exception as e:  # noqa
+        print(f"[tenbagger] jquants未使用: {e}")
+    if key and need:
+        pick = need[:max(0, fetch_cap)]
+        try:
+            import jquants as JQ
+            raw_new = JQ.fundamentals_for(pick, key, float(tcfg.get("request_sleep", 13.0)))
+        except Exception as e:  # noqa
+            print(f"[tenbagger] 財務取得失敗（キャッシュ分のみ継続）: {e}")
+            raw_new = {}
+        for c in pick:
+            r = raw_new.get(c)
+            cache[c] = {"fetched": today, "raw": r}  # 失敗はraw=Noneでキャッシュ（連日リトライ回避）
+            if r is not None:
+                fresh[c] = r
+    _tb_save_cache(cache)
+
+    # 300億以下の候補のみ日足で売買代金を算出（財務APIは使わない）
+    prelim = [c for c in fresh if c in amap]
+    turns: dict = {}
+    if prelim:
+        try:
+            frames = R.D.fetch_many(prelim)
+        except Exception as e:  # noqa
+            print(f"[tenbagger] 日足取得失敗: {e}")
+            frames = {}
+        for c in prelim:
+            turns[c] = _tb_turnover20(frames.get(c))
+
+    scored = []
+    for c in prelim:
+        a = amap.get(c)
+        if a is None:
+            continue
+        sc = _tb_score(a.price, fresh.get(c), turns.get(c))
+        if sc is None:
+            continue
+        scored.append((a, sc))
+    scored.sort(key=lambda x: x[1]["score"], reverse=True)
+    top = scored[:10]
+
+    print(f"[tenbagger] 財務キャッシュ {len(fresh)} ・ 候補 {len(scored)} ・ 表示 {len(top)}")
+
+    if not top:
+        return "", []
+
+    cards = "".join(_tb_card(i, a, sc, (a.code in buy_codes)) for i, (a, sc) in enumerate(top, 1))
+    foot = (
+        '<p class="tb-foot">※テンバガーの共通特徴への適合度であり、株価上昇の予想・保証ではありません。'
+        '超小型株は流動性が低く、値動きが極端になりやすいハイリスク領域です。'
+        '株主構成・事業内容は必ずご自身でご確認ください。投資判断は自己責任です。'
+        '<br><span class="tb-note2">（データ制約により 売上高→純利益成長率、営業利益率→ROE、'
+        '発行済株式数→純利益/EPS で近似。17業種ボーナス・株主構成はJ-Quants無料枠で取得不可のため対象外です。）</span></p>'
+    )
+    section = (
+        '<section class="sec-tenbagger">'
+        '<h2 class="find"><span>🚀 テンバガー候補レーダー TOP10</span><em>TENBAGGER RADAR</em></h2>'
+        f'<div class="cards">{cards}</div>{foot}</section>'
+    )
+    index_rows = []
+    for a, sc in top:
+        index_rows.append({
+            "c": _esc(a.code), "n": _esc(a.name), "g": a.signal,
+            "sc": round(a.score), "p": round(a.price),
+            "t": round(a.target) if a.target else None,
+            "st": round(a.stop) if a.stop else None,
+            "rr": a.rr, "r": [_esc(x) for x in (a.reasons or [])[:3]],
+            "rk": 0, "m": "", "k": _search_key(a.name, a.code),
+        })
+    return section, index_rows
+
+
+def _tb_save_cache(cache: dict) -> None:
+    try:
+        DOCS.mkdir(exist_ok=True)
+        TENBAGGER_CACHE.write_text(json.dumps(cache, ensure_ascii=False, default=str), encoding="utf-8")
+    except Exception as e:  # noqa
+        print(f"[tenbagger] cache保存失敗: {e}")
+
+
+def _tb_card(rank: int, a, sc: dict, is_buy: bool) -> str:
+    p = sc["parts"]
+    tag = ""
+    if sc["score"] >= 85:
+        tag = '<span class="tb-tag t100">💎 100倍級の特徴</span>'
+    elif sc["score"] >= 70:
+        tag = '<span class="tb-tag t10">🚀 10倍級の特徴</span>'
+    buy_badge = '<span class="tb-tag tbuy">⭐ テクニカルも買い</span>' if is_buy else ""
+    growth = f'<span class="tb-chip">増益 {sc["growth"]:+.0f}%</span>' if sc.get("growth") is not None else ""
+    roe = f'<span class="tb-chip">ROE {sc["roe"]:.1f}%</span>' if sc.get("roe") is not None else ""
+    chips = (
+        f'<span class="tb-chip">時価総額 {p["mcap"]}</span>'
+        f'<span class="tb-chip">成長 {p["growth"]}</span>'
+        f'<span class="tb-chip">利益性 {p["prof"]}</span>'
+        f'<span class="tb-chip">継続 {p["cont"]}</span>'
+        f'<span class="tb-chip">流動性 {p["liq"]}</span>'
+    )
+    pct = max(0, min(100, sc["score"]))
+    return (
+        f'<div class="card tb-card" style="animation-delay:{rank*0.05:.2f}s">'
+        f'<div class="row1"><span class="rank">{rank}</span>'
+        f'<div class="title"><span class="code">{_esc(a.code)}</span>'
+        f'<span class="name">{_esc(a.name)}</span>{_seg("")}</div>'
+        f'<span class="tb-score">{sc["score"]}<i>点</i></span></div>'
+        f'<div class="tb-meta"><span class="tb-mcap">時価総額 ~{sc["mcap_oku"]}億円</span>'
+        f'<span class="tb-gr">売上(≈利益)成長 {sc["growth"]:+.0f}%</span>'
+        + (f'<span class="tb-roe">営業利益率(≈ROE) {sc["roe"]:.1f}%</span>' if sc.get("roe") is not None else "")
+        + '</div>'
+        f'<div class="tb-bar"><span style="width:{pct}%"></span></div>'
+        f'<div class="tb-tags">{tag}{buy_badge}</div>'
+        f'<div class="tb-chips">{chips}</div></div>'
+    )
+
+
 def build_html(cfg: dict) -> tuple[str, dict]:
     now = datetime.now(JST)
     date_str = now.strftime("%Y.%m.%d %H:%M")
@@ -725,6 +1009,10 @@ def build_html(cfg: dict) -> tuple[str, dict]:
                                     extra_codes=[h["code"] for h in holds])
     buys = analyses[:top]
     R.attach_barrier_stats(buys, cfg)
+
+    # 🚀 テンバガー候補レーダー（買い候補TOP10の下に新設・既存出力には非干渉）
+    buy_codes = {b.code for b in buys}
+    tenbagger_section, _tb_index = build_tenbagger(analyses, cfg, buy_codes)
 
     mk = market_map(cfg)
     buy_sub = "TECH × FUNDAMENTAL" if any(b.combined is not None for b in buys) else "BUY SIGNALS"
@@ -800,6 +1088,8 @@ def build_html(cfg: dict) -> tuple[str, dict]:
   {hold_section}
 
   {_section("買い候補 TOP10", buy_sub, buy_cards, "buy")}
+
+  {tenbagger_section}
 
   <footer>
     <b>免責</b>：本ページは自分用の分析補助であり投資助言ではありません。
