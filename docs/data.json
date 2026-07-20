@@ -1,5 +1,5 @@
 {
-  "generated": "2026.07.20 19:25",
+  "generated": "2026.07.21 08:31",
   "total": 3692,
   "buys": [
     {
@@ -57,9 +57,9 @@
           "avail": 3,
           "buy": false
         },
-        "score": 48.0
+        "score": 42.0
       },
-      "combined": 73.8,
+      "combined": 71.1,
       "bt": {
         "win_rate": 41,
         "days_tp": 2,
@@ -128,9 +128,9 @@
           "avail": 3,
           "buy": true
         },
-        "score": 78.0
+        "score": 75.0
       },
-      "combined": 71.4,
+      "combined": 69.6,
       "bt": {
         "win_rate": 49,
         "days_tp": 9,
@@ -200,9 +200,9 @@
           "avail": 3,
           "buy": false
         },
-        "score": 49.0
+        "score": 43.0
       },
-      "combined": 56.6,
+      "combined": 53.9,
       "bt": {
         "win_rate": 46,
         "days_tp": 2,
@@ -271,9 +271,9 @@
           "avail": 3,
           "buy": true
         },
-        "score": 73.0
+        "score": 68.0
       },
-      "combined": 53.9,
+      "combined": 51.2,
       "bt": {
         "win_rate": 29,
         "days_tp": 1,
@@ -284,6 +284,77 @@
         "dip": 5143,
         "hi": 5150,
         "gap": 0.1,
+        "note": "現値〜成行でOK（押し目余地は小さい）"
+      },
+      "fair": null
+    },
+    {
+      "code": "2162",
+      "name": "ｎｍｓ　ホールディングス",
+      "price": 535.0,
+      "score": 75.9,
+      "signal": "HOLD",
+      "confidence": 75,
+      "entry": 535.0,
+      "stop": 529.4,
+      "target": 543.4,
+      "rr": 1.5,
+      "atr": 2.81,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 0.8,
+        "meanrev": 0.48,
+        "volume": 0.0,
+        "relstr": 0.94
+      },
+      "error": null,
+      "fund": {
+        "per": 7.9,
+        "pbr": 2.26,
+        "roe": 23.0,
+        "eqr": 12.6,
+        "divy": 2.62,
+        "growth": 34.8,
+        "theo": 1014,
+        "cons": {
+          "judg": {
+            "株マップ": {
+              "fair": 1014,
+              "lab": "u",
+              "gap": -47
+            },
+            "PER": {
+              "fair": 1013,
+              "lab": "u",
+              "gap": -47
+            },
+            "ROE": {
+              "fair": 681,
+              "lab": "u",
+              "gap": -21
+            }
+          },
+          "und": 3,
+          "avail": 3,
+          "buy": true
+        },
+        "score": 71.0
+      },
+      "combined": 47.8,
+      "bt": {
+        "win_rate": 35,
+        "days_tp": 2,
+        "days_sl": 2,
+        "n": 220
+      },
+      "ez": {
+        "dip": 533,
+        "hi": 535,
+        "gap": 0.4,
         "note": "現値〜成行でOK（押し目余地は小さい）"
       },
       "fair": null
@@ -342,9 +413,9 @@
           "avail": 3,
           "buy": true
         },
-        "score": 73.0
+        "score": 68.0
       },
-      "combined": 46.1,
+      "combined": 43.9,
       "bt": {
         "win_rate": 48,
         "days_tp": 10,
@@ -414,9 +485,9 @@
           "avail": 3,
           "buy": false
         },
-        "score": 37.0
+        "score": 32.0
       },
-      "combined": 41.1,
+      "combined": 38.4,
       "bt": {
         "win_rate": 50,
         "days_tp": 1,
@@ -485,9 +556,9 @@
           "avail": 3,
           "buy": false
         },
-        "score": 58.0
+        "score": 54.0
       },
-      "combined": 39.7,
+      "combined": 37.8,
       "bt": {
         "win_rate": 77,
         "days_tp": 12,
@@ -557,9 +628,9 @@
           "avail": 3,
           "buy": true
         },
-        "score": 70.0
+        "score": 67.0
       },
-      "combined": 37.2,
+      "combined": 35.7,
       "bt": {
         "win_rate": 43,
         "days_tp": 4,
@@ -632,78 +703,6 @@
         "hi": 377,
         "gap": 0.7,
         "note": "現値〜成行でOK（押し目余地は小さい）"
-      },
-      "fair": null
-    },
-    {
-      "code": "2876",
-      "name": "デルソーレ",
-      "price": 471.0,
-      "score": 75.0,
-      "signal": "BUY",
-      "confidence": 95,
-      "entry": 471.0,
-      "stop": 454.8,
-      "target": 495.3,
-      "rr": 1.5,
-      "atr": 8.09,
-      "reasons": [
-        "ゴールデンクロス発生",
-        "中期上昇トレンド（EMA25>EMA75）",
-        "指数より強い（相対力プラス）"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -0.65,
-        "volume": 0.97,
-        "relstr": 1.0
-      },
-      "error": null,
-      "fund": {
-        "per": 18.2,
-        "pbr": 0.69,
-        "roe": 3.7,
-        "eqr": 57.7,
-        "divy": 2.55,
-        "growth": 154.5,
-        "theo": 946,
-        "cons": {
-          "judg": {
-            "株マップ": {
-              "fair": 946,
-              "lab": "u",
-              "gap": -50
-            },
-            "PER": {
-              "fair": 387,
-              "lab": "o",
-              "gap": 22
-            },
-            "ROE": {
-              "fair": 318,
-              "lab": "o",
-              "gap": 48
-            }
-          },
-          "und": 1,
-          "avail": 3,
-          "buy": false
-        },
-        "score": 55.0
-      },
-      "combined": 35.0,
-      "bt": {
-        "win_rate": 56,
-        "days_tp": 16,
-        "days_sl": 11,
-        "n": 236
-      },
-      "ez": {
-        "dip": 459,
-        "hi": 471,
-        "gap": 2.5,
-        "note": "押し目 ¥459 前後を指値で狙うと有利（現値比 -2.5%）"
       },
       "fair": null
     }
