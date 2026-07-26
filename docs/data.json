@@ -1,6 +1,6 @@
 {
-  "generated": "2026.07.24 18:54",
-  "total": 3694,
+  "generated": "2026.07.27 08:29",
+  "total": 3693,
   "buys": [
     {
       "code": "3480",
@@ -57,9 +57,9 @@
           "avail": 3,
           "buy": false
         },
-        "score": 45.0
+        "score": 49.0
       },
-      "combined": 72.7,
+      "combined": 74.4,
       "bt": {
         "win_rate": 39,
         "days_tp": 2,
@@ -71,149 +71,6 @@
         "hi": 8980,
         "gap": 0.6,
         "note": "現値〜成行でOK（押し目余地は小さい）"
-      },
-      "fair": null
-    },
-    {
-      "code": "8078",
-      "name": "阪和興業",
-      "price": 1721.0,
-      "score": 78.0,
-      "signal": "BUY",
-      "confidence": 98,
-      "entry": 1721.0,
-      "stop": 1625.6,
-      "target": 1864.2,
-      "rr": 1.5,
-      "atr": 47.72,
-      "reasons": [
-        "ゴールデンクロス発生",
-        "中期上昇トレンド（EMA25>EMA75）",
-        "指数より強い（相対力プラス）"
-      ],
-      "factors": {
-        "trend": 0.98,
-        "momentum": 1.0,
-        "meanrev": -0.06,
-        "volume": 0.44,
-        "relstr": 1.0
-      },
-      "error": null,
-      "fund": {
-        "per": 1.7,
-        "pbr": 0.17,
-        "roe": 9.9,
-        "eqr": 34.9,
-        "divy": 14.53,
-        "growth": -12.1,
-        "theo": 20083,
-        "cons": {
-          "judg": {
-            "株マップ": {
-              "fair": 20083,
-              "lab": "u",
-              "gap": -91
-            },
-            "PER": {
-              "fair": 14858,
-              "lab": "u",
-              "gap": -88
-            },
-            "ROE": {
-              "fair": 12595,
-              "lab": "u",
-              "gap": -86
-            }
-          },
-          "und": 3,
-          "avail": 3,
-          "buy": true
-        },
-        "score": 79.0
-      },
-      "combined": 58.1,
-      "bt": {
-        "win_rate": 78,
-        "days_tp": 24,
-        "days_sl": 8,
-        "n": 225
-      },
-      "ez": {
-        "dip": 1697,
-        "hi": 1721,
-        "gap": 1.4,
-        "note": "押し目 ¥1,697 前後を指値で狙うと有利（現値比 -1.4%）"
-      },
-      "fair": null
-    },
-    {
-      "code": "6547",
-      "name": "グリーンズ",
-      "price": 2124.0,
-      "score": 79.3,
-      "signal": "HOLD",
-      "confidence": 79,
-      "entry": 2124.0,
-      "stop": 2011.1,
-      "target": 2293.3,
-      "rr": 1.5,
-      "atr": 56.44,
-      "reasons": [
-        "中期上昇トレンド（EMA25>EMA75）",
-        "指数より強い（相対力プラス）"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -0.13,
-        "volume": 0.63,
-        "relstr": 1.0
-      },
-      "error": null,
-      "fund": {
-        "per": 8.3,
-        "pbr": 3.6,
-        "roe": 27.3,
-        "eqr": 39.0,
-        "divy": 1.88,
-        "growth": -31.6,
-        "theo": 3137,
-        "cons": {
-          "judg": {
-            "株マップ": {
-              "fair": 3137,
-              "lab": "u",
-              "gap": -32
-            },
-            "PER": {
-              "fair": 3820,
-              "lab": "u",
-              "gap": -44
-            },
-            "ROE": {
-              "fair": 2013,
-              "lab": "o",
-              "gap": 6
-            }
-          },
-          "und": 2,
-          "avail": 3,
-          "buy": true
-        },
-        "score": 57.0
-      },
-      "combined": 57.8,
-      "bt": {
-        "win_rate": 41,
-        "days_tp": 8,
-        "days_sl": 8,
-        "n": 221
-      },
-      "ez": {
-        "dip": 2095,
-        "hi": 2124,
-        "gap": 1.3,
-        "note": "押し目 ¥2,095 前後を指値で狙うと有利（現値比 -1.3%）"
       },
       "fair": null
     },
@@ -272,9 +129,9 @@
           "avail": 3,
           "buy": false
         },
-        "score": 33.0
+        "score": 37.0
       },
-      "combined": 57.7,
+      "combined": 59.0,
       "bt": {
         "win_rate": 62,
         "days_tp": 16,
@@ -286,6 +143,149 @@
         "hi": 790,
         "gap": 2.6,
         "note": "押し目 ¥770 前後を指値で狙うと有利（現値比 -2.6%）"
+      },
+      "fair": null
+    },
+    {
+      "code": "6547",
+      "name": "グリーンズ",
+      "price": 2124.0,
+      "score": 79.3,
+      "signal": "HOLD",
+      "confidence": 79,
+      "entry": 2124.0,
+      "stop": 2011.1,
+      "target": 2293.3,
+      "rr": 1.5,
+      "atr": 56.44,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -0.13,
+        "volume": 0.63,
+        "relstr": 1.0
+      },
+      "error": null,
+      "fund": {
+        "per": 8.3,
+        "pbr": 3.6,
+        "roe": 27.3,
+        "eqr": 39.0,
+        "divy": 1.88,
+        "growth": -31.6,
+        "theo": 3137,
+        "cons": {
+          "judg": {
+            "株マップ": {
+              "fair": 3137,
+              "lab": "u",
+              "gap": -32
+            },
+            "PER": {
+              "fair": 3820,
+              "lab": "u",
+              "gap": -44
+            },
+            "ROE": {
+              "fair": 2013,
+              "lab": "o",
+              "gap": 6
+            }
+          },
+          "und": 2,
+          "avail": 3,
+          "buy": true
+        },
+        "score": 58.0
+      },
+      "combined": 57.5,
+      "bt": {
+        "win_rate": 41,
+        "days_tp": 8,
+        "days_sl": 8,
+        "n": 221
+      },
+      "ez": {
+        "dip": 2095,
+        "hi": 2124,
+        "gap": 1.3,
+        "note": "押し目 ¥2,095 前後を指値で狙うと有利（現値比 -1.3%）"
+      },
+      "fair": null
+    },
+    {
+      "code": "8078",
+      "name": "阪和興業",
+      "price": 1721.0,
+      "score": 78.0,
+      "signal": "BUY",
+      "confidence": 98,
+      "entry": 1721.0,
+      "stop": 1625.6,
+      "target": 1864.2,
+      "rr": 1.5,
+      "atr": 47.72,
+      "reasons": [
+        "ゴールデンクロス発生",
+        "中期上昇トレンド（EMA25>EMA75）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 0.98,
+        "momentum": 1.0,
+        "meanrev": -0.06,
+        "volume": 0.44,
+        "relstr": 1.0
+      },
+      "error": null,
+      "fund": {
+        "per": 1.7,
+        "pbr": 0.17,
+        "roe": 9.9,
+        "eqr": 34.9,
+        "divy": 14.53,
+        "growth": -12.1,
+        "theo": 20083,
+        "cons": {
+          "judg": {
+            "株マップ": {
+              "fair": 20083,
+              "lab": "u",
+              "gap": -91
+            },
+            "PER": {
+              "fair": 14858,
+              "lab": "u",
+              "gap": -88
+            },
+            "ROE": {
+              "fair": 12595,
+              "lab": "u",
+              "gap": -86
+            }
+          },
+          "und": 3,
+          "avail": 3,
+          "buy": true
+        },
+        "score": 80.0
+      },
+      "combined": 57.4,
+      "bt": {
+        "win_rate": 78,
+        "days_tp": 24,
+        "days_sl": 8,
+        "n": 225
+      },
+      "ez": {
+        "dip": 1697,
+        "hi": 1721,
+        "gap": 1.4,
+        "note": "押し目 ¥1,697 前後を指値で狙うと有利（現値比 -1.4%）"
       },
       "fair": null
     },
@@ -345,9 +345,9 @@
           "avail": 3,
           "buy": false
         },
-        "score": 42.0
+        "score": 46.0
       },
-      "combined": 53.1,
+      "combined": 54.0,
       "bt": {
         "win_rate": 27,
         "days_tp": 3,
@@ -417,9 +417,9 @@
           "avail": 3,
           "buy": true
         },
-        "score": 49.0
+        "score": 52.0
       },
-      "combined": 49.7,
+      "combined": 50.3,
       "bt": {
         "win_rate": 58,
         "days_tp": 17,
@@ -488,9 +488,9 @@
           "avail": 3,
           "buy": false
         },
-        "score": 61.0
+        "score": 63.0
       },
-      "combined": 48.5,
+      "combined": 47.8,
       "bt": {
         "win_rate": 46,
         "days_tp": 10,
@@ -559,9 +559,9 @@
           "avail": 3,
           "buy": false
         },
-        "score": 50.0
+        "score": 52.0
       },
-      "combined": 45.4,
+      "combined": 44.8,
       "bt": {
         "win_rate": 44,
         "days_tp": 7,
@@ -631,9 +631,9 @@
           "avail": 3,
           "buy": false
         },
-        "score": 38.0
+        "score": 43.0
       },
-      "combined": 41.2,
+      "combined": 42.0,
       "bt": {
         "win_rate": 46,
         "days_tp": 20,
@@ -703,9 +703,9 @@
           "avail": 3,
           "buy": true
         },
-        "score": 57.0
+        "score": 62.0
       },
-      "combined": 40.8,
+      "combined": 41.2,
       "bt": {
         "win_rate": 68,
         "days_tp": 22,
