@@ -1,5 +1,5 @@
 {
-  "generated": "2026.07.29 17:04",
+  "generated": "2026.07.29 19:07",
   "total": 3697,
   "buys": [
     {
@@ -56,9 +56,9 @@
           "avail": 3,
           "buy": false
         },
-        "score": 55.0
+        "score": 57.0
       },
-      "combined": 77.7,
+      "combined": 78.3,
       "bt": {
         "win_rate": 56,
         "days_tp": 6,
@@ -129,9 +129,9 @@
           "avail": 3,
           "buy": false
         },
-        "score": 50.0
+        "score": 49.0
       },
-      "combined": 69.1,
+      "combined": 68.9,
       "bt": {
         "win_rate": 29,
         "days_tp": 18,
@@ -202,7 +202,7 @@
         },
         "score": 61.0
       },
-      "combined": 60.9,
+      "combined": 62.0,
       "bt": {
         "win_rate": 29,
         "days_tp": 6,
@@ -213,78 +213,6 @@
         "dip": 987,
         "hi": 994,
         "gap": 0.7,
-        "note": "現値〜成行でOK（押し目余地は小さい）"
-      },
-      "fair": null
-    },
-    {
-      "code": "3931",
-      "name": "バリューゴルフ",
-      "price": 1885.0,
-      "score": 79.2,
-      "signal": "HOLD",
-      "confidence": 79,
-      "entry": 1885.0,
-      "stop": 1837.7,
-      "target": 1956.0,
-      "rr": 1.5,
-      "atr": 23.65,
-      "reasons": [
-        "中期上昇トレンド（EMA25>EMA75）",
-        "出来高急増（平均比 3.1倍）",
-        "指数より強い（相対力プラス）"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 0.63,
-        "meanrev": 0.24,
-        "volume": 1.0,
-        "relstr": 1.0
-      },
-      "error": null,
-      "fund": {
-        "per": 31.0,
-        "pbr": 3.18,
-        "roe": 11.2,
-        "eqr": 33.6,
-        "divy": 1.33,
-        "growth": 1814.3,
-        "theo": 1201,
-        "cons": {
-          "judg": {
-            "株マップ": {
-              "fair": 1201,
-              "lab": "o",
-              "gap": 57
-            },
-            "PER": {
-              "fair": 912,
-              "lab": "o",
-              "gap": 107
-            },
-            "ROE": {
-              "fair": 830,
-              "lab": "o",
-              "gap": 127
-            }
-          },
-          "und": 0,
-          "avail": 3,
-          "buy": false
-        },
-        "score": 41.0
-      },
-      "combined": 53.5,
-      "bt": {
-        "win_rate": 54,
-        "days_tp": 12,
-        "days_sl": 8,
-        "n": 232
-      },
-      "ez": {
-        "dip": 1873,
-        "hi": 1885,
-        "gap": 0.6,
         "note": "現値〜成行でOK（押し目余地は小さい）"
       },
       "fair": null
@@ -343,9 +271,9 @@
           "avail": 3,
           "buy": false
         },
-        "score": 59.0
+        "score": 60.0
       },
-      "combined": 51.9,
+      "combined": 54.1,
       "bt": {
         "win_rate": 40,
         "days_tp": 14,
@@ -414,9 +342,9 @@
           "avail": 3,
           "buy": true
         },
-        "score": 57.0
+        "score": 59.0
       },
-      "combined": 50.3,
+      "combined": 53.0,
       "bt": {
         "win_rate": 68,
         "days_tp": 22,
@@ -485,9 +413,9 @@
           "avail": 3,
           "buy": false
         },
-        "score": 50.0
+        "score": 51.0
       },
-      "combined": 49.1,
+      "combined": 51.3,
       "bt": {
         "win_rate": 51,
         "days_tp": 14,
@@ -557,9 +485,9 @@
           "avail": 3,
           "buy": false
         },
-        "score": 52.0
+        "score": 53.0
       },
-      "combined": 44.0,
+      "combined": 46.6,
       "bt": {
         "win_rate": 55,
         "days_tp": 13,
@@ -629,9 +557,9 @@
           "avail": 3,
           "buy": true
         },
-        "score": 62.0
+        "score": 64.0
       },
-      "combined": 35.6,
+      "combined": 39.3,
       "bt": {
         "win_rate": 53,
         "days_tp": 15,
@@ -700,9 +628,9 @@
           "avail": 3,
           "buy": true
         },
-        "score": 68.0
+        "score": 69.0
       },
-      "combined": 33.9,
+      "combined": 37.9,
       "bt": {
         "win_rate": 47,
         "days_tp": 8,
@@ -714,6 +642,77 @@
         "hi": 1425,
         "gap": 2.7,
         "note": "押し目 ¥1,386 前後を指値で狙うと有利（現値比 -2.7%）"
+      },
+      "fair": null
+    },
+    {
+      "code": "4937",
+      "name": "Ｗａｑｏｏ",
+      "price": 1511.0,
+      "score": 76.7,
+      "signal": "HOLD",
+      "confidence": 76,
+      "entry": 1511.0,
+      "stop": 1440.7,
+      "target": 1616.4,
+      "rr": 1.5,
+      "atr": 35.14,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -0.38,
+        "volume": 0.74,
+        "relstr": 1.0
+      },
+      "error": null,
+      "fund": {
+        "per": 28.8,
+        "pbr": 2.56,
+        "roe": 8.9,
+        "eqr": 67.1,
+        "divy": 0.0,
+        "growth": 318.2,
+        "theo": 1194,
+        "cons": {
+          "judg": {
+            "株マップ": {
+              "fair": 1194,
+              "lab": "o",
+              "gap": 27
+            },
+            "PER": {
+              "fair": 787,
+              "lab": "o",
+              "gap": 92
+            },
+            "ROE": {
+              "fair": 658,
+              "lab": "o",
+              "gap": 130
+            }
+          },
+          "und": 0,
+          "avail": 3,
+          "buy": false
+        },
+        "score": 43.0
+      },
+      "combined": 35.2,
+      "bt": {
+        "win_rate": 45,
+        "days_tp": 8,
+        "days_sl": 6,
+        "n": 228
+      },
+      "ez": {
+        "dip": 1493,
+        "hi": 1511,
+        "gap": 1.2,
+        "note": "押し目 ¥1,493 前後を指値で狙うと有利（現値比 -1.2%）"
       },
       "fair": null
     }
