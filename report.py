@@ -209,12 +209,15 @@ def _holding_card(h, a, cfg) -> str:
     if a.reasons:
         chips = "".join(f'<span class="chip">{_esc(r)}</span>' for r in a.reasons[:3])
         reasons = f'<div class="reasons">{chips}</div>'
-    return (f'<div class="card"><div class="row1">'
+    # data-hold-* は app.js が最新株価で損益%・状態を計算し直すために使う
+    return (f'<div class="card" data-hold="{_esc(code)}" '
+            f'data-hold-buy="{buy if buy else ""}" '
+            f'data-hold-tgt="{tgt}" data-hold-stp="{stp}"><div class="row1">'
             f'<div class="title"><span class="code">{_esc(code)}</span>'
             f'<span class="name">{_esc(name)}</span></div>'
-            f'<span class="hstat {st_cls}">{st_label}</span>{sig_badge}</div>'
+            f'<span class="hstat {st_cls}" data-hold-st>{st_label}</span>{sig_badge}</div>'
             f'<div class="row2"><span class="price" data-px="{_esc(code)}">¥{cur:,.0f}</span>'
-            f'<span class="score {pl_cls}">{pl:+.1f}%</span></div>'
+            f'<span class="score {pl_cls}" data-hold-pl>{pl:+.1f}%</span></div>'
             f'<div class="levels"><span class="lv">買値 {buy_s}</span>'
             f'<span class="lv tgt">利確 ¥{tgt:,.0f}</span>'
             f'<span class="lv stp">損切 ¥{stp:,.0f}</span></div>'
@@ -640,6 +643,29 @@ APP_JS = r"""
         el.innerHTML = '🎯 狙い目 指値 ¥' + limit.toLocaleString() +
           ' 〜 現値 ¥' + pr.toLocaleString() +
           '<span class="ezn">-' + pct + '% の押し目</span>';
+      }
+    });
+    // 保有銘柄カード：最新株価で損益%と状態（利確圏/損切圏/保有中）を計算し直す
+    document.querySelectorAll('[data-hold]').forEach(function (cd) {
+      var c = cd.getAttribute('data-hold');
+      if (map[c] == null) return;
+      var cur = Number(map[c]);
+      var buy = parseFloat(cd.getAttribute('data-hold-buy'));
+      var tgt = parseFloat(cd.getAttribute('data-hold-tgt'));
+      var stp = parseFloat(cd.getAttribute('data-hold-stp'));
+      var pl = cd.querySelector('[data-hold-pl]');
+      if (pl && buy > 0) {
+        var v = (cur - buy) / buy * 100;
+        pl.textContent = (v >= 0 ? '+' : '') + v.toFixed(1) + '%';
+        pl.className = 'score ' + (v >= 0 ? 'pos' : 'neg');
+      }
+      var st = cd.querySelector('[data-hold-st]');
+      if (st) {
+        var lab = '保有中', cls = 'hold';
+        if (tgt && cur >= tgt) { lab = '利確圏'; cls = 'buy'; }
+        else if (stp && cur <= stp) { lab = '損切圏'; cls = 'sell'; }
+        st.textContent = lab;
+        st.className = 'hstat ' + cls;
       }
     });
     // メモリ上の STOCKS 価格も更新（検索結果に反映）
@@ -1131,10 +1157,13 @@ def write_dashboard(cfg: dict) -> Path:
 
 
 def write_prices(cfg: dict) -> dict:
-    """表示中の買い/売りTOPと監視銘柄の最新株価だけを docs/prices.json に書く。"""
+    """表示中の買い/売りTOP・保有銘柄・監視銘柄の最新株価を docs/prices.json に書く。"""
     import data as D
     DOCS.mkdir(exist_ok=True)
     codes: set[str] = {str(c).strip() for c in (cfg.get("watchlist") or [])}
+    # 保有銘柄はダッシュボードに常時表示されるので必ず対象に含める
+    # （data.json の買い候補に入らない銘柄は、ここで足さないと価格が更新されない）
+    codes.update(str(h["code"]).strip() for h in load_holdings() if h.get("code"))
     dj = DOCS / "data.json"
     if dj.exists():
         try:
@@ -1195,10 +1224,12 @@ def check_holdings(cfg: dict) -> None:
         df = frames.get(c)
         atr = float(S.ind.atr(df, 14).iloc[-1]) if (df is not None and len(df) > 20) else 0.0
         tgt, stp = h.get("target"), h.get("stop")
-        if tgt is None or stp is None:
+        if (tgt is None or stp is None) and atr > 0:
             at, as_ = S.holding_levels(buy or cur, atr, cfg)
             tgt = at if tgt is None else tgt
             stp = as_ if stp is None else stp
+        # ATR が出せない（日足の取得失敗など）場合は自動ラインを作らない。
+        # 作ると 利確=損切=買値 になり、到達アラートが誤発報するため。
         pl = ((cur - buy) / buy * 100) if buy else 0.0
         if tgt and cur >= tgt and state.get(f"{c}:tp") != today:
             tp.append(f"  {c} {name}  現在¥{cur:,.0f} / 買値¥{(buy or 0):,.0f} ({pl:+.1f}%)  利確¥{tgt:,.0f}")

@@ -257,6 +257,29 @@
           '<span class="ezn">-' + pct + '% の押し目</span>';
       }
     });
+    // 保有銘柄カード：最新株価で損益%と状態（利確圏/損切圏/保有中）を計算し直す
+    document.querySelectorAll('[data-hold]').forEach(function (cd) {
+      var c = cd.getAttribute('data-hold');
+      if (map[c] == null) return;
+      var cur = Number(map[c]);
+      var buy = parseFloat(cd.getAttribute('data-hold-buy'));
+      var tgt = parseFloat(cd.getAttribute('data-hold-tgt'));
+      var stp = parseFloat(cd.getAttribute('data-hold-stp'));
+      var pl = cd.querySelector('[data-hold-pl]');
+      if (pl && buy > 0) {
+        var v = (cur - buy) / buy * 100;
+        pl.textContent = (v >= 0 ? '+' : '') + v.toFixed(1) + '%';
+        pl.className = 'score ' + (v >= 0 ? 'pos' : 'neg');
+      }
+      var st = cd.querySelector('[data-hold-st]');
+      if (st) {
+        var lab = '保有中', cls = 'hold';
+        if (tgt && cur >= tgt) { lab = '利確圏'; cls = 'buy'; }
+        else if (stp && cur <= stp) { lab = '損切圏'; cls = 'sell'; }
+        st.textContent = lab;
+        st.className = 'hstat ' + cls;
+      }
+    });
     // メモリ上の STOCKS 価格も更新（検索結果に反映）
     if (STOCKS) {
       for (var i = 0; i < STOCKS.length; i++) {
