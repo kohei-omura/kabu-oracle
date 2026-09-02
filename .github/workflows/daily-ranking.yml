@@ -25,6 +25,4 @@ jobs:
           SMTP_PASS: ${{ secrets.SMTP_PASS }}
           MAIL_TO: ${{ secrets.MAIL_TO }}
           JQUANTS_API_KEY: ${{ secrets.JQUANTS_API_KEY }}
-        run: |
-          cp config.example.yaml config.yaml
-          python main.py rank
+        run: python main.py rank

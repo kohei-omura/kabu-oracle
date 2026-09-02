@@ -23,6 +23,4 @@ jobs:
           SMTP_USER: ${{ secrets.SMTP_USER }}
           SMTP_PASS: ${{ secrets.SMTP_PASS }}
           MAIL_TO: ${{ secrets.MAIL_TO }}
-        run: |
-          cp config.example.yaml config.yaml
-          python main.py watch
+        run: python main.py watch

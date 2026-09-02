@@ -8,10 +8,10 @@ from __future__ import annotations
 import sys
 import numpy as np
 
-from config import load_config
-import data as D
-import signals as S
-import indicators as ind
+from .config import load_config
+from . import data as D
+from . import signals as S
+from . import indicators as ind
 
 
 def backtest_one(code: str, cfg: dict, period: str = "2y") -> dict:
@@ -67,7 +67,7 @@ def backtest_one(code: str, cfg: dict, period: str = "2y") -> dict:
 
 if __name__ == "__main__":
     cfg = load_config()
-    from config import load_universe
+    from .config import load_universe
     codes = sys.argv[1:] or [c for c, _ in load_universe(cfg)][:10]
     for c in codes:
         print(backtest_one(str(c), cfg))

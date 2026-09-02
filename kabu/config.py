@@ -5,7 +5,7 @@ from pathlib import Path
 import yaml
 
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parent.parent   # リポジトリ直下
 
 
 def _load_watchlist_txt() -> list[str] | None:
@@ -26,10 +26,12 @@ def _load_watchlist_txt() -> list[str] | None:
 
 def load_config(path: str | None = None) -> dict:
     p = Path(path) if path else ROOT / "config.yaml"
-    if not p.exists():
-        p = ROOT / "config.example.yaml"
-    with open(p, encoding="utf-8") as f:
-        cfg = yaml.safe_load(f) or {}
+    cfg: dict = {}
+    if p.exists():
+        with open(p, encoding="utf-8") as f:
+            cfg = yaml.safe_load(f) or {}
+    else:
+        print(f"[config] {p.name} が無いので既定値で動きます")
 
     # watchlist.txt があれば push 監視銘柄をそれで上書き（1行1コード・# はコメント）
     wl = _load_watchlist_txt()
@@ -51,7 +53,7 @@ def load_config(path: str | None = None) -> dict:
 
 def load_universe(cfg: dict) -> list[tuple[str, str]]:
     """(code, name) のリストを返す。markets 設定で市場区分を絞り込む。"""
-    rel = cfg.get("universe_file", "nikkei_majors.csv")
+    rel = cfg.get("universe_file", "data/universe_all.csv")
     p = ROOT / rel
     out: list[tuple[str, str]] = []
     if not p.exists():
@@ -74,7 +76,7 @@ def load_universe(cfg: dict) -> list[tuple[str, str]]:
 
 def market_map(cfg: dict) -> dict[str, str]:
     """{code: market} を返す（表示用・絞り込みなし）。"""
-    rel = cfg.get("universe_file", "nikkei_majors.csv")
+    rel = cfg.get("universe_file", "data/universe_all.csv")
     p = ROOT / rel
     m: dict[str, str] = {}
     if not p.exists():

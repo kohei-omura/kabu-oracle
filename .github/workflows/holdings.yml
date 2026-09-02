@@ -26,14 +26,12 @@ jobs:
           SMTP_USER: ${{ secrets.SMTP_USER }}
           SMTP_PASS: ${{ secrets.SMTP_PASS }}
           MAIL_TO: ${{ secrets.MAIL_TO }}
-        run: |
-          cp config.example.yaml config.yaml
-          python main.py holdings
+        run: python main.py holdings
       - name: Commit state
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add holdings_state.json || true
+          git add data/holdings_state.json || true
           git diff --staged --quiet || git commit -m "holdings state [skip ci]"
           git pull --rebase --autostash || true
           git push

@@ -18,9 +18,7 @@ jobs:
           python-version: "3.12"
       - run: pip install -r requirements.txt
       - name: Update prices
-        run: |
-          cp config.example.yaml config.yaml
-          python main.py prices
+        run: python main.py prices
       - name: Commit & push
         run: |
           git config user.name "github-actions[bot]"

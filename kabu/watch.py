@@ -4,8 +4,8 @@
 ノイズ通知を抑制する。
 """
 from __future__ import annotations
-import data as D
-import signals as S
+from . import data as D
+from . import signals as S
 
 
 def check_watchlist(cfg: dict):

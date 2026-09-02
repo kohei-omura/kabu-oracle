@@ -1,8 +1,8 @@
 """ユニバースをスコアリングし、買い/売り Top-N を算出する。"""
 from __future__ import annotations
-import data as D
-import signals as S
-from config import load_universe
+from . import data as D
+from . import signals as S
+from .config import load_universe
 
 
 def analyze_universe(cfg: dict) -> list[S.Analysis]:
@@ -162,7 +162,7 @@ def apply_fundamentals(analyses: list, cfg: dict, extra_codes=None) -> list:
     if not fc.get("enabled", False) or not analyses:
         return analyses
     try:
-        import jquants as JQ
+        from . import jquants as JQ
         key = JQ.get_api_key()
         if not key:
             return analyses

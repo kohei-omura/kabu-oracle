@@ -12,7 +12,7 @@ from typing import Optional
 import numpy as np
 import pandas as pd
 
-import indicators as ind
+from . import indicators as ind
 
 
 # ファクターの重み（合計 = 1.0）

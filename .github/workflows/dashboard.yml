@@ -23,9 +23,7 @@ jobs:
       - name: Build dashboard
         env:
           JQUANTS_API_KEY: ${{ secrets.JQUANTS_API_KEY }}
-        run: |
-          cp config.example.yaml config.yaml
-          python main.py report
+        run: python main.py report
       - name: Commit & push docs
         run: |
           git config user.name "github-actions[bot]"

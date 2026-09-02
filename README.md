@@ -1,140 +1,130 @@
-# FX Signal & Position Navigator 💱
+# 株オラクル — Kabu Oracle 📈
 
-GMOコイン外国為替FX Public API を使い、GitHub Actionsだけで動く、
-**通知（LINE/メール）＋画面ダッシュボード**つきのFXシグナル＆利確ナビ。
+日本株を毎日スクリーニングして、**LINE/メール通知**と**スマホ用ダッシュボード**に出す個人用ツール。
+サーバー不要で、**GitHub Actions だけ**で動きます。
 
-- **(A) エントリー**: 主要円ペアの買い/売りシグナル＋ATR推奨TP/SLを通知
-- **(B) エグジット**: 保有ポジションを監視し、利確/損切り到達で通知＋自動クローズ
-- **(C) 推奨自動設定**: `"auto":true` のポジションはATRからTP/SLを自動算出
-- **(D) ダッシュボード**: GitHub Pagesで、価格・シグナル・SMAクロス・含み損益を可視化
+📱 **ダッシュボード** → https://kohei-omura.github.io/kabu-oracle/
 
-> ⚠️ ATR推奨は値動きに見合った目安で、未来の最適値や利益を保証する予測ではありません。売買・損益は自己責任です。
+| できること | 中身 |
+|---|---|
+| 買い候補ランキング | 全上場銘柄（約3,700）をテクニカル×ファンダで採点し TOP10 を通知・表示 |
+| 保有アラート | `holdings.txt` の銘柄を場中20分おきに監視し、利確/損切ライン到達と売りシグナル転換を通知 |
+| 長期保有モード | 画面のボタンでON。利確通知を止め、長期の目安株価（1年後/3年後/5年後）を表示 |
+| テンバガー候補 | 小型・高成長・高収益の条件への適合度で TOP10 を表示 |
+| 銘柄サーチ | 画面でコード/銘柄名を検索。★でウォッチリスト（端末内保存） |
+
+> ⚠️ 自分用の分析補助であり、投資助言ではありません。株価は約15〜20分遅延（yfinance）。判断は自己責任で。
 
 ---
 
 ## ファイル
+
+| 場所 | 役割 |
+|---|---|
+| `main.py` | 入口。`rank` / `watch` / `report` / `prices` / `holdings` / `analyze` |
+| `config.yaml` | 設定（ユニバース・市場区分・閾値・ファンダ設定） |
+| `holdings.txt` | **保有銘柄**（自分で編集。1行 `コード,買値[,利確,損切][,長期]`） |
+| `watchlist.txt` | 場中push通知したい銘柄（1行1コード） |
+| `kabu/` | ロジック一式（下表） |
+| `data/` | 銘柄マスタ（`universe_all.csv`）と通知の重複防止状態 |
+| `docs/` | 公開ダッシュボード（**自動生成**。手で触らない） |
+| `.github/workflows/` | 定期実行の設定 |
+
+<details>
+<summary><code>kabu/</code> の中身</summary>
+
 | ファイル | 役割 |
 |---|---|
-| `fx_signal.py` | シグナル判定／ポジション監視／status.json書き出し |
-| `index.html` | ダッシュボード画面（GitHub Pages） |
-| `manifest.webmanifest` / `sw.js` / `icon-*.png` | PWA（ホーム画面アプリ化）用 |
-| `worker.js` | （任意）リアルタイム価格用のCloudflare Worker |
-| `status.json` | 最新状態（アプリが毎回自動更新。画面が読み込む） |
-| `positions.json` | 保有ポジション登録（あなたが編集） |
-| `.github/workflows/fx-signal.yml` | 5分おき自動実行 |
-| `requirements.txt` | 依存（requests） |
+| `config.py` | 設定・銘柄リスト・保有リストの読込 |
+| `data.py` | 株価取得（yfinance） |
+| `indicators.py` | テクニカル指標（EMA / RSI / MACD / ボリンジャー / ATR） |
+| `signals.py` | スコアリング・売買シグナル・利確損切ライン・勝率試算 |
+| `ranking.py` | ユニバース全体の採点と、財務を掛け合わせた複合ランキング |
+| `jquants.py` | J-Quants API から財務データ取得 |
+| `report.py` | ダッシュボード生成・株価更新・保有アラート |
+| `watch.py` | 監視銘柄のタイミング検知 |
+| `notify.py` | LINE / メール送信 |
+| `backtest.py` | 簡易バックテスト（`python -m kabu.backtest 7203`） |
+
+</details>
 
 ---
 
-## セットアップ
-### 1. push（Public推奨：Actions無制限）
-一式をGitHubリポジトリへ。
+## 保有銘柄の登録（`holdings.txt`）
 
-### 2. 通知の設定
-- LINE: 公式アカウント→チャネルアクセストークン(長期)→**自分で友だち追加**
-- Gmail: 2段階認証ON→アプリパスワード(16桁)
-- Secrets（Settings→Secrets and variables→Actions）:
-  `LINE_CHANNEL_ACCESS_TOKEN` / `GMAIL_ADDRESS` / `GMAIL_APP_PASSWORD` / `MAIL_TO`
-
-### 3. ダッシュボードを公開（GitHub Pages）
-Settings → **Pages** → Source を「Deploy from a branch」、Branch を `main` / `/ (root)` で保存。
-数十秒後、`https://<ユーザー名>.github.io/<リポジトリ名>/` で画面が開きます。
-（画面は `status.json` を30秒ごとに読み込み、Actionの更新を反映）
-
-### 4. ホーム画面アプリ化（iPhone）
-Pages公開後、iPhoneの **Safari** で `https://<ユーザー名>.github.io/<リポジトリ名>/` を開き、
-共有ボタン → **「ホーム画面に追加」**。アイコンが追加され、タップすると
-アドレスバーなしの**全画面アプリ**として起動します（オフライン時も直近画面を表示）。
-※必ずSafariで開くこと（Chrome等からは全画面PWAになりません）。
-
-### 5. 起動
-Actions → Run workflow（疎通確認はテストにチェック）。以降5分おきに自動実行。
-
----
-
-## ポジション登録（`positions.json`）
-### 例1: 自分でpips指定
-```json
-{ "positions": [
-  { "id":"1","symbol":"USD_JPY","side":"long","entry":160.20,
-    "lot":10000,"tp_pips":30,"sl_pips":20,"status":"open" }
-]}
 ```
-### 例2: ATRにおまかせ（推奨TP/SLを自動セット）
-```json
-{ "positions": [
-  { "id":"2","symbol":"GBP_JPY","side":"short","entry":214.00,
-    "lot":10000,"auto":true,"status":"open" }
-]}
+7803,290              ← 買値だけ。利確/損切はATRから自動計算
+7203,2800,3100,2600   ← 利確3100・損切2600を手動指定
+3176,1000,長期        ← 長期保有＝利確通知OFF（損切・売りシグナルは通知）
 ```
-| 項目 | 意味 |
-|---|---|
-| `side` | `long`=買い / `short`=売り |
-| `entry` | 建値 |
-| `lot` | 数量(1万=10000、省略時10000) |
-| `tp_pips`/`sl_pips` | 利確/損切りpips（円ペア1pips=0.01円） |
-| `tp`/`sl` | 絶対価格で指定する場合 |
-| `auto` | `true`でATR推奨を自動セット |
-| `status` | `open`。到達でアプリが`closed`へ |
 
-到達で通知＋`closed`記録され再通知なし。新規は新しい`id`で追記。
+到達アラートは**同じ内容なら1日1回**だけ届きます（`data/holdings_state.json` で管理）。
 
-**反映について（改良済み）**：画面は `positions.json` を直接読むため、登録をcommitすれば（Action完了を待たず）**すぐ画面に反映**されます。さらに `positions.json` を編集すると**自動でGitHub Actionが起動**し、ATR推奨レベルの確定とLINE/メール通知を行います。
-※画面の損益に使う価格は、Worker未設定時は `status.json`（約5分間隔）基準です。秒単位にしたい場合は下記のリアルタイム設定を行ってください。
-※LINE/メール通知・ATR自動設定はGitHub Action側で動くため、Actionが動いていることが前提です（止まる場合はActionsタブでエラー確認）。
+### 長期保有ボタン
 
----
+ダッシュボードの保有カードにある `☾ 長期保有` を押すと、`holdings.txt` に「長期」が付いて
+**利確通知が止まり**、代わりに**長期保有の目安株価**が表示されます。
 
-## 推奨値(ATR)・損益の計算
-- SL = ATR×1.5、TP = ATR×2.0（`ATR_SL_MULT`/`ATR_TP_MULT`で調整）
-- 足が5分のためATRは小さめ＝スキャル向け。広げたい場合は倍率増 or `INTERVAL`を`1hour`等へ
-- ロング損益=bid−建値 / ショート損益=建値−ask、pips=差÷0.01、円=差×lot
+初回だけ「保有銘柄」見出しの **⚙** からGitHubトークンを登録してください（端末のブラウザにのみ保存）。
 
-## 注意
-- `cron`最短5分・遅延あり（真のリアルタイム不可）。LINE無料枠は月200通。
-- `positions.json`と`status.json`はアプリが自動コミット（`contents: write`・設定済み）。
-- 価格取得元: GMOコイン外国為替FX Public API。
-
-
----
-
-## リアルタイム表示について（重要）
-- 標準では画面は `status.json`（GitHub Actionsが**約5分間隔**で更新）を30秒ごとに読み込みます。
-  つまり**金額は約5分ごとに変化**し、ティック単位の完全リアルタイムではありません。
-- もし「更新が止まる」場合：Actionsタブで失敗(赤)ランを確認。本ワークフローはpushを
-  rebase＆3回リトライする堅牢版にしてあります。`*/5`のcronはGitHub高負荷時に遅延/間引きされる仕様です。
-
-### 数秒ごとに金額を動かす（任意・推奨）
-GMOのAPIは画面から直接呼べない（CORS不可）ため、無料の**Cloudflare Worker**で中継します。
-1. https://dash.cloudflare.com → Workers & Pages → Create → Worker を作成
-2. コードを `worker.js` の内容に差し替えて Deploy
-3. 発行されたURL（例 `https://fx-navi.xxxx.workers.dev`）をコピー
-4. `index.html` の `const LIVE_PRICE_URL = "";` にそのURLを貼って commit
-
-設定すると、画面が**約9秒ごと**にライブ価格を取得し、保有ポジションの含み損益(円/pips)を
-即時に再計算、ヘッダに「● LIVE hh:mm:ss」が表示されます（空欄なら従来どおり5分更新）。
-※シグナル判定・TP/SL到達の通知は引き続きGitHub Actions側で行います。
-
-
----
-
-## アプリ内ポジション管理（JSON手打ち不要）
-ダッシュボードの「保有ポジション」見出しの **＋追加 / ⚙** から操作できます。GitHubトークン経由で `positions.json` に直接読み書きします。
-
-### 初回設定（⚙）
 1. GitHub → Settings → Developer settings → **Fine-grained tokens** → Generate new token
-2. Repository access: **Only select repositories** → このFXリポジトリだけを選択
+2. Repository access: **Only select repositories** → このリポジトリだけ
 3. Permissions → Repository permissions → **Contents: Read and write**
-4. 生成したトークンを、アプリの ⚙ に貼る（オーナー/リポジトリは自動入力）。
-   ※トークンは端末内(ブラウザ)にのみ保存され、リポジトリには書き込まれません。必ず上記の最小権限で発行してください。
 
-### 使い方
-- **＋追加**：通貨ペア・売買・建値・数量・(ATR自動 or pips指定)を入れて追加。
-- **決済**：各ポジションの「決済」→ **実際の約定価格**を入力（買いなら売値／売りなら買値）。
-  実損益(円/pips)を計算し「決済履歴」に残します。**アプリは自動決済しません**＝あなたの実約定が正です。
-- **削除**：誤登録や不要な履歴を削除。
+---
 
-### 通知の挙動（変更点）
-TP/SL価格に到達すると **「利確/損切りライン到達」通知**（LINE/メール）が届きます（1回のみ）。
-**自動では決済しません**ので、GMO等で決済した後にアプリの「決済」へ実際の価格を入力してください。
-（GMO公開値とご自身の約定価格・スプレッドの差による不一致を防ぐためです）
+## 判定のしくみ
+
+**スコア（-100〜+100）** … 5ファクターの重み付き合計。
+トレンド30% / モメンタム25% / 相対力20% / 平均回帰15% / 出来高10%
+
+**シグナル** … スコア＋25以上で「きっかけ」（ゴールデンクロス・RSI回復・下バンド反発）が
+出たら BUY、-25以下で逆が出たら SELL。それ以外は HOLD。
+
+**利確/損切** … ATR(14)基準。利確＝+ATR×3.0、損切＝-ATR×2.0（`config.yaml` で調整可）。
+値幅制限を超える指値は自動でクランプ。
+
+**複合スコア** … J-Quants の財務（PER/PBR/ROE/自己資本比率/配当利回り/増益率）を
+候補内で順位正規化し、テクニカルと半々で合成。
+
+**理論株価** … 株マップ式（資産価値＋利益価値＋成長価値）・PER基準・ROE基準の3方式。
+2方式以上で割安なら「✅購入検討」。
+
+**長期保有の目安** … 年成長率 g＝min(増益率, ROE×(1−配当性向), 15%) として
+現値×(1+g)ⁿ を1/3/5年後に表示。理論株価3方式の中央値を長期目標、到達目安年数も算出。
+
+---
+
+## 自動実行
+
+| ワークフロー | JST | 内容 |
+|---|---|---|
+| `daily-ranking` | 平日 7:00 / 16:30 | 買い候補ランキングを通知 |
+| `dashboard` | 平日 7:35 / 11:00 / 14:30 / 16:30 | ダッシュボード再生成 |
+| `prices` | 平日 9:00〜15:40 の20分毎 | 表示中の株価を更新 |
+| `holdings` | 平日 9:00〜15:40 の20分毎 | 保有アラート |
+| `intraday-watch` | 平日 9:00〜15:30 の30分毎 | 監視銘柄のタイミング通知 |
+
+Actions タブから手動実行（Run workflow）も可。cron は GitHub 側の混雑で遅延することがあります。
+
+### Secrets（Settings → Secrets and variables → Actions）
+
+| 名前 | 用途 |
+|---|---|
+| `LINE_CHANNEL_ACCESS_TOKEN` / `LINE_USER_ID` | LINE Messaging API のpush通知 |
+| `SMTP_HOST` / `SMTP_PORT` / `SMTP_USER` / `SMTP_PASS` / `MAIL_TO` | メール通知 |
+| `JQUANTS_API_KEY` | J-Quants の財務データ（無しならテクニカルのみで動作） |
+
+---
+
+## 手元で動かす
+
+```bash
+pip install -r requirements.txt
+
+python main.py analyze 7203     # 1銘柄を即分析
+python main.py rank             # ランキングを算出して通知
+python main.py report           # docs/ のダッシュボードを生成
+python main.py holdings         # 保有アラートの判定
+python -m kabu.backtest 7203    # 簡易バックテスト
+```

@@ -1,7 +1,10 @@
 """エントリーポイント。
 
 使い方:
-  python main.py rank              # ユニバースの買い/売り Top-N を通知
+  python main.py rank              # ユニバースの買い候補 Top-N を通知
+  python main.py report            # docs/ のダッシュボードを生成
+  python main.py prices            # docs/prices.json の株価だけ更新
+  python main.py holdings          # 保有銘柄の利確/損切ライン到達を通知
   python main.py watch             # 監視銘柄のタイミングを検知（出た時だけ通知）
   python main.py watch --status    # 監視銘柄の現況を必ず通知（手動確認用）
   python main.py analyze 7203      # 単一銘柄を即時分析（コンソール表示）
@@ -10,13 +13,13 @@ from __future__ import annotations
 import argparse
 from datetime import datetime, timezone, timedelta
 
-from config import load_config
-import ranking as R
-import watch as W
-import notify as N
-import data as D
-import signals as S
-import report as REP
+from kabu.config import load_config
+from kabu import ranking as R
+from kabu import watch as W
+from kabu import notify as N
+from kabu import data as D
+from kabu import signals as S
+from kabu import report as REP
 
 JST = timezone(timedelta(hours=9))
 

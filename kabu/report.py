@@ -14,11 +14,11 @@ import unicodedata
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
-import ranking as R
-from config import market_map, load_holdings
+from . import ranking as R
+from .config import market_map, load_holdings
 
 JST = timezone(timedelta(hours=9))
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parent.parent   # リポジトリ直下
 DOCS = ROOT / "docs"
 
 
@@ -250,7 +250,7 @@ def _long_box(price: float, fund, on: bool) -> str:
 
 
 def _holding_levels(h, a, cfg):
-    import signals as S
+    from . import signals as S
     cur = a.price
     tgt, stp = h.get("target"), h.get("stop")
     if tgt is None or stp is None:
@@ -1282,14 +1282,14 @@ def build_tenbagger(analyses: list, cfg: dict, buy_codes: set) -> tuple[str, lis
     # 新規財務取得（無料枠5/分・既定13秒間隔。APIエラー銘柄はスキップしログ）
     key = None
     try:
-        import jquants as JQ
+        from . import jquants as JQ
         key = JQ.get_api_key()
     except Exception as e:  # noqa
         print(f"[tenbagger] jquants未使用: {e}")
     if key and need:
         pick = need[:max(0, fetch_cap)]
         try:
-            import jquants as JQ
+            from . import jquants as JQ
             raw_new = JQ.fundamentals_for(pick, key, float(tcfg.get("request_sleep", 13.0)))
         except Exception as e:  # noqa
             print(f"[tenbagger] 財務取得失敗（キャッシュ分のみ継続）: {e}")
@@ -1534,7 +1534,7 @@ def write_dashboard(cfg: dict) -> Path:
 
 def write_prices(cfg: dict) -> dict:
     """表示中の買い/売りTOP・保有銘柄・監視銘柄の最新株価を docs/prices.json に書く。"""
-    import data as D
+    from . import data as D
     DOCS.mkdir(exist_ok=True)
     codes: set[str] = {str(c).strip() for c in (cfg.get("watchlist") or [])}
     # 保有銘柄はダッシュボードに常時表示されるので必ず対象に含める
@@ -1566,12 +1566,12 @@ def write_prices(cfg: dict) -> dict:
 def check_holdings(cfg: dict) -> None:
     """holdings.txt の各銘柄を監視し、利確/損切ラインに到達したらLINE/メール通知。
 
-    同じ到達は1日1回だけ通知（holdings_state.json で管理）。約15〜20分遅延。
+    同じ到達は1日1回だけ通知（data/holdings_state.json で管理）。約15〜20分遅延。
     """
-    import data as D
-    import signals as S
-    import notify as N
-    from config import load_holdings, load_universe
+    from . import data as D
+    from . import signals as S
+    from . import notify as N
+    from .config import load_holdings, load_universe
 
     holds = load_holdings()
     if not holds:
@@ -1584,9 +1584,9 @@ def check_holdings(cfg: dict) -> None:
     bench_df = D.fetch_one(cfg.get("benchmark", "^N225"))
     bench = bench_df["Close"] if bench_df is not None else None
     namemap = {c: n for c, n in load_universe(
-        {"universe_file": cfg.get("universe_file", "universe_all.csv"), "markets": "all"})}
+        {"universe_file": cfg.get("universe_file", "data/universe_all.csv"), "markets": "all"})}
 
-    state_path = ROOT / "holdings_state.json"
+    state_path = ROOT / "data" / "holdings_state.json"
     try:
         state = json.loads(state_path.read_text(encoding="utf-8"))
     except Exception:
