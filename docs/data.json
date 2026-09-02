@@ -1,5 +1,5 @@
 {
-  "generated": "2026.09.02 15:59",
+  "generated": "2026.09.02 18:41",
   "total": 3697,
   "buys": [
     {
@@ -56,6 +56,8 @@
           "avail": 3,
           "buy": false
         },
+        "eps": 114.61,
+        "div": 50.0,
         "score": 57.0
       },
       "combined": 78.7,
@@ -127,6 +129,8 @@
           "avail": 3,
           "buy": true
         },
+        "eps": 225.0,
+        "div": 47.0,
         "score": 77.0
       },
       "combined": 69.3,
@@ -198,6 +202,8 @@
           "avail": 3,
           "buy": false
         },
+        "eps": 225.32,
+        "div": 48.0,
         "score": 66.0
       },
       "combined": 49.5,
@@ -270,6 +276,8 @@
           "avail": 3,
           "buy": false
         },
+        "eps": 106.9,
+        "div": 14.0,
         "score": 47.0
       },
       "combined": 47.9,
@@ -341,6 +349,8 @@
           "avail": 3,
           "buy": false
         },
+        "eps": 0.09,
+        "div": 0.0,
         "score": 26.0
       },
       "combined": 44.0,
@@ -412,6 +422,8 @@
           "avail": 3,
           "buy": false
         },
+        "eps": 45.9,
+        "div": 17.0,
         "score": 50.0
       },
       "combined": 41.3,
@@ -484,6 +496,8 @@
           "avail": 3,
           "buy": false
         },
+        "eps": 207.29,
+        "div": 0.0,
         "score": 56.0
       },
       "combined": 39.0,
@@ -555,6 +569,8 @@
           "avail": 3,
           "buy": false
         },
+        "eps": 59.28,
+        "div": 24.0,
         "score": 52.0
       },
       "combined": 37.4,
@@ -627,6 +643,8 @@
           "avail": 3,
           "buy": true
         },
+        "eps": 371.25,
+        "div": 50.0,
         "score": 67.0
       },
       "combined": 36.0,
@@ -693,6 +711,8 @@
           "avail": 2,
           "buy": false
         },
+        "eps": 52.43,
+        "div": 20.95,
         "score": 57.0
       },
       "combined": 32.7,
