@@ -231,6 +231,8 @@
     if (sc) { toggleWatch(sc); syncStars(); renderWatch(); return; }
     var rm = t.getAttribute('data-rm');
     if (rm) { toggleWatch(rm); syncStars(); renderWatch(); return; }
+    var lt = t.getAttribute('data-lt');
+    if (lt) { onLongClick(t, lt); return; }
   });
 
   /* ---- ライブ価格（data-px の更新＋狙い目行の再計算） ---- */
@@ -279,6 +281,25 @@
         st.textContent = lab;
         st.className = 'hstat ' + cls;
       }
+      // 長期見通しも最新株価を起点に引き直す
+      var box = cd.querySelector('[data-ltbox]');
+      var g = box ? parseFloat(box.getAttribute('data-lt-g')) : NaN;
+      if (box && !isNaN(g)) {
+        var rate = 1 + g / 100;
+        box.querySelectorAll('[data-lt-n]').forEach(function (chip) {
+          var n = parseFloat(chip.getAttribute('data-lt-n'));
+          var b = chip.querySelector('b');
+          if (b && !isNaN(n)) b.textContent = '¥' + Math.round(cur * Math.pow(rate, n)).toLocaleString();
+        });
+        var ys = box.querySelector('[data-lt-years]');
+        var goal = parseFloat(box.getAttribute('data-lt-target'));
+        if (ys && goal > 0) {
+          if (goal <= cur) ys.textContent = ' ・ すでに到達';
+          else if (rate > 1) ys.textContent = ' ・ 到達目安 約' +
+            (Math.log(goal / cur) / Math.log(rate)).toFixed(1) + '年';
+          else ys.textContent = '';
+        }
+      }
     });
     // メモリ上の STOCKS 価格も更新（検索結果に反映）
     if (STOCKS) {
@@ -293,6 +314,7 @@
       .then(function (d) {
         if (!d || !d.px) return;
         applyPrices(d.px);
+        applyLong(d.long);
         var lab = document.getElementById('pxasof');
         if (lab && d.asof) lab.textContent = '株価 ' + d.asof + ' 時点（約20分遅延）';
         if (q && q.value.trim()) run();
@@ -335,6 +357,204 @@
     }
   }
 
+  /* ---- 長期保有トグル：holdings.txt を GitHub API で書き換える ----
+     ONにすると holdings.txt の行に「長期」が付き、GitHub Actions 側の
+     利確通知が止まる（損切・売りシグナルは従来どおり通知）。
+     トークンはこの端末の localStorage にのみ保存し、送信先は api.github.com のみ。 */
+  var GH_KEY = 'kabu_gh';
+  var LONG_TOKENS = ['長期', '長期保有', 'long', 'longterm', 'hold'];
+
+  function ghLoad() { try { return JSON.parse(localStorage.getItem(GH_KEY) || 'null'); } catch (e) { return null; } }
+  function ghStore(v) { try { localStorage.setItem(GH_KEY, JSON.stringify(v)); return true; } catch (e) { return false; } }
+  function ghDrop() { try { localStorage.removeItem(GH_KEY); } catch (e) {} }
+  function ghGuess() {
+    var owner = '', repo = '';
+    var m = String(location.hostname || '').match(/^([^.]+)\.github\.io$/i);
+    if (m) owner = m[1];
+    var seg = String(location.pathname || '/').split('/').filter(function (x) { return x && x.indexOf('.') < 0; });
+    if (seg.length) repo = seg[0];
+    return { owner: owner, repo: repo, branch: 'main', path: 'holdings.txt' };
+  }
+  function b64enc(str) {
+    var bytes = new TextEncoder().encode(str), bin = '';
+    for (var i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+    return btoa(bin);
+  }
+  function b64dec(b64) {
+    var bin = atob(String(b64).replace(/\s/g, ''));
+    var bytes = new Uint8Array(bin.length);
+    for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    return new TextDecoder('utf-8').decode(bytes);
+  }
+  function isLongTok(x) { return LONG_TOKENS.indexOf(String(x).trim().toLowerCase()) >= 0; }
+
+  /* holdings.txt の該当行に「長期」を付け外しする。行が無ければ null（config.py と同じ解釈） */
+  function rewriteLong(text, code, on) {
+    var lines = String(text).split('\n'), found = false;
+    for (var i = 0; i < lines.length; i++) {
+      var t = lines[i].trim();
+      if (!t || t.charAt(0) === '#') continue;
+      var parts = t.replace(/，/g, ',').split(',').map(function (x) { return x.trim(); });
+      var kept = parts.filter(function (x) { return !isLongTok(x); });
+      if (!kept.length || kept[0] !== String(code)) continue;
+      found = true;
+      while (kept.length > 1 && kept[kept.length - 1] === '') kept.pop();
+      if (on) kept.push('長期');
+      lines[i] = kept.join(',');
+    }
+    return found ? lines.join('\n') : null;
+  }
+
+  function ghContentsUrl(cfg) {
+    return 'https://api.github.com/repos/' + encodeURIComponent(cfg.owner) + '/' +
+      encodeURIComponent(cfg.repo) + '/contents/' + (cfg.path || 'holdings.txt');
+  }
+  function ghApi(cfg, method, url, body) {
+    var opt = { method: method, cache: 'no-store', headers: {
+      'Authorization': 'Bearer ' + cfg.token,
+      'Accept': 'application/vnd.github+json',
+      'X-GitHub-Api-Version': '2022-11-28'
+    } };
+    if (body) { opt.body = JSON.stringify(body); opt.headers['Content-Type'] = 'application/json'; }
+    return fetch(url, opt).then(function (r) {
+      return r.text().then(function (txt) {
+        var j = null;
+        try { j = txt ? JSON.parse(txt) : null; } catch (e) {}
+        if (!r.ok) {
+          var msg = (j && j.message) || ('HTTP ' + r.status);
+          if (r.status === 401) msg = 'トークンが無効です(401)';
+          else if (r.status === 403) msg = '権限不足(403) Contents: Read and write を確認';
+          else if (r.status === 404) msg = '見つかりません(404) owner/repo/branch を確認';
+          else if (r.status === 409) msg = '競合(409) 少し待って再実行してください';
+          var err = new Error(msg); err.status = r.status; throw err;
+        }
+        return j;
+      });
+    });
+  }
+  function setLongRemote(cfg, code, on) {
+    var url = ghContentsUrl(cfg);
+    return ghApi(cfg, 'GET', url + '?ref=' + encodeURIComponent(cfg.branch || 'main') + '&t=' + Date.now())
+      .then(function (j) {
+        var text = b64dec((j && j.content) || '');
+        var next = rewriteLong(text, code, on);
+        if (next === null) throw new Error('holdings.txt に ' + code + ' の行がありません');
+        if (next === text) return null;   // すでにその状態
+        return ghApi(cfg, 'PUT', url, {
+          message: (on ? '長期保有ON ' : '長期保有OFF ') + code + ' [skip ci]',
+          content: b64enc(next), sha: j.sha, branch: (cfg.branch || 'main')
+        });
+      });
+  }
+
+  /* 自分の操作を prices.json（最大20分遅れ）が追いつくまで優先させる保存領域 */
+  var LT_OV_KEY = 'kabu_long_ov';
+  function ltOvGet() { try { return JSON.parse(localStorage.getItem(LT_OV_KEY) || '{}') || {}; } catch (e) { return {}; } }
+  function ltOvSet(v) { try { localStorage.setItem(LT_OV_KEY, JSON.stringify(v)); } catch (e) {} }
+  function ltOvPut(code, on) { var o = ltOvGet(); o[code] = on ? 1 : 0; ltOvSet(o); }
+
+  /* prices.json の long 配列でカードの状態をそろえる（サーバー優先・未反映分だけ上書き） */
+  function applyLong(list) {
+    if (!list) return;
+    var srv = {}, i;
+    for (i = 0; i < list.length; i++) srv[list[i]] = 1;
+    var ov = ltOvGet(), changed = false;
+    Object.keys(ov).forEach(function (c) {
+      if (!!srv[c] === !!ov[c]) { delete ov[c]; changed = true; }   // サーバーが追いついた
+      else srv[c] = ov[c];
+    });
+    if (changed) ltOvSet(ov);
+    document.querySelectorAll('[data-hold]').forEach(function (cd) {
+      setCardLong(cd, !!srv[cd.getAttribute('data-hold')]);
+    });
+  }
+
+  function setCardLong(card, on) {
+    if (!card) return;
+    card.setAttribute('data-hold-long', on ? '1' : '0');
+    var b = card.querySelector('[data-lt]');
+    if (b) {
+      b.className = 'ltbtn' + (on ? ' on' : '');
+      b.textContent = on ? '🌱 長期保有中' : '☾ 長期保有';
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    }
+    var box = card.querySelector('[data-ltbox]');
+    if (box) box.hidden = !on;
+  }
+  function ltMsg(card, text, isErr) {
+    var m = card && card.querySelector('[data-ltmsg]');
+    if (!m) return;
+    m.className = 'ltmsg' + (isErr ? ' err' : '');
+    m.textContent = text || '';
+  }
+  function onLongClick(btn, code) {
+    var card = btn.closest ? btn.closest('.card') : null;
+    var cfg = ghLoad();
+    if (!cfg || !cfg.token) {
+      ltMsg(card, 'GitHubトークンの登録が必要です', true);
+      openGh('「長期保有」を使うにはトークンの登録が必要です（この端末にのみ保存されます）。');
+      return;
+    }
+    var on = !(card && card.getAttribute('data-hold-long') === '1');
+    btn.disabled = true;
+    ltMsg(card, on ? '長期保有ONに更新中…' : '長期保有OFFに更新中…');
+    setLongRemote(cfg, code, on).then(function () {
+      ltOvPut(code, on);
+      setCardLong(card, on);
+      ltMsg(card, on ? '利確通知OFF（holdings.txt 更新済み）' : 'holdings.txt 更新済み');
+    }).catch(function (e) {
+      ltMsg(card, '失敗: ' + ((e && e.message) || e), true);
+    }).then(function () { btn.disabled = false; });
+  }
+
+  /* ---- GitHub 設定パネル（⚙） ---- */
+  function gv(id) { var el = document.getElementById(id); return el ? String(el.value || '').trim() : ''; }
+  function sv(id, v) { var el = document.getElementById(id); if (el) el.value = v == null ? '' : v; }
+  function ghStat(text, cls) {
+    var el = document.getElementById('ghstat');
+    if (el) { el.className = 'ghstat' + (cls ? ' ' + cls : ''); el.textContent = text || ''; }
+  }
+  function openGh(note) {
+    var panel = document.getElementById('ghpanel');
+    if (!panel) return;
+    panel.hidden = false;
+    var cfg = ghLoad() || {}, g = ghGuess();
+    sv('ghtoken', '');
+    sv('ghowner', cfg.owner || g.owner);
+    sv('ghrepo', cfg.repo || g.repo);
+    sv('ghbranch', cfg.branch || g.branch);
+    ghStat(note || (cfg.token ? 'トークン登録済み（変更するときだけ入力）' : ''), cfg.token ? 'ok' : '');
+    try { panel.scrollIntoView({ block: 'nearest' }); } catch (e) {}
+  }
+  function wireGh() {
+    var gear = document.getElementById('ghgear');
+    if (gear) gear.addEventListener('click', function () {
+      var p = document.getElementById('ghpanel');
+      if (p && !p.hidden) { p.hidden = true; return; }
+      openGh();
+    });
+    var save = document.getElementById('ghsave');
+    if (save) save.addEventListener('click', function () {
+      var cur = ghLoad() || {};
+      var cfg = { token: gv('ghtoken') || cur.token || '', owner: gv('ghowner'),
+                  repo: gv('ghrepo'), branch: gv('ghbranch') || 'main', path: 'holdings.txt' };
+      if (!cfg.token) { ghStat('トークンを入力してください', 'err'); return; }
+      if (!cfg.owner || !cfg.repo) { ghStat('owner と repo を入力してください', 'err'); return; }
+      ghStat('確認中…');
+      ghApi(cfg, 'GET', ghContentsUrl(cfg) + '?ref=' + encodeURIComponent(cfg.branch))
+        .then(function () {
+          if (!ghStore(cfg)) { ghStat('保存できませんでした（プライベートブラウズ？）', 'err'); return; }
+          sv('ghtoken', '');
+          ghStat('保存しました。カードの「長期保有」を押せます', 'ok');
+        })
+        .catch(function (e) { ghStat('失敗: ' + ((e && e.message) || e), 'err'); });
+    });
+    var del = document.getElementById('ghdel');
+    if (del) del.addEventListener('click', function () {
+      ghDrop(); sv('ghtoken', ''); ghStat('この端末から削除しました');
+    });
+  }
+
   /* ---- ヘッダーに手動更新ボタン（⟳） ---- */
   function addRefreshBtn() {
     var meta = document.querySelector('header .meta');
@@ -352,6 +572,7 @@
   /* ---- 初期化 ---- */
   function init() {
     addRefreshBtn();
+    wireGh();
     injectStars();
     // ウォッチが1件以上あれば stocks.json を自動読込してウォッチ描画
     if (getWatch().length) { ensureStocks(renderWatch); } else { ensureWatchSec(); }

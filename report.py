@@ -9,6 +9,7 @@
 from __future__ import annotations
 import html
 import json
+import math
 import unicodedata
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
@@ -143,10 +144,109 @@ def _card(rank: int, a, show_levels: bool, market: str = "") -> str:
             f'{levels}{ez_html}{fund}{val}{bt_html}{reasons}</div>')
 
 
-def _section(title: str, sub: str, cards_html: str, accent: str) -> str:
+def _section(title: str, sub: str, cards_html: str, accent: str,
+             extra: str = "", head_extra: str = "") -> str:
+    """extra=見出し行の右端に置く要素 / head_extra=見出し直下に置くブロック。"""
     return (f'<section><h2 class="{accent}"><span>{_esc(title)}</span>'
-            f'<em>{_esc(sub)}</em></h2>'
+            f'<em>{_esc(sub)}</em>{extra}</h2>{head_extra}'
             f'<div class="cards">{cards_html}</div></section>')
+
+
+# 長期保有ボタンから holdings.txt を書き換えるための GitHub 設定パネル
+# （トークンは端末のブラウザにのみ保存。詳しい手順はパネル内に表示する）
+GH_GEAR = '<button type="button" class="ghgear" id="ghgear" title="GitHub連携の設定">⚙</button>'
+
+GH_PANEL = """<div class="ghpanel" id="ghpanel" hidden>
+  <p class="ghlead">「長期保有」ボタンで <b>holdings.txt</b> を書き換えるために、GitHubのトークンを1回だけ登録します。</p>
+  <ol class="ghsteps">
+    <li>GitHub → Settings → Developer settings → <b>Fine-grained tokens</b> → Generate new token</li>
+    <li>Repository access: <b>Only select repositories</b> → このリポジトリだけを選択</li>
+    <li>Permissions → Repository permissions → <b>Contents: Read and write</b></li>
+  </ol>
+  <input id="ghtoken" type="password" autocomplete="off" spellcheck="false" placeholder="github_pat_… を貼り付け">
+  <div class="ghrow"><input id="ghowner" placeholder="owner" autocapitalize="off" spellcheck="false"><input id="ghrepo" placeholder="repo" autocapitalize="off" spellcheck="false"><input id="ghbranch" placeholder="main" autocapitalize="off" spellcheck="false"></div>
+  <div class="ghbtns"><button type="button" id="ghsave">保存</button><button type="button" id="ghdel">削除</button><span class="ghstat" id="ghstat"></span></div>
+  <p class="ghnote">※トークンはこの端末のブラウザ(localStorage)にのみ保存され、リポジトリには書き込まれません。権限は上記の最小構成にしてください。</p>
+</div>"""
+
+
+# 長期見通しで使う年成長率の上限（高い増益率がそのまま何年も続く前提は取らない）
+LT_MAX_GROWTH = 0.15
+LT_YEARS = (1, 3, 5)
+
+
+def _long_outlook(price: float, fund) -> dict | None:
+    """長期保有した場合の目安株価（理論株価＋利益成長率）。算出不可なら None。
+
+    年成長率 g ＝ min(増益率, 持続可能成長率 ROE×(1−配当性向), 15%) を 0〜15% にクランプ。
+    n年後 ＝ 現値×(1+g)^n（PER 維持・年率一定の前提）。
+    長期目標 ＝ 理論株価3方式（株マップ/PER/ROE）の中央値。到達目安年数も出す。
+    """
+    if not fund or not price or price <= 0:
+        return None
+    cands = []
+    if fund.get("growth") is not None:
+        cands.append(fund["growth"] / 100.0)          # 増益率
+    roe, eps, div = fund.get("roe"), fund.get("eps"), fund.get("div")
+    if roe is not None and roe > 0:
+        payout = 0.0
+        if div and eps and eps > 0:
+            payout = max(0.0, min(div / eps, 1.0))    # 配当性向
+        cands.append(roe / 100.0 * (1.0 - payout))    # 持続可能成長率
+    if not cands:
+        return None
+    g = max(0.0, min(min(cands), LT_MAX_GROWTH))
+    fairs = sorted(float(d["fair"]) for d in ((fund.get("cons") or {}).get("judg") or {}).values()
+                   if d.get("fair"))
+    if fairs:
+        i = len(fairs) // 2
+        target = fairs[i] if len(fairs) % 2 else (fairs[i - 1] + fairs[i]) / 2
+    else:
+        target = float(fund["theo"]) if fund.get("theo") else None
+    years = None
+    if target and target > price and g > 0:
+        years = round(math.log(target / price) / math.log(1 + g), 1)
+    return {
+        "g": round(g * 100, 1),
+        "proj": [(n, round(price * (1 + g) ** n)) for n in LT_YEARS],
+        "target": round(target) if target else None,
+        "years": years,
+        "div5": round(div * 5) if div else None,
+        "flat": (min(cands) <= 0),                    # 減益予想などで横ばい想定にした
+    }
+
+
+def _long_box(price: float, fund, on: bool) -> str:
+    """長期見通しブロック。ONのときだけ表示（OFFでも hidden で埋めておきJSで切替）。"""
+    o = _long_outlook(price, fund)
+    if not o:
+        return ('<div class="ltbox" data-ltbox hidden><div class="ltnote">'
+                '財務データが未取得のため、長期の目安株価は表示できません。</div></div>')
+    chips = "".join(f'<span class="ltc" data-lt-n="{n}">{n}年後 <b>¥{v:,}</b></span>'
+                    for n, v in o["proj"])
+    glabel = "横ばい想定" if o["flat"] else "+{:.1f}% 想定".format(o["g"])
+    head = (f'<div class="lthd">📈 長期保有の目安'
+            f'<span class="ltg">年 {glabel}</span></div>')
+    notes = []
+    if o["target"]:
+        if o["years"]:
+            yr = f' ・ 到達目安 約{o["years"]:.1f}年'
+        elif o["target"] <= price:
+            yr = ' ・ すでに到達'
+        else:
+            yr = ''
+        notes.append(f'長期目標 ¥{o["target"]:,}（理論株価の中央値）'
+                     f'<span data-lt-years>{yr}</span>')
+    if o["div5"]:
+        notes.append(f'配当 5年累計 ¥{o["div5"]:,}/株')
+    note = f'<div class="ltnote">{" ／ ".join(notes)}</div>' if notes else ""
+    hid = "" if on else " hidden"
+    # data-lt-g / data-lt-target は app.js が最新株価で n年後を計算し直すために使う
+    return (f'<div class="ltbox" data-ltbox data-lt-g="{o["g"]}" '
+            f'data-lt-target="{o["target"] or ""}"{hid}>{head}'
+            f'<div class="ltrow">{chips}</div>{note}'
+            '<div class="ltnote2">※PER維持・年率一定で伸ばした単純計算です。予想や保証ではありません。</div>'
+            '</div>')
 
 
 def _holding_levels(h, a, cfg):
@@ -164,9 +264,15 @@ def _holding_card(h, a, cfg) -> str:
     code = h["code"]
     buy = h.get("buy")
     if a is None:
-        return ('<div class="card"><div class="row1"><div class="title">'
+        lt_on = bool(h.get("long"))
+        return (f'<div class="card" data-hold-long="{"1" if lt_on else "0"}">'
+                '<div class="row1"><div class="title">'
                 f'<span class="code">{_esc(code)}</span>'
-                '<span class="name">データ取得待ち</span></div></div></div>')
+                '<span class="name">データ取得待ち</span></div></div>'
+                f'<div class="ltbar"><button type="button" class="ltbtn{" on" if lt_on else ""}" '
+                f'data-lt="{_esc(code)}" aria-pressed="{"true" if lt_on else "false"}">'
+                f'{"🌱 長期保有中" if lt_on else "☾ 長期保有"}</button>'
+                f'<span class="ltmsg" data-ltmsg>{"利確通知OFF" if lt_on else ""}</span></div></div>')
     cur, name = a.price, a.name
     tgt, stp = _holding_levels(h, a, cfg)
     pl = ((cur - buy) / buy * 100) if buy else 0.0
@@ -209,10 +315,19 @@ def _holding_card(h, a, cfg) -> str:
     if a.reasons:
         chips = "".join(f'<span class="chip">{_esc(r)}</span>' for r in a.reasons[:3])
         reasons = f'<div class="reasons">{chips}</div>'
+    # 長期保有トグル。ONなら利確通知OFF＋長期見通しを表示（実体は holdings.txt の「長期」）
+    lt_on = bool(h.get("long"))
+    lt_bar = (f'<div class="ltbar">'
+              f'<button type="button" class="ltbtn{" on" if lt_on else ""}" '
+              f'data-lt="{_esc(code)}" aria-pressed="{"true" if lt_on else "false"}">'
+              f'{"🌱 長期保有中" if lt_on else "☾ 長期保有"}</button>'
+              f'<span class="ltmsg" data-ltmsg>{"利確通知OFF" if lt_on else ""}</span></div>')
+    lt_box = _long_box(cur, a.fund, lt_on)
     # data-hold-* は app.js が最新株価で損益%・状態を計算し直すために使う
     return (f'<div class="card" data-hold="{_esc(code)}" '
             f'data-hold-buy="{buy if buy else ""}" '
-            f'data-hold-tgt="{tgt}" data-hold-stp="{stp}"><div class="row1">'
+            f'data-hold-tgt="{tgt}" data-hold-stp="{stp}" '
+            f'data-hold-long="{"1" if lt_on else "0"}"><div class="row1">'
             f'<div class="title"><span class="code">{_esc(code)}</span>'
             f'<span class="name">{_esc(name)}</span></div>'
             f'<span class="hstat {st_cls}" data-hold-st>{st_label}</span>{sig_badge}</div>'
@@ -221,7 +336,7 @@ def _holding_card(h, a, cfg) -> str:
             f'<div class="levels"><span class="lv">買値 {buy_s}</span>'
             f'<span class="lv tgt">利確 ¥{tgt:,.0f}</span>'
             f'<span class="lv stp">損切 ¥{stp:,.0f}</span></div>'
-            f'{bt_html}{fund}{val}{sell_warn}{reasons}</div>')
+            f'{lt_bar}{lt_box}{bt_html}{fund}{val}{sell_warn}{reasons}</div>')
 
 
 CSS = """
@@ -354,6 +469,45 @@ h2 em{font-style:normal;font-family:'IBM Plex Mono',monospace;font-size:10px;
 footer{margin-top:38px;padding-top:18px;border-top:1px solid var(--line);
   font-size:11px;color:var(--mut);line-height:1.8}
 footer b{color:var(--gold-d)}
+
+/* --- 長期保有トグル & 長期見通し & GitHub連携パネル --- */
+.ltbar{display:flex;align-items:center;gap:10px;margin-top:11px;flex-wrap:wrap}
+.ltbtn{font-family:inherit;font-size:12px;font-weight:700;color:var(--mut);cursor:pointer;
+  background:var(--bg);border:1px solid var(--line);border-radius:99px;padding:5px 13px}
+.ltbtn.on{color:#0c1118;background:var(--gold);border-color:var(--gold)}
+.ltbtn:disabled{opacity:.55}
+.ltmsg{font-size:11px;color:var(--mut)}
+.ltmsg.err{color:var(--sell)}
+.ltbox{margin-top:9px;border:1px solid rgba(212,175,86,.30);background:rgba(212,175,86,.06);
+  border-radius:10px;padding:9px 11px}
+.lthd{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;font-size:12px;font-weight:800;color:var(--gold)}
+.lthd .ltg{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;color:var(--mut)}
+.ltrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:7px}
+.ltc{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--mut);
+  border:1px solid var(--line);border-radius:7px;padding:3px 9px}
+.ltc b{color:var(--ink);font-size:12.5px}
+.ltnote{margin-top:7px;font-size:11.5px;color:var(--ink)}
+.ltnote2{margin-top:5px;font-size:10.5px;color:var(--mut);line-height:1.6}
+.ghgear{margin-left:auto;background:none;border:1px solid var(--line);color:var(--mut);
+  border-radius:8px;padding:2px 9px;font-size:13px;cursor:pointer}
+.ghpanel{margin-bottom:12px;border:1px solid var(--line);background:var(--bg2);
+  border-radius:12px;padding:13px 14px}
+.ghlead{font-size:12.5px;color:var(--ink)}
+.ghsteps{margin:8px 0 10px 18px;font-size:11.5px;color:var(--mut);line-height:1.8}
+.ghpanel input{width:100%;margin-top:6px;font-family:'IBM Plex Mono',monospace;font-size:16px;
+  color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;
+  padding:10px 12px;outline:none}
+.ghpanel input:focus{border-color:var(--gold-d)}
+.ghrow{display:flex;gap:8px}
+.ghrow input{flex:1;min-width:0;font-size:14px}
+.ghbtns{display:flex;align-items:center;gap:9px;margin-top:10px;flex-wrap:wrap}
+.ghbtns button{font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;
+  border-radius:10px;padding:8px 16px;border:1px solid var(--gold-d);
+  background:rgba(212,175,86,.12);color:var(--gold)}
+.ghbtns #ghdel{border-color:var(--line);background:var(--bg);color:var(--mut)}
+.ghstat{font-size:11.5px;color:var(--mut)}
+.ghstat.err{color:var(--sell)} .ghstat.ok{color:var(--buy)}
+.ghnote{margin-top:9px;font-size:10.5px;color:var(--mut);line-height:1.7}
 
 /* --- app.js 追加分（クラス追加のみ・既存は不変） --- */
 .star{margin-left:8px;background:none;border:none;font-size:18px;line-height:1;
@@ -619,6 +773,8 @@ APP_JS = r"""
     if (sc) { toggleWatch(sc); syncStars(); renderWatch(); return; }
     var rm = t.getAttribute('data-rm');
     if (rm) { toggleWatch(rm); syncStars(); renderWatch(); return; }
+    var lt = t.getAttribute('data-lt');
+    if (lt) { onLongClick(t, lt); return; }
   });
 
   /* ---- ライブ価格（data-px の更新＋狙い目行の再計算） ---- */
@@ -667,6 +823,25 @@ APP_JS = r"""
         st.textContent = lab;
         st.className = 'hstat ' + cls;
       }
+      // 長期見通しも最新株価を起点に引き直す
+      var box = cd.querySelector('[data-ltbox]');
+      var g = box ? parseFloat(box.getAttribute('data-lt-g')) : NaN;
+      if (box && !isNaN(g)) {
+        var rate = 1 + g / 100;
+        box.querySelectorAll('[data-lt-n]').forEach(function (chip) {
+          var n = parseFloat(chip.getAttribute('data-lt-n'));
+          var b = chip.querySelector('b');
+          if (b && !isNaN(n)) b.textContent = '¥' + Math.round(cur * Math.pow(rate, n)).toLocaleString();
+        });
+        var ys = box.querySelector('[data-lt-years]');
+        var goal = parseFloat(box.getAttribute('data-lt-target'));
+        if (ys && goal > 0) {
+          if (goal <= cur) ys.textContent = ' ・ すでに到達';
+          else if (rate > 1) ys.textContent = ' ・ 到達目安 約' +
+            (Math.log(goal / cur) / Math.log(rate)).toFixed(1) + '年';
+          else ys.textContent = '';
+        }
+      }
     });
     // メモリ上の STOCKS 価格も更新（検索結果に反映）
     if (STOCKS) {
@@ -681,6 +856,7 @@ APP_JS = r"""
       .then(function (d) {
         if (!d || !d.px) return;
         applyPrices(d.px);
+        applyLong(d.long);
         var lab = document.getElementById('pxasof');
         if (lab && d.asof) lab.textContent = '株価 ' + d.asof + ' 時点（約20分遅延）';
         if (q && q.value.trim()) run();
@@ -723,6 +899,204 @@ APP_JS = r"""
     }
   }
 
+  /* ---- 長期保有トグル：holdings.txt を GitHub API で書き換える ----
+     ONにすると holdings.txt の行に「長期」が付き、GitHub Actions 側の
+     利確通知が止まる（損切・売りシグナルは従来どおり通知）。
+     トークンはこの端末の localStorage にのみ保存し、送信先は api.github.com のみ。 */
+  var GH_KEY = 'kabu_gh';
+  var LONG_TOKENS = ['長期', '長期保有', 'long', 'longterm', 'hold'];
+
+  function ghLoad() { try { return JSON.parse(localStorage.getItem(GH_KEY) || 'null'); } catch (e) { return null; } }
+  function ghStore(v) { try { localStorage.setItem(GH_KEY, JSON.stringify(v)); return true; } catch (e) { return false; } }
+  function ghDrop() { try { localStorage.removeItem(GH_KEY); } catch (e) {} }
+  function ghGuess() {
+    var owner = '', repo = '';
+    var m = String(location.hostname || '').match(/^([^.]+)\.github\.io$/i);
+    if (m) owner = m[1];
+    var seg = String(location.pathname || '/').split('/').filter(function (x) { return x && x.indexOf('.') < 0; });
+    if (seg.length) repo = seg[0];
+    return { owner: owner, repo: repo, branch: 'main', path: 'holdings.txt' };
+  }
+  function b64enc(str) {
+    var bytes = new TextEncoder().encode(str), bin = '';
+    for (var i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+    return btoa(bin);
+  }
+  function b64dec(b64) {
+    var bin = atob(String(b64).replace(/\s/g, ''));
+    var bytes = new Uint8Array(bin.length);
+    for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    return new TextDecoder('utf-8').decode(bytes);
+  }
+  function isLongTok(x) { return LONG_TOKENS.indexOf(String(x).trim().toLowerCase()) >= 0; }
+
+  /* holdings.txt の該当行に「長期」を付け外しする。行が無ければ null（config.py と同じ解釈） */
+  function rewriteLong(text, code, on) {
+    var lines = String(text).split('\n'), found = false;
+    for (var i = 0; i < lines.length; i++) {
+      var t = lines[i].trim();
+      if (!t || t.charAt(0) === '#') continue;
+      var parts = t.replace(/，/g, ',').split(',').map(function (x) { return x.trim(); });
+      var kept = parts.filter(function (x) { return !isLongTok(x); });
+      if (!kept.length || kept[0] !== String(code)) continue;
+      found = true;
+      while (kept.length > 1 && kept[kept.length - 1] === '') kept.pop();
+      if (on) kept.push('長期');
+      lines[i] = kept.join(',');
+    }
+    return found ? lines.join('\n') : null;
+  }
+
+  function ghContentsUrl(cfg) {
+    return 'https://api.github.com/repos/' + encodeURIComponent(cfg.owner) + '/' +
+      encodeURIComponent(cfg.repo) + '/contents/' + (cfg.path || 'holdings.txt');
+  }
+  function ghApi(cfg, method, url, body) {
+    var opt = { method: method, cache: 'no-store', headers: {
+      'Authorization': 'Bearer ' + cfg.token,
+      'Accept': 'application/vnd.github+json',
+      'X-GitHub-Api-Version': '2022-11-28'
+    } };
+    if (body) { opt.body = JSON.stringify(body); opt.headers['Content-Type'] = 'application/json'; }
+    return fetch(url, opt).then(function (r) {
+      return r.text().then(function (txt) {
+        var j = null;
+        try { j = txt ? JSON.parse(txt) : null; } catch (e) {}
+        if (!r.ok) {
+          var msg = (j && j.message) || ('HTTP ' + r.status);
+          if (r.status === 401) msg = 'トークンが無効です(401)';
+          else if (r.status === 403) msg = '権限不足(403) Contents: Read and write を確認';
+          else if (r.status === 404) msg = '見つかりません(404) owner/repo/branch を確認';
+          else if (r.status === 409) msg = '競合(409) 少し待って再実行してください';
+          var err = new Error(msg); err.status = r.status; throw err;
+        }
+        return j;
+      });
+    });
+  }
+  function setLongRemote(cfg, code, on) {
+    var url = ghContentsUrl(cfg);
+    return ghApi(cfg, 'GET', url + '?ref=' + encodeURIComponent(cfg.branch || 'main') + '&t=' + Date.now())
+      .then(function (j) {
+        var text = b64dec((j && j.content) || '');
+        var next = rewriteLong(text, code, on);
+        if (next === null) throw new Error('holdings.txt に ' + code + ' の行がありません');
+        if (next === text) return null;   // すでにその状態
+        return ghApi(cfg, 'PUT', url, {
+          message: (on ? '長期保有ON ' : '長期保有OFF ') + code + ' [skip ci]',
+          content: b64enc(next), sha: j.sha, branch: (cfg.branch || 'main')
+        });
+      });
+  }
+
+  /* 自分の操作を prices.json（最大20分遅れ）が追いつくまで優先させる保存領域 */
+  var LT_OV_KEY = 'kabu_long_ov';
+  function ltOvGet() { try { return JSON.parse(localStorage.getItem(LT_OV_KEY) || '{}') || {}; } catch (e) { return {}; } }
+  function ltOvSet(v) { try { localStorage.setItem(LT_OV_KEY, JSON.stringify(v)); } catch (e) {} }
+  function ltOvPut(code, on) { var o = ltOvGet(); o[code] = on ? 1 : 0; ltOvSet(o); }
+
+  /* prices.json の long 配列でカードの状態をそろえる（サーバー優先・未反映分だけ上書き） */
+  function applyLong(list) {
+    if (!list) return;
+    var srv = {}, i;
+    for (i = 0; i < list.length; i++) srv[list[i]] = 1;
+    var ov = ltOvGet(), changed = false;
+    Object.keys(ov).forEach(function (c) {
+      if (!!srv[c] === !!ov[c]) { delete ov[c]; changed = true; }   // サーバーが追いついた
+      else srv[c] = ov[c];
+    });
+    if (changed) ltOvSet(ov);
+    document.querySelectorAll('[data-hold]').forEach(function (cd) {
+      setCardLong(cd, !!srv[cd.getAttribute('data-hold')]);
+    });
+  }
+
+  function setCardLong(card, on) {
+    if (!card) return;
+    card.setAttribute('data-hold-long', on ? '1' : '0');
+    var b = card.querySelector('[data-lt]');
+    if (b) {
+      b.className = 'ltbtn' + (on ? ' on' : '');
+      b.textContent = on ? '🌱 長期保有中' : '☾ 長期保有';
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    }
+    var box = card.querySelector('[data-ltbox]');
+    if (box) box.hidden = !on;
+  }
+  function ltMsg(card, text, isErr) {
+    var m = card && card.querySelector('[data-ltmsg]');
+    if (!m) return;
+    m.className = 'ltmsg' + (isErr ? ' err' : '');
+    m.textContent = text || '';
+  }
+  function onLongClick(btn, code) {
+    var card = btn.closest ? btn.closest('.card') : null;
+    var cfg = ghLoad();
+    if (!cfg || !cfg.token) {
+      ltMsg(card, 'GitHubトークンの登録が必要です', true);
+      openGh('「長期保有」を使うにはトークンの登録が必要です（この端末にのみ保存されます）。');
+      return;
+    }
+    var on = !(card && card.getAttribute('data-hold-long') === '1');
+    btn.disabled = true;
+    ltMsg(card, on ? '長期保有ONに更新中…' : '長期保有OFFに更新中…');
+    setLongRemote(cfg, code, on).then(function () {
+      ltOvPut(code, on);
+      setCardLong(card, on);
+      ltMsg(card, on ? '利確通知OFF（holdings.txt 更新済み）' : 'holdings.txt 更新済み');
+    }).catch(function (e) {
+      ltMsg(card, '失敗: ' + ((e && e.message) || e), true);
+    }).then(function () { btn.disabled = false; });
+  }
+
+  /* ---- GitHub 設定パネル（⚙） ---- */
+  function gv(id) { var el = document.getElementById(id); return el ? String(el.value || '').trim() : ''; }
+  function sv(id, v) { var el = document.getElementById(id); if (el) el.value = v == null ? '' : v; }
+  function ghStat(text, cls) {
+    var el = document.getElementById('ghstat');
+    if (el) { el.className = 'ghstat' + (cls ? ' ' + cls : ''); el.textContent = text || ''; }
+  }
+  function openGh(note) {
+    var panel = document.getElementById('ghpanel');
+    if (!panel) return;
+    panel.hidden = false;
+    var cfg = ghLoad() || {}, g = ghGuess();
+    sv('ghtoken', '');
+    sv('ghowner', cfg.owner || g.owner);
+    sv('ghrepo', cfg.repo || g.repo);
+    sv('ghbranch', cfg.branch || g.branch);
+    ghStat(note || (cfg.token ? 'トークン登録済み（変更するときだけ入力）' : ''), cfg.token ? 'ok' : '');
+    try { panel.scrollIntoView({ block: 'nearest' }); } catch (e) {}
+  }
+  function wireGh() {
+    var gear = document.getElementById('ghgear');
+    if (gear) gear.addEventListener('click', function () {
+      var p = document.getElementById('ghpanel');
+      if (p && !p.hidden) { p.hidden = true; return; }
+      openGh();
+    });
+    var save = document.getElementById('ghsave');
+    if (save) save.addEventListener('click', function () {
+      var cur = ghLoad() || {};
+      var cfg = { token: gv('ghtoken') || cur.token || '', owner: gv('ghowner'),
+                  repo: gv('ghrepo'), branch: gv('ghbranch') || 'main', path: 'holdings.txt' };
+      if (!cfg.token) { ghStat('トークンを入力してください', 'err'); return; }
+      if (!cfg.owner || !cfg.repo) { ghStat('owner と repo を入力してください', 'err'); return; }
+      ghStat('確認中…');
+      ghApi(cfg, 'GET', ghContentsUrl(cfg) + '?ref=' + encodeURIComponent(cfg.branch))
+        .then(function () {
+          if (!ghStore(cfg)) { ghStat('保存できませんでした（プライベートブラウズ？）', 'err'); return; }
+          sv('ghtoken', '');
+          ghStat('保存しました。カードの「長期保有」を押せます', 'ok');
+        })
+        .catch(function (e) { ghStat('失敗: ' + ((e && e.message) || e), 'err'); });
+    });
+    var del = document.getElementById('ghdel');
+    if (del) del.addEventListener('click', function () {
+      ghDrop(); sv('ghtoken', ''); ghStat('この端末から削除しました');
+    });
+  }
+
   /* ---- ヘッダーに手動更新ボタン（⟳） ---- */
   function addRefreshBtn() {
     var meta = document.querySelector('header .meta');
@@ -740,6 +1114,7 @@ APP_JS = r"""
   /* ---- 初期化 ---- */
   function init() {
     addRefreshBtn();
+    wireGh();
     injectStars();
     // ウォッチが1件以上あれば stocks.json を自動読込してウォッチ描画
     if (getWatch().length) { ensureStocks(renderWatch); } else { ensureWatchSec(); }
@@ -1059,7 +1434,8 @@ def build_html(cfg: dict) -> tuple[str, dict]:
             tgt, stp = _holding_levels(h, a, cfg)
             a.bt = R.S.barrier_stats(hframes.get(h["code"]), a.price, tgt, stp)
         hc = "".join(_holding_card(h, amap.get(h["code"]), cfg) for h in holds)
-        hold_section = _section("保有銘柄", "MY HOLDINGS", hc, "watch")
+        hold_section = _section("保有銘柄", "MY HOLDINGS", hc, "watch",
+                                extra=GH_GEAR, head_extra=GH_PANEL)
 
     index = []
     for rank, a in enumerate(analyses, 1):
@@ -1163,7 +1539,11 @@ def write_prices(cfg: dict) -> dict:
     codes: set[str] = {str(c).strip() for c in (cfg.get("watchlist") or [])}
     # 保有銘柄はダッシュボードに常時表示されるので必ず対象に含める
     # （data.json の買い候補に入らない銘柄は、ここで足さないと価格が更新されない）
-    codes.update(str(h["code"]).strip() for h in load_holdings() if h.get("code"))
+    holds = load_holdings()
+    codes.update(str(h["code"]).strip() for h in holds if h.get("code"))
+    # 長期保有マークも載せる。ダッシュボード生成(1日4回)を待たずに
+    # ボタンの状態が holdings.txt と合うようにするため。
+    longs = [str(h["code"]).strip() for h in holds if h.get("long")]
     dj = DOCS / "data.json"
     if dj.exists():
         try:
@@ -1176,7 +1556,7 @@ def write_prices(cfg: dict) -> dict:
             pass
     prices = D.fetch_last_prices(sorted(codes))
     now = datetime.now(JST).strftime("%H:%M")
-    out = {"asof": now, "px": {k: round(v) for k, v in prices.items()}}
+    out = {"asof": now, "px": {k: round(v) for k, v in prices.items()}, "long": longs}
     (DOCS / "prices.json").write_text(
         json.dumps(out, ensure_ascii=False), encoding="utf-8")
     print(f"価格更新: {len(prices)} 件 @ {now} JST")
@@ -1231,7 +1611,9 @@ def check_holdings(cfg: dict) -> None:
         # ATR が出せない（日足の取得失敗など）場合は自動ラインを作らない。
         # 作ると 利確=損切=買値 になり、到達アラートが誤発報するため。
         pl = ((cur - buy) / buy * 100) if buy else 0.0
-        if tgt and cur >= tgt and state.get(f"{c}:tp") != today:
+        # 長期保有マークが付いている銘柄は利確通知を出さない（損切・売りシグナルは出す）
+        long_hold = bool(h.get("long"))
+        if tgt and not long_hold and cur >= tgt and state.get(f"{c}:tp") != today:
             tp.append(f"  {c} {name}  現在¥{cur:,.0f} / 買値¥{(buy or 0):,.0f} ({pl:+.1f}%)  利確¥{tgt:,.0f}")
             state[f"{c}:tp"] = today
         if stp and cur <= stp and state.get(f"{c}:sl") != today:

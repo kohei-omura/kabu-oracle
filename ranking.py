@@ -147,7 +147,9 @@ def _metrics(price: float, raw: dict, profit_years: float = 10.0,
                 und += 1
     cons = {"judg": judg, "und": und, "avail": avail, "buy": (und >= 2)}
     return {"per": per, "pbr": pbr, "roe": roe, "eqr": eqr, "divy": divy,
-            "growth": growth, "theo": theo, "cons": cons}
+            "growth": growth, "theo": theo, "cons": cons,
+            # 長期見通し（配当性向＝div/eps）用の生値。ランキングの重み付けには使わない
+            "eps": eps, "div": dv}
 
 
 def apply_fundamentals(analyses: list, cfg: dict, extra_codes=None) -> list:

@@ -87,8 +87,16 @@ def market_map(cfg: dict) -> dict[str, str]:
     return m
 
 
+# 長期保有マーク（holdings.txt の行のどこかに書けば有効／大文字小文字は無視）
+LONG_TOKENS = {"長期", "長期保有", "long", "longterm", "hold"}
+
+
 def load_holdings() -> list[dict]:
-    """holdings.txt を読む。各行 'code,買値[,利確,損切]'（# はコメント）。"""
+    """holdings.txt を読む。各行 'code,買値[,利確,損切][,長期]'（# はコメント）。
+
+    行のどこかに「長期」（long/hold でも可）があれば長期保有フラグを立てる。
+    ダッシュボードの「長期保有」ボタンもこの印を付け外しする。
+    """
     p = ROOT / "holdings.txt"
     out: list[dict] = []
     if not p.exists():
@@ -105,9 +113,13 @@ def load_holdings() -> list[dict]:
         if not line or line.startswith("#"):
             continue
         parts = [x.strip() for x in line.replace("，", ",").split(",")]
-        code = parts[0]
+        # 長期マークは位置に依存させない（利確/損切の桁ズレを避けるため先に取り除く）
+        is_long = any(x.lower() in LONG_TOKENS for x in parts)
+        parts = [x for x in parts if x.lower() not in LONG_TOKENS]
+        code = parts[0] if parts else ""
         if not code:
             continue
         out.append({"code": code, "buy": _num(parts, 1),
-                    "target": _num(parts, 2), "stop": _num(parts, 3)})
+                    "target": _num(parts, 2), "stop": _num(parts, 3),
+                    "long": is_long})
     return out
