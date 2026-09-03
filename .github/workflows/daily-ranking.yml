@@ -2,7 +2,8 @@ name: daily-ranking
 
 on:
   schedule:
-    - cron: "0 22 * * 0-4"    # 07:00 JST（寄り付き前・前日終値）
+    # 1日1通。日足ベースなので朝の実行は前日大引け後と同じ結果になるため、
+    # 確定終値がそろう大引け後だけにしている（手動実行は workflow_dispatch から）。
     - cron: "30 7 * * 1-5"    # 16:30 JST（大引け後・確定終値／取引判断用）
   workflow_dispatch:
 
