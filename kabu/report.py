@@ -1158,34 +1158,45 @@ def _tb_turnover20(df) -> float | None:
         return None
 
 
+def _growth(new, old):
+    return ((new - old) / abs(old) * 100.0) if (new is not None and old not in (None, 0)) else None
+
+
 def _tb_score(price: float, raw: dict, turnover20: float | None):
-    """近似スコア(100点満点)。対象外は None。返り値: dict(score, mcap_oku, parts, growth, roe)。"""
+    """テンバガーの共通特徴への適合度(100点満点)。対象外は None。
+
+    J-Quants の決算短信サマリーにある 売上高・営業利益・発行済株式数 を使う。
+    それらが無い会社だけ、純利益成長・ROE・純利益/EPS で近似する（basis で区別）。
+    返り値: dict(score, mcap_oku, parts, growth, margin, basis)
+    """
     if not raw or price is None or price <= 0:
         return None
     eps = raw.get("eps_fore") or raw.get("eps_fy")
     profit = raw.get("profit_fore")
     if profit is None:
         profit = raw.get("profit_fy")
-    # 発行済株式数 ≈ 純利益 / EPS（同期）。EPS/純利益が無い＝時価総額を近似できず対象外
-    if not eps or eps <= 0 or profit is None:
-        return None
-    shares = profit / eps
-    if shares <= 0:
-        return None
+
+    # 時価総額：発行済株式数（自己株式を除く）× 株価。無ければ 純利益/EPS で近似
+    shares = raw.get("shares")
+    if not shares or shares <= 0:
+        if not eps or eps <= 0 or profit is None or profit / eps <= 0:
+            return None
+        shares = profit / eps
     mcap_oku = price * shares / 1e8  # 億円
 
     # ① 時価総額(30点)：300億超は候補除外。100億未満=30／100〜300億=反比例で15〜25
     if mcap_oku > 300:
         return None
-    if mcap_oku < 100:
-        s_mcap = 30.0
-    else:
-        s_mcap = 25.0 - (mcap_oku - 100.0) / 200.0 * 10.0  # 100億→25 ・ 300億→15
+    s_mcap = 30.0 if mcap_oku < 100 else 25.0 - (mcap_oku - 100.0) / 200.0 * 10.0
 
-    # ② 純利益成長率(30点・売上高成長率の代替)：直近予想 vs 前期／前期 vs 前々期の2期で判定
-    pf_fore, pf_fy, pf_prev = raw.get("profit_fore"), raw.get("profit_fy"), raw.get("prev_profit_fy")
-    g1 = ((pf_fore - pf_fy) / abs(pf_fy) * 100.0) if (pf_fore is not None and pf_fy not in (None, 0)) else None
-    g2 = ((pf_fy - pf_prev) / abs(pf_prev) * 100.0) if (pf_fy is not None and pf_prev not in (None, 0)) else None
+    # ② 成長率(30点)：売上高（今期予想 vs 前期 ／ 前期 vs 前々期）。無ければ純利益で代替
+    sales_based = raw.get("sales_fy") not in (None, 0) and raw.get("sales_fore") is not None
+    if sales_based:
+        g1 = _growth(raw.get("sales_fore"), raw.get("sales_fy"))
+        g2 = _growth(raw.get("sales_fy"), raw.get("prev_sales_fy"))
+    else:
+        g1 = _growth(raw.get("profit_fore"), raw.get("profit_fy"))
+        g2 = _growth(raw.get("profit_fy"), raw.get("prev_profit_fy"))
     if g1 is None:
         return None  # 成長不明は対象外
     if g1 >= 20 and (g2 is not None and g2 >= 20):
@@ -1197,45 +1208,44 @@ def _tb_score(price: float, raw: dict, turnover20: float | None):
     else:
         return None  # 直近+10%未満は候補除外
 
-    # ③ ROE(20点・営業利益率の代替)：15%↑=20／8〜15%=12／黒字〜8%=6／赤字は高成長(+30%超)なら6・他は除外
-    eq = raw.get("equity")
-    roe = (profit / eq * 100.0) if (eq and eq > 0) else None
-    if roe is None:
-        s_prof = 6.0 if profit > 0 else (6.0 if g1 > 30 else None)
-    elif roe >= 15:
+    # ③ 収益性(20点)：営業利益率（今期予想、無ければ前期実績）。無ければ ROE で代替
+    #    15%↑=20／8〜15%=12／黒字〜8%=6／赤字は高成長(+30%超)なら6・他は除外
+    margin, margin_based = None, False
+    for op, sl in ((raw.get("op_fore"), raw.get("sales_fore")), (raw.get("op_fy"), raw.get("sales_fy"))):
+        if op is not None and sl and sl > 0:
+            margin, margin_based = op / sl * 100.0, True
+            break
+    if margin is None:
+        eq = raw.get("equity")
+        margin = (profit / eq * 100.0) if (eq and eq > 0 and profit is not None) else None
+    if margin is None:
+        s_prof = 6.0 if (profit or 0) > 0 or g1 > 30 else None
+    elif margin >= 15:
         s_prof = 20.0
-    elif roe >= 8:
+    elif margin >= 8:
         s_prof = 12.0
-    elif profit > 0:
-        s_prof = 6.0  # 黒字〜8%
+    elif margin > 0:
+        s_prof = 6.0
     else:
-        s_prof = 6.0 if g1 > 30 else None  # 営業赤字は高成長なら6
+        s_prof = 6.0 if g1 > 30 else None
     if s_prof is None:
         return None
 
-    # ④ 増益継続(10点・増収継続の代替)：増益連続期数×3（上限10）
-    streak = 0
-    if g2 is not None and g2 > 0:
-        streak += 1
-    if g1 > 0:
-        streak += 1
+    # ④ 成長の継続(10点)：連続して伸びた期数×3（上限10）
+    streak = (1 if g2 is not None and g2 > 0 else 0) + (1 if g1 > 0 else 0)
     s_cont = min(10.0, streak * 3.0)
 
     # ⑤ 流動性(10点)：20日平均売買代金 3,000万〜30億=10／低すぎ・大きすぎ=各5／不明=5
-    if turnover20 is None:
-        s_liq = 5.0
-    elif 3.0e7 <= turnover20 <= 3.0e9:
-        s_liq = 10.0
-    else:
-        s_liq = 5.0
+    s_liq = 10.0 if (turnover20 is not None and 3.0e7 <= turnover20 <= 3.0e9) else 5.0
 
     # ※ 17業種ボーナス(+5)は業種データが無いため対象外
     total = min(100.0, s_mcap + s_growth + s_prof + s_cont + s_liq)
     return {
         "score": round(total),
         "mcap_oku": round(mcap_oku),
-        "growth": round(g1, 1) if g1 is not None else None,
-        "roe": round(roe, 1) if roe is not None else None,
+        "growth": round(g1, 1),
+        "margin": round(margin, 1) if margin is not None else None,
+        "basis": {"sales": sales_based, "margin": margin_based},
         "parts": {"mcap": round(s_mcap), "growth": round(s_growth),
                   "prof": round(s_prof), "cont": round(s_cont), "liq": round(s_liq)},
     }
@@ -1292,8 +1302,9 @@ def build_tenbagger(analyses: list, cfg: dict, buy_codes: set,
         '<p class="tb-foot">※テンバガーの共通特徴への適合度であり、株価上昇の予想・保証ではありません。'
         '超小型株は流動性が低く、値動きが極端になりやすいハイリスク領域です。'
         '株主構成・事業内容は必ずご自身でご確認ください。投資判断は自己責任です。'
-        '<br><span class="tb-note2">（データ制約により 売上高→純利益成長率、営業利益率→ROE、'
-        '発行済株式数→純利益/EPS で近似。17業種ボーナス・株主構成はJ-Quants無料枠で取得不可のため対象外です。）</span></p>'
+        '<br><span class="tb-note2">（売上高・営業利益・発行済株式数は J-Quants の決算短信サマリーから算出。'
+        '項目が無い会社だけ 純利益成長・ROE・純利益/EPS で近似し「≈」を付けています。'
+        '17業種ボーナス・株主構成は対象外です。）</span></p>'
     )
     section = (
         '<section class="sec-tenbagger">'
@@ -1321,8 +1332,6 @@ def _tb_card(rank: int, a, sc: dict, is_buy: bool) -> str:
     elif sc["score"] >= 70:
         tag = '<span class="tb-tag t10">🚀 10倍級の特徴</span>'
     buy_badge = '<span class="tb-tag tbuy">⭐ テクニカルも買い</span>' if is_buy else ""
-    growth = f'<span class="tb-chip">増益 {sc["growth"]:+.0f}%</span>' if sc.get("growth") is not None else ""
-    roe = f'<span class="tb-chip">ROE {sc["roe"]:.1f}%</span>' if sc.get("roe") is not None else ""
     chips = (
         f'<span class="tb-chip">時価総額 {p["mcap"]}</span>'
         f'<span class="tb-chip">成長 {p["growth"]}</span>'
@@ -1338,8 +1347,9 @@ def _tb_card(rank: int, a, sc: dict, is_buy: bool) -> str:
         f'<span class="name">{_esc(a.name)}</span>{_seg("")}</div>'
         f'<span class="tb-score">{sc["score"]}<i>点</i></span></div>'
         f'<div class="tb-meta"><span class="tb-mcap">時価総額 ~{sc["mcap_oku"]}億円</span>'
-        f'<span class="tb-gr">売上(≈利益)成長 {sc["growth"]:+.0f}%</span>'
-        + (f'<span class="tb-roe">営業利益率(≈ROE) {sc["roe"]:.1f}%</span>' if sc.get("roe") is not None else "")
+        f'<span class="tb-gr">{"売上成長" if sc["basis"]["sales"] else "売上(≈利益)成長"} {sc["growth"]:+.0f}%</span>'
+        + (f'<span class="tb-roe">{"営業利益率" if sc["basis"]["margin"] else "営業利益率(≈ROE)"} {sc["margin"]:.1f}%</span>'
+           if sc.get("margin") is not None else "")
         + '</div>'
         f'<div class="tb-bar"><span style="width:{pct}%"></span></div>'
         f'<div class="tb-tags">{tag}{buy_badge}</div>'

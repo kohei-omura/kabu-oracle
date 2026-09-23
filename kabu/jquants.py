@@ -85,10 +85,12 @@ def latest_fundamentals(data):
     内部キー（ranking._metrics / report._tb_score と共通）:
       eps_fore, eps_fy, bps, equity, equity_ratio,
       profit_fore, profit_fy, prev_profit_fy, div_fore, div_result,
-      sales_fy, prev_sales_fy, op_fy   （売上・営業利益は項目があるときだけ）
+      sales_fy, prev_sales_fy, op_fy, sales_fore, op_fore, shares
+      （売上・営業利益・株式数は項目があるときだけ。shares＝期末発行済株式数−自己株式）
 
-    ・本決算(FY)の開示では「今期予想」の欄が空で、翌期予想(NxF*)の欄に入ることがある。
-      その場合は翌期予想を「現在の予想」として採用する（古い期の予想を使い続けない）。
+    ・本決算(FY)の開示では「今期予想」(FEPS/FNP…)の欄が空で、翌期予想(NxFEPS/NxFNp…)に入る
+      （2026/9 に実データで確認。純利益だけ NxFNp と小文字）。本決算後は翌期予想を「現在の予想」とする。
+      そうしないと、終わった期の古い予想と実績を比べた無意味な増益率が次の四半期開示まで残る。
     ・同じ決算期の訂正開示は後から出たものを採用し、前期比が同じ期どうしの比較にならないようにする。
     """
     if not data:
@@ -96,7 +98,8 @@ def latest_fundamentals(data):
     d = {"eps_fore": None, "eps_fy": None, "bps": None, "equity": None,
          "equity_ratio": None, "profit_fore": None, "profit_fy": None,
          "prev_profit_fy": None, "div_fore": None, "div_result": None,
-         "sales_fy": None, "prev_sales_fy": None, "op_fy": None}
+         "sales_fy": None, "prev_sales_fy": None, "op_fy": None,
+         "sales_fore": None, "op_fore": None, "shares": None}
     fy = {}   # 決算期末(無ければ連番) -> {"np":, "sales":, "op":, "eps":}
     for i, s in enumerate(data):  # 開示番号の昇順
         def g(k):
@@ -105,10 +108,19 @@ def latest_fundamentals(data):
         # 予想：本決算の開示なら翌期予想を優先（無ければ通常の予想欄）
         fe = (g("NxFEPS") if is_fy else None)
         fe = fe if fe is not None else g("FEPS")
-        fn = (g("NxFNP") if is_fy else None)
+        fn = (_first(g, "NxFNp", "NxFNP") if is_fy else None)
         fn = fn if fn is not None else g("FNP")
         fdv = (g("NxFDivAnn") if is_fy else None)
         fdv = fdv if fdv is not None else g("FDivAnn")
+        fs = (g("NxFSales") if is_fy else None)
+        fs = fs if fs is not None else g("FSales")
+        fo = (g("NxFOP") if is_fy else None)
+        fo = fo if fo is not None else g("FOP")
+        if fs is not None: d["sales_fore"] = fs
+        if fo is not None: d["op_fore"] = fo
+        sh = g("ShOutFY")
+        if sh is not None and sh > 0:
+            d["shares"] = sh - (g("TrShFY") or 0.0)
         if fe is not None: d["eps_fore"] = fe
         if fn is not None: d["profit_fore"] = fn
         if fdv is not None: d["div_fore"] = fdv
@@ -142,6 +154,14 @@ def latest_fundamentals(data):
     if all(v is None for v in d.values()):
         return None
     return d
+
+
+def _first(g, *keys):
+    for k in keys:
+        v = g(k)
+        if v is not None:
+            return v
+    return None
 
 
 def fetch_fundamentals(code, key, interval: float = MIN_INTERVAL):

@@ -52,9 +52,19 @@ class FundStore:
         e = self.items.get(code)
         return e.get("raw") if e else None
 
+    def outdated(self, code: str) -> bool:
+        """解析項目が増える前に保存した値か（売上・株式数などが無い）。優先して取り直す。"""
+        raw = self.get(code)
+        return raw is not None and "shares" not in raw
+
     def is_fresh(self, code: str, max_age_days: int) -> bool:
         a = self.age_days(code)
-        return a is not None and a < max_age_days
+        return a is not None and a < max_age_days and not self.outdated(code)
+
+    def _priority(self, code: str):
+        """取り直す順：未取得 → 旧形式 → 古い順。"""
+        a = self.age_days(code)
+        return (a is not None, not self.outdated(code), -(a or 0))
 
     def put(self, code: str, raw) -> None:
         self.items[code] = {"fetched": self._today().isoformat(), "raw": raw}
@@ -71,7 +81,7 @@ class FundStore:
         codes = [c for c in dict.fromkeys(codes) if c]
         need = [c for c in codes if not self.is_fresh(c, max_age_days)]
         # 未取得を先に、次に古い順
-        need.sort(key=lambda c: (self.age_days(c) is not None, -(self.age_days(c) or 0)))
+        need.sort(key=self._priority)
         if cap is not None:
             need = need[:max(0, cap)]
         if key and need:
@@ -90,7 +100,7 @@ class FundStore:
     def stale_order(self, codes, max_age_days: int) -> list:
         """古い/未取得の銘柄を、優先して取り直すべき順に並べる（空き時間の補充用）。"""
         need = [c for c in dict.fromkeys(codes) if not self.is_fresh(c, max_age_days)]
-        need.sort(key=lambda c: (self.age_days(c) is not None, -(self.age_days(c) or 0)))
+        need.sort(key=self._priority)
         return need
 
     def save(self) -> None:
