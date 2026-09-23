@@ -91,8 +91,11 @@ def cmd_jqdiag(code: str):
 def main():
     p = argparse.ArgumentParser(description="株オラクル CLI")
     sub = p.add_subparsers(dest="cmd", required=True)
-    for name in ("rank", "report", "close", "prices", "holdings", "session"):
+    for name in ("rank", "report", "close", "prices", "holdings"):
         sub.add_parser(name)
+    ps = sub.add_parser("session")
+    ps.add_argument("--max-minutes", type=float, default=None,
+                    help="この分数で引き継ぎ（動作確認用。既定は config の session.max_minutes）")
     pw = sub.add_parser("watch")
     pw.add_argument("--status", action="store_true")
     pa = sub.add_parser("analyze")
@@ -105,7 +108,7 @@ def main():
     cfg = load_config(args.config)
     if args.cmd == "session":
         from kabu import session
-        print("終了:", session.run())
+        print("終了:", session.run(args.max_minutes))
     elif args.cmd == "rank":
         cmd_rank(cfg)
     elif args.cmd == "report":

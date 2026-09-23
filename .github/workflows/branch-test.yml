@@ -22,8 +22,8 @@ jobs:
       - run: pip install -r requirements.txt
       - name: jqdiag
         run: python main.py jqdiag 7203
-      - name: session（今日が休場日なら即終了するはず）
-        run: python main.py session
+      - name: session（3分で引き継ぎ処理まで通す。財務の補充も走る）
+        run: python main.py session --max-minutes 3
       - name: report（全銘柄・財務キャッシュ移行・テンバガー）
         run: python main.py report
       - name: prices
