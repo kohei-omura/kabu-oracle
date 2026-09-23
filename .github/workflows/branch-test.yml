@@ -1,0 +1,51 @@
+name: branch-test
+# 一時的な動作確認用（マージ前に削除）。ブランチへの push で実データを使って各処理を通す。通知は送らない。
+on:
+  push:
+    branches: [claude/bug-fix-o7dr1g]
+permissions:
+  contents: write
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      PYTHONUNBUFFERED: "1"
+      KABU_DRY_RUN: "true"
+      JQUANTS_API_KEY: ${{ secrets.JQUANTS_API_KEY }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: jqdiag
+        run: python main.py jqdiag 7203
+      - name: session（今日が休場日なら即終了するはず）
+        run: python main.py session
+      - name: report（全銘柄・財務キャッシュ移行・テンバガー）
+        run: python main.py report
+      - name: prices
+        run: python main.py prices
+      - name: holdings
+        run: python main.py holdings
+      - name: summary
+        run: |
+          python - <<'PY'
+          import json, os
+          d = json.load(open("docs/data.json", encoding="utf-8"))
+          print("regime:", d.get("regime"))
+          print("buys:", [(b["code"], round(b["turnover"]/1e6), b.get("combined")) for b in d["buys"]])
+          fc = json.load(open("data/fund_cache.json", encoding="utf-8"))
+          print("fund_cache:", len(fc), "/ legacy exists:", os.path.exists("docs/tenbagger_cache.json"))
+          print("prices:", json.load(open("docs/prices.json", encoding="utf-8")))
+          print("state:", open("data/state.json", encoding="utf-8").read()[:300])
+          PY
+      - name: commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A docs data
+          git diff --staged --quiet || git commit -m "branch-test output [skip ci]"
+          git push
