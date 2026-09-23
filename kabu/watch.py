@@ -6,13 +6,18 @@
 from __future__ import annotations
 from . import data as D
 from . import signals as S
+from .config import load_universe
 
 
 def check_watchlist(cfg: dict):
     watch = [str(c) for c in (cfg.get("watchlist") or [])]
+    if not watch:
+        return [], []
     bench_code = cfg.get("benchmark", "^N225")
     bench_df = D.fetch_one(bench_code)
     bench = bench_df["Close"] if bench_df is not None else None
+    names = {c: n for c, n in load_universe(
+        {"universe_file": cfg.get("universe_file", "data/universe_all.csv"), "markets": "all"})}
 
     frames = D.fetch_many(watch)
     results: list[S.Analysis] = []
@@ -20,11 +25,23 @@ def check_watchlist(cfg: dict):
         df = frames.get(c)
         if df is None:
             continue
-        a = S.analyze(df, c, cfg=cfg, bench=bench)
+        a = S.analyze(df, c, names.get(c, ""), cfg=cfg, bench=bench)
         if a.error is None:
             results.append(a)
     triggered = [a for a in results if a.signal in ("BUY", "SELL")]
     return results, triggered
+
+
+def new_signals(triggered, st: dict, today: str) -> list:
+    """今日まだ知らせていないサインだけを返し、知らせた印を付ける（同じサインは1日1回）。"""
+    from . import state as ST
+    fresh = []
+    for a in triggered:
+        key = f"w:{a.code}:{a.signal}"
+        if not ST.already(st, key, today):
+            ST.mark(st, key, today)
+            fresh.append(a)
+    return fresh
 
 
 def format_watch(triggered, date_str: str) -> str:

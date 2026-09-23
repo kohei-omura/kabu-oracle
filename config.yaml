@@ -23,6 +23,10 @@ markets: all
 # ランキング表示件数（買い・売り 各 Top-N）
 top_n: 5
 
+# 買い候補にする最低の売買代金（直近20営業日の平均・円/日）。
+# これ未満は約定しにくく値が飛びやすいので買い候補から外す（検索・保有には出る）。
+min_turnover: 30000000
+
 # 相対力の基準（^N225 = 日経平均, ^TPX = TOPIX）
 benchmark: "^N225"
 
@@ -43,8 +47,11 @@ fundamentals:
   enabled: true
   weight_tech: 0.5        # 複合スコアにおけるテクニカルの比重
   weight_fund: 0.5        # 同・ファンダの比重
-  screen_top: 15          # テクニカル上位この件数にだけ財務を付与（多いほど時間がかかる）
-  request_sleep: 13       # 1銘柄ごとの待機秒（無料枠=毎分5件 → 13秒が安全）
+  screen_top: 40          # テクニカル上位この件数を財務込みで並べ替える（財務はキャッシュ済みなので速い）
+  cache_days: 7           # 買い候補の財務をこの日数より古ければ取り直す
+  fetch_cap: 30           # 1回の実行で新たに取りに行く最大件数（13秒/件＝約6.5分）
+  background_fill: true   # 場中の待ち時間に全銘柄の財務を少しずつ補充する（毎分5件以内）
+  background_days: 14     # 補充での取り直し間隔（無料枠のデータは約12週遅れなので2週で十分）
   # 理論株価＝資産価値(BPS)＋利益価値(予想EPS×利益年数)＋成長価値(予想EPS×増益率×成長年数)
   theo_profit_years: 10   # 利益価値の年数（業種で変動。大きいほど理論株価↑＝割安判定が増える）
   theo_growth_years: 5    # 成長価値の年数
@@ -59,3 +66,14 @@ fundamentals:
     eqr: 0.10
     divy: 0.10
     growth: 0.15
+
+# ===== テンバガー候補レーダー =====
+tenbagger:
+  enabled: true
+  cache_days: 14          # 財務キャッシュの有効日数
+  fetch_cap: 12           # ダッシュボード生成1回あたりに新たに取る最大件数（残りは場中に補充）
+
+# ===== 場中ランナー（.github/workflows/market.yml） =====
+session:
+  tick_minutes: 10        # 場中の株価更新・保有アラートの間隔（分）
+  max_minutes: 340        # 1ジョブの上限（Actions は6時間）。超える前に後継ジョブへ引き継ぐ

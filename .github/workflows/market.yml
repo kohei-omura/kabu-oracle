@@ -1,0 +1,71 @@
+name: market
+
+# 場中ランナー（kabu/session.py）を動かすワークフロー。
+# GitHub の cron は混雑で数時間遅れたり間引かれたりするので、cron は「ランナーを起こすきっかけ」
+# として場中に何度も置く。ランナーは一度起きれば時刻表どおりに自分で処理し、
+# 実行中に来た後続は concurrency で待たせる（起動時に「本日完了」を見て即終了する）。
+on:
+  schedule:
+    # 毎時0分は混むので17分・47分にずらす（UTC表記。JST=UTC+9）
+    - cron: "17,47 23 * * 0-4"    # 8:17 / 8:47 JST（月〜金）
+    - cron: "17,47 0-8 * * 1-5"   # 9:17〜17:47 JST（大引け処理の取りこぼし救済を含む）
+  workflow_dispatch:
+    inputs:
+      task:
+        description: 実行する処理
+        type: choice
+        default: session
+        options: [session, close, report, rank, prices, holdings, watch, jqdiag]
+      dry_run:
+        description: 通知を送らない（動作確認用）
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  actions: write        # 6時間制限の手前で後継ジョブを起動するため
+
+concurrency:
+  group: market-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 355
+    env:
+      PYTHONUNBUFFERED: "1"
+      KABU_WORKFLOW: market.yml
+      KABU_DRY_RUN: ${{ inputs.dry_run && 'true' || '' }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      LINE_CHANNEL_ACCESS_TOKEN: ${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}
+      LINE_USER_ID: ${{ secrets.LINE_USER_ID }}
+      SMTP_HOST: ${{ secrets.SMTP_HOST }}
+      SMTP_PORT: ${{ secrets.SMTP_PORT }}
+      SMTP_USER: ${{ secrets.SMTP_USER }}
+      SMTP_PASS: ${{ secrets.SMTP_PASS }}
+      MAIL_TO: ${{ secrets.MAIL_TO }}
+      JQUANTS_API_KEY: ${{ secrets.JQUANTS_API_KEY }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+      - name: Run
+        run: python main.py ${{ inputs.task || 'session' }}
+      - name: Commit & push
+        if: always()
+        run: |
+          git add -A docs data
+          git diff --staged --quiet && exit 0
+          git commit -m "market ${{ inputs.task || 'session' }} [skip ci]"
+          for i in 1 2 3 4; do
+            git pull --rebase --autostash && git push && exit 0
+            sleep $((i * 3))
+          done
+          exit 1

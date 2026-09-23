@@ -13,6 +13,7 @@ import numpy as np
 import pandas as pd
 
 from . import indicators as ind
+from . import market as M
 
 
 # ファクターの重み（合計 = 1.0）
@@ -38,6 +39,7 @@ class Analysis:
     target: Optional[float] = None
     rr: Optional[float] = None   # リスクリワード比
     atr: float = 0.0             # ATR(14)。保有銘柄のライン計算に使う
+    turnover: float = 0.0        # 直近20営業日の平均売買代金（円/日）。流動性フィルタ用
     reasons: list = field(default_factory=list)
     factors: dict = field(default_factory=dict)
     error: Optional[str] = None
@@ -46,6 +48,15 @@ class Analysis:
     bt: Optional[dict] = None          # バリア試算(勝率/想定保有日数)
     ez: Optional[dict] = None          # 推奨エントリー価格帯(押し目の目安)
     fair: Optional[dict] = None        # 理論株価(price/gap/verdict)
+
+
+def _bar_progress(df) -> float:
+    """最終行が当日の途中足なら完成度（0〜1）、確定足なら 1.0。"""
+    try:
+        last = df.index[-1]
+        return M.partial_bar_progress(last.date() if hasattr(last, "date") else last)
+    except Exception:
+        return 1.0
 
 
 def _clip(x: float) -> float:
@@ -109,7 +120,11 @@ def analyze(
     a = ind.atr(df, 14)
     atr_now = float(a.iloc[-1])
     vol = df["Volume"]
-    vol_ma = ind.sma(vol, 20)
+    # 場中に取った日足の最終行は形成途中（出来高が1日分に満たない）。完成度で補正する
+    prog = _bar_progress(df)
+    partial = prog < 1.0
+    done_close, done_vol = (close.iloc[:-1], vol.iloc[:-1]) if partial else (close, vol)
+    turnover = float((done_close * done_vol).tail(20).mean()) if len(done_vol) else 0.0
 
     reasons: list[str] = []
     f: dict[str, float] = {}
@@ -154,7 +169,10 @@ def analyze(
         reasons.append("上バンド接近（過熱）")
 
     # --- 4) 出来高 ---
-    vr = float(vol.iloc[-1] / (vol_ma.iloc[-1] + 1e-9)) if not np.isnan(vol_ma.iloc[-1]) else 1.0
+    # 当日出来高 ÷ 直近20日（当日を含まない確定足）の平均。途中足は1日分に換算
+    vol_base = float(vol.iloc[-21:-1].mean()) if len(vol) > 21 else float("nan")
+    vol_today = float(vol.iloc[-1]) / (max(prog, 0.15) if partial else 1.0)
+    vr = vol_today / (vol_base + 1e-9) if not np.isnan(vol_base) else 1.0
     volf = _clip((vr - 1.0))
     # 出来高は方向（騰落）と組み合わせて評価
     chg = float(close.iloc[-1] / close.iloc[-2] - 1) if len(close) > 1 else 0.0
@@ -202,9 +220,11 @@ def analyze(
     entry = price
     raw_stop = price - atr_now * stop_mult
     raw_target = price + atr_now * tgt_mult
-    lim = price_limit(price)
-    upper = price + lim
-    lower = max(1.0, price - lim)
+    # 制限値幅の基準は前日終値（場中＝形成途中の足なら1本前、確定後なら最新終値＝翌営業日の基準）
+    base = float(close.iloc[-2]) if partial and len(close) > 1 else price
+    lim = price_limit(base)
+    upper = base + lim
+    lower = max(1.0, base - lim)
     stop = round(max(raw_stop, lower), 1)
     target = round(min(raw_target, upper), 1)
     if raw_target > upper or raw_stop < lower:
@@ -218,6 +238,7 @@ def analyze(
         code=code, name=name, price=round(price, 1), score=score,
         signal=signal, confidence=confidence,
         entry=entry, stop=stop, target=target, rr=rr, atr=round(atr_now, 2),
+        turnover=round(turnover),
         reasons=reasons[:5], factors={k: round(v, 2) for k, v in f.items()},
     )
 

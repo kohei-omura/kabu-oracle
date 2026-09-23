@@ -15,6 +15,7 @@ from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
 from . import ranking as R
+from . import market as M
 from .config import market_map, load_holdings
 
 JST = timezone(timedelta(hours=9))
@@ -365,6 +366,7 @@ header{padding:34px 0 10px;border-bottom:1px solid var(--line);margin-bottom:8px
 .meta{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--mut);
   margin-top:8px;display:flex;gap:14px;flex-wrap:wrap}
 .meta b{color:var(--gold-d);font-weight:600}
+.regime{display:inline-block;margin-top:6px;font-size:12px;color:var(--ink)}
 section{margin-top:30px}
 h2{font-family:'Shippori Mincho',serif;font-size:19px;font-weight:600;
   display:flex;align-items:baseline;gap:10px;margin-bottom:14px;
@@ -1141,18 +1143,6 @@ APP_JS = r"""
 #      ・増収継続 → 増益継続で代替 ・ 流動性 → 20日平均売買代金（日足から算出）
 #      ・17業種ボーナスは業種データが無いため対象外（脚注に明記）
 # ─────────────────────────────────────────────────────────────
-TENBAGGER_CACHE = DOCS / "tenbagger_cache.json"
-
-
-def _tb_load_cache() -> dict:
-    try:
-        if TENBAGGER_CACHE.exists():
-            return json.loads(TENBAGGER_CACHE.read_text(encoding="utf-8")) or {}
-    except Exception:
-        pass
-    return {}
-
-
 def _tb_turnover20(df) -> float | None:
     """日足から直近20日平均売買代金（円）＝ Close×Volume の平均。"""
     try:
@@ -1251,67 +1241,34 @@ def _tb_score(price: float, raw: dict, turnover20: float | None):
     }
 
 
-def build_tenbagger(analyses: list, cfg: dict, buy_codes: set) -> tuple[str, list]:
+def build_tenbagger(analyses: list, cfg: dict, buy_codes: set,
+                    frames: dict | None = None, store=None) -> tuple[str, list]:
     """テンバガー候補レーダー TOP10 を生成。返り値: (section_html, index_rows)。
-    既存出力・スコア計算・判定には非干渉（report.py内の追加のみ）。"""
+
+    財務は FundStore（data/fund_cache.json）を使う。今回の実行で新たに取るのは
+    まだ財務の無い「小型で売買が成立している」銘柄から最大 fetch_cap 件だけ
+    （場中の空き時間にも少しずつ補充されるので、日を追うごとに対象が広がる）。
+    """
     tcfg = (cfg.get("tenbagger") or {})
     if not tcfg.get("enabled", True):
         return "", []
-    fetch_cap = int(tcfg.get("fetch_cap", 12))       # 1回あたりの財務API新規取得の上限（+3分以内に抑える）
-    cache_days = int(tcfg.get("cache_days", 7))
+    from .fundstore import FundStore
+    from . import jquants as JQ
+    store = store or FundStore()
+    cache_days = int(tcfg.get("cache_days", 14))
     amap = {a.code: a for a in analyses}
-    today = datetime.now(JST).strftime("%Y-%m-%d")
+    # 売買代金が小さめ（≒小型）で最低限の流動性がある銘柄を優先して財務を埋める
+    lo, hi = 3.0e7, 3.0e9
+    pri = sorted((a for a in analyses if lo <= (a.turnover or 0) <= hi),
+                 key=lambda a: a.turnover)
+    need = [a.code for a in pri if not store.is_fresh(a.code, cache_days)]
+    store.ensure(need, JQ.get_api_key(), max_age_days=cache_days,
+                 cap=int(tcfg.get("fetch_cap", 12)))
+    fresh = {c: store.get(c) for c in amap if store.get(c) is not None}
 
-    cache = _tb_load_cache()
-    # 7日以内キャッシュを有効とし、期限切れ／未取得のみ新規取得（上限fetch_cap）
-    fresh, need = {}, []
-    for a in analyses:
-        e = cache.get(a.code)
-        ok = False
-        if e and e.get("fetched"):
-            try:
-                d0 = datetime.strptime(e["fetched"], "%Y-%m-%d")
-                if (datetime.now() - d0).days < cache_days and e.get("raw") is not None:
-                    fresh[a.code] = e["raw"]
-                    ok = True
-            except Exception:
-                ok = False
-        if not ok:
-            need.append(a.code)
-
-    # 新規財務取得（無料枠5/分・既定13秒間隔。APIエラー銘柄はスキップしログ）
-    key = None
-    try:
-        from . import jquants as JQ
-        key = JQ.get_api_key()
-    except Exception as e:  # noqa
-        print(f"[tenbagger] jquants未使用: {e}")
-    if key and need:
-        pick = need[:max(0, fetch_cap)]
-        try:
-            from . import jquants as JQ
-            raw_new = JQ.fundamentals_for(pick, key, float(tcfg.get("request_sleep", 13.0)))
-        except Exception as e:  # noqa
-            print(f"[tenbagger] 財務取得失敗（キャッシュ分のみ継続）: {e}")
-            raw_new = {}
-        for c in pick:
-            r = raw_new.get(c)
-            cache[c] = {"fetched": today, "raw": r}  # 失敗はraw=Noneでキャッシュ（連日リトライ回避）
-            if r is not None:
-                fresh[c] = r
-    _tb_save_cache(cache)
-
-    # 300億以下の候補のみ日足で売買代金を算出（財務APIは使わない）
+    frames = frames or {}
     prelim = [c for c in fresh if c in amap]
-    turns: dict = {}
-    if prelim:
-        try:
-            frames = R.D.fetch_many(prelim)
-        except Exception as e:  # noqa
-            print(f"[tenbagger] 日足取得失敗: {e}")
-            frames = {}
-        for c in prelim:
-            turns[c] = _tb_turnover20(frames.get(c))
+    turns = {c: (amap[c].turnover or _tb_turnover20(frames.get(c))) for c in prelim}
 
     scored = []
     for c in prelim:
@@ -1356,14 +1313,6 @@ def build_tenbagger(analyses: list, cfg: dict, buy_codes: set) -> tuple[str, lis
     return section, index_rows
 
 
-def _tb_save_cache(cache: dict) -> None:
-    try:
-        DOCS.mkdir(exist_ok=True)
-        TENBAGGER_CACHE.write_text(json.dumps(cache, ensure_ascii=False, default=str), encoding="utf-8")
-    except Exception as e:  # noqa
-        print(f"[tenbagger] cache保存失敗: {e}")
-
-
 def _tb_card(rank: int, a, sc: dict, is_buy: bool) -> str:
     p = sc["parts"]
     tag = ""
@@ -1398,42 +1347,43 @@ def _tb_card(rank: int, a, sc: dict, is_buy: bool) -> str:
     )
 
 
-def build_html(cfg: dict) -> tuple[str, dict]:
-    now = datetime.now(JST)
+def build_html(cfg: dict, scan=None, store=None) -> tuple[str, dict]:
+    """ダッシュボードの HTML と data.json 用データを作る。scan を渡せば株価を取り直さない。"""
+    from .fundstore import FundStore
+    now = M.now_jst()
     date_str = now.strftime("%Y.%m.%d %H:%M")
     top = int(cfg.get("dashboard_top", 10))
 
-    analyses = R.analyze_universe(cfg)
-    total = len(analyses)
     holds = load_holdings()
-    analyses = R.apply_fundamentals(analyses, cfg,
-                                    extra_codes=[h["code"] for h in holds])
-    buys = analyses[:top]
-    R.attach_barrier_stats(buys, cfg)
+    scan = scan or R.scan_universe(cfg, extra_codes=[h["code"] for h in holds])
+    store = store or FundStore()
+    analyses = scan.analyses                     # テクニカルスコア順（検索の「総合順位」もこの順）
+    total = scan.total
+    hold_as = [scan.get(h["code"]) for h in holds]
+    ranked = R.apply_fundamentals(R.liquid(analyses, cfg), cfg,
+                                  extra=[x for x in hold_as if x is not None], store=store)
+    buys = ranked[:top]
+    R.attach_barrier_stats(buys, cfg, scan.frames)
 
-    # 🚀 テンバガー候補レーダー（買い候補TOP10の下に新設・既存出力には非干渉）
+    # 🚀 テンバガー候補レーダー（買い候補TOP10の下）
     buy_codes = {b.code for b in buys}
-    tenbagger_section, _tb_index = build_tenbagger(analyses, cfg, buy_codes)
+    tenbagger_section, _tb_index = build_tenbagger(analyses, cfg, buy_codes,
+                                                   frames=scan.frames, store=store)
+    store.save()
 
     mk = market_map(cfg)
     buy_sub = "TECH × FUNDAMENTAL" if any(b.combined is not None for b in buys) else "BUY SIGNALS"
     buy_cards = "".join(_card(i, a, True, mk.get(a.code, "")) for i, a in enumerate(buys, 1))
 
-    amap = {a.code: a for a in analyses}
     hold_section = ""
     if holds:
-        # 保有株の「利確勝率・想定保有日数」を日足から試算
-        try:
-            hframes = R.D.fetch_many([h["code"] for h in holds])
-        except Exception:
-            hframes = {}
-        for h in holds:
-            a = amap.get(h["code"])
+        # 保有株の「利確勝率・想定保有日数」を日足から試算（取得済みの日足を使う）
+        for h, a in zip(holds, hold_as):
             if a is None:
                 continue
             tgt, stp = _holding_levels(h, a, cfg)
-            a.bt = R.S.barrier_stats(hframes.get(h["code"]), a.price, tgt, stp)
-        hc = "".join(_holding_card(h, amap.get(h["code"]), cfg) for h in holds)
+            a.bt = R.S.barrier_stats(scan.frames.get(h["code"]), a.price, tgt, stp)
+        hc = "".join(_holding_card(h, a, cfg) for h, a in zip(holds, hold_as))
         hold_section = _section("保有銘柄", "MY HOLDINGS", hc, "watch",
                                 extra=GH_GEAR, head_extra=GH_PANEL)
 
@@ -1450,9 +1400,12 @@ def build_html(cfg: dict) -> tuple[str, dict]:
         })
     data = {
         "generated": date_str, "total": total,
+        "regime": scan.regime,
         "buys": [vars(a) for a in buys],
         "stocks": index,
     }
+    regime_html = (f'<span class="regime">{_esc(R.regime_text(scan.regime))}</span>'
+                   if scan.regime else "")
 
     head = (
         '<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8">'
@@ -1477,6 +1430,7 @@ def build_html(cfg: dict) -> tuple[str, dict]:
   <header>
     <div class="brand"><h1>株オラクル</h1><span class="en">Kabu Oracle</span></div>
     <div class="meta"><span>更新 <b>{date_str}</b> JST</span><span>分析 <b>{total}</b> 銘柄</span><span id="pxasof"></span></div>
+    {regime_html}
   </header>
 
   <section id="search-sec">
@@ -1503,12 +1457,15 @@ def build_html(cfg: dict) -> tuple[str, dict]:
     ver = now.strftime("%Y%m%d%H%M")
     script = f'<script src="app.js?v={ver}" defer></script>'
     page = head + body + script + "</body></html>"
+    data["_buys"] = buys          # write_dashboard が取り出して返す（JSON には書かない）
     return page, data
 
 
-def write_dashboard(cfg: dict) -> Path:
+def write_dashboard(cfg: dict, scan=None, store=None) -> list:
+    """docs/ にダッシュボード一式を書き出し、買い候補 TOP（通知に使うのと同じ並び）を返す。"""
     DOCS.mkdir(exist_ok=True)
-    page, data = build_html(cfg)
+    page, data = build_html(cfg, scan=scan, store=store)
+    buys = data.pop("_buys", [])
     stocks = data.pop("stocks", [])
     (DOCS / "index.html").write_text(page, encoding="utf-8")
     (DOCS / "stocks.json").write_text(
@@ -1528,8 +1485,8 @@ def write_dashboard(cfg: dict) -> Path:
     }
     (DOCS / "manifest.json").write_text(
         json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
-    print(f"ダッシュボード生成: {DOCS/'index.html'}")
-    return DOCS / "index.html"
+    print(f"ダッシュボード生成: {DOCS/'index.html'}", flush=True)
+    return buys
 
 
 def write_prices(cfg: dict) -> dict:
@@ -1555,7 +1512,7 @@ def write_prices(cfg: dict) -> dict:
         except Exception:
             pass
     prices = D.fetch_last_prices(sorted(codes))
-    now = datetime.now(JST).strftime("%H:%M")
+    now = M.now_jst().strftime("%H:%M")
     out = {"asof": now, "px": {k: round(v) for k, v in prices.items()}, "long": longs}
     (DOCS / "prices.json").write_text(
         json.dumps(out, ensure_ascii=False), encoding="utf-8")
@@ -1563,20 +1520,22 @@ def write_prices(cfg: dict) -> dict:
     return out
 
 
-def check_holdings(cfg: dict) -> None:
+def check_holdings(cfg: dict, st: dict | None = None) -> list[str]:
     """holdings.txt の各銘柄を監視し、利確/損切ラインに到達したらLINE/メール通知。
 
-    同じ到達は1日1回だけ通知（data/holdings_state.json で管理）。約15〜20分遅延。
+    同じ到達は1日1回だけ通知（data/state.json で管理）。約15〜20分遅延。
+    st を渡されたら保存は呼び出し側に任せる（場中ループ用）。送った通知文のリストを返す。
     """
     from . import data as D
     from . import signals as S
     from . import notify as N
+    from . import state as ST
     from .config import load_holdings, load_universe
 
     holds = load_holdings()
     if not holds:
         print("保有銘柄なし（holdings.txt）")
-        return
+        return []
 
     codes = [h["code"] for h in holds]
     px = D.fetch_last_prices(codes)            # 現在値（日中足・約20分遅延）
@@ -1586,12 +1545,9 @@ def check_holdings(cfg: dict) -> None:
     namemap = {c: n for c, n in load_universe(
         {"universe_file": cfg.get("universe_file", "data/universe_all.csv"), "markets": "all"})}
 
-    state_path = ROOT / "data" / "holdings_state.json"
-    try:
-        state = json.loads(state_path.read_text(encoding="utf-8"))
-    except Exception:
-        state = {}
-    today = datetime.now(JST).strftime("%Y-%m-%d")
+    own_state = st is None
+    st = ST.load() if own_state else st
+    today = M.now_jst().strftime("%Y-%m-%d")
 
     tp, sl, sg = [], [], []
     for h in holds:
@@ -1613,22 +1569,23 @@ def check_holdings(cfg: dict) -> None:
         pl = ((cur - buy) / buy * 100) if buy else 0.0
         # 長期保有マークが付いている銘柄は利確通知を出さない（損切・売りシグナルは出す）
         long_hold = bool(h.get("long"))
-        if tgt and not long_hold and cur >= tgt and state.get(f"{c}:tp") != today:
+        if tgt and not long_hold and cur >= tgt and not ST.already(st, f"{c}:tp", today):
             tp.append(f"  {c} {name}  現在¥{cur:,.0f} / 買値¥{(buy or 0):,.0f} ({pl:+.1f}%)  利確¥{tgt:,.0f}")
-            state[f"{c}:tp"] = today
-        if stp and cur <= stp and state.get(f"{c}:sl") != today:
+            ST.mark(st, f"{c}:tp", today)
+        if stp and cur <= stp and not ST.already(st, f"{c}:sl", today):
             sl.append(f"  {c} {name}  現在¥{cur:,.0f} / 買値¥{(buy or 0):,.0f} ({pl:+.1f}%)  損切¥{stp:,.0f}")
-            state[f"{c}:sl"] = today
+            ST.mark(st, f"{c}:sl", today)
         # テクニカルの売りシグナル転換（価格ラインとは別の早期サイン）
         if df is not None and len(df) > 80:
             an = S.analyze(df, c, name, bench=bench, cfg=cfg)
-            if an.error is None and an.signal == "SELL" and state.get(f"{c}:sg") != today:
+            if an.error is None and an.signal == "SELL" and not ST.already(st, f"{c}:sg", today):
                 reason = an.reasons[0] if an.reasons else "下降サイン"
                 sg.append(f"  {c} {name}  現在¥{cur:,.0f} ({pl:+.1f}%)  {reason}")
-                state[f"{c}:sg"] = today
+                ST.mark(st, f"{c}:sg", today)
 
+    sent = []
     if tp or sl or sg:
-        now = datetime.now(JST).strftime("%H:%M")
+        now = M.now_jst().strftime("%H:%M")
         parts = [f"🔔 株オラクル｜保有アラート（{now} JST・約20分遅延）"]
         if tp:
             parts.append("✅ 利確の目安に到達")
@@ -1643,7 +1600,10 @@ def check_holdings(cfg: dict) -> None:
         msg = "\n".join(parts)
         print(msg)
         N.notify_all(cfg, "【株オラクル】保有アラート", msg)
+        sent.append(msg)
     else:
         print("到達アラートなし")
 
-    state_path.write_text(json.dumps(state, ensure_ascii=False), encoding="utf-8")
+    if own_state:
+        ST.save(st)
+    return sent

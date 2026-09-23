@@ -1,21 +1,70 @@
-"""ユニバースをスコアリングし、買い/売り Top-N を算出する。"""
+"""ユニバースをスコアリングし、買い候補 Top-N を算出する。"""
 from __future__ import annotations
+from dataclasses import dataclass, field
+
 from . import data as D
+from . import indicators as ind
 from . import signals as S
 from .config import load_universe
 
 
-def analyze_universe(cfg: dict) -> list[S.Analysis]:
-    """ユニバース全銘柄を分析し、スコア降順の Analysis リストを返す。"""
-    universe = load_universe(cfg)
-    bench_code = cfg.get("benchmark", "^N225")
+@dataclass
+class Scan:
+    """全銘柄の分析結果。株価は1回だけ取得し、ランキング・保有・テンバガーで使い回す。"""
+    analyses: list                      # ユニバース全銘柄（テクニカルスコア降順）
+    frames: dict                        # {code: 日足DataFrame}
+    bench: object = None                # ベンチマーク日足（DataFrame）
+    regime: dict | None = None          # 地合い
+    extra: dict = field(default_factory=dict)   # ユニバース外の保有銘柄など {code: Analysis}
 
+    @property
+    def total(self) -> int:
+        return len(self.analyses)
+
+    def get(self, code: str):
+        for a in self.analyses:
+            if a.code == code:
+                return a
+        return self.extra.get(code)
+
+
+def market_regime(bench_df) -> dict | None:
+    """ベンチマーク（日経平均）の地合い。EMA25/75 の並びと終値の位置で判定。"""
+    try:
+        close = bench_df["Close"].dropna()
+        if len(close) < 80:
+            return None
+        e25, e75 = ind.ema(close, 25).iloc[-1], ind.ema(close, 75).iloc[-1]
+        px = float(close.iloc[-1])
+        chg20 = (px / float(close.iloc[-21]) - 1) * 100
+    except Exception:
+        return None
+    if e25 > e75 and px > e25:
+        label, icon = "上昇基調", "☀"
+    elif e25 < e75 and px < e25:
+        label, icon = "下落基調", "☔"
+    else:
+        label, icon = "もみ合い", "☁"
+    return {"label": label, "icon": icon, "chg20": round(chg20, 1), "price": round(px)}
+
+
+def regime_text(rg: dict | None) -> str:
+    if not rg:
+        return ""
+    return f"{rg['icon']} 地合い：{rg['label']}（日経平均 20日 {rg['chg20']:+.1f}%）"
+
+
+def scan_universe(cfg: dict, extra_codes=()) -> Scan:
+    """ユニバース全銘柄（＋extra_codes）の日足を取得して分析する。"""
+    universe = load_universe(cfg)
     codes = [c for c, _ in universe]
     names = {c: n for c, n in universe}
+    in_uni = set(codes)
+    extra = [c for c in dict.fromkeys(str(x) for x in extra_codes) if c and c not in in_uni]
 
-    print(f"ユニバース {len(codes)} 銘柄を取得中...")
-    frames = D.fetch_many(codes)
-    bench_df = D.fetch_one(bench_code)
+    print(f"ユニバース {len(codes)} 銘柄を取得中...", flush=True)
+    frames = D.fetch_many(codes + extra)
+    bench_df = D.fetch_one(cfg.get("benchmark", "^N225"))
     bench = bench_df["Close"] if bench_df is not None else None
 
     analyses: list[S.Analysis] = []
@@ -26,37 +75,59 @@ def analyze_universe(cfg: dict) -> list[S.Analysis]:
         a = S.analyze(df, c, names.get(c, ""), bench=bench, cfg=cfg)
         if a.error is None:
             analyses.append(a)
-
     analyses.sort(key=lambda x: x.score, reverse=True)
-    return analyses
+
+    ext = {}
+    if extra:
+        allnames = {c: n for c, n in load_universe(
+            {"universe_file": cfg.get("universe_file", "data/universe_all.csv"), "markets": "all"})}
+        for c in extra:
+            df = frames.get(c)
+            if df is not None:
+                a = S.analyze(df, c, allnames.get(c, ""), bench=bench, cfg=cfg)
+                if a.error is None:
+                    ext[c] = a
+    return Scan(analyses=analyses, frames=frames, bench=bench_df,
+                regime=market_regime(bench_df) if bench_df is not None else None, extra=ext)
 
 
-def build_rankings(cfg: dict):
-    """買い Top-N（既定10・Web同等）と分析総数を返す（通知用）。
+def analyze_universe(cfg: dict) -> list[S.Analysis]:
+    """互換用：全銘柄の Analysis（スコア降順）だけを返す。"""
+    return scan_universe(cfg).analyses
 
-    売り/警戒は既定で通知しない。出したい場合は config に notify_sells: true。
-    """
+
+def liquid(analyses: list, cfg: dict) -> list:
+    """売買代金が少なすぎる銘柄（約定しにくい・値が飛びやすい）を買い候補から外す。"""
+    min_tv = float(cfg.get("min_turnover", 3e7))
+    return [a for a in analyses if (a.turnover or 0) >= min_tv]
+
+
+def build_rankings(cfg: dict, scan: Scan | None = None, store=None):
+    """買い Top-N（既定10）・売り（任意）・分析総数を返す。scan を渡せば再取得しない。"""
+    scan = scan or scan_universe(cfg)
     top = int(cfg.get("buy_top", cfg.get("dashboard_top", 10)))
-    analyses = analyze_universe(cfg)
-    analyses = apply_fundamentals(analyses, cfg)
-    buys = analyses[:top]
-    attach_barrier_stats(buys, cfg)
+    ranked = apply_fundamentals(liquid(scan.analyses, cfg), cfg, store=store)
+    buys = ranked[:top]
+    attach_barrier_stats(buys, cfg, scan.frames)
     if cfg.get("notify_sells", False):
-        sells = sorted(analyses, key=lambda x: x.score)[:int(cfg.get("top_n", 5))]
+        sells = sorted(scan.analyses, key=lambda x: x.score)[:int(cfg.get("top_n", 5))]
     else:
         sells = []
-    return buys, sells, len(analyses)
+    return buys, sells, scan.total
 
 
-def attach_barrier_stats(items: list, cfg: dict) -> None:
-    """各銘柄に利確勝率・想定保有日数（バリア試算）を付与。現在値→各自の利確/損切で判定。"""
+def attach_barrier_stats(items: list, cfg: dict, frames: dict | None = None) -> None:
+    """各銘柄に利確勝率・想定保有日数（バリア試算）と狙い目を付与。日足は frames を使い回す。"""
     targets = [a for a in items if a.target and a.stop]
     if not targets:
         return
-    try:
-        frames = D.fetch_many([a.code for a in targets])
-    except Exception:
-        frames = {}
+    frames = dict(frames or {})
+    missing = [a.code for a in targets if a.code not in frames]
+    if missing:
+        try:
+            frames.update(D.fetch_many(missing))
+        except Exception:
+            pass
     for a in targets:
         df = frames.get(a.code)
         a.bt = S.barrier_stats(df, a.price, a.target, a.stop)
@@ -152,22 +223,24 @@ def _metrics(price: float, raw: dict, profit_years: float = 10.0,
             "eps": eps, "div": dv}
 
 
-def apply_fundamentals(analyses: list, cfg: dict, extra_codes=None) -> list:
-    """テクニカル上位にJ-Quants財務を付与し、複合スコアで再ランキング。
+def apply_fundamentals(pool: list, cfg: dict, extra=(), store=None) -> list:
+    """テクニカル上位 screen_top 銘柄に財務を付与し、複合スコアで並べ替えて返す。
 
-    extra_codes（保有銘柄など）も財務取得の対象に含め、表示用に fund を付与する。
-    認証情報なし／API失敗／無効時は何もせず元のリストを返す（テクニカルのみ）。
+    pool   … 候補の母集団（スコア降順）。上位 screen_top だけを複合で並べ替え、残りはそのまま後ろに付く
+    extra  … 保有銘柄など候補外の Analysis。表示用に fund / combined だけ付ける
+    財務は FundStore（data/fund_cache.json）経由。古い/未取得の分だけ J-Quants に取りに行く。
+    APIキーが無くてもキャッシュがあればそれで計算する。無効時・失敗時は pool をそのまま返す。
     """
     fc = (cfg.get("fundamentals") or {})
-    if not fc.get("enabled", False) or not analyses:
-        return analyses
+    if not fc.get("enabled", False) or not pool:
+        return pool
     try:
         from . import jquants as JQ
+        from .fundstore import FundStore
         key = JQ.get_api_key()
-        if not key:
-            return analyses
+        store = store or FundStore()
 
-        top = int(fc.get("screen_top", 15))
+        top = int(fc.get("screen_top", 40))
         w_tech = float(fc.get("weight_tech", 0.6))
         w_fund = float(fc.get("weight_fund", 0.4))
         mw = {"per": 0.25, "pbr": 0.15, "roe": 0.25, "eqr": 0.10,
@@ -178,16 +251,14 @@ def apply_fundamentals(analyses: list, cfg: dict, extra_codes=None) -> list:
         ref_per = float(fc.get("fair_per", 15.0))
         fair_r = float(fc.get("fair_return", 0.08))
 
-        cands = analyses[:top]
-        extra = [c for c in (extra_codes or []) if c]
-        fetch_codes = list(dict.fromkeys([a.code for a in cands] + extra))
-        raw = JQ.fundamentals_for(fetch_codes, key,
-                                  float(fc.get("request_sleep", 13.0)))
+        cands = list(pool[:top])
+        extra = [a for a in extra if a is not None]
+        raw = store.ensure([a.code for a in cands] + [a.code for a in extra], key,
+                           max_age_days=int(fc.get("cache_days", 7)),
+                           cap=int(fc.get("fetch_cap", 30)))
         if not raw:
-            print("[JQ] 財務取得0件 → テクニカルのみ")
-            return analyses
-
-        amap = {a.code: a for a in analyses}
+            print("[JQ] 財務0件 → テクニカルのみ")
+            return pool
 
         # 各指標を算出（買い候補）
         met = {a.code: _metrics(a.price, raw[a.code], p_years, g_years, ref_per, fair_r)
@@ -225,11 +296,10 @@ def apply_fundamentals(analyses: list, cfg: dict, extra_codes=None) -> list:
 
         # 保有銘柄など（候補外）：買い候補の分布に対する相対評価で複合スコアを付与
         cand_vals = {k: [m[k] for m in met.values() if m[k] is not None] for k in keys}
-        for c in [x for x in (extra_codes or []) if x]:
-            a = amap.get(c)
-            if a is None or c not in raw or a.fund is not None:
+        for a in extra:
+            if a.code not in raw or a.fund is not None:
                 continue
-            m = _metrics(a.price, raw[c], p_years, g_years, ref_per, fair_r)
+            m = _metrics(a.price, raw[a.code], p_years, g_years, ref_per, fair_r)
             num = den = 0.0
             for k in keys:
                 p = _pct(m[k], cand_vals[k], higher_better=(k not in lower))
@@ -242,17 +312,22 @@ def apply_fundamentals(analyses: list, cfg: dict, extra_codes=None) -> list:
 
         cands.sort(key=lambda x: (x.combined if x.combined is not None else -1), reverse=True)
         n_theo = sum(1 for a in cands if a.fund and a.fund.get("theo"))
-        print(f"[JQ] 財務 {len(raw)} 銘柄取得（候補{len(met)}＋保有等）・"
-              f"複合スコアで再ランキング・理論株価 {n_theo}件")
-        return cands + analyses[top:]
+        print(f"[JQ] 財務 {len(raw)} 銘柄（候補{len(met)}/{len(cands)}＋保有等）・"
+              f"複合スコアで再ランキング・理論株価 {n_theo}件", flush=True)
+        return cands + list(pool[top:])
     except Exception as e:  # noqa
         print(f"[JQ] 複合ランキング失敗（テクニカルのみで継続）: {e}")
-        return analyses
+        return pool
 
 
-def format_ranking(buys, sells, total: int, date_str: str) -> str:
+def format_ranking(buys, sells, total: int, date_str: str, regime: dict | None = None) -> str:
     lines = [f"📊 株オラクル｜本日のランキング（{date_str}）",
-             f"対象 {total} 銘柄を分析\n"]
+             f"対象 {total} 銘柄を分析"]
+    if regime:
+        lines.append(regime_text(regime))
+        if regime.get("label") == "下落基調":
+            lines.append("  ※地合いが弱い日は買いサインのだましが増えます。枚数控えめに。")
+    lines.append("")
     # 🔥 全方式割安（3/3）＝強い買い速報（買い候補の中から抽出）
     strong = [a for a in buys
               if (a.fund or {}).get("cons", {}).get("avail") == 3

@@ -86,12 +86,18 @@ def fetch_many(codes: Iterable[str], period: str = "1y",
     for start in range(0, total, chunk_size):
         chunk = codes[start:start + chunk_size]
         tickers = [to_ticker(c) for c in chunk]
-        try:
-            data = yf.download(tickers, period=period, interval=interval,
-                               auto_adjust=True, progress=False,
-                               group_by="ticker", threads=True)
-        except Exception:
-            data = None
+        data = None
+        for attempt in range(2):   # 回線の瞬断などでバッチごと落ちたら1回だけ取り直す
+            try:
+                data = yf.download(tickers, period=period, interval=interval,
+                                   auto_adjust=True, progress=False,
+                                   group_by="ticker", threads=True)
+            except Exception:
+                data = None
+            if data is not None and not getattr(data, "empty", True):
+                break
+            if attempt == 0:
+                time.sleep(3)
 
         if data is not None and not getattr(data, "empty", True):
             multi = isinstance(data.columns, pd.MultiIndex)
@@ -105,6 +111,6 @@ def fetch_many(codes: Iterable[str], period: str = "1y",
 
         if total > chunk_size:
             print(f"  取得 {min(start + chunk_size, total)}/{total} "
-                  f"（成功 {len(out)}）")
+                  f"（成功 {len(out)}）", flush=True)
             time.sleep(pause)
     return out
