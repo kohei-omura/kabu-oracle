@@ -180,7 +180,7 @@ def backfill(cfg: dict, until: float) -> int:
 
 
 def run(max_minutes: float | None = None) -> str:
-    """取引日の場中ループ。戻り値は終了理由（holiday / done / handoff / end）。"""
+    """取引日の場中ループ。戻り値は終了理由（holiday / done / handoff / end / early）。"""
     t0 = time.monotonic()
     cfg = load_config()
     scfg = cfg.get("session") or {}
@@ -200,7 +200,7 @@ def run(max_minutes: float | None = None) -> str:
         if ST.run_done(st, day, "close"):
             _log("本日の大引け処理は完了済み")
             return "done"
-        if time.monotonic() > deadline:
+        if time.monotonic() >= deadline - 1:
             commit_push(f"session handoff {day} [skip ci]")
             handoff()
             return "handoff"
@@ -240,9 +240,13 @@ def run(max_minutes: float | None = None) -> str:
             nxt = CLOSE_AT
         target = M.now_jst().replace(hour=nxt // 60, minute=nxt % 60, second=5, microsecond=0)
         wait = max(5.0, (target - M.now_jst()).total_seconds())
-        wake = time.monotonic() + wait
+        if wait > 3 * 3600:
+            # 深夜などに起こされた場合は居座らない（8:17 からの cron が改めて起こす）
+            _log(f"次の処理まで {wait / 3600:.1f} 時間あるので終了（朝の起動に任せる）")
+            return "early"
+        wake = min(time.monotonic() + wait, deadline)   # 6時間制限を越えて眠らない
         _log(f"次は {nxt // 60:02d}:{nxt % 60:02d}（{wait / 60:.0f}分後）")
-        backfill(cfg, min(wake, deadline))
+        backfill(cfg, wake)
         rest = wake - time.monotonic()
         if rest > 0:
             time.sleep(rest)
