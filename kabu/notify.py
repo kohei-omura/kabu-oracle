@@ -19,6 +19,9 @@ LINE_PUSH_URL = "https://api.line.me/v2/bot/message/push"
 
 LINE_MAX_CHARS = 4900     # 1メッセージの上限は5000文字（余裕を見て）
 LINE_MAX_MSGS = 5         # 1回のpushで送れるのは5メッセージまで
+LINE_LIMIT_NOTE = ("※LINE は今月の無料通数（月200通・同じ公式アカウントを使う全ボットの合計）の上限に"
+                   "達したため、メールのみでお知らせしています。上限は毎月1日に戻ります。")
+last_line_error = ""      # 直近の LINE 送信失敗の理由（"limit" など）
 
 
 def split_text(text: str, limit: int = LINE_MAX_CHARS) -> list[str]:
@@ -40,6 +43,8 @@ def split_text(text: str, limit: int = LINE_MAX_CHARS) -> list[str]:
 
 
 def send_line(token: str, user_id: str, text: str) -> bool:
+    global last_line_error
+    last_line_error = ""
     if not token or not user_id:
         print("[LINE] token/user_id 未設定のためスキップ")
         return False
@@ -61,6 +66,8 @@ def send_line(token: str, user_id: str, text: str) -> bool:
         if res.status_code == 200:
             return True
         print(f"[LINE] 失敗 {res.status_code}: {res.text[:300]}")
+        if res.status_code == 429 and "monthly limit" in res.text:
+            last_line_error = "limit"
         return False
     except Exception as e:
         print(f"[LINE] 例外: {e}")
@@ -101,8 +108,11 @@ def notify_all(cfg: dict, subject: str, text: str) -> None:
         return
     sec = cfg.get("secrets", {})
     ok_line = send_line(sec.get("line_token"), sec.get("line_user_id"), text)
+    body = text
+    if not ok_line and last_line_error == "limit":
+        body = f"{LINE_LIMIT_NOTE}\n\n{text}"   # LINE が届かない理由をメールで伝える
     ok_mail = send_email(
         sec.get("smtp_host"), sec.get("smtp_port"), sec.get("smtp_user"),
-        sec.get("smtp_pass"), sec.get("mail_to"), subject, text,
+        sec.get("smtp_pass"), sec.get("mail_to"), subject, body,
     )
     print(f"通知結果: LINE={'OK' if ok_line else '-'} / MAIL={'OK' if ok_mail else '-'}")
