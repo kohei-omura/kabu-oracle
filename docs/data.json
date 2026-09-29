@@ -1,103 +1,101 @@
 {
-  "generated": "2026.09.28 16:01",
+  "generated": "2026.09.29 11:59",
   "total": 3689,
   "regime": {
     "label": "上昇基調",
     "icon": "☀",
-    "chg20": -0.6,
-    "price": 65878
+    "chg20": -1.2,
+    "price": 65307
   },
   "buys": [
     {
-      "code": "4440",
-      "name": "ヴィッツ",
-      "price": 2550.0,
-      "score": 75.2,
+      "code": "325A",
+      "name": "ＴＥＮＴＩＡＬ",
+      "price": 1881.0,
+      "score": 76.9,
       "signal": "HOLD",
-      "confidence": 75,
-      "entry": 2550.0,
-      "stop": 2050.0,
-      "target": 3050.0,
-      "rr": 1.0,
-      "atr": 308.92,
-      "turnover": 5676242520,
+      "confidence": 76,
+      "entry": 1881.0,
+      "stop": 1703.0,
+      "target": 2148.0,
+      "rr": 1.5,
+      "atr": 89.01,
+      "turnover": 550995505,
       "reasons": [
         "中期上昇トレンド（EMA25>EMA75）",
-        "指数より強い（相対力プラス）",
-        "値幅制限内に調整"
+        "指数より強い（相対力プラス）"
       ],
       "factors": {
         "trend": 1.0,
         "momentum": 1.0,
-        "meanrev": -0.56,
-        "volume": 0.86,
+        "meanrev": -0.3,
+        "volume": 0.64,
         "relstr": 1.0
       },
       "error": null,
       "fund": {
-        "per": 23.4,
-        "pbr": 3.6,
-        "roe": 14.3,
-        "eqr": 69.2,
-        "divy": 0.71,
-        "growth": 2.6,
-        "theo": 1811,
+        "per": 5.6,
+        "pbr": 3.06,
+        "roe": 45.3,
+        "eqr": 55.8,
+        "divy": 0.0,
+        "growth": 212.2,
+        "theo": 4446,
         "cons": {
           "judg": {
             "株マップ": {
-              "fair": 1811,
-              "lab": "o",
-              "gap": 41
+              "fair": 4446,
+              "lab": "u",
+              "gap": -58
             },
             "PER": {
-              "fair": 1633,
-              "lab": "o",
-              "gap": 56
+              "fair": 4998,
+              "lab": "u",
+              "gap": -62
             },
             "ROE": {
-              "fair": 1266,
-              "lab": "o",
-              "gap": 101
+              "fair": 3478,
+              "lab": "u",
+              "gap": -46
             }
           },
-          "und": 0,
+          "und": 3,
           "avail": 3,
-          "buy": false
+          "buy": true
         },
-        "eps": 108.87,
-        "div": 18.0,
-        "score": 51.0
+        "eps": 333.2,
+        "div": 0.0,
+        "score": 76.0
       },
-      "combined": 66.8,
+      "combined": 71.2,
       "bt": {
-        "win_rate": 66,
-        "days_tp": 28,
-        "days_sl": 29,
-        "n": 199
+        "win_rate": 61,
+        "days_tp": 15,
+        "days_sl": 9,
+        "n": 221
       },
       "ez": {
-        "dip": 2112,
-        "hi": 2550,
-        "gap": 17.2,
-        "note": "押し目 ¥2,112 前後を指値で狙うと有利（現値比 -17.2%）"
+        "dip": 1817,
+        "hi": 1881,
+        "gap": 3.4,
+        "note": "押し目 ¥1,817 前後を指値で狙うと有利（現値比 -3.4%）"
       },
       "fair": null
     },
     {
       "code": "4960",
       "name": "ケミプロ化成",
-      "price": 602.0,
-      "score": 76.7,
-      "signal": "BUY",
-      "confidence": 96,
-      "entry": 602.0,
-      "stop": 528.2,
+      "price": 601.0,
+      "score": 81.6,
+      "signal": "HOLD",
+      "confidence": 81,
+      "entry": 601.0,
+      "stop": 530.7,
       "target": 702.0,
-      "rr": 1.36,
-      "atr": 36.92,
+      "rr": 1.44,
+      "atr": 35.14,
       "turnover": 71625100,
       "reasons": [
-        "ゴールデンクロス発生",
         "中期上昇トレンド（EMA25>EMA75）",
         "指数より強い（相対力プラス）",
         "値幅制限内に調整"
@@ -105,13 +103,13 @@
       "factors": {
         "trend": 1.0,
         "momentum": 1.0,
-        "meanrev": -0.19,
-        "volume": 0.45,
+        "meanrev": -0.14,
+        "volume": 0.86,
         "relstr": 1.0
       },
       "error": null,
       "fund": {
-        "per": 42.2,
+        "per": 42.1,
         "pbr": 1.94,
         "roe": 4.6,
         "eqr": 39.0,
@@ -142,251 +140,190 @@
         },
         "eps": 14.28,
         "div": 5.0,
-        "score": 33.0
+        "score": 25.0
       },
-      "combined": 66.3,
+      "combined": 62.4,
       "bt": {
-        "win_rate": 65,
+        "win_rate": 64,
         "days_tp": 12,
         "days_sl": 8,
-        "n": 237
+        "n": 238
       },
       "ez": {
-        "dip": 577,
-        "hi": 602,
-        "gap": 4.1,
-        "note": "押し目 ¥577 前後を指値で狙うと有利（現値比 -4.1%）"
+        "dip": 579,
+        "hi": 601,
+        "gap": 3.6,
+        "note": "押し目 ¥579 前後を指値で狙うと有利（現値比 -3.6%）"
       },
       "fair": null
     },
     {
-      "code": "5574",
-      "name": "ＡＢＥＪＡ",
-      "price": 3150.0,
-      "score": 75.3,
+      "code": "2737",
+      "name": "トーメンデバイス",
+      "price": 39250.0,
+      "score": 74.1,
       "signal": "HOLD",
-      "confidence": 75,
-      "entry": 3150.0,
-      "stop": 2800.1,
-      "target": 3674.9,
-      "rr": 1.5,
-      "atr": 174.97,
-      "turnover": 663691375,
+      "confidence": 74,
+      "entry": 39250.0,
+      "stop": 33989.1,
+      "target": 46100.0,
+      "rr": 1.3,
+      "atr": 2630.45,
+      "turnover": 4986054000,
       "reasons": [
         "中期上昇トレンド（EMA25>EMA75）",
-        "指数より強い（相対力プラス）"
+        "出来高急増（平均比 1.8倍）",
+        "指数より強い（相対力プラス）",
+        "値幅制限内に調整"
       ],
       "factors": {
         "trend": 1.0,
         "momentum": 1.0,
-        "meanrev": -0.33,
-        "volume": 0.52,
+        "meanrev": -0.59,
+        "volume": 0.8,
         "relstr": 1.0
       },
       "error": null,
       "fund": {
-        "per": 57.9,
-        "pbr": 6.88,
-        "roe": 11.0,
-        "eqr": 88.0,
-        "divy": 0.0,
-        "growth": 20.5,
-        "theo": 1058,
+        "per": 24.3,
+        "pbr": 4.51,
+        "roe": 18.6,
+        "eqr": 17.2,
+        "divy": 1.53,
+        "growth": 9.8,
+        "theo": 25680,
         "cons": {
           "judg": {
             "株マップ": {
-              "fair": 1058,
+              "fair": 25680,
               "lab": "o",
-              "gap": 198
+              "gap": 53
             },
             "PER": {
-              "fair": 816,
+              "fair": 24261,
               "lab": "o",
-              "gap": 286
+              "gap": 62
             },
             "ROE": {
-              "fair": 629,
+              "fair": 20252,
               "lab": "o",
-              "gap": 401
+              "gap": 94
             }
           },
           "und": 0,
           "avail": 3,
           "buy": false
         },
-        "eps": 54.43,
-        "div": 0.0,
-        "score": 40.0
-      },
-      "combined": 62.0,
-      "bt": {
-        "win_rate": 46,
-        "days_tp": 15,
-        "days_sl": 20,
-        "n": 228
-      },
-      "ez": {
-        "dip": 3016,
-        "hi": 3150,
-        "gap": 4.3,
-        "note": "押し目 ¥3,016 前後を指値で狙うと有利（現値比 -4.3%）"
-      },
-      "fair": null
-    },
-    {
-      "code": "278A",
-      "name": "Ｔｅｒｒａ　Ｄｒｏｎｅ",
-      "price": 19530.0,
-      "score": 74.4,
-      "signal": "HOLD",
-      "confidence": 74,
-      "entry": 19530.0,
-      "stop": 15913.2,
-      "target": 23530.0,
-      "rr": 1.11,
-      "atr": 1808.41,
-      "turnover": 78111841500,
-      "reasons": [
-        "中期上昇トレンド（EMA25>EMA75）",
-        "指数より強い（相対力プラス）",
-        "値幅制限内に調整"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 0.66,
-        "meanrev": -0.03,
-        "volume": 0.84,
-        "relstr": 1.0
-      },
-      "error": null,
-      "fund": {
-        "per": null,
-        "pbr": 39.25,
-        "roe": -27.1,
-        "eqr": 68.1,
-        "divy": 0.0,
-        "growth": 49.3,
-        "theo": 498,
-        "cons": {
-          "judg": {
-            "株マップ": {
-              "fair": 498,
-              "lab": "o",
-              "gap": 3822
-            }
-          },
-          "und": 0,
-          "avail": 1,
-          "buy": false
-        },
-        "eps": -131.88,
-        "div": 0.0,
-        "score": 24.0
+        "eps": 1617.43,
+        "div": 600.0,
+        "score": 51.0
       },
       "combined": 48.8,
       "bt": {
-        "win_rate": 68,
-        "days_tp": 10,
-        "days_sl": 15,
-        "n": 228
+        "win_rate": 75,
+        "days_tp": 15,
+        "days_sl": 9,
+        "n": 239
       },
       "ez": {
-        "dip": 18153,
-        "hi": 19530,
-        "gap": 7.1,
-        "note": "押し目 ¥18,153 前後を指値で狙うと有利（現値比 -7.1%）"
+        "dip": 34926,
+        "hi": 39250,
+        "gap": 11.0,
+        "note": "押し目 ¥34,926 前後を指値で狙うと有利（現値比 -11.0%）"
       },
       "fair": null
     },
     {
-      "code": "7713",
-      "name": "シグマ光機",
-      "price": 2484.0,
-      "score": 71.5,
+      "code": "6091",
+      "name": "ウエスコホールディングス",
+      "price": 991.0,
+      "score": 71.9,
       "signal": "HOLD",
       "confidence": 71,
-      "entry": 2484.0,
-      "stop": 2305.7,
-      "target": 2751.5,
+      "entry": 991.0,
+      "stop": 950.9,
+      "target": 1051.2,
       "rr": 1.5,
-      "atr": 89.17,
-      "turnover": 56901485,
+      "atr": 20.07,
+      "turnover": 30497455,
       "reasons": [
         "中期上昇トレンド（EMA25>EMA75）",
+        "RSI 73（買われすぎ）",
         "指数より強い（相対力プラス）"
       ],
       "factors": {
         "trend": 1.0,
         "momentum": 1.0,
-        "meanrev": -0.6,
-        "volume": 0.55,
+        "meanrev": -0.75,
+        "volume": 0.82,
         "relstr": 1.0
       },
       "error": null,
       "fund": {
-        "per": 19.9,
-        "pbr": 0.97,
-        "roe": 4.8,
-        "eqr": 87.5,
-        "divy": 1.69,
-        "growth": -10.2,
-        "theo": 3817,
+        "per": 16.0,
+        "pbr": 0.83,
+        "roe": 5.0,
+        "eqr": 77.6,
+        "divy": 2.83,
+        "growth": 8.5,
+        "theo": 1842,
         "cons": {
           "judg": {
             "株マップ": {
-              "fair": 3817,
+              "fair": 1842,
               "lab": "u",
-              "gap": -35
+              "gap": -46
             },
             "PER": {
-              "fair": 1874,
+              "fair": 928,
               "lab": "o",
-              "gap": 33
+              "gap": 7
             },
             "ROE": {
-              "fair": 1541,
+              "fair": 748,
               "lab": "o",
-              "gap": 61
+              "gap": 32
             }
           },
           "und": 1,
           "avail": 3,
           "buy": false
         },
-        "eps": 124.96,
-        "div": 42.0,
-        "score": 55.0
+        "eps": 61.86,
+        "div": 28.0,
+        "score": 64.0
       },
-      "combined": 47.3,
+      "combined": 47.5,
       "bt": {
-        "win_rate": 66,
-        "days_tp": 18,
-        "days_sl": 5,
-        "n": 207
+        "win_rate": 48,
+        "days_tp": 16,
+        "days_sl": 11,
+        "n": 239
       },
       "ez": {
-        "dip": 2365,
-        "hi": 2484,
-        "gap": 4.8,
-        "note": "押し目 ¥2,365 前後を指値で狙うと有利（現値比 -4.8%）"
+        "dip": 955,
+        "hi": 991,
+        "gap": 3.6,
+        "note": "押し目 ¥955 前後を指値で狙うと有利（現値比 -3.6%）"
       },
       "fair": null
     },
     {
-      "code": "6727",
-      "name": "ワコム",
-      "price": 892.0,
+      "code": "4053",
+      "name": "Ｓｕｎ　Ａｓｔｅｒｉｓｋ",
+      "price": 520.0,
       "score": 70.0,
       "signal": "HOLD",
       "confidence": 70,
-      "entry": 892.0,
-      "stop": 845.2,
-      "target": 962.2,
+      "entry": 520.0,
+      "stop": 490.7,
+      "target": 564.0,
       "rr": 1.5,
-      "atr": 23.41,
-      "turnover": 490183405,
+      "atr": 14.66,
+      "turnover": 59447705,
       "reasons": [
         "中期上昇トレンド（EMA25>EMA75）",
+        "RSI 71（買われすぎ）",
         "上バンド接近（過熱）",
         "出来高急増（平均比 2.2倍）",
         "指数より強い（相対力プラス）"
@@ -400,294 +337,72 @@
       },
       "error": null,
       "fund": {
-        "per": 12.0,
-        "pbr": 3.21,
-        "roe": 26.7,
-        "eqr": 57.6,
-        "divy": 2.69,
-        "growth": 4.7,
-        "theo": 1039,
+        "per": 14.2,
+        "pbr": 1.86,
+        "roe": 12.4,
+        "eqr": 58.2,
+        "divy": 1.92,
+        "growth": 191.8,
+        "theo": 702,
         "cons": {
           "judg": {
             "株マップ": {
-              "fair": 1039,
+              "fair": 702,
               "lab": "u",
-              "gap": -14
+              "gap": -26
             },
             "PER": {
-              "fair": 1115,
+              "fair": 551,
               "lab": "u",
-              "gap": -20
+              "gap": -6
             },
             "ROE": {
-              "fair": 928,
-              "lab": "f",
-              "gap": -4
+              "fair": 434,
+              "lab": "o",
+              "gap": 20
             }
           },
           "und": 2,
           "avail": 3,
           "buy": true
         },
-        "eps": 74.32,
-        "div": 24.0,
-        "score": 71.0
+        "eps": 36.73,
+        "div": 10.0,
+        "score": 76.0
       },
-      "combined": 46.8,
+      "combined": 46.4,
       "bt": {
-        "win_rate": 32,
-        "days_tp": 9,
-        "days_sl": 11,
-        "n": 239
+        "win_rate": 50,
+        "days_tp": 16,
+        "days_sl": 12,
+        "n": 237
       },
       "ez": {
-        "dip": 850,
-        "hi": 892,
-        "gap": 4.7,
-        "note": "押し目 ¥850 前後を指値で狙うと有利（現値比 -4.7%）"
+        "dip": 494,
+        "hi": 520,
+        "gap": 5.1,
+        "note": "押し目 ¥494 前後を指値で狙うと有利（現値比 -5.1%）"
       },
       "fair": null
     },
     {
-      "code": "4570",
-      "name": "免疫生物研究所",
-      "price": 1167.0,
-      "score": 71.6,
-      "signal": "HOLD",
-      "confidence": 71,
-      "entry": 1167.0,
-      "stop": 1065.0,
-      "target": 1320.1,
-      "rr": 1.5,
-      "atr": 51.02,
-      "turnover": 196089250,
-      "reasons": [
-        "中期上昇トレンド（EMA25>EMA75）",
-        "指数より強い（相対力プラス）"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -0.38,
-        "volume": 0.23,
-        "relstr": 1.0
-      },
-      "error": null,
-      "fund": {
-        "per": 31.3,
-        "pbr": 5.9,
-        "roe": 18.8,
-        "eqr": 85.5,
-        "divy": 0.64,
-        "growth": 5.5,
-        "theo": 581,
-        "cons": {
-          "judg": {
-            "株マップ": {
-              "fair": 581,
-              "lab": "o",
-              "gap": 101
-            },
-            "PER": {
-              "fair": 559,
-              "lab": "o",
-              "gap": 109
-            },
-            "ROE": {
-              "fair": 465,
-              "lab": "o",
-              "gap": 151
-            }
-          },
-          "und": 0,
-          "avail": 3,
-          "buy": false
-        },
-        "eps": 37.26,
-        "div": 7.5,
-        "score": 52.0
-      },
-      "combined": 46.5,
-      "bt": {
-        "win_rate": 54,
-        "days_tp": 13,
-        "days_sl": 9,
-        "n": 226
-      },
-      "ez": {
-        "dip": 1120,
-        "hi": 1167,
-        "gap": 4.0,
-        "note": "押し目 ¥1,120 前後を指値で狙うと有利（現値比 -4.0%）"
-      },
-      "fair": null
-    },
-    {
-      "code": "4475",
-      "name": "ＨＥＮＮＧＥ",
-      "price": 1771.0,
-      "score": 71.4,
-      "signal": "HOLD",
-      "confidence": 71,
-      "entry": 1771.0,
-      "stop": 1621.1,
-      "target": 1995.9,
-      "rr": 1.5,
-      "atr": 74.97,
-      "turnover": 1141277640,
-      "reasons": [
-        "中期上昇トレンド（EMA25>EMA75）",
-        "指数より強い（相対力プラス）"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -0.51,
-        "volume": 0.4,
-        "relstr": 1.0
-      },
-      "error": null,
-      "fund": {
-        "per": 35.4,
-        "pbr": 14.99,
-        "roe": 42.8,
-        "eqr": 37.3,
-        "divy": 0.34,
-        "growth": 17.5,
-        "theo": 662,
-        "cons": {
-          "judg": {
-            "株マップ": {
-              "fair": 662,
-              "lab": "o",
-              "gap": 168
-            },
-            "PER": {
-              "fair": 751,
-              "lab": "o",
-              "gap": 136
-            },
-            "ROE": {
-              "fair": 632,
-              "lab": "o",
-              "gap": 180
-            }
-          },
-          "und": 0,
-          "avail": 3,
-          "buy": false
-        },
-        "eps": 50.06,
-        "div": 6.0,
-        "score": 48.0
-      },
-      "combined": 43.4,
-      "bt": {
-        "win_rate": 45,
-        "days_tp": 14,
-        "days_sl": 16,
-        "n": 229
-      },
-      "ez": {
-        "dip": 1655,
-        "hi": 1771,
-        "gap": 6.6,
-        "note": "押し目 ¥1,655 前後を指値で狙うと有利（現値比 -6.6%）"
-      },
-      "fair": null
-    },
-    {
-      "code": "6785",
-      "name": "鈴木",
-      "price": 3175.0,
-      "score": 69.2,
-      "signal": "HOLD",
-      "confidence": 69,
-      "entry": 3175.0,
-      "stop": 2954.7,
-      "target": 3505.5,
-      "rr": 1.5,
-      "atr": 110.16,
-      "turnover": 244967145,
-      "reasons": [
-        "中期上昇トレンド（EMA25>EMA75）",
-        "指数より強い（相対力プラス）"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -0.47,
-        "volume": 0.25,
-        "relstr": 0.94
-      },
-      "error": null,
-      "fund": {
-        "per": 12.2,
-        "pbr": 1.69,
-        "roe": 11.5,
-        "eqr": 66.4,
-        "divy": 3.31,
-        "growth": 35.1,
-        "theo": 4864,
-        "cons": {
-          "judg": {
-            "株マップ": {
-              "fair": 4864,
-              "lab": "u",
-              "gap": -35
-            },
-            "PER": {
-              "fair": 3897,
-              "lab": "u",
-              "gap": -19
-            },
-            "ROE": {
-              "fair": 2696,
-              "lab": "o",
-              "gap": 18
-            }
-          },
-          "und": 2,
-          "avail": 3,
-          "buy": true
-        },
-        "eps": 259.82,
-        "div": 105.0,
-        "score": 73.0
-      },
-      "combined": 43.1,
-      "bt": {
-        "win_rate": 63,
-        "days_tp": 20,
-        "days_sl": 10,
-        "n": 222
-      },
-      "ez": {
-        "dip": 3092,
-        "hi": 3175,
-        "gap": 2.6,
-        "note": "押し目 ¥3,092 前後を指値で狙うと有利（現値比 -2.6%）"
-      },
-      "fair": null
-    },
-    {
-      "code": "5542",
-      "name": "新報国マテリアル",
-      "price": 1357.0,
+      "code": "3106",
+      "name": "倉敷紡績",
+      "price": 2391.0,
       "score": 70.0,
       "signal": "HOLD",
       "confidence": 70,
-      "entry": 1357.0,
-      "stop": 1213.6,
-      "target": 1572.2,
+      "entry": 2391.0,
+      "stop": 2241.9,
+      "target": 2614.7,
       "rr": 1.5,
-      "atr": 71.72,
-      "turnover": 129981265,
+      "atr": 74.57,
+      "turnover": 311453394,
       "reasons": [
         "中期上昇トレンド（EMA25>EMA75）",
-        "RSI 77（買われすぎ）",
+        "RSI 78（買われすぎ）",
         "上バンド接近（過熱）",
-        "出来高急増（平均比 9.3倍）",
+        "出来高急増（平均比 2.1倍）",
         "指数より強い（相対力プラス）"
       ],
       "factors": {
@@ -699,51 +414,354 @@
       },
       "error": null,
       "fund": {
-        "per": 18.1,
-        "pbr": 1.56,
-        "roe": 8.6,
-        "eqr": 72.7,
-        "divy": 1.84,
-        "growth": 24.7,
-        "theo": 1716,
+        "per": 14.7,
+        "pbr": 0.29,
+        "roe": 9.7,
+        "eqr": 65.5,
+        "divy": 11.79,
+        "growth": 1.0,
+        "theo": 9900,
         "cons": {
           "judg": {
             "株マップ": {
-              "fair": 1716,
+              "fair": 9900,
               "lab": "u",
-              "gap": -21
+              "gap": -76
             },
             "PER": {
-              "fair": 1127,
-              "lab": "o",
-              "gap": 20
+              "fair": 2439,
+              "lab": "f",
+              "gap": -2
             },
             "ROE": {
-              "fair": 938,
+              "fair": 10023,
+              "lab": "u",
+              "gap": -76
+            }
+          },
+          "und": 2,
+          "avail": 3,
+          "buy": true
+        },
+        "eps": 162.59,
+        "div": 282.0,
+        "score": 71.0
+      },
+      "combined": 44.3,
+      "bt": {
+        "win_rate": 63,
+        "days_tp": 11,
+        "days_sl": 7,
+        "n": 242
+      },
+      "ez": {
+        "dip": 2257,
+        "hi": 2391,
+        "gap": 5.6,
+        "note": "押し目 ¥2,257 前後を指値で狙うと有利（現値比 -5.6%）"
+      },
+      "fair": null
+    },
+    {
+      "code": "4366",
+      "name": "ダイトーケミックス",
+      "price": 468.0,
+      "score": 71.8,
+      "signal": "BUY",
+      "confidence": 91,
+      "entry": 468.0,
+      "stop": 433.7,
+      "target": 519.5,
+      "rr": 1.5,
+      "atr": 17.16,
+      "turnover": 37977495,
+      "reasons": [
+        "ゴールデンクロス発生",
+        "中期上昇トレンド（EMA25>EMA75）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -0.51,
+        "volume": 0.44,
+        "relstr": 1.0
+      },
+      "error": null,
+      "fund": {
+        "per": 17.7,
+        "pbr": 0.92,
+        "roe": 5.2,
+        "eqr": 56.8,
+        "divy": 1.92,
+        "growth": 7.5,
+        "theo": 782,
+        "cons": {
+          "judg": {
+            "株マップ": {
+              "fair": 782,
+              "lab": "u",
+              "gap": -40
+            },
+            "PER": {
+              "fair": 396,
               "lab": "o",
-              "gap": 45
+              "gap": 18
+            },
+            "ROE": {
+              "fair": 330,
+              "lab": "o",
+              "gap": 42
             }
           },
           "und": 1,
           "avail": 3,
           "buy": false
         },
-        "eps": 75.11,
-        "div": 25.0,
-        "score": 62.0
+        "eps": 26.39,
+        "div": 9.0,
+        "score": 56.0
       },
-      "combined": 42.2,
+      "combined": 43.2,
       "bt": {
-        "win_rate": 82,
-        "days_tp": 29,
-        "days_sl": 17,
-        "n": 158
+        "win_rate": 54,
+        "days_tp": 9,
+        "days_sl": 6,
+        "n": 235
       },
       "ez": {
-        "dip": 1228,
-        "hi": 1357,
-        "gap": 9.5,
-        "note": "押し目 ¥1,228 前後を指値で狙うと有利（現値比 -9.5%）"
+        "dip": 452,
+        "hi": 468,
+        "gap": 3.4,
+        "note": "押し目 ¥452 前後を指値で狙うと有利（現値比 -3.4%）"
+      },
+      "fair": null
+    },
+    {
+      "code": "446A",
+      "name": "ノースサンド",
+      "price": 2317.0,
+      "score": 70.9,
+      "signal": "HOLD",
+      "confidence": 70,
+      "entry": 2317.0,
+      "stop": 2072.3,
+      "target": 2684.1,
+      "rr": 1.5,
+      "atr": 122.35,
+      "turnover": 1720205230,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -0.56,
+        "volume": 0.42,
+        "relstr": 1.0
+      },
+      "error": null,
+      "fund": {
+        "per": 25.0,
+        "pbr": 9.72,
+        "roe": 36.0,
+        "eqr": 80.0,
+        "divy": 1.42,
+        "growth": 58.3,
+        "theo": 1306,
+        "cons": {
+          "judg": {
+            "株マップ": {
+              "fair": 1306,
+              "lab": "o",
+              "gap": 77
+            },
+            "PER": {
+              "fair": 1392,
+              "lab": "o",
+              "gap": 66
+            },
+            "ROE": {
+              "fair": 1073,
+              "lab": "o",
+              "gap": 116
+            }
+          },
+          "und": 0,
+          "avail": 3,
+          "buy": false
+        },
+        "eps": 92.83,
+        "div": 33.0,
+        "score": 62.0
+      },
+      "combined": 42.6,
+      "bt": {
+        "win_rate": 59,
+        "days_tp": 8,
+        "days_sl": 5,
+        "n": 198
+      },
+      "ez": {
+        "dip": 2112,
+        "hi": 2317,
+        "gap": 8.9,
+        "note": "押し目 ¥2,112 前後を指値で狙うと有利（現値比 -8.9%）"
+      },
+      "fair": null
+    },
+    {
+      "code": "6599",
+      "name": "エブレン",
+      "price": 4580.0,
+      "score": 70.0,
+      "signal": "HOLD",
+      "confidence": 70,
+      "entry": 4580.0,
+      "stop": 4215.8,
+      "target": 5070.0,
+      "rr": 1.35,
+      "atr": 182.11,
+      "turnover": 41866350,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "RSI 78（買われすぎ）",
+        "上バンド接近（過熱）",
+        "出来高急増（平均比 2.4倍）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -1.0,
+        "volume": 1.0,
+        "relstr": 1.0
+      },
+      "error": null,
+      "fund": {
+        "per": 17.3,
+        "pbr": 1.35,
+        "roe": 7.8,
+        "eqr": 80.1,
+        "divy": 1.27,
+        "growth": 9.9,
+        "theo": 6165,
+        "cons": {
+          "judg": {
+            "株マップ": {
+              "fair": 6165,
+              "lab": "u",
+              "gap": -26
+            },
+            "PER": {
+              "fair": 3976,
+              "lab": "o",
+              "gap": 15
+            },
+            "ROE": {
+              "fair": 3298,
+              "lab": "o",
+              "gap": 39
+            }
+          },
+          "und": 1,
+          "avail": 3,
+          "buy": false
+        },
+        "eps": 265.09,
+        "div": 58.0,
+        "score": 62.0
+      },
+      "combined": 39.7,
+      "bt": {
+        "win_rate": 61,
+        "days_tp": 12,
+        "days_sl": 10,
+        "n": 239
+      },
+      "ez": {
+        "dip": 4252,
+        "hi": 4580,
+        "gap": 7.2,
+        "note": "押し目 ¥4,252 前後を指値で狙うと有利（現値比 -7.2%）"
+      },
+      "fair": null
+    },
+    {
+      "code": "3321",
+      "name": "ミタチ産業",
+      "price": 1904.0,
+      "score": 67.9,
+      "signal": "BUY",
+      "confidence": 87,
+      "entry": 1904.0,
+      "stop": 1813.0,
+      "target": 2040.5,
+      "rr": 1.5,
+      "atr": 45.51,
+      "turnover": 81549390,
+      "reasons": [
+        "ゴールデンクロス発生",
+        "中期上昇トレンド（EMA25>EMA75）",
+        "RSI 75（買われすぎ）",
+        "上バンド接近（過熱）",
+        "出来高急増（平均比 1.8倍）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -1.0,
+        "volume": 0.79,
+        "relstr": 1.0
+      },
+      "error": null,
+      "fund": {
+        "per": 7.6,
+        "pbr": 0.88,
+        "roe": 11.5,
+        "eqr": 37.1,
+        "divy": 4.2,
+        "growth": 17.9,
+        "theo": 4901,
+        "cons": {
+          "judg": {
+            "株マップ": {
+              "fair": 4901,
+              "lab": "u",
+              "gap": -61
+            },
+            "PER": {
+              "fair": 3764,
+              "lab": "u",
+              "gap": -49
+            },
+            "ROE": {
+              "fair": 3116,
+              "lab": "u",
+              "gap": -39
+            }
+          },
+          "und": 3,
+          "avail": 3,
+          "buy": true
+        },
+        "eps": 250.9,
+        "div": 80.0,
+        "score": 76.0
+      },
+      "combined": 39.2,
+      "bt": {
+        "win_rate": 68,
+        "days_tp": 11,
+        "days_sl": 5,
+        "n": 237
+      },
+      "ez": {
+        "dip": 1822,
+        "hi": 1904,
+        "gap": 4.3,
+        "note": "押し目 ¥1,822 前後を指値で狙うと有利（現値比 -4.3%）"
       },
       "fair": null
     }
