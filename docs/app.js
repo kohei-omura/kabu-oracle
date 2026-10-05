@@ -247,16 +247,17 @@
       var limit = parseFloat(el.getAttribute('data-ez-limit'));
       if (map[c] == null || !limit) return;
       var pr = Math.round(Number(map[c]));
+      var prob = el.getAttribute('data-ez-prob');
+      var pn = prob ? ' ・ 約定目安 ' + prob + '%' : '';
       if (pr <= limit) {
         el.className = 'ez hit';
-        el.innerHTML = '🎯 狙い目 指値 ¥' + limit.toLocaleString() +
+        el.innerHTML = '🎯 指値 ¥' + limit.toLocaleString() +
           ' <b>✅ 指値到達</b>（現値 ¥' + pr.toLocaleString() + '）';
       } else {
-        var pct = Math.round((pr - limit) / pr * 100);
+        var pct = ((pr - limit) / pr * 100).toFixed(1);
         el.className = 'ez';
-        el.innerHTML = '🎯 狙い目 指値 ¥' + limit.toLocaleString() +
-          ' 〜 現値 ¥' + pr.toLocaleString() +
-          '<span class="ezn">-' + pct + '% の押し目</span>';
+        el.innerHTML = '🎯 指値 ¥' + limit.toLocaleString() +
+          '<span class="ezn">現値 ¥' + pr.toLocaleString() + '比 -' + pct + '%' + pn + '</span>';
       }
     });
     // 保有銘柄カード：最新株価で損益%と状態（利確圏/損切圏/保有中）を計算し直す
