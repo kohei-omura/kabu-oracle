@@ -2,6 +2,8 @@
 
   alerts … 通知の重複防止 {"<code>:<種類>": "YYYY-MM-DD"}（同じ内容は1日1回）
   runs   … その日にもう済ませた処理 {"YYYY-MM-DD": {"noon": "11:41", "close": "16:02", "rank": "16:03"}}
+  levels … 保有銘柄の利確/損切（買値基準で一度決めたら固定）
+           {"<code>": {"buy": 400, "target": 438, "stop": 375, "atr": 12.7, "set": "YYYY-MM-DD"}}
 
 古い記録は KEEP_DAYS を過ぎたら捨てる（ファイルが際限なく育たないように）。
 """
@@ -29,6 +31,7 @@ def load() -> dict:
         st = {}
     st.setdefault("alerts", {})
     st.setdefault("runs", {})
+    st.setdefault("levels", {})
     return st
 
 
@@ -51,6 +54,12 @@ def already(st: dict, key: str, today: str) -> bool:
 
 def mark(st: dict, key: str, today: str) -> None:
     st.setdefault("alerts", {})[key] = today
+
+
+def prune_levels(st: dict, codes) -> None:
+    """保有から外れた銘柄の固定ラインを捨てる（また買ったときは改めて計算する）。"""
+    keep = set(codes)
+    st["levels"] = {c: v for c, v in st.get("levels", {}).items() if c in keep}
 
 
 def run_done(st: dict, day: str, what: str) -> bool:

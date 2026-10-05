@@ -143,7 +143,7 @@ def build(cfg: dict, st: dict, with_rank: bool) -> None:
     extra = [h["code"] for h in holds] + [str(c) for c in (cfg.get("watchlist") or [])]
     scan = R.scan_universe(cfg, extra_codes=extra)
     store = FundStore()
-    buys = REP.write_dashboard(cfg, scan=scan, store=store)
+    buys = REP.write_dashboard(cfg, scan=scan, store=store, st=st)
     REP.write_prices(cfg)
     day = M.now_jst().date().isoformat()
     if with_rank and not ST.run_done(st, day, "rank"):

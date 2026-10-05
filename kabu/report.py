@@ -250,18 +250,46 @@ def _long_box(price: float, fund, on: bool) -> str:
             '</div>')
 
 
-def _holding_levels(h, a, cfg):
+def fixed_levels(h: dict, atr: float, cur: float, cfg: dict, st: dict):
+    """保有銘柄の利確/損切。買値を基準に一度だけ計算して固定する（株価が動いても変わらない）。
+
+    ・holdings.txt で利確/損切を手動指定していれば、それが最優先
+    ・無ければ 利確＝買値＋ATR×倍率 / 損切＝買値−ATR×倍率 を、その銘柄を初めて見たときの
+      ATR で計算して data/state.json の levels に保存し、以後はずっとその値を使う
+    ・買値を書き換えたとき（買い増しで平均単価が変わった等）だけ計算し直す
+    ・ATR が出せないときは作らない（利確=損切=買値 になって誤発報するのを防ぐ）
+    返り値 (利確, 損切)。決められない側は None。
+    """
     from . import signals as S
-    cur = a.price
     tgt, stp = h.get("target"), h.get("stop")
-    if tgt is None or stp is None:
-        at, as_ = S.holding_levels(h.get("buy") or cur, a.atr, cfg)
-        tgt = at if tgt is None else tgt
-        stp = as_ if stp is None else stp
-    return tgt, stp
+    if tgt is not None and stp is not None:
+        return tgt, stp
+    buy = h.get("buy")
+    levels = st.setdefault("levels", {})
+    lv = levels.get(h["code"])
+    if not (lv and lv.get("buy") == buy and lv.get("target") and lv.get("stop")):
+        if not atr or atr <= 0 or not (buy or cur):
+            return tgt, stp
+        at, as_ = S.holding_levels(buy or cur, atr, cfg)
+        lv = {"buy": buy, "target": at, "stop": as_, "atr": round(float(atr), 2),
+              "set": M.now_jst().date().isoformat()}
+        levels[h["code"]] = lv
+    return (lv["target"] if tgt is None else tgt), (lv["stop"] if stp is None else stp)
 
 
-def _holding_card(h, a, cfg) -> str:
+def _holding_levels(h, a, cfg, st):
+    return fixed_levels(h, a.atr, a.price, cfg, st)
+
+
+def _yen(v) -> str:
+    return f"¥{v:,.0f}" if v is not None else "—"
+
+
+def _pct_from(base, v) -> str:
+    return f"（{(v / base - 1) * 100:+.1f}%）" if base and v else ""
+
+
+def _holding_card(h, a, cfg, st) -> str:
     code = h["code"]
     buy = h.get("buy")
     if a is None:
@@ -275,12 +303,12 @@ def _holding_card(h, a, cfg) -> str:
                 f'{"🌱 長期保有中" if lt_on else "☾ 長期保有"}</button>'
                 f'<span class="ltmsg" data-ltmsg>{"利確通知OFF" if lt_on else ""}</span></div></div>')
     cur, name = a.price, a.name
-    tgt, stp = _holding_levels(h, a, cfg)
+    tgt, stp = _holding_levels(h, a, cfg, st)   # 決められない側は None（上場直後など）
     pl = ((cur - buy) / buy * 100) if buy else 0.0
     pl_cls = "pos" if pl >= 0 else "neg"
-    if cur >= tgt:
+    if tgt is not None and cur >= tgt:
         st_label, st_cls = "利確圏", "buy"
-    elif cur <= stp:
+    elif stp is not None and cur <= stp:
         st_label, st_cls = "損切圏", "sell"
     else:
         st_label, st_cls = "保有中", "hold"
@@ -327,7 +355,8 @@ def _holding_card(h, a, cfg) -> str:
     # data-hold-* は app.js が最新株価で損益%・状態を計算し直すために使う
     return (f'<div class="card" data-hold="{_esc(code)}" '
             f'data-hold-buy="{buy if buy else ""}" '
-            f'data-hold-tgt="{tgt}" data-hold-stp="{stp}" '
+            f'data-hold-tgt="{tgt if tgt is not None else ""}" '
+            f'data-hold-stp="{stp if stp is not None else ""}" '
             f'data-hold-long="{"1" if lt_on else "0"}"><div class="row1">'
             f'<div class="title"><span class="code">{_esc(code)}</span>'
             f'<span class="name">{_esc(name)}</span></div>'
@@ -335,8 +364,8 @@ def _holding_card(h, a, cfg) -> str:
             f'<div class="row2"><span class="price" data-px="{_esc(code)}">¥{cur:,.0f}</span>'
             f'<span class="score {pl_cls}" data-hold-pl>{pl:+.1f}%</span></div>'
             f'<div class="levels"><span class="lv">買値 {buy_s}</span>'
-            f'<span class="lv tgt">利確 ¥{tgt:,.0f}</span>'
-            f'<span class="lv stp">損切 ¥{stp:,.0f}</span></div>'
+            f'<span class="lv tgt">利確 {_yen(tgt)}{_pct_from(buy, tgt)}</span>'
+            f'<span class="lv stp">損切 {_yen(stp)}{_pct_from(buy, stp)}</span></div>'
             f'{lt_bar}{lt_box}{bt_html}{fund}{val}{sell_warn}{reasons}</div>')
 
 
@@ -1357,14 +1386,17 @@ def _tb_card(rank: int, a, sc: dict, is_buy: bool) -> str:
     )
 
 
-def build_html(cfg: dict, scan=None, store=None) -> tuple[str, dict]:
+def build_html(cfg: dict, scan=None, store=None, st=None) -> tuple[str, dict]:
     """ダッシュボードの HTML と data.json 用データを作る。scan を渡せば株価を取り直さない。"""
     from .fundstore import FundStore
     now = M.now_jst()
     date_str = now.strftime("%Y.%m.%d %H:%M")
     top = int(cfg.get("dashboard_top", 10))
 
+    from . import state as ST
     holds = load_holdings()
+    st = st if st is not None else ST.load()
+    ST.prune_levels(st, [h["code"] for h in holds])
     scan = scan or R.scan_universe(cfg, extra_codes=[h["code"] for h in holds])
     store = store or FundStore()
     analyses = scan.analyses                     # テクニカルスコア順（検索の「総合順位」もこの順）
@@ -1391,9 +1423,10 @@ def build_html(cfg: dict, scan=None, store=None) -> tuple[str, dict]:
         for h, a in zip(holds, hold_as):
             if a is None:
                 continue
-            tgt, stp = _holding_levels(h, a, cfg)
-            a.bt = R.S.barrier_stats(scan.frames.get(h["code"]), a.price, tgt, stp)
-        hc = "".join(_holding_card(h, a, cfg) for h, a in zip(holds, hold_as))
+            tgt, stp = _holding_levels(h, a, cfg, st)
+            if tgt is not None and stp is not None:
+                a.bt = R.S.barrier_stats(scan.frames.get(h["code"]), a.price, tgt, stp)
+        hc = "".join(_holding_card(h, a, cfg, st) for h, a in zip(holds, hold_as))
         hold_section = _section("保有銘柄", "MY HOLDINGS", hc, "watch",
                                 extra=GH_GEAR, head_extra=GH_PANEL)
 
@@ -1471,10 +1504,15 @@ def build_html(cfg: dict, scan=None, store=None) -> tuple[str, dict]:
     return page, data
 
 
-def write_dashboard(cfg: dict, scan=None, store=None) -> list:
+def write_dashboard(cfg: dict, scan=None, store=None, st=None) -> list:
     """docs/ にダッシュボード一式を書き出し、買い候補 TOP（通知に使うのと同じ並び）を返す。"""
     DOCS.mkdir(exist_ok=True)
-    page, data = build_html(cfg, scan=scan, store=store)
+    from . import state as ST
+    own_state = st is None
+    st = ST.load() if own_state else st
+    page, data = build_html(cfg, scan=scan, store=store, st=st)
+    if own_state:
+        ST.save(st)
     buys = data.pop("_buys", [])
     stocks = data.pop("stocks", [])
     (DOCS / "index.html").write_text(page, encoding="utf-8")
@@ -1557,6 +1595,7 @@ def check_holdings(cfg: dict, st: dict | None = None) -> list[str]:
 
     own_state = st is None
     st = ST.load() if own_state else st
+    ST.prune_levels(st, codes)
     today = M.now_jst().strftime("%Y-%m-%d")
 
     tp, sl, sg = [], [], []
@@ -1569,11 +1608,7 @@ def check_holdings(cfg: dict, st: dict | None = None) -> list[str]:
         name = namemap.get(c, "")
         df = frames.get(c)
         atr = float(S.ind.atr(df, 14).iloc[-1]) if (df is not None and len(df) > 20) else 0.0
-        tgt, stp = h.get("target"), h.get("stop")
-        if (tgt is None or stp is None) and atr > 0:
-            at, as_ = S.holding_levels(buy or cur, atr, cfg)
-            tgt = at if tgt is None else tgt
-            stp = as_ if stp is None else stp
+        tgt, stp = fixed_levels(h, atr, cur, cfg, st)     # 買値基準で固定したライン
         # ATR が出せない（日足の取得失敗など）場合は自動ラインを作らない。
         # 作ると 利確=損切=買値 になり、到達アラートが誤発報するため。
         pl = ((cur - buy) / buy * 100) if buy else 0.0
