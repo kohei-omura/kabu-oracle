@@ -115,14 +115,16 @@ def _card(rank: int, a, show_levels: bool, market: str = "") -> str:
     ez = getattr(a, "ez", None)
     if ez:
         ezc, dip, hi, gap = _esc(a.code), ez["dip"], ez["hi"], ez["gap"]
-        if gap < 1.0:
-            inner = (f'🎯 狙い目 現値 ¥{hi:,}〜'
-                     f'<span class="ezn">押し目余地は小</span>')
+        prob = ez.get("prob")
+        pn = f' ・ 約定目安 {prob}%' if prob is not None else ''
+        if gap < 0.3:
+            inner = (f'🎯 指値 ¥{dip:,}（現値付近）'
+                     f'<span class="ezn">約定しやすい{pn}</span>')
         else:
-            inner = (f'🎯 狙い目 指値 ¥{dip:,} 〜 現値 ¥{hi:,}'
-                     f'<span class="ezn">-{gap:.0f}% の押し目</span>')
+            inner = (f'🎯 指値 ¥{dip:,}'
+                     f'<span class="ezn">現値比 -{gap:.1f}%{pn}</span>')
         ez_html = (f'<div class="ez" data-ez-c="{ezc}" data-ez-limit="{dip}" '
-                   f'data-ez-pct="{gap:.0f}">{inner}</div>')
+                   f'data-ez-prob="{prob if prob is not None else ""}">{inner}</div>')
     bt_html = ""
     if a.bt:
         b = a.bt
@@ -820,16 +822,17 @@ APP_JS = r"""
       var limit = parseFloat(el.getAttribute('data-ez-limit'));
       if (map[c] == null || !limit) return;
       var pr = Math.round(Number(map[c]));
+      var prob = el.getAttribute('data-ez-prob');
+      var pn = prob ? ' ・ 約定目安 ' + prob + '%' : '';
       if (pr <= limit) {
         el.className = 'ez hit';
-        el.innerHTML = '🎯 狙い目 指値 ¥' + limit.toLocaleString() +
+        el.innerHTML = '🎯 指値 ¥' + limit.toLocaleString() +
           ' <b>✅ 指値到達</b>（現値 ¥' + pr.toLocaleString() + '）';
       } else {
-        var pct = Math.round((pr - limit) / pr * 100);
+        var pct = ((pr - limit) / pr * 100).toFixed(1);
         el.className = 'ez';
-        el.innerHTML = '🎯 狙い目 指値 ¥' + limit.toLocaleString() +
-          ' 〜 現値 ¥' + pr.toLocaleString() +
-          '<span class="ezn">-' + pct + '% の押し目</span>';
+        el.innerHTML = '🎯 指値 ¥' + limit.toLocaleString() +
+          '<span class="ezn">現値 ¥' + pr.toLocaleString() + '比 -' + pct + '%' + pn + '</span>';
       }
     });
     // 保有銘柄カード：最新株価で損益%と状態（利確圏/損切圏/保有中）を計算し直す

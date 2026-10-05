@@ -295,29 +295,48 @@ def barrier_stats(df, entry: float, target: float, stop: float,
     }
 
 
-def entry_zone(df, price: float, atr: float, stop: float | None = None) -> dict | None:
-    """押し目を考慮した推奨エントリー価格帯（テクニカルな目安・板情報ではない）。
+def tick_size(p: float) -> float:
+    """東証の呼値の単位（主な価格帯。TOPIX100 など一部の銘柄の特例は考慮しない）。"""
+    for thr, t in ((3000, 1), (5000, 5), (30000, 10), (50000, 50), (300000, 100)):
+        if p <= thr:
+            return float(t)
+    return 1000.0
 
-    支持線＝EMA25と直近10日安値の高い方。現値から0.5ATR下か支持線のいずれか浅い方を
-    「狙い目の指値(dip)」とし、損切より上・現値以下にクランプする。
-    返す: {dip, hi, gap, note}。算出不可なら None。
+
+def entry_zone(df, price: float, atr: float, stop: float | None = None,
+               fill_prob: float = 0.8, lookback: int = 120) -> dict | None:
+    """「ランキングに載っている間（次の取引日）に約定しやすい」買いの指値。
+
+    過去 lookback 日の「その日の安値 ÷ 前日終値」の分布から、安値がその価格まで下がった日が
+    fill_prob（既定80%）になる水準を指値にする。深すぎる押し目（旧：支持線・0.5ATR下）は
+    ほとんど約定しなかったため、過去に実際に届いた深さだけを使う。
+    価格は呼値で切り上げ（高いほど約定しやすい）、損切のすぐ上より下は狙わず、現値は超えない。
+    返す: {dip, hi, gap, prob, note}。prob＝その指値に過去どれだけの日が届いたか（%）。算出不可なら None。
     """
     if df is None or price <= 0 or atr <= 0:
         return None
     try:
-        close = df["Close"]
-        ema25 = float(close.ewm(span=25, adjust=False).mean().iloc[-1])
-        swing_low = float(df["Low"].iloc[-10:].min())
+        low = df["Low"].astype(float)
+        cl = df["Close"].astype(float)
+        if _bar_progress(df) < 1.0:       # 場中の途中足は安値が確定していないので除く
+            low, cl = low.iloc[:-1], cl.iloc[:-1]
+        r = (low / cl.shift(1) - 1.0).dropna().tail(lookback)
     except Exception:
         return None
-    support = max(ema25, swing_low)
-    dip = min(price - 0.5 * atr, support)      # 現値から0.5ATR下 か 支持線
+    if len(r) < 40:
+        return None
+    off = float(np.quantile(r.to_numpy(), fill_prob))   # この深さまで下がった日が fill_prob
+    dip = price * (1.0 + min(off, 0.0))                 # 現値より上（≥0）にはしない
     if stop:
-        dip = max(dip, stop + 0.2 * atr)       # 損切のすぐ上より下は狙わない
-    dip = min(dip, price)                       # 現値は超えない
-    gap = (price - dip) / price * 100 if price else 0.0
-    if gap < 1.0:
-        note = "現値〜成行でOK（押し目余地は小さい）"
+        dip = max(dip, stop + 0.2 * atr)
+    dip = min(dip, price)
+    t = tick_size(dip)
+    dip = min(float(np.ceil(dip / t) * t), price)       # 呼値に切り上げ
+    prob = float((r <= dip / price - 1.0 + 1e-12).mean()) * 100
+    gap = (price - dip) / price * 100
+    if gap < 0.3:
+        note = "現値付近で約定しやすい"
     else:
-        note = f"押し目 ¥{dip:,.0f} 前後を指値で狙うと有利（現値比 -{gap:.1f}%）"
-    return {"dip": round(dip), "hi": round(price), "gap": round(gap, 1), "note": note}
+        note = f"現値比 -{gap:.1f}%（過去{len(r)}日の{prob:.0f}%で安値が届いた）"
+    return {"dip": round(dip), "hi": round(price), "gap": round(gap, 1),
+            "prob": round(prob), "note": note}

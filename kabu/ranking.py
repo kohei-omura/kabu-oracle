@@ -349,10 +349,11 @@ def format_ranking(buys, sells, total: int, date_str: str, regime: dict | None =
                          + (f" / RR {a.rr}" if a.rr else ""))
         ez = getattr(a, "ez", None)
         if ez:
-            if ez["gap"] < 1.0:
-                lines.append(f"   🎯狙い目 現値¥{ez['hi']:,}〜")
+            pn = f"・約定目安{ez['prob']}%" if ez.get("prob") is not None else ""
+            if ez["gap"] < 0.3:
+                lines.append(f"   🎯指値¥{ez['dip']:,}（現値付近{pn}）")
             else:
-                lines.append(f"   🎯狙い目 指値¥{ez['dip']:,}〜現値¥{ez['hi']:,}（-{ez['gap']:.0f}%）")
+                lines.append(f"   🎯指値¥{ez['dip']:,}（現値比-{ez['gap']:.1f}%{pn}）")
         if a.fund:
             fp = []
             if a.fund.get("per") is not None: fp.append(f"PER{a.fund['per']:.1f}")
