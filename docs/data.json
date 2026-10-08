@@ -1,162 +1,84 @@
 {
-  "generated": "2026.10.08 12:04",
+  "generated": "2026.10.08 16:01",
   "total": 3689,
   "regime": {
     "label": "上昇基調",
     "icon": "☀",
-    "chg20": 4.5,
-    "price": 69373
+    "chg20": 4.0,
+    "price": 69042
   },
   "buys": [
     {
-      "code": "6898",
-      "name": "トミタ電機",
-      "price": 4950.0,
-      "score": 79.4,
+      "code": "8254",
+      "name": "さいか屋",
+      "price": 337.0,
+      "score": 73.3,
       "signal": "HOLD",
-      "confidence": 79,
-      "entry": 4950.0,
-      "stop": 4533.9,
-      "target": 5574.1,
+      "confidence": 73,
+      "entry": 337.0,
+      "stop": 305.7,
+      "target": 383.9,
       "rr": 1.5,
-      "atr": 208.03,
-      "turnover": 43258400,
+      "atr": 15.63,
+      "turnover": 71584125,
       "reasons": [
         "中期上昇トレンド（EMA25>EMA75）",
-        "指数より強い（相対力プラス）"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 0.68,
-        "meanrev": 0.19,
-        "volume": 0.96,
-        "relstr": 1.0
-      },
-      "error": null,
-      "fund": {
-        "per": 79.6,
-        "pbr": 1.02,
-        "roe": 1.2,
-        "eqr": 85.6,
-        "divy": 0.0,
-        "growth": -59.3,
-        "theo": 5496,
-        "cons": {
-          "judg": {
-            "株マップ": {
-              "fair": 5496,
-              "lab": "u",
-              "gap": -10
-            },
-            "PER": {
-              "fair": 933,
-              "lab": "o",
-              "gap": 431
-            },
-            "ROE": {
-              "fair": 731,
-              "lab": "o",
-              "gap": 577
-            }
-          },
-          "und": 1,
-          "avail": 3,
-          "buy": false
-        },
-        "eps": 62.19,
-        "div": 0.0,
-        "score": 28.0
-      },
-      "combined": 64.0,
-      "bt": {
-        "win_rate": 86,
-        "days_tp": 31,
-        "days_sl": 10,
-        "n": 182
-      },
-      "ez": {
-        "dip": 4950,
-        "hi": 4950,
-        "gap": 0.0,
-        "prob": 88,
-        "note": "現値付近で約定しやすい"
-      },
-      "fair": null
-    },
-    {
-      "code": "3562",
-      "name": "Ｎｏ．１",
-      "price": 1847.0,
-      "score": 70.0,
-      "signal": "HOLD",
-      "confidence": 70,
-      "entry": 1847.0,
-      "stop": 1735.1,
-      "target": 2014.9,
-      "rr": 1.5,
-      "atr": 55.96,
-      "turnover": 105440590,
-      "reasons": [
-        "中期上昇トレンド（EMA25>EMA75）",
-        "RSI 78（買われすぎ）",
-        "上バンド接近（過熱）",
-        "出来高急増（平均比 44.0倍）",
         "指数より強い（相対力プラス）"
       ],
       "factors": {
         "trend": 1.0,
         "momentum": 1.0,
-        "meanrev": -1.0,
-        "volume": 1.0,
+        "meanrev": -0.72,
+        "volume": 0.92,
         "relstr": 1.0
       },
       "error": null,
       "fund": {
-        "per": 12.1,
-        "pbr": 2.76,
-        "roe": 24.0,
-        "eqr": 30.2,
-        "divy": 4.28,
-        "growth": 40.3,
-        "theo": 2420,
+        "per": 15.4,
+        "pbr": 33.07,
+        "roe": 8.5,
+        "eqr": 11.0,
+        "divy": 1.48,
+        "growth": 9.1,
+        "theo": 239,
         "cons": {
           "judg": {
             "株マップ": {
-              "fair": 2420,
-              "lab": "u",
-              "gap": -24
+              "fair": 239,
+              "lab": "o",
+              "gap": 41
             },
             "PER": {
-              "fair": 2285,
-              "lab": "u",
-              "gap": -19
+              "fair": 328,
+              "lab": "f",
+              "gap": 3
             },
             "ROE": {
-              "fair": 2005,
-              "lab": "u",
-              "gap": -8
+              "fair": 11,
+              "lab": "o",
+              "gap": 2964
             }
           },
-          "und": 3,
+          "und": 0,
           "avail": 3,
-          "buy": true
+          "buy": false
         },
-        "eps": 152.34,
-        "div": 79.0,
-        "score": 78.0
+        "eps": 21.85,
+        "div": 5.0,
+        "score": 46.0
       },
-      "combined": 54.8,
+      "combined": 73.2,
       "bt": {
-        "win_rate": 57,
-        "days_tp": 26,
-        "days_sl": 18,
-        "n": 237
+        "win_rate": 44,
+        "days_tp": 17,
+        "days_sl": 10,
+        "n": 232
       },
       "ez": {
-        "dip": 1847,
-        "hi": 1847,
-        "gap": 0.0,
-        "prob": 83,
+        "dip": 336,
+        "hi": 337,
+        "gap": 0.3,
+        "prob": 84,
         "note": "現値付近で約定しやすい"
       },
       "fair": null
@@ -164,27 +86,27 @@
     {
       "code": "3040",
       "name": "ソリトンシステムズ",
-      "price": 2899.0,
-      "score": 72.6,
+      "price": 2904.0,
+      "score": 72.5,
       "signal": "HOLD",
       "confidence": 72,
-      "entry": 2899.0,
-      "stop": 2679.0,
-      "target": 3229.0,
+      "entry": 2904.0,
+      "stop": 2684.0,
+      "target": 3234.0,
       "rr": 1.5,
       "atr": 110.01,
-      "turnover": 444052810,
+      "turnover": 565606690,
       "reasons": [
         "中期上昇トレンド（EMA25>EMA75）",
         "RSI 74（買われすぎ）",
         "上バンド接近（過熱）",
-        "出来高急増（平均比 7.2倍）",
+        "出来高急増（平均比 5.3倍）",
         "指数より強い（相対力プラス）"
       ],
       "factors": {
         "trend": 1.0,
         "momentum": 1.0,
-        "meanrev": -0.82,
+        "meanrev": -0.83,
         "volume": 1.0,
         "relstr": 1.0
       },
@@ -207,12 +129,12 @@
             "PER": {
               "fair": 1901,
               "lab": "o",
-              "gap": 52
+              "gap": 53
             },
             "ROE": {
               "fair": 1563,
               "lab": "o",
-              "gap": 85
+              "gap": 86
             }
           },
           "und": 0,
@@ -221,9 +143,9 @@
         },
         "eps": 126.74,
         "div": 60.0,
-        "score": 55.0
+        "score": 54.0
       },
-      "combined": 52.7,
+      "combined": 72.6,
       "bt": {
         "win_rate": 58,
         "days_tp": 14,
@@ -231,8 +153,8 @@
         "n": 238
       },
       "ez": {
-        "dip": 2899,
-        "hi": 2899,
+        "dip": 2904,
+        "hi": 2904,
         "gap": 0.0,
         "prob": 78,
         "note": "現値付近で約定しやすい"
@@ -240,76 +162,312 @@
       "fair": null
     },
     {
-      "code": "8254",
-      "name": "さいか屋",
-      "price": 336.0,
-      "score": 73.5,
+      "code": "4258",
+      "name": "網屋",
+      "price": 6150.0,
+      "score": 72.8,
       "signal": "HOLD",
-      "confidence": 73,
-      "entry": 336.0,
-      "stop": 304.9,
-      "target": 382.7,
-      "rr": 1.5,
-      "atr": 15.56,
-      "turnover": 71729680,
+      "confidence": 72,
+      "entry": 6150.0,
+      "stop": 5425.4,
+      "target": 7150.0,
+      "rr": 1.38,
+      "atr": 362.3,
+      "turnover": 897085100,
       "reasons": [
         "中期上昇トレンド（EMA25>EMA75）",
-        "指数より強い（相対力プラス）"
+        "上バンド接近（過熱）",
+        "出来高急増（平均比 9.7倍）",
+        "指数より強い（相対力プラス）",
+        "値幅制限内に調整"
       ],
       "factors": {
         "trend": 1.0,
         "momentum": 1.0,
-        "meanrev": -0.7,
-        "volume": 0.9,
+        "meanrev": -0.82,
+        "volume": 1.0,
         "relstr": 1.0
       },
       "error": null,
       "fund": {
-        "per": 15.4,
-        "pbr": 32.97,
-        "roe": 8.5,
-        "eqr": 11.0,
-        "divy": 1.49,
-        "growth": 9.1,
-        "theo": 239,
+        "per": 60.4,
+        "pbr": 18.51,
+        "roe": 42.3,
+        "eqr": 27.7,
+        "divy": 0.26,
+        "growth": 13.2,
+        "theo": 1417,
         "cons": {
           "judg": {
             "株マップ": {
-              "fair": 239,
+              "fair": 1417,
               "lab": "o",
-              "gap": 41
+              "gap": 334
             },
             "PER": {
-              "fair": 328,
-              "lab": "f",
-              "gap": 2
+              "fair": 1526,
+              "lab": "o",
+              "gap": 303
             },
             "ROE": {
-              "fair": 11,
+              "fair": 1757,
               "lab": "o",
-              "gap": 2955
+              "gap": 250
             }
           },
           "und": 0,
           "avail": 3,
           "buy": false
         },
-        "eps": 21.85,
-        "div": 5.0,
-        "score": 44.0
+        "eps": 101.75,
+        "div": 15.73,
+        "score": 41.0
       },
-      "combined": 50.6,
+      "combined": 67.9,
       "bt": {
-        "win_rate": 44,
+        "win_rate": 62,
         "days_tp": 17,
-        "days_sl": 10,
-        "n": 232
+        "days_sl": 12,
+        "n": 239
       },
       "ez": {
-        "dip": 335,
-        "hi": 336,
-        "gap": 0.3,
-        "prob": 83,
+        "dip": 6150,
+        "hi": 6150,
+        "gap": 0.0,
+        "prob": 82,
+        "note": "現値付近で約定しやすい"
+      },
+      "fair": null
+    },
+    {
+      "code": "3132",
+      "name": "マクニカホールディングス",
+      "price": 4529.0,
+      "score": 71.9,
+      "signal": "HOLD",
+      "confidence": 71,
+      "entry": 4529.0,
+      "stop": 4227.6,
+      "target": 4981.1,
+      "rr": 1.5,
+      "atr": 150.7,
+      "turnover": 4259384337,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "RSI 75（買われすぎ）",
+        "出来高急増（平均比 1.9倍）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 0.97,
+        "meanrev": -0.78,
+        "volume": 0.94,
+        "relstr": 1.0
+      },
+      "error": null,
+      "fund": {
+        "per": 25.3,
+        "pbr": 2.9,
+        "roe": 11.1,
+        "eqr": 39.8,
+        "divy": 1.77,
+        "growth": 15.3,
+        "theo": 3491,
+        "cons": {
+          "judg": {
+            "株マップ": {
+              "fair": 3491,
+              "lab": "o",
+              "gap": 30
+            },
+            "PER": {
+              "fair": 2688,
+              "lab": "o",
+              "gap": 68
+            },
+            "ROE": {
+              "fair": 2167,
+              "lab": "o",
+              "gap": 109
+            }
+          },
+          "und": 0,
+          "avail": 3,
+          "buy": false
+        },
+        "eps": 179.21,
+        "div": 80.0,
+        "score": 51.0
+      },
+      "combined": 67.8,
+      "bt": {
+        "win_rate": 71,
+        "days_tp": 14,
+        "days_sl": 5,
+        "n": 235
+      },
+      "ez": {
+        "dip": 4529,
+        "hi": 4529,
+        "gap": 0.0,
+        "prob": 68,
+        "note": "現値付近で約定しやすい"
+      },
+      "fair": null
+    },
+    {
+      "code": "9889",
+      "name": "ＪＢＣＣホールディングス",
+      "price": 1838.0,
+      "score": 70.0,
+      "signal": "HOLD",
+      "confidence": 70,
+      "entry": 1838.0,
+      "stop": 1738.4,
+      "target": 1987.4,
+      "rr": 1.5,
+      "atr": 49.8,
+      "turnover": 325280641,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "RSI 71（買われすぎ）",
+        "上バンド接近（過熱）",
+        "出来高急増（平均比 3.2倍）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -1.0,
+        "volume": 1.0,
+        "relstr": 1.0
+      },
+      "error": null,
+      "fund": {
+        "per": 18.4,
+        "pbr": 4.48,
+        "roe": 24.3,
+        "eqr": 52.5,
+        "divy": 2.72,
+        "growth": 12.9,
+        "theo": 1471,
+        "cons": {
+          "judg": {
+            "株マップ": {
+              "fair": 1471,
+              "lab": "o",
+              "gap": 25
+            },
+            "PER": {
+              "fair": 1494,
+              "lab": "o",
+              "gap": 23
+            },
+            "ROE": {
+              "fair": 1246,
+              "lab": "o",
+              "gap": 48
+            }
+          },
+          "und": 0,
+          "avail": 3,
+          "buy": false
+        },
+        "eps": 99.63,
+        "div": 50.0,
+        "score": 68.0
+      },
+      "combined": 66.3,
+      "bt": {
+        "win_rate": 45,
+        "days_tp": 11,
+        "days_sl": 13,
+        "n": 237
+      },
+      "ez": {
+        "dip": 1838,
+        "hi": 1838,
+        "gap": 0.0,
+        "prob": 72,
+        "note": "現値付近で約定しやすい"
+      },
+      "fair": null
+    },
+    {
+      "code": "4704",
+      "name": "トレンドマイクロ",
+      "price": 7232.0,
+      "score": 71.4,
+      "signal": "HOLD",
+      "confidence": 71,
+      "entry": 7232.0,
+      "stop": 6777.5,
+      "target": 7913.7,
+      "rr": 1.5,
+      "atr": 227.23,
+      "turnover": 9050040705,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "RSI 73（買われすぎ）",
+        "上バンド接近（過熱）",
+        "出来高急増（平均比 2.9倍）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -0.91,
+        "volume": 1.0,
+        "relstr": 1.0
+      },
+      "error": null,
+      "fund": {
+        "per": 25.8,
+        "pbr": 7.41,
+        "roe": 32.0,
+        "eqr": 27.8,
+        "divy": 2.56,
+        "growth": 6.0,
+        "theo": 3861,
+        "cons": {
+          "judg": {
+            "株マップ": {
+              "fair": 3861,
+              "lab": "o",
+              "gap": 87
+            },
+            "PER": {
+              "fair": 4201,
+              "lab": "o",
+              "gap": 72
+            },
+            "ROE": {
+              "fair": 3903,
+              "lab": "o",
+              "gap": 85
+            }
+          },
+          "und": 0,
+          "avail": 3,
+          "buy": false
+        },
+        "eps": 280.07,
+        "div": 185.0,
+        "score": 51.0
+      },
+      "combined": 65.3,
+      "bt": {
+        "win_rate": 44,
+        "days_tp": 11,
+        "days_sl": 12,
+        "n": 239
+      },
+      "ez": {
+        "dip": 7232,
+        "hi": 7232,
+        "gap": 0.0,
+        "prob": 72,
         "note": "現値付近で約定しやすい"
       },
       "fair": null
@@ -317,21 +475,21 @@
     {
       "code": "2326",
       "name": "デジタルアーツ",
-      "price": 5640.0,
+      "price": 5650.0,
       "score": 70.0,
       "signal": "HOLD",
       "confidence": 70,
-      "entry": 5640.0,
-      "stop": 5288.2,
-      "target": 6167.7,
+      "entry": 5650.0,
+      "stop": 5293.9,
+      "target": 6184.2,
       "rr": 1.5,
-      "atr": 175.91,
-      "turnover": 704028289,
+      "atr": 178.05,
+      "turnover": 845895375,
       "reasons": [
         "中期上昇トレンド（EMA25>EMA75）",
-        "RSI 83（買われすぎ）",
+        "RSI 84（買われすぎ）",
         "上バンド接近（過熱）",
-        "出来高急増（平均比 4.7倍）",
+        "出来高急増（平均比 4.0倍）",
         "指数より強い（相対力プラス）"
       ],
       "factors": {
@@ -365,7 +523,7 @@
             "ROE": {
               "fair": 3495,
               "lab": "o",
-              "gap": 61
+              "gap": 62
             }
           },
           "und": 0,
@@ -374,18 +532,18 @@
         },
         "eps": 280.45,
         "div": 100.0,
-        "score": 67.0
+        "score": 66.0
       },
-      "combined": 49.2,
+      "combined": 65.2,
       "bt": {
-        "win_rate": 46,
+        "win_rate": 47,
         "days_tp": 11,
         "days_sl": 8,
         "n": 240
       },
       "ez": {
-        "dip": 5640,
-        "hi": 5640,
+        "dip": 5650,
+        "hi": 5650,
         "gap": 0.0,
         "prob": 74,
         "note": "現値付近で約定しやすい"
@@ -395,21 +553,21 @@
     {
       "code": "5133",
       "name": "テリロジーホールディングス",
-      "price": 404.0,
+      "price": 395.0,
       "score": 70.0,
       "signal": "HOLD",
       "confidence": 70,
-      "entry": 404.0,
-      "stop": 360.4,
-      "target": 440.0,
-      "rr": 0.83,
-      "atr": 21.82,
-      "turnover": 194999530,
+      "entry": 395.0,
+      "stop": 350.6,
+      "target": 461.5,
+      "rr": 1.5,
+      "atr": 22.18,
+      "turnover": 353459380,
       "reasons": [
         "中期上昇トレンド（EMA25>EMA75）",
-        "RSI 81（買われすぎ）",
+        "RSI 80（買われすぎ）",
         "上バンド接近（過熱）",
-        "出来高急増（平均比 16.9倍）",
+        "出来高急増（平均比 14.8倍）",
         "指数より強い（相対力プラス）"
       ],
       "factors": {
@@ -421,11 +579,11 @@
       },
       "error": null,
       "fund": {
-        "per": 16.1,
-        "pbr": 2.11,
+        "per": 15.8,
+        "pbr": 2.07,
         "roe": 12.8,
         "eqr": 31.9,
-        "divy": 1.34,
+        "divy": 1.37,
         "growth": 24.0,
         "theo": 472,
         "cons": {
@@ -433,17 +591,17 @@
             "株マップ": {
               "fair": 472,
               "lab": "u",
-              "gap": -14
+              "gap": -16
             },
             "PER": {
               "fair": 376,
               "lab": "o",
-              "gap": 7
+              "gap": 5
             },
             "ROE": {
               "fair": 306,
               "lab": "o",
-              "gap": 32
+              "gap": 29
             }
           },
           "und": 1,
@@ -452,19 +610,97 @@
         },
         "eps": 25.07,
         "div": 5.4,
-        "score": 63.0
+        "score": 64.0
       },
-      "combined": 47.5,
+      "combined": 64.2,
       "bt": {
-        "win_rate": 80,
-        "days_tp": 21,
-        "days_sl": 19,
-        "n": 224
+        "win_rate": 52,
+        "days_tp": 31,
+        "days_sl": 26,
+        "n": 149
       },
       "ez": {
-        "dip": 403,
-        "hi": 404,
-        "gap": 0.2,
+        "dip": 394,
+        "hi": 395,
+        "gap": 0.3,
+        "prob": 81,
+        "note": "現値付近で約定しやすい"
+      },
+      "fair": null
+    },
+    {
+      "code": "173A",
+      "name": "ハンモック",
+      "price": 2162.0,
+      "score": 70.0,
+      "signal": "HOLD",
+      "confidence": 70,
+      "entry": 2162.0,
+      "stop": 1993.4,
+      "target": 2414.9,
+      "rr": 1.5,
+      "atr": 84.3,
+      "turnover": 59509610,
+      "reasons": [
+        "中期上昇トレンド（EMA25>EMA75）",
+        "RSI 91（買われすぎ）",
+        "上バンド接近（過熱）",
+        "出来高急増（平均比 57.9倍）",
+        "指数より強い（相対力プラス）"
+      ],
+      "factors": {
+        "trend": 1.0,
+        "momentum": 1.0,
+        "meanrev": -1.0,
+        "volume": 1.0,
+        "relstr": 1.0
+      },
+      "error": null,
+      "fund": {
+        "per": 15.6,
+        "pbr": 2.84,
+        "roe": 18.2,
+        "eqr": 45.2,
+        "divy": 2.08,
+        "growth": -14.6,
+        "theo": 2152,
+        "cons": {
+          "judg": {
+            "株マップ": {
+              "fair": 2152,
+              "lab": "f",
+              "gap": 0
+            },
+            "PER": {
+              "fair": 2085,
+              "lab": "f",
+              "gap": 4
+            },
+            "ROE": {
+              "fair": 1734,
+              "lab": "o",
+              "gap": 25
+            }
+          },
+          "und": 0,
+          "avail": 3,
+          "buy": false
+        },
+        "eps": 138.98,
+        "div": 45.0,
+        "score": 63.0
+      },
+      "combined": 63.4,
+      "bt": {
+        "win_rate": 69,
+        "days_tp": 25,
+        "days_sl": 25,
+        "n": 216
+      },
+      "ez": {
+        "dip": 2162,
+        "hi": 2162,
+        "gap": 0.0,
         "prob": 81,
         "note": "現値付近で約定しやすい"
       },
@@ -479,15 +715,15 @@
       "confidence": 70,
       "entry": 2061.0,
       "stop": 1843.6,
-      "target": 2061.0,
-      "rr": 0.0,
+      "target": 2387.2,
+      "rr": 1.5,
       "atr": 108.72,
-      "turnover": 678558260,
+      "turnover": 1145495000,
       "reasons": [
         "中期上昇トレンド（EMA25>EMA75）",
         "RSI 90（買われすぎ）",
         "上バンド接近（過熱）",
-        "出来高急増（平均比 23.8倍）",
+        "出来高急増（平均比 10.9倍）",
         "指数より強い（相対力プラス）"
       ],
       "factors": {
@@ -527,237 +763,18 @@
         "div": null,
         "score": 59.0
       },
-      "combined": 45.6,
-      "bt": null,
+      "combined": 61.6,
+      "bt": {
+        "win_rate": 47,
+        "days_tp": 22,
+        "days_sl": 16,
+        "n": 193
+      },
       "ez": {
         "dip": 2061,
         "hi": 2061,
         "gap": 0.0,
         "prob": 78,
-        "note": "現値付近で約定しやすい"
-      },
-      "fair": null
-    },
-    {
-      "code": "3968",
-      "name": "セグエグループ",
-      "price": 791.0,
-      "score": 70.0,
-      "signal": "HOLD",
-      "confidence": 70,
-      "entry": 791.0,
-      "stop": 735.0,
-      "target": 875.1,
-      "rr": 1.5,
-      "atr": 28.02,
-      "turnover": 306723050,
-      "reasons": [
-        "中期上昇トレンド（EMA25>EMA75）",
-        "RSI 80（買われすぎ）",
-        "上バンド接近（過熱）",
-        "出来高急増（平均比 6.3倍）",
-        "指数より強い（相対力プラス）"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -1.0,
-        "volume": 1.0,
-        "relstr": 1.0
-      },
-      "error": null,
-      "fund": {
-        "per": 20.5,
-        "pbr": 6.11,
-        "roe": 19.0,
-        "eqr": 30.8,
-        "divy": 2.28,
-        "growth": 17.8,
-        "theo": 550,
-        "cons": {
-          "judg": {
-            "株マップ": {
-              "fair": 550,
-              "lab": "o",
-              "gap": 44
-            },
-            "PER": {
-              "fair": 579,
-              "lab": "o",
-              "gap": 37
-            },
-            "ROE": {
-              "fair": 308,
-              "lab": "o",
-              "gap": 157
-            }
-          },
-          "und": 0,
-          "avail": 3,
-          "buy": false
-        },
-        "eps": 38.6,
-        "div": 18.0,
-        "score": 59.0
-      },
-      "combined": 45.5,
-      "bt": {
-        "win_rate": 69,
-        "days_tp": 20,
-        "days_sl": 9,
-        "n": 235
-      },
-      "ez": {
-        "dip": 791,
-        "hi": 791,
-        "gap": 0.0,
-        "prob": 79,
-        "note": "現値付近で約定しやすい"
-      },
-      "fair": null
-    },
-    {
-      "code": "9250",
-      "name": "ＧＲＣＳ",
-      "price": 1561.0,
-      "score": 70.0,
-      "signal": "HOLD",
-      "confidence": 70,
-      "entry": 1561.0,
-      "stop": 1391.4,
-      "target": 1640.0,
-      "rr": 0.47,
-      "atr": 84.78,
-      "turnover": 43462820,
-      "reasons": [
-        "中期上昇トレンド（EMA25>EMA75）",
-        "RSI 89（買われすぎ）",
-        "上バンド接近（過熱）",
-        "出来高急増（平均比 24.4倍）",
-        "指数より強い（相対力プラス）"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -1.0,
-        "volume": 1.0,
-        "relstr": 1.0
-      },
-      "error": null,
-      "fund": {
-        "per": 31.0,
-        "pbr": null,
-        "roe": 2233.3,
-        "eqr": -1.7,
-        "divy": 0.0,
-        "growth": 112.7,
-        "theo": 503,
-        "cons": {
-          "judg": {
-            "株マップ": {
-              "fair": 503,
-              "lab": "o",
-              "gap": 210
-            },
-            "PER": {
-              "fair": 755,
-              "lab": "o",
-              "gap": 107
-            }
-          },
-          "und": 0,
-          "avail": 2,
-          "buy": false
-        },
-        "eps": 50.33,
-        "div": 0.0,
-        "score": 59.0
-      },
-      "combined": 45.5,
-      "bt": {
-        "win_rate": 68,
-        "days_tp": 14,
-        "days_sl": 17,
-        "n": 237
-      },
-      "ez": {
-        "dip": 1561,
-        "hi": 1561,
-        "gap": 0.0,
-        "prob": 87,
-        "note": "現値付近で約定しやすい"
-      },
-      "fair": null
-    },
-    {
-      "code": "4398",
-      "name": "ブロードバンドセキュリティ",
-      "price": 2822.0,
-      "score": 70.0,
-      "signal": "HOLD",
-      "confidence": 70,
-      "entry": 2822.0,
-      "stop": 2566.5,
-      "target": 2822.0,
-      "rr": 0.0,
-      "atr": 127.73,
-      "turnover": 146434890,
-      "reasons": [
-        "中期上昇トレンド（EMA25>EMA75）",
-        "RSI 95（買われすぎ）",
-        "上バンド接近（過熱）",
-        "出来高急増（平均比 13.2倍）",
-        "指数より強い（相対力プラス）"
-      ],
-      "factors": {
-        "trend": 1.0,
-        "momentum": 1.0,
-        "meanrev": -1.0,
-        "volume": 1.0,
-        "relstr": 1.0
-      },
-      "error": null,
-      "fund": {
-        "per": 27.0,
-        "pbr": 5.86,
-        "roe": 19.4,
-        "eqr": 58.0,
-        "divy": 0.57,
-        "growth": 223.9,
-        "theo": 1683,
-        "cons": {
-          "judg": {
-            "株マップ": {
-              "fair": 1683,
-              "lab": "o",
-              "gap": 68
-            },
-            "PER": {
-              "fair": 1567,
-              "lab": "o",
-              "gap": 80
-            },
-            "ROE": {
-              "fair": 1167,
-              "lab": "o",
-              "gap": 142
-            }
-          },
-          "und": 0,
-          "avail": 3,
-          "buy": false
-        },
-        "eps": 104.49,
-        "div": 16.0,
-        "score": 59.0
-      },
-      "combined": 45.4,
-      "bt": null,
-      "ez": {
-        "dip": 2822,
-        "hi": 2822,
-        "gap": 0.0,
-        "prob": 84,
         "note": "現値付近で約定しやすい"
       },
       "fair": null
