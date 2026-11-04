@@ -1,6 +1,6 @@
 {
-  "generated": "2026.11.04 20:02",
-  "total": 3635,
+  "generated": "2026.11.04 20:23",
+  "total": 3669,
   "regime": {
     "label": "下落基調",
     "icon": "☔",
@@ -65,9 +65,9 @@
         },
         "eps": 1142.94,
         "div": 170.0,
-        "score": 67.0
+        "score": 68.0
       },
-      "combined": 83.4,
+      "combined": 83.9,
       "bt": {
         "win_rate": 18,
         "days_tp": 7,
@@ -80,6 +80,14 @@
         "gap": 0.0,
         "prob": 83,
         "note": "現値付近で約定しやすい"
+      },
+      "size": {
+        "shares": 0,
+        "amount": 1160000,
+        "loss": 68030,
+        "lot_loss": 68030,
+        "cap": 5000,
+        "weak": true
       },
       "fair": null
     },
@@ -142,7 +150,7 @@
         "div": 76.0,
         "score": 86.0
       },
-      "combined": 74.7,
+      "combined": 74.4,
       "bt": {
         "win_rate": 73,
         "days_tp": 28,
@@ -155,6 +163,14 @@
         "gap": 0.1,
         "prob": 80,
         "note": "現値付近で約定しやすい"
+      },
+      "size": {
+        "shares": 0,
+        "amount": 200800,
+        "loss": 11300,
+        "lot_loss": 11300,
+        "cap": 5000,
+        "weak": true
       },
       "fair": null
     },
@@ -216,9 +232,9 @@
         },
         "eps": 161.33,
         "div": 70.0,
-        "score": 32.0
+        "score": 33.0
       },
-      "combined": 59.2,
+      "combined": 59.6,
       "bt": {
         "win_rate": 52,
         "days_tp": 3,
@@ -231,6 +247,14 @@
         "gap": 0.0,
         "prob": 93,
         "note": "現値付近で約定しやすい"
+      },
+      "size": {
+        "shares": 0,
+        "amount": 377000,
+        "loss": 2800,
+        "lot_loss": 2800,
+        "cap": 5000,
+        "weak": true
       },
       "fair": null
     },
@@ -291,9 +315,9 @@
         },
         "eps": 234.19,
         "div": 75.0,
-        "score": 54.0
+        "score": 57.0
       },
-      "combined": 54.7,
+      "combined": 55.4,
       "bt": {
         "win_rate": 47,
         "days_tp": 9,
@@ -306,6 +330,14 @@
         "gap": 0.0,
         "prob": 79,
         "note": "現値付近で約定しやすい"
+      },
+      "size": {
+        "shares": 0,
+        "amount": 341500,
+        "loss": 13240,
+        "lot_loss": 13240,
+        "cap": 5000,
+        "weak": true
       },
       "fair": null
     },
@@ -367,9 +399,9 @@
         },
         "eps": 69.87,
         "div": 15.0,
-        "score": 61.0
+        "score": 62.0
       },
-      "combined": 53.5,
+      "combined": 53.7,
       "bt": {
         "win_rate": 46,
         "days_tp": 3,
@@ -382,6 +414,14 @@
         "gap": 0.0,
         "prob": 86,
         "note": "現値付近で約定しやすい"
+      },
+      "size": {
+        "shares": 200,
+        "amount": 198000,
+        "loss": 3480,
+        "lot_loss": 1740,
+        "cap": 5000,
+        "weak": true
       },
       "fair": null
     },
@@ -443,9 +483,9 @@
         },
         "eps": 44.6,
         "div": 15.0,
-        "score": 42.0
+        "score": 44.0
       },
-      "combined": 50.2,
+      "combined": 50.9,
       "bt": {
         "win_rate": 34,
         "days_tp": 1,
@@ -458,6 +498,14 @@
         "gap": 0.0,
         "prob": 89,
         "note": "現値付近で約定しやすい"
+      },
+      "size": {
+        "shares": 300,
+        "amount": 235500,
+        "loss": 1440,
+        "lot_loss": 480,
+        "cap": 5000,
+        "weak": true
       },
       "fair": null
     },
@@ -520,9 +568,9 @@
         },
         "eps": 61.63,
         "div": 32.0,
-        "score": 64.0
+        "score": 65.0
       },
-      "combined": 42.7,
+      "combined": 42.8,
       "bt": {
         "win_rate": 23,
         "days_tp": 11,
@@ -535,6 +583,14 @@
         "gap": 0.0,
         "prob": 80,
         "note": "現値付近で約定しやすい"
+      },
+      "size": {
+        "shares": 100,
+        "amount": 90000,
+        "loss": 3840,
+        "lot_loss": 3840,
+        "cap": 5000,
+        "weak": true
       },
       "fair": null
     },
@@ -596,9 +652,9 @@
         },
         "eps": 270.87,
         "div": 125.0,
-        "score": 61.0
+        "score": 63.0
       },
-      "combined": 41.9,
+      "combined": 42.2,
       "bt": {
         "win_rate": 54,
         "days_tp": 13,
@@ -611,6 +667,14 @@
         "gap": 0.0,
         "prob": 78,
         "note": "現値付近で約定しやすい"
+      },
+      "size": {
+        "shares": 0,
+        "amount": 401000,
+        "loss": 14530,
+        "lot_loss": 14530,
+        "cap": 5000,
+        "weak": true
       },
       "fair": null
     },
@@ -673,9 +737,9 @@
         },
         "eps": 112.87,
         "div": 60.0,
-        "score": 51.0
+        "score": 53.0
       },
-      "combined": 38.2,
+      "combined": 38.8,
       "bt": {
         "win_rate": 46,
         "days_tp": 10,
@@ -688,6 +752,14 @@
         "gap": 0.1,
         "prob": 80,
         "note": "現値付近で約定しやすい"
+      },
+      "size": {
+        "shares": 0,
+        "amount": 176400,
+        "loss": 5750,
+        "lot_loss": 5750,
+        "cap": 5000,
+        "weak": true
       },
       "fair": null
     },
@@ -751,9 +823,9 @@
         },
         "eps": 192.08,
         "div": 77.0,
-        "score": 72.0
+        "score": 73.0
       },
-      "combined": 37.7,
+      "combined": 37.4,
       "bt": {
         "win_rate": 60,
         "days_tp": 17,
@@ -766,6 +838,14 @@
         "gap": 0.0,
         "prob": 82,
         "note": "現値付近で約定しやすい"
+      },
+      "size": {
+        "shares": 0,
+        "amount": 219900,
+        "loss": 9380,
+        "lot_loss": 9380,
+        "cap": 5000,
+        "weak": true
       },
       "fair": null
     }
