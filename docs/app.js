@@ -172,12 +172,15 @@
   var watchSec = null, watchResults = null;
   function ensureWatchSec() {
     if (watchSec) return;
-    watchSec = document.createElement('section');
+    watchSec = document.createElement('details');
     watchSec.id = 'watch-sec';
+    watchSec.className = 'sec find';
+    watchSec.open = true;
     watchSec.style.display = 'none';
     watchSec.innerHTML =
-      '<h2 class="find"><span>ウォッチリスト</span><em>WATCHLIST</em></h2>' +
-      '<div id="watch-results" class="cards"></div>';
+      '<summary class="sh"><span class="st">ウォッチリスト</span><span class="cnt" id="watch-cnt"></span>' +
+      '<em>WATCHLIST</em><span class="chev" aria-hidden="true"></span></summary>' +
+      '<div class="sbody"><div id="watch-results" class="cards"></div></div>';
     if (searchSec && searchSec.parentNode) {
       searchSec.parentNode.insertBefore(watchSec, searchSec.nextSibling);
     }
@@ -194,6 +197,8 @@
       if (s) cards.push(card(s, 'watch'));
     }
     watchSec.style.display = cards.length ? '' : 'none';
+    var wc = document.getElementById('watch-cnt');
+    if (wc) wc.textContent = cards.length;
     if (watchResults) watchResults.innerHTML = cards.join('');
   }
 
@@ -529,7 +534,10 @@
   }
   function wireGh() {
     var gear = document.getElementById('ghgear');
-    if (gear) gear.addEventListener('click', function () {
+    if (gear) gear.addEventListener('click', function (e) {
+      e.preventDefault(); e.stopPropagation();          // 見出し（▼）の開閉はさせない
+      var sec = document.getElementById('hold-sec');
+      if (sec) sec.open = true;
       var p = document.getElementById('ghpanel');
       if (p && !p.hidden) { p.hidden = true; return; }
       openGh();
@@ -586,4 +594,37 @@
   } else {
     init();
   }
+
+  /* ---- ジャンプメニュー・すべて閉じる/開く（セクションは <details> で▼開閉） ---- */
+  (function wireJump() {
+    var nav = document.getElementById('jump');
+    if (!nav) return;
+    var links = nav.querySelectorAll('a[href^="#"]');
+    for (var i = 0; i < links.length; i++) {
+      (function (a) {
+        var t = document.getElementById(a.getAttribute('href').slice(1));
+        if (!t) { a.style.display = 'none'; return; }
+        a.addEventListener('click', function (e) {
+          e.preventDefault();
+          t.open = true;
+          try { t.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch (x) { t.scrollIntoView(); }
+        });
+      })(links[i]);
+    }
+    var btn = document.getElementById('foldall');
+    function secs() { return document.querySelectorAll('details.sec'); }
+    function sync() {
+      var any = false, ss = secs();
+      for (var i = 0; i < ss.length; i++) if (ss[i].open && ss[i].style.display !== 'none') any = true;
+      if (btn) btn.textContent = any ? 'すべて閉じる' : 'すべて開く';
+    }
+    if (btn) btn.addEventListener('click', function () {
+      var ss = secs(), any = false;
+      for (var i = 0; i < ss.length; i++) if (ss[i].open && ss[i].style.display !== 'none') any = true;
+      for (var j = 0; j < ss.length; j++) ss[j].open = !any;
+      sync();
+    });
+    document.addEventListener('toggle', sync, true);
+    sync();
+  })();
 })();
