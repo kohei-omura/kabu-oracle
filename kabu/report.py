@@ -478,16 +478,16 @@ header{padding:30px 2px 16px}
   padding:6px 12px;border-radius:10px;border:1px solid var(--line2);background:rgba(255,255,255,.035)}
 
 /* --- ジャンプメニュー（上部に貼り付く） --- */
-.jump{position:sticky;top:0;z-index:20;display:flex;gap:6px;align-items:center;overflow-x:auto;
+.jump{position:sticky;top:0;z-index:20;display:flex;gap:5px;align-items:center;overflow-x:auto;
   margin:0 -16px 6px;padding:calc(8px + env(safe-area-inset-top)) 16px 9px;
   background:rgba(8,9,13,.72);-webkit-backdrop-filter:saturate(160%) blur(16px);backdrop-filter:saturate(160%) blur(16px);
   border-bottom:1px solid var(--line);scrollbar-width:none}
 .jump::-webkit-scrollbar{display:none}
-.jump a{flex:none;font-size:12.5px;font-weight:700;color:var(--ink);text-decoration:none;
-  padding:6px 13px;border-radius:99px;border:1px solid var(--line2);background:rgba(255,255,255,.04)}
+.jump a{flex:none;font-size:12px;font-weight:700;color:var(--ink);text-decoration:none;
+  padding:6px 10px;border-radius:99px;border:1px solid var(--line2);background:rgba(255,255,255,.04)}
 .jump a:active{background:rgba(226,189,98,.16);border-color:var(--gold-d)}
-#foldall{flex:none;margin-left:auto;font-family:inherit;font-size:11.5px;font-weight:700;color:var(--mut);
-  padding:6px 11px;border-radius:99px;border:1px dashed var(--line2);background:none;cursor:pointer}
+#foldall{flex:none;margin-left:auto;font-family:inherit;font-size:11px;font-weight:700;color:var(--mut);
+  padding:6px 9px;border-radius:99px;border:1px dashed var(--line2);background:none;cursor:pointer}
 
 /* --- 折り畳みセクション（▼） --- */
 details.sec{margin-top:14px;border:1px solid var(--line);border-radius:calc(var(--r) + 4px);
@@ -1306,7 +1306,7 @@ APP_JS = r"""
     function sync() {
       var any = false, ss = secs();
       for (var i = 0; i < ss.length; i++) if (ss[i].open && ss[i].style.display !== 'none') any = true;
-      if (btn) btn.textContent = any ? 'すべて閉じる' : 'すべて開く';
+      if (btn) btn.textContent = any ? '全て閉じる' : '全て開く';
     }
     if (btn) btn.addEventListener('click', function () {
       var ss = secs(), any = false;
@@ -1634,7 +1634,7 @@ def build_html(cfg: dict, scan=None, store=None, st=None) -> tuple[str, dict]:
   </header>
   <nav class="jump" id="jump">
     {'<a href="#hold-sec">保有</a>' if hold_section else ''}<a href="#buy-sec">買い候補</a><a href="#tb-sec">テンバガー</a><a href="#search-sec">サーチ</a>
-    <button type="button" id="foldall" aria-label="すべて折り畳む">すべて閉じる</button>
+    <button type="button" id="foldall" aria-label="すべて折り畳む">全て閉じる</button>
   </nav>
 
   <details class="sec find" id="search-sec">
