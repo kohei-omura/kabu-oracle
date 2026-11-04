@@ -133,6 +133,24 @@ def tick(cfg: dict, st: dict) -> None:
         N.notify_all(cfg, "【株オラクル】売買タイミング検知", msg)
 
 
+def holdings_sig() -> str:
+    """保有銘柄の「何を・いくらで」持っているかの署名（長期保有の印は画面側で切り替わるので含めない）。"""
+    return ";".join(f"{h['code']}@{h.get('buy')}/{h.get('target')}/{h.get('stop')}"
+                    for h in sorted(load_holdings(), key=lambda x: x["code"]))
+
+
+def sync_holdings(cfg: dict, st: dict, force: bool = False) -> bool:
+    """holdings.txt が変わっていたら、ダッシュボードのカードを作り直す。作り直したら True。"""
+    sig = holdings_sig()
+    if not force and st.get("holdings_sig") in (None, sig):
+        st["holdings_sig"] = sig          # 初回は記録だけ（作り直さない）
+        return False
+    _log("保有銘柄の変更を検出 → ダッシュボードを作り直します")
+    build(cfg, st, with_rank=False)
+    st["holdings_sig"] = sig
+    return True
+
+
 def build(cfg: dict, st: dict, with_rank: bool) -> None:
     """全銘柄を1回だけ取得して、ダッシュボードと（大引け後は）ランキング通知を作る。"""
     from . import ranking as R
@@ -211,6 +229,8 @@ def run(max_minutes: float | None = None) -> str:
             if _in_ticks(m):
                 tick(cfg, st)
                 did.append("tick")
+                if sync_holdings(cfg, st):
+                    did.append("sync")
             if NOON_AT <= m < NOON_END and not ST.run_done(st, day, "noon"):
                 build(cfg, st, with_rank=False)
                 ST.run_mark(st, day, "noon", M.now_jst().strftime("%H:%M"))
@@ -226,7 +246,7 @@ def run(max_minutes: float | None = None) -> str:
             traceback.print_exc()
             _log(f"処理中にエラー（次の回で再試行）: {e}")
         ST.save(st)
-        milestone = "noon" in did or "close" in did
+        milestone = "noon" in did or "close" in did or "sync" in did
         commit_push(f"market {day} {M.now_jst():%H:%M} {'+'.join(did) or 'idle'} [skip ci]",
                     PUSH_ALL if milestone else PUSH_TICK)
         if did:

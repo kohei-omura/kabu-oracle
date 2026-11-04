@@ -4,6 +4,7 @@
   python main.py session           # 場中ランナー（Actions の market.yml が使う。休場日は即終了）
   python main.py rank              # ユニバースの買い候補 Top-N を通知
   python main.py report            # docs/ のダッシュボードを生成
+  python main.py sync              # holdings.txt の変更をダッシュボードに反映（場中は何もしない）
   python main.py close             # ダッシュボード生成＋ランキング通知（株価の取得は1回）
   python main.py prices            # docs/prices.json の株価だけ更新
   python main.py holdings          # 保有銘柄の利確/損切ライン到達を通知
@@ -44,6 +45,20 @@ def cmd_close(cfg):
     from kabu import session
     st = ST.load()
     session.build(cfg, st, with_rank=True)
+    ST.save(st)
+
+
+def cmd_sync(cfg):
+    """holdings.txt の変更をダッシュボードに反映する。場中はランナーが10分以内に反映するので何もしない。"""
+    from kabu import market as M
+    now = M.now_jst()
+    mins = now.hour * 60 + now.minute
+    if M.is_trading_day(now.date()) and 8 * 60 + 30 <= mins <= 16 * 60 + 30:
+        print("場中のため、ランナーが次の回で反映します")
+        return
+    from kabu import session
+    st = ST.load()
+    session.sync_holdings(cfg, st, force=True)
     ST.save(st)
 
 
@@ -91,7 +106,7 @@ def cmd_jqdiag(code: str):
 def main():
     p = argparse.ArgumentParser(description="株オラクル CLI")
     sub = p.add_subparsers(dest="cmd", required=True)
-    for name in ("rank", "report", "close", "prices", "holdings"):
+    for name in ("rank", "report", "close", "prices", "holdings", "sync"):
         sub.add_parser(name)
     ps = sub.add_parser("session")
     ps.add_argument("--max-minutes", type=float, default=None,
@@ -113,6 +128,8 @@ def main():
         cmd_rank(cfg)
     elif args.cmd == "report":
         REP.write_dashboard(cfg)
+    elif args.cmd == "sync":
+        cmd_sync(cfg)
     elif args.cmd == "close":
         cmd_close(cfg)
     elif args.cmd == "prices":
