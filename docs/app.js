@@ -616,7 +616,7 @@
     function sync() {
       var any = false, ss = secs();
       for (var i = 0; i < ss.length; i++) if (ss[i].open && ss[i].style.display !== 'none') any = true;
-      if (btn) btn.textContent = any ? 'すべて閉じる' : 'すべて開く';
+      if (btn) btn.textContent = any ? '全て閉じる' : '全て開く';
     }
     if (btn) btn.addEventListener('click', function () {
       var ss = secs(), any = false;

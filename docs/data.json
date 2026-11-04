@@ -1,5 +1,5 @@
 {
-  "generated": "2026.11.04 21:58",
+  "generated": "2026.11.04 22:02",
   "total": 3669,
   "regime": {
     "label": "下落基調",
@@ -771,10 +771,10 @@
       "signal": "BUY",
       "confidence": 89,
       "entry": 2200.0,
-      "stop": 2105.1,
-      "target": 2342.4,
+      "stop": 2105.2,
+      "target": 2342.2,
       "rr": 1.5,
-      "atr": 47.46,
+      "atr": 47.39,
       "turnover": 35236810,
       "reasons": [
         "ゴールデンクロス発生",
@@ -842,8 +842,8 @@
       "size": {
         "shares": 0,
         "amount": 219900,
-        "loss": 9390,
-        "lot_loss": 9390,
+        "loss": 9380,
+        "lot_loss": 9380,
         "cap": 5000,
         "weak": true
       },
