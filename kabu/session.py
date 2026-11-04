@@ -68,12 +68,29 @@ def _git(*args) -> subprocess.CompletedProcess:
     return subprocess.run(["git", *args], cwd=ROOT, capture_output=True, text=True)
 
 
+def _branch() -> str:
+    return os.getenv("GITHUB_REF_NAME", "main")
+
+
+def _pull() -> bool:
+    """最新の main を取り込む。
+
+    ランナーどうし（引き継ぎ・push で起きた sync）が同時に data/ docs/ を書くと rebase がぶつかる。
+    以前はそこで rebase が途中で止まり（detached HEAD）、その後の push が全部失敗していた。
+    ぶつかったら自分が今作った値を優先し（-X theirs＝再適用する側）、それでもだめなら中止して元に戻す。
+    """
+    r = _git("pull", "--rebase", "--autostash", "-X", "theirs", "-q", "origin", _branch())
+    if r.returncode == 0:
+        return True
+    _git("rebase", "--abort")
+    _log(f"git pull 失敗（取り消して続行）: {r.stderr.strip()[:200]}")
+    return False
+
+
 def git_sync() -> None:
     """最新の main を取り込む（長期保有ボタンや holdings.txt の編集をすぐ反映するため）。"""
     if _on_actions():
-        r = _git("pull", "--rebase", "--autostash", "-q")
-        if r.returncode != 0:
-            _log(f"git pull 失敗: {r.stderr.strip()[:200]}")
+        _pull()
 
 
 def commit_push(msg: str, paths=PUSH_ALL) -> None:
@@ -85,8 +102,8 @@ def commit_push(msg: str, paths=PUSH_ALL) -> None:
         return
     _git("commit", "-q", "-m", msg)
     for i in range(4):
-        _git("pull", "--rebase", "--autostash", "-q")
-        r = _git("push", "-q")
+        _pull()
+        r = _git("push", "-q", "origin", f"HEAD:{_branch()}")
         if r.returncode == 0:
             return
         _log(f"push 失敗（{i + 1}回目）: {r.stderr.strip()[:200]}")
