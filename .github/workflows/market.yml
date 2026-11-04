@@ -70,7 +70,9 @@ jobs:
           git diff --staged --quiet && exit 0
           git commit -m "market ${{ inputs.task || (github.event_name == 'push' && 'sync') || 'session' }} [skip ci]"
           for i in 1 2 3 4; do
-            git pull --rebase --autostash && git push && exit 0
+            git pull --rebase --autostash -X theirs origin "$GITHUB_REF_NAME" \
+              && git push origin "HEAD:$GITHUB_REF_NAME" && exit 0
+            git rebase --abort 2>/dev/null || true
             sleep $((i * 3))
           done
           exit 1
