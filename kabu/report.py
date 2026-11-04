@@ -144,7 +144,16 @@ def _card(rank: int, a, show_levels: bool, market: str = "") -> str:
             f'<span class="name">{_esc(a.name)}</span>{_seg(market)}</div>{_badge(a.signal)}</div>'
             f'<div class="row2"><span class="price" data-px="{_esc(a.code)}">¥{a.price:,.0f}</span>'
             f'<span class="score {sc_cls}">{sc_txt}</span>{_score_bar(disp)}</div>'
-            f'{levels}{ez_html}{_size_html(a)}{fund}{val}{bt_html}{reasons}</div>')
+            f'{levels}{ez_html}{_size_html(a)}{_more(bt_html + fund + val + reasons)}</div>')
+
+
+def _more(inner: str) -> str:
+    """カード内の細かい情報（勝率・財務・根拠）を「詳細▼」にしまう。"""
+    if not inner:
+        return ""
+    return ('<details class="more"><summary><span>詳細</span>'
+            '<span class="mchev" aria-hidden="true"></span></summary>'
+            f'<div class="mbody">{inner}</div></details>')
 
 
 def _size_html(a) -> str:
@@ -158,11 +167,15 @@ def _size_html(a) -> str:
 
 
 def _section(title: str, sub: str, cards_html: str, accent: str,
-             extra: str = "", head_extra: str = "") -> str:
-    """extra=見出し行の右端に置く要素 / head_extra=見出し直下に置くブロック。"""
-    return (f'<section><h2 class="{accent}"><span>{_esc(title)}</span>'
-            f'<em>{_esc(sub)}</em>{extra}</h2>{head_extra}'
-            f'<div class="cards">{cards_html}</div></section>')
+             extra: str = "", head_extra: str = "", sid: str = "", count: int | None = None,
+             open_: bool = True, foot: str = "") -> str:
+    """▼で折り畳めるセクション。extra=見出し行の右端に置く要素 / head_extra=見出し直下のブロック。"""
+    cnt = f'<span class="cnt">{count}</span>' if count is not None else ""
+    idattr = f' id="{sid}"' if sid else ""
+    return (f'<details class="sec {accent}"{idattr}{" open" if open_ else ""}>'
+            f'<summary class="sh"><span class="st">{_esc(title)}</span>{cnt}'
+            f'<em>{_esc(sub)}</em>{extra}<span class="chev" aria-hidden="true"></span></summary>'
+            f'<div class="sbody">{head_extra}<div class="cards">{cards_html}</div>{foot}</div></details>')
 
 
 # 長期保有ボタンから holdings.txt を書き換えるための GitHub 設定パネル
@@ -407,7 +420,7 @@ def _holding_card(h, a, cfg, st) -> str:
             f'<span class="lv tgt">利確 {_yen(tgt)}{_pct_from(buy, tgt)}</span>'
             f'<span class="lv stp">損切 {_yen(stp)}{_pct_from(buy, stp)}</span></div>'
             f'{_risk_chips(h, st, pl, cfg)}'
-            f'{lt_bar}{lt_box}{bt_html}{fund}{val}{sell_warn}{reasons}</div>')
+            f'{sell_warn}{lt_bar}{lt_box}{_more(bt_html + fund + val + reasons)}</div>')
 
 
 def _risk_chips(h: dict, st: dict, pl: float, cfg: dict) -> str:
@@ -429,139 +442,181 @@ def _risk_chips(h: dict, st: dict, pl: float, cfg: dict) -> str:
 
 CSS = """
 :root{
-  --bg:#0c0e13; --bg2:#12151d; --card:#161a24; --line:#242a37;
-  --ink:#e8e6df; --mut:#8b93a7; --gold:#d4af56; --gold-d:#9a7c30;
-  --buy:#46c46a; --sell:#ef5f7a; --hold:#6b7286;
+  --bg:#08090d; --bg2:#0f1218; --card:#141821; --card2:#10131a;
+  --line:rgba(255,255,255,.075); --line2:rgba(255,255,255,.12);
+  --ink:#ecebe6; --fg:#ecebe6; --mut:#8a92a6; --mut2:#5d6477;
+  --gold:#e2bd62; --gold-d:#a8853a; --gold-g:linear-gradient(135deg,#f3d58a,#c99a3c 55%,#8f6a26);
+  --buy:#4cd07d; --sell:#ff6b86; --hold:#6b7286; --blue:#6fa8ff;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+  --r:16px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;scroll-padding-top:64px}
 body{
-  font-family:'Zen Kaku Gothic New',sans-serif; color:var(--ink);
+  font-family:'Zen Kaku Gothic New',-apple-system,BlinkMacSystemFont,sans-serif; color:var(--ink);
   background:
-    radial-gradient(1200px 600px at 80% -10%, rgba(212,175,86,.10), transparent 60%),
-    radial-gradient(900px 500px at -10% 20%, rgba(70,90,140,.10), transparent 55%),
+    radial-gradient(900px 520px at 85% -8%, rgba(226,189,98,.13), transparent 62%),
+    radial-gradient(760px 480px at -15% 18%, rgba(80,110,190,.12), transparent 58%),
+    radial-gradient(700px 600px at 50% 110%, rgba(76,208,125,.05), transparent 60%),
     var(--bg);
-  background-attachment:fixed; line-height:1.6;
-  padding:env(safe-area-inset-top) 0 64px; -webkit-font-smoothing:antialiased;
+  background-attachment:fixed; line-height:1.6; font-feature-settings:"palt";
+  padding:env(safe-area-inset-top) 0 calc(64px + env(safe-area-inset-bottom));
+  -webkit-font-smoothing:antialiased; -webkit-tap-highlight-color:transparent;
 }
-.wrap{max-width:680px;margin:0 auto;padding:0 18px}
-header{padding:34px 0 10px;border-bottom:1px solid var(--line);margin-bottom:8px}
-.brand{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
-.brand h1{font-family:'Shippori Mincho',serif;font-weight:800;font-size:30px;
-  letter-spacing:.04em;color:var(--gold)}
-.brand .en{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.32em;
-  color:var(--mut);text-transform:uppercase}
-.meta{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--mut);
-  margin-top:8px;display:flex;gap:14px;flex-wrap:wrap}
-.meta b{color:var(--gold-d);font-weight:600}
-.regime{display:inline-block;margin-top:6px;font-size:12px;color:var(--ink)}
-section{margin-top:30px}
-h2{font-family:'Shippori Mincho',serif;font-size:19px;font-weight:600;
-  display:flex;align-items:baseline;gap:10px;margin-bottom:14px;
-  padding-left:12px;border-left:3px solid var(--gold)}
-h2.sell{border-color:var(--sell)} h2.watch{border-color:var(--mut)}
-h2.find{border-color:var(--gold)}
-h2 em{font-style:normal;font-family:'IBM Plex Mono',monospace;font-size:10px;
-  letter-spacing:.2em;color:var(--mut);text-transform:uppercase}
+.wrap{max-width:700px;margin:0 auto;padding:0 16px}
+header{padding:30px 2px 16px}
+.brand{display:flex;align-items:center;gap:11px;flex-wrap:wrap}
+.logo{width:34px;height:34px;display:grid;place-items:center;border-radius:11px;font-size:18px;
+  color:#14100a;background:var(--gold-g);box-shadow:0 6px 22px rgba(226,189,98,.28),0 0 0 1px rgba(255,255,255,.15) inset}
+.brand h1{font-family:'Shippori Mincho',serif;font-weight:800;font-size:28px;letter-spacing:.06em;
+  background:var(--gold-g);-webkit-background-clip:text;background-clip:text;color:transparent}
+.brand .en{font-family:var(--mono);font-size:10px;letter-spacing:.34em;color:var(--mut);text-transform:uppercase}
+.meta{font-family:var(--mono);font-size:11.5px;color:var(--mut);margin-top:12px;display:flex;gap:8px;flex-wrap:wrap}
+.meta span:not(:empty){padding:3px 10px;border:1px solid var(--line);border-radius:99px;background:rgba(255,255,255,.025)}
+.meta b{color:var(--ink);font-weight:600}
+.regime{display:inline-flex;align-items:center;margin-top:10px;font-size:12.5px;font-weight:700;color:var(--ink);
+  padding:6px 12px;border-radius:10px;border:1px solid var(--line2);background:rgba(255,255,255,.035)}
+
+/* --- ジャンプメニュー（上部に貼り付く） --- */
+.jump{position:sticky;top:0;z-index:20;display:flex;gap:6px;align-items:center;overflow-x:auto;
+  margin:0 -16px 6px;padding:calc(8px + env(safe-area-inset-top)) 16px 9px;
+  background:rgba(8,9,13,.72);-webkit-backdrop-filter:saturate(160%) blur(16px);backdrop-filter:saturate(160%) blur(16px);
+  border-bottom:1px solid var(--line);scrollbar-width:none}
+.jump::-webkit-scrollbar{display:none}
+.jump a{flex:none;font-size:12.5px;font-weight:700;color:var(--ink);text-decoration:none;
+  padding:6px 13px;border-radius:99px;border:1px solid var(--line2);background:rgba(255,255,255,.04)}
+.jump a:active{background:rgba(226,189,98,.16);border-color:var(--gold-d)}
+#foldall{flex:none;margin-left:auto;font-family:inherit;font-size:11.5px;font-weight:700;color:var(--mut);
+  padding:6px 11px;border-radius:99px;border:1px dashed var(--line2);background:none;cursor:pointer}
+
+/* --- 折り畳みセクション（▼） --- */
+details.sec{margin-top:14px;border:1px solid var(--line);border-radius:calc(var(--r) + 4px);
+  background:linear-gradient(180deg,rgba(255,255,255,.028),rgba(255,255,255,.008));
+  box-shadow:0 10px 30px rgba(0,0,0,.25)}
+section{margin-top:14px}
+.sh{list-style:none;cursor:pointer;display:flex;align-items:center;gap:9px;padding:15px 16px;
+  position:relative;user-select:none;-webkit-user-select:none}
+.sh::-webkit-details-marker{display:none}
+.sh::before{content:"";width:4px;height:20px;border-radius:4px;background:var(--gold-g);flex:none}
+details.buy>.sh::before{background:linear-gradient(180deg,#7ff0a6,#2f9e5a)}
+details.watch>.sh::before{background:linear-gradient(180deg,#9fc4ff,#4f6fae)}
+details.sell>.sh::before{background:linear-gradient(180deg,#ff9aac,#c23d58)}
+.st{font-family:'Shippori Mincho',serif;font-size:18px;font-weight:800;letter-spacing:.03em}
+.sh em{font-style:normal;font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;color:var(--mut2);
+  text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.cnt{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--gold);min-width:22px;text-align:center;
+  padding:1px 7px;border-radius:99px;border:1px solid rgba(226,189,98,.35);background:rgba(226,189,98,.08)}
+.cnt:empty{display:none}
+.chev{margin-left:auto;flex:none;width:28px;height:28px;border-radius:9px;display:grid;place-items:center;
+  border:1px solid var(--line2);background:rgba(255,255,255,.03);transition:transform .25s ease}
+.chev::after{content:"";width:7px;height:7px;border-right:2px solid var(--mut);border-bottom:2px solid var(--mut);
+  transform:translateY(-2px) rotate(45deg)}
+details[open]>.sh .chev{transform:rotate(180deg)}
+.sh .ghgear+.chev{margin-left:8px}
+.sbody{padding:0 12px 14px}
+details.sec:not([open])>.sh{border-radius:inherit}
+details[open]>.sh{border-bottom:1px solid var(--line);margin-bottom:12px}
+h2{font-family:'Shippori Mincho',serif;font-size:18px;font-weight:800;display:flex;align-items:baseline;gap:10px;margin-bottom:12px}
+h2 em{font-style:normal;font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--mut);text-transform:uppercase}
+
+/* --- カード --- */
 .cards{display:flex;flex-direction:column;gap:10px}
-.card{background:linear-gradient(180deg,var(--card),var(--bg2));
-  border:1px solid var(--line);border-radius:14px;padding:14px 15px;
-  opacity:0;transform:translateY(8px);animation:rise .5s ease forwards;
-  box-shadow:0 1px 0 rgba(255,255,255,.02) inset}
+.card{background:linear-gradient(180deg,var(--card),var(--card2));
+  border:1px solid var(--line);border-radius:var(--r);padding:14px 14px 13px;
+  opacity:0;transform:translateY(6px);animation:rise .45s cubic-bezier(.2,.7,.2,1) forwards;
+  box-shadow:0 1px 0 rgba(255,255,255,.04) inset,0 6px 18px rgba(0,0,0,.22)}
 @keyframes rise{to{opacity:1;transform:none}}
-.row1{display:flex;align-items:center;gap:11px}
-.rank{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:13px;
-  color:var(--gold);min-width:22px;height:22px;display:grid;place-items:center;
-  border:1px solid var(--gold-d);border-radius:50%;flex:none;padding:0 4px}
-.title{flex:1;min-width:0;display:flex;align-items:baseline;gap:9px;flex-wrap:wrap}
-.code{font-family:'IBM Plex Mono',monospace;font-size:15px;font-weight:600}
-.name{font-size:13px;color:var(--mut)}
-.seg{flex:none;font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;
-  padding:1px 6px;border-radius:6px;border:1px solid var(--line);color:var(--mut)}
-.seg.p{color:#6fa8ff;border-color:rgba(111,168,255,.4)}
+@media (prefers-reduced-motion:reduce){.card{animation:none;opacity:1;transform:none}.chev{transition:none}}
+.row1{display:flex;align-items:center;gap:10px}
+.rank{font-family:var(--mono);font-weight:600;font-size:12px;color:#14100a;min-width:24px;height:24px;
+  display:grid;place-items:center;border-radius:8px;flex:none;padding:0 5px;background:var(--gold-g)}
+.title{flex:1;min-width:0;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.code{font-family:var(--mono);font-size:15px;font-weight:600;letter-spacing:.02em}
+.name{font-size:13.5px;font-weight:700;color:var(--ink);opacity:.82;min-width:0;overflow:hidden;text-overflow:ellipsis}
+.seg{flex:none;font-family:var(--mono);font-size:9.5px;font-weight:600;padding:1px 6px;border-radius:6px;
+  border:1px solid var(--line2);color:var(--mut)}
+.seg.p{color:var(--blue);border-color:rgba(111,168,255,.4)}
 .seg.g{color:var(--gold);border-color:var(--gold-d)}
-.hstat{flex:none;font-size:12px;font-weight:700;padding:3px 11px;border-radius:8px;
-  border:1px solid var(--line);color:var(--mut)}
-.hstat.buy{color:var(--buy);border-color:rgba(70,196,106,.35)}
-.hstat.sell{color:var(--sell);border-color:rgba(239,95,122,.35)}
-.funds{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
-.fchip{font-size:11px;font-weight:700;color:var(--gold);background:rgba(212,175,99,.08);
-  border:1px solid var(--gold-d);border-radius:7px;padding:2px 8px}
-.fchip.cmb{color:#0c1118;background:var(--gold);border-color:var(--gold)}
-.hsell{margin-top:8px;font-size:13px;font-weight:700;color:var(--sell);
-  background:rgba(239,95,122,.10);border:1px solid rgba(239,95,122,.35);
-  border-radius:9px;padding:7px 11px}
-.bt{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
-.btchip.lose{color:var(--sell);background:rgba(239,95,122,.10)}
-.btchip{font-size:11px;font-weight:700;color:var(--mut);background:rgba(139,147,167,.10);
+.hstat{flex:none;font-size:11.5px;font-weight:800;padding:3px 10px;border-radius:99px;
+  border:1px solid var(--line2);color:var(--mut);background:rgba(255,255,255,.03)}
+.hstat.buy{color:var(--buy);border-color:rgba(76,208,125,.4);background:rgba(76,208,125,.08)}
+.hstat.sell{color:var(--sell);border-color:rgba(255,107,134,.4);background:rgba(255,107,134,.08)}
+.funds{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+.fchip{font-size:11px;font-weight:700;color:var(--gold);background:rgba(226,189,98,.07);
+  border:1px solid rgba(226,189,98,.3);border-radius:7px;padding:2px 8px}
+.fchip.cmb{color:#14100a;background:var(--gold-g);border-color:transparent}
+.hsell{margin-top:9px;font-size:12.5px;font-weight:700;color:var(--sell);
+  background:rgba(255,107,134,.08);border:1px solid rgba(255,107,134,.32);border-radius:10px;padding:7px 11px}
+.bt{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+.btchip{font-size:11px;font-weight:700;color:var(--mut);background:rgba(255,255,255,.035);
   border:1px solid var(--line);border-radius:7px;padding:2px 8px}
-.btchip.win{color:var(--buy);border-color:rgba(70,196,106,.35)}
-.val{margin-top:8px}
-.tchip{display:inline-block;font-size:12px;font-weight:800;border-radius:8px;
-  padding:3px 11px;border:1px solid var(--line);color:var(--mut)}
-.tchip.und{color:var(--buy);background:rgba(70,196,106,.10);border-color:rgba(70,196,106,.35)}
-.tchip.over{color:var(--sell);background:rgba(239,95,122,.10);border-color:rgba(239,95,122,.35)}
-.cons{margin-top:8px}
+.btchip.win{color:var(--buy);border-color:rgba(76,208,125,.35);background:rgba(76,208,125,.06)}
+.btchip.lose{color:var(--sell);border-color:rgba(255,107,134,.35);background:rgba(255,107,134,.07)}
+.val{margin-top:9px}
+.tchip{display:inline-block;font-size:12px;font-weight:800;border-radius:8px;padding:3px 11px;border:1px solid var(--line2);color:var(--mut)}
+.tchip.und{color:var(--buy);background:rgba(76,208,125,.08);border-color:rgba(76,208,125,.35)}
+.tchip.over{color:var(--sell);background:rgba(255,107,134,.08);border-color:rgba(255,107,134,.35)}
+.cons{margin-top:9px}
 .cchips{display:flex;flex-wrap:wrap;gap:6px}
-.cchip{font-size:11px;font-weight:700;border-radius:7px;padding:2px 8px;
-  border:1px solid var(--line);color:var(--mut)}
+.cchip{font-size:11px;font-weight:700;border-radius:7px;padding:2px 8px;border:1px solid var(--line);color:var(--mut)}
 .cchip i{font-style:normal;font-weight:800;margin-left:5px}
-.cchip.und{color:var(--buy);border-color:rgba(70,196,106,.40);background:rgba(70,196,106,.08)}
-.cchip.over{color:var(--sell);border-color:rgba(239,95,122,.40);background:rgba(239,95,122,.08)}
+.cchip.und{color:var(--buy);border-color:rgba(76,208,125,.38);background:rgba(76,208,125,.06)}
+.cchip.over{color:var(--sell);border-color:rgba(255,107,134,.38);background:rgba(255,107,134,.06)}
 .cchip.fair{color:var(--mut)}
 .cverdict{margin-top:6px;font-size:12px;font-weight:800;color:var(--mut)}
 .cverdict.buy{color:var(--buy)}
-.ez{margin-top:8px;font-size:12px;font-weight:800;color:var(--fg);
-  background:rgba(90,140,255,.10);border:1px solid rgba(90,140,255,.30);
-  border-radius:9px;padding:6px 10px}
+.ez{margin-top:9px;font-size:12.5px;font-weight:800;color:var(--ink);
+  background:linear-gradient(90deg,rgba(111,168,255,.13),rgba(111,168,255,.04));
+  border:1px solid rgba(111,168,255,.3);border-radius:10px;padding:7px 11px}
 .ezn{margin-left:8px;font-size:11px;font-weight:700;color:var(--mut)}
-.psz{margin-top:6px;font-size:12px;font-weight:700;color:var(--ink);
-  background:rgba(212,175,86,.08);border:1px solid rgba(212,175,86,.28);
-  border-radius:9px;padding:6px 10px}
-.psz.over{color:var(--sell);background:rgba(239,95,122,.08);border-color:rgba(239,95,122,.35)}
-.badge{flex:none;width:26px;height:26px;display:grid;place-items:center;
-  border-radius:8px;font-size:13px;font-weight:700}
-.badge.buy{color:var(--buy);background:rgba(70,196,106,.12);border:1px solid rgba(70,196,106,.3)}
-.badge.sell{color:var(--sell);background:rgba(239,95,122,.12);border:1px solid rgba(239,95,122,.3)}
-.badge.hold{color:var(--mut);background:rgba(139,147,167,.1);border:1px solid var(--line)}
-.rm{flex:none;width:26px;height:26px;border-radius:8px;border:1px solid var(--line);
-  background:var(--bg);color:var(--mut);font-size:16px;line-height:1;cursor:pointer}
-.rm:active{background:var(--card)}
-.row2{display:flex;align-items:center;gap:12px;margin-top:11px}
-.price{font-family:'IBM Plex Mono',monospace;font-size:15px;font-weight:600}
-.score{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;
-  min-width:42px;text-align:right}
+.psz{margin-top:7px;font-size:12px;font-weight:700;color:var(--ink);
+  background:linear-gradient(90deg,rgba(226,189,98,.12),rgba(226,189,98,.03));
+  border:1px solid rgba(226,189,98,.3);border-radius:10px;padding:7px 11px}
+.psz.over{color:var(--sell);background:linear-gradient(90deg,rgba(255,107,134,.12),rgba(255,107,134,.03));border-color:rgba(255,107,134,.35)}
+.badge{flex:none;width:28px;height:28px;display:grid;place-items:center;border-radius:9px;font-size:13px;font-weight:800}
+.badge.buy{color:var(--buy);background:rgba(76,208,125,.12);border:1px solid rgba(76,208,125,.32)}
+.badge.sell{color:var(--sell);background:rgba(255,107,134,.12);border:1px solid rgba(255,107,134,.32)}
+.badge.hold{color:var(--mut);background:rgba(255,255,255,.04);border:1px solid var(--line2)}
+.row2{display:flex;align-items:center;gap:12px;margin-top:10px}
+.price{font-family:var(--mono);font-size:19px;font-weight:600;letter-spacing:-.01em;font-variant-numeric:tabular-nums}
+.score{font-family:var(--mono);font-size:13px;font-weight:600;min-width:42px;text-align:right;font-variant-numeric:tabular-nums}
 .score.pos{color:var(--buy)} .score.neg{color:var(--sell)}
-.bar{flex:1;height:6px;background:var(--bg);border-radius:99px;position:relative;
-  overflow:hidden;border:1px solid var(--line)}
-.bar::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:1px;background:var(--line)}
+.bar{flex:1;height:6px;background:rgba(255,255,255,.05);border-radius:99px;position:relative;overflow:hidden}
+.bar::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:1px;background:var(--line2)}
 .bar-pos{position:absolute;left:50%;top:0;bottom:0;background:linear-gradient(90deg,var(--gold-d),var(--buy));border-radius:99px}
 .bar-neg{position:absolute;top:0;bottom:0;background:linear-gradient(90deg,var(--sell),var(--gold-d));border-radius:99px}
-.levels{display:flex;gap:8px;flex-wrap:wrap;margin-top:11px}
-.lv{font-family:'IBM Plex Mono',monospace;font-size:11px;padding:3px 9px;
-  border-radius:7px;border:1px solid var(--line)}
-.lv.tgt{color:var(--buy)} .lv.stp{color:var(--sell)} .lv.rr{color:var(--mut)}
+.levels{display:grid;grid-template-columns:repeat(auto-fit,minmax(96px,1fr));gap:6px;margin-top:10px}
+.lv{font-family:var(--mono);font-size:11.5px;padding:6px 9px;border-radius:9px;border:1px solid var(--line);
+  background:rgba(255,255,255,.025);font-variant-numeric:tabular-nums;text-align:center}
+.lv.tgt{color:var(--buy);border-color:rgba(76,208,125,.25)} .lv.stp{color:var(--sell);border-color:rgba(255,107,134,.25)}
+.lv.rr{color:var(--mut)}
+.lv.rr:empty{display:none}
 .reasons{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
-.chip{font-size:11px;color:var(--mut);background:var(--bg);border:1px solid var(--line);
-  padding:3px 9px;border-radius:99px}
-.rankline{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--gold-d);margin-top:10px}
-.empty{color:var(--mut);font-size:13px;padding:8px 2px}
-#q,#myq{width:100%;font-family:'IBM Plex Mono',monospace;font-size:16px;color:var(--ink);
-  background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:13px 15px;outline:none}
-#q:focus,#myq:focus{border-color:var(--gold-d)}
-#q::placeholder,#myq::placeholder{color:var(--mut)}
+.chip{font-size:11px;color:var(--mut);background:rgba(255,255,255,.03);border:1px solid var(--line);padding:3px 9px;border-radius:99px}
+.rankline{font-family:var(--mono);font-size:11px;color:var(--gold-d);margin-top:10px}
+.empty{color:var(--mut);font-size:12.5px;padding:8px 2px}
+#q,#myq{width:100%;font-family:var(--mono);font-size:16px;color:var(--ink);
+  background:rgba(0,0,0,.25);border:1px solid var(--line2);border-radius:12px;padding:13px 15px;outline:none;-webkit-appearance:none}
+#q:focus,#myq:focus{border-color:var(--gold-d);box-shadow:0 0 0 3px rgba(226,189,98,.14)}
+#q::placeholder,#myq::placeholder{color:var(--mut2)}
 #results,#mylist{margin-top:12px}
 .myadd{display:flex;gap:8px}
 .myadd #myq{flex:1}
 #myadd{flex:none;padding:0 18px;border-radius:12px;border:1px solid var(--gold-d);
-  background:rgba(212,175,86,.12);color:var(--gold);font-weight:700;font-size:15px;cursor:pointer}
-#myadd:active{background:rgba(212,175,86,.22)}
+  background:rgba(226,189,98,.12);color:var(--gold);font-weight:700;font-size:15px;cursor:pointer}
 .mytools{display:flex;align-items:center;gap:10px;margin-top:12px;flex-wrap:wrap}
-#mycopy{padding:8px 14px;border-radius:10px;border:1px solid var(--line);
-  background:var(--bg2);color:var(--ink);font-size:13px;cursor:pointer}
-#mycopy:active{background:var(--card)}
+#mycopy{padding:8px 14px;border-radius:10px;border:1px solid var(--line);background:var(--bg2);color:var(--ink);font-size:13px;cursor:pointer}
 .mut{font-size:12px;color:var(--mut)}
-footer{margin-top:38px;padding-top:18px;border-top:1px solid var(--line);
-  font-size:11px;color:var(--mut);line-height:1.8}
+details.more{margin-top:10px;border-top:1px dashed var(--line)}
+details.more>summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;
+  padding:8px 0 0;font-size:11.5px;font-weight:700;color:var(--mut);letter-spacing:.08em}
+details.more>summary::-webkit-details-marker{display:none}
+.mchev{width:6px;height:6px;border-right:1.6px solid var(--mut);border-bottom:1.6px solid var(--mut);
+  transform:translateY(-2px) rotate(45deg);transition:transform .2s ease}
+details.more[open] .mchev{transform:translateY(1px) rotate(225deg)}
+details.more[open]>summary span:first-child::after{content:"を閉じる"}
+.mbody{padding-top:2px}
+footer{margin-top:30px;padding:16px 4px 0;border-top:1px solid var(--line);font-size:10.5px;color:var(--mut2);line-height:1.8}
 footer b{color:var(--gold-d)}
 
 /* --- 長期保有トグル & 長期見通し & GitHub連携パネル --- */
@@ -582,8 +637,8 @@ footer b{color:var(--gold-d)}
 .ltc b{color:var(--ink);font-size:12.5px}
 .ltnote{margin-top:7px;font-size:11.5px;color:var(--ink)}
 .ltnote2{margin-top:5px;font-size:10.5px;color:var(--mut);line-height:1.6}
-.ghgear{margin-left:auto;background:none;border:1px solid var(--line);color:var(--mut);
-  border-radius:8px;padding:2px 9px;font-size:13px;cursor:pointer}
+.ghgear{margin-left:auto;flex:none;width:28px;height:28px;background:rgba(255,255,255,.03);
+  border:1px solid var(--line2);color:var(--mut);border-radius:9px;font-size:13px;cursor:pointer}
 .ghpanel{margin-bottom:12px;border:1px solid var(--line);background:var(--bg2);
   border-radius:12px;padding:13px 14px}
 .ghlead{font-size:12.5px;color:var(--ink)}
@@ -615,7 +670,6 @@ footer b{color:var(--gold-d)}
 .refresh{margin-left:6px;background:none;border:1px solid var(--line);color:var(--fg);
   border-radius:8px;padding:2px 9px;cursor:pointer;font-size:12px;font-weight:700}
 .refresh:disabled{opacity:.5}
-.sec-tenbagger{margin-top:22px}
 .tb-card{border-color:rgba(212,175,86,.28)}
 .tb-score{margin-left:auto;font-family:var(--mono);font-size:20px;font-weight:600;color:var(--gold)}
 .tb-score i{font-size:11px;color:var(--mut);font-style:normal;margin-left:1px}
@@ -808,12 +862,15 @@ APP_JS = r"""
   var watchSec = null, watchResults = null;
   function ensureWatchSec() {
     if (watchSec) return;
-    watchSec = document.createElement('section');
+    watchSec = document.createElement('details');
     watchSec.id = 'watch-sec';
+    watchSec.className = 'sec find';
+    watchSec.open = true;
     watchSec.style.display = 'none';
     watchSec.innerHTML =
-      '<h2 class="find"><span>ウォッチリスト</span><em>WATCHLIST</em></h2>' +
-      '<div id="watch-results" class="cards"></div>';
+      '<summary class="sh"><span class="st">ウォッチリスト</span><span class="cnt" id="watch-cnt"></span>' +
+      '<em>WATCHLIST</em><span class="chev" aria-hidden="true"></span></summary>' +
+      '<div class="sbody"><div id="watch-results" class="cards"></div></div>';
     if (searchSec && searchSec.parentNode) {
       searchSec.parentNode.insertBefore(watchSec, searchSec.nextSibling);
     }
@@ -830,6 +887,8 @@ APP_JS = r"""
       if (s) cards.push(card(s, 'watch'));
     }
     watchSec.style.display = cards.length ? '' : 'none';
+    var wc = document.getElementById('watch-cnt');
+    if (wc) wc.textContent = cards.length;
     if (watchResults) watchResults.innerHTML = cards.join('');
   }
 
@@ -1165,7 +1224,10 @@ APP_JS = r"""
   }
   function wireGh() {
     var gear = document.getElementById('ghgear');
-    if (gear) gear.addEventListener('click', function () {
+    if (gear) gear.addEventListener('click', function (e) {
+      e.preventDefault(); e.stopPropagation();          // 見出し（▼）の開閉はさせない
+      var sec = document.getElementById('hold-sec');
+      if (sec) sec.open = true;
       var p = document.getElementById('ghpanel');
       if (p && !p.hidden) { p.hidden = true; return; }
       openGh();
@@ -1222,6 +1284,39 @@ APP_JS = r"""
   } else {
     init();
   }
+
+  /* ---- ジャンプメニュー・すべて閉じる/開く（セクションは <details> で▼開閉） ---- */
+  (function wireJump() {
+    var nav = document.getElementById('jump');
+    if (!nav) return;
+    var links = nav.querySelectorAll('a[href^="#"]');
+    for (var i = 0; i < links.length; i++) {
+      (function (a) {
+        var t = document.getElementById(a.getAttribute('href').slice(1));
+        if (!t) { a.style.display = 'none'; return; }
+        a.addEventListener('click', function (e) {
+          e.preventDefault();
+          t.open = true;
+          try { t.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch (x) { t.scrollIntoView(); }
+        });
+      })(links[i]);
+    }
+    var btn = document.getElementById('foldall');
+    function secs() { return document.querySelectorAll('details.sec'); }
+    function sync() {
+      var any = false, ss = secs();
+      for (var i = 0; i < ss.length; i++) if (ss[i].open && ss[i].style.display !== 'none') any = true;
+      if (btn) btn.textContent = any ? 'すべて閉じる' : 'すべて開く';
+    }
+    if (btn) btn.addEventListener('click', function () {
+      var ss = secs(), any = false;
+      for (var i = 0; i < ss.length; i++) if (ss[i].open && ss[i].style.display !== 'none') any = true;
+      for (var j = 0; j < ss.length; j++) ss[j].open = !any;
+      sync();
+    });
+    document.addEventListener('toggle', sync, true);
+    sync();
+  })();
 })();
 """
 
@@ -1399,11 +1494,8 @@ def build_tenbagger(analyses: list, cfg: dict, buy_codes: set,
         '項目が無い会社だけ 純利益成長・ROE・純利益/EPS で近似し「≈」を付けています。'
         '17業種ボーナス・株主構成は対象外です。）</span></p>'
     )
-    section = (
-        '<section class="sec-tenbagger">'
-        '<h2 class="find"><span>🚀 テンバガー候補レーダー TOP10</span><em>TENBAGGER RADAR</em></h2>'
-        f'<div class="cards">{cards}</div>{foot}</section>'
-    )
+    section = _section("🚀 テンバガー候補", "TENBAGGER RADAR", cards, "find",
+                       sid="tb-sec", count=len(top), open_=False, foot=foot)
     index_rows = []
     for a, sc in top:
         index_rows.append({
@@ -1492,7 +1584,8 @@ def build_html(cfg: dict, scan=None, store=None, st=None) -> tuple[str, dict]:
                 a.bt = R.S.barrier_stats(scan.frames.get(h["code"]), a.price, tgt, stp)
         hc = "".join(_holding_card(h, a, cfg, st) for h, a in zip(holds, hold_as))
         hold_section = _section("保有銘柄", "MY HOLDINGS", hc, "watch",
-                                extra=GH_GEAR, head_extra=GH_PANEL)
+                                extra=GH_GEAR, head_extra=GH_PANEL, sid="hold-sec",
+                                count=len(holds))
 
     index = []
     for rank, a in enumerate(analyses, 1):
@@ -1524,7 +1617,7 @@ def build_html(cfg: dict, scan=None, store=None, st=None) -> tuple[str, dict]:
         '&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=IBM+Plex+Mono:wght@500;600'
         '&display=swap" rel="stylesheet">'
         '<link rel="manifest" href="manifest.json">'
-        '<meta name="theme-color" content="#0c0e13">'
+        '<meta name="theme-color" content="#08090d">'
         '<meta name="mobile-web-app-capable" content="yes">'
         '<meta name="apple-mobile-web-app-capable" content="yes">'
         '<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">'
@@ -1535,22 +1628,28 @@ def build_html(cfg: dict, scan=None, store=None, st=None) -> tuple[str, dict]:
 
     body = f'''<body data-total="{total}"><div class="wrap">
   <header>
-    <div class="brand"><h1>株オラクル</h1><span class="en">Kabu Oracle</span></div>
-    <div class="meta"><span>更新 <b>{date_str}</b> JST</span><span>分析 <b>{total}</b> 銘柄</span><span id="pxasof"></span></div>
+    <div class="brand"><span class="logo" aria-hidden="true">◈</span><h1>株オラクル</h1><span class="en">Kabu Oracle</span></div>
+    <div class="meta"><span>更新 <b>{date_str}</b></span><span>分析 <b>{total:,}</b> 銘柄</span><span id="pxasof"></span></div>
     {regime_html}
   </header>
+  <nav class="jump" id="jump">
+    {'<a href="#hold-sec">保有</a>' if hold_section else ''}<a href="#buy-sec">買い候補</a><a href="#tb-sec">テンバガー</a><a href="#search-sec">サーチ</a>
+    <button type="button" id="foldall" aria-label="すべて折り畳む">すべて閉じる</button>
+  </nav>
 
-  <section id="search-sec">
-    <h2 class="find"><span>銘柄サーチ</span><em>CODE SEARCH</em></h2>
+  <details class="sec find" id="search-sec">
+    <summary class="sh"><span class="st">銘柄サーチ</span><em>CODE SEARCH</em><span class="chev" aria-hidden="true"></span></summary>
+    <div class="sbody">
     <input id="q" type="search" inputmode="text" autocomplete="off"
            placeholder="証券コード や 銘柄名（例: 7203 / トヨタ）">
     <div id="results" class="cards"></div>
     <p id="hint" class="empty">コードや銘柄名を入れると買い/売り判定・利確/損切・総合順位を表示します（上位8件）。</p>
-  </section>
+    </div>
+  </details>
 
   {hold_section}
 
-  {_section("買い候補 TOP10", buy_sub, buy_cards, "buy")}
+  {_section("買い候補", buy_sub, buy_cards, "buy", sid="buy-sec", count=len(buys))}
 
   {tenbagger_section}
 
