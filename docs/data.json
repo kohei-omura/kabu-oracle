@@ -1,6 +1,6 @@
 {
-  "generated": "2026.11.04 15:58",
-  "total": 3669,
+  "generated": "2026.11.04 20:02",
+  "total": 3635,
   "regime": {
     "label": "下落基調",
     "icon": "☔",
@@ -65,9 +65,9 @@
         },
         "eps": 1142.94,
         "div": 170.0,
-        "score": 68.0
+        "score": 67.0
       },
-      "combined": 83.9,
+      "combined": 83.4,
       "bt": {
         "win_rate": 18,
         "days_tp": 7,
@@ -142,7 +142,7 @@
         "div": 76.0,
         "score": 86.0
       },
-      "combined": 74.4,
+      "combined": 74.7,
       "bt": {
         "win_rate": 73,
         "days_tp": 28,
@@ -216,9 +216,9 @@
         },
         "eps": 161.33,
         "div": 70.0,
-        "score": 33.0
+        "score": 32.0
       },
-      "combined": 59.6,
+      "combined": 59.2,
       "bt": {
         "win_rate": 52,
         "days_tp": 3,
@@ -291,9 +291,9 @@
         },
         "eps": 234.19,
         "div": 75.0,
-        "score": 57.0
+        "score": 54.0
       },
-      "combined": 55.4,
+      "combined": 54.7,
       "bt": {
         "win_rate": 47,
         "days_tp": 9,
@@ -367,9 +367,9 @@
         },
         "eps": 69.87,
         "div": 15.0,
-        "score": 62.0
+        "score": 61.0
       },
-      "combined": 53.7,
+      "combined": 53.5,
       "bt": {
         "win_rate": 46,
         "days_tp": 3,
@@ -443,9 +443,9 @@
         },
         "eps": 44.6,
         "div": 15.0,
-        "score": 44.0
+        "score": 42.0
       },
-      "combined": 50.9,
+      "combined": 50.2,
       "bt": {
         "win_rate": 34,
         "days_tp": 1,
@@ -520,9 +520,9 @@
         },
         "eps": 61.63,
         "div": 32.0,
-        "score": 65.0
+        "score": 64.0
       },
-      "combined": 42.8,
+      "combined": 42.7,
       "bt": {
         "win_rate": 23,
         "days_tp": 11,
@@ -596,9 +596,9 @@
         },
         "eps": 270.87,
         "div": 125.0,
-        "score": 63.0
+        "score": 61.0
       },
-      "combined": 42.2,
+      "combined": 41.9,
       "bt": {
         "win_rate": 54,
         "days_tp": 13,
@@ -673,9 +673,9 @@
         },
         "eps": 112.87,
         "div": 60.0,
-        "score": 53.0
+        "score": 51.0
       },
-      "combined": 38.8,
+      "combined": 38.2,
       "bt": {
         "win_rate": 46,
         "days_tp": 10,
@@ -751,9 +751,9 @@
         },
         "eps": 192.08,
         "div": 77.0,
-        "score": 73.0
+        "score": 72.0
       },
-      "combined": 37.4,
+      "combined": 37.7,
       "bt": {
         "win_rate": 60,
         "days_tp": 17,
