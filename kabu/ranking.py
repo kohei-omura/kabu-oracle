@@ -108,7 +108,7 @@ def build_rankings(cfg: dict, scan: Scan | None = None, store=None):
     top = int(cfg.get("buy_top", cfg.get("dashboard_top", 10)))
     ranked = apply_fundamentals(liquid(scan.analyses, cfg), cfg, store=store)
     buys = ranked[:top]
-    attach_barrier_stats(buys, cfg, scan.frames)
+    attach_barrier_stats(buys, cfg, scan.frames, scan.regime)
     if cfg.get("notify_sells", False):
         sells = sorted(scan.analyses, key=lambda x: x.score)[:int(cfg.get("top_n", 5))]
     else:
@@ -116,8 +116,9 @@ def build_rankings(cfg: dict, scan: Scan | None = None, store=None):
     return buys, sells, scan.total
 
 
-def attach_barrier_stats(items: list, cfg: dict, frames: dict | None = None) -> None:
-    """各銘柄に利確勝率・想定保有日数（バリア試算）と狙い目を付与。日足は frames を使い回す。"""
+def attach_barrier_stats(items: list, cfg: dict, frames: dict | None = None,
+                         regime: dict | None = None) -> None:
+    """各銘柄に利確勝率・想定保有日数（バリア試算）・狙い目・推奨株数を付与。日足は frames を使い回す。"""
     targets = [a for a in items if a.target and a.stop]
     if not targets:
         return
@@ -132,6 +133,24 @@ def attach_barrier_stats(items: list, cfg: dict, frames: dict | None = None) -> 
         df = frames.get(a.code)
         a.bt = S.barrier_stats(df, a.price, a.target, a.stop)
         a.ez = S.entry_zone(df, a.price, a.atr, a.stop)
+        entry = a.ez["dip"] if a.ez else a.price      # 指値で買う前提で株数を出す
+        a.size = S.position_size(entry, a.stop, cfg, weak=is_weak(regime))
+
+
+def is_weak(regime: dict | None) -> bool:
+    return bool(regime and regime.get("label") == "下落基調")
+
+
+def size_text(sz: dict | None) -> str:
+    """推奨株数の1行（通知・ダッシュボード共通）。"""
+    if not sz:
+        return ""
+    weak = "・地合い悪で半分" if sz.get("weak") else ""
+    if sz["shares"] <= 0:
+        return (f"💰 100株でも損切時 -¥{sz['lot_loss']:,}（上限¥{sz['cap']:,}超え{weak}）"
+                "→見送り推奨")
+    return (f"💰 推奨 {sz['shares']:,}株（約¥{sz['amount']:,}・損切時 -¥{sz['loss']:,}"
+            f"／上限¥{sz['cap']:,}{weak}）")
 
 
 # ---------- テクニカル × ファンダ 複合ランキング ----------
@@ -326,7 +345,7 @@ def format_ranking(buys, sells, total: int, date_str: str, regime: dict | None =
     if regime:
         lines.append(regime_text(regime))
         if regime.get("label") == "下落基調":
-            lines.append("  ※地合いが弱い日は買いサインのだましが増えます。枚数控えめに。")
+            lines.append("  ※地合いが弱い日は買いサインのだましが増えます。推奨株数は半分にしています。")
     lines.append("")
     # 🔥 全方式割安（3/3）＝強い買い速報（買い候補の中から抽出）
     strong = [a for a in buys
@@ -354,6 +373,9 @@ def format_ranking(buys, sells, total: int, date_str: str, regime: dict | None =
                 lines.append(f"   🎯指値¥{ez['dip']:,}（現値付近{pn}）")
             else:
                 lines.append(f"   🎯指値¥{ez['dip']:,}（現値比-{ez['gap']:.1f}%{pn}）")
+        st_ = size_text(getattr(a, "size", None))
+        if st_:
+            lines.append("   " + st_)
         if a.fund:
             fp = []
             if a.fund.get("per") is not None: fp.append(f"PER{a.fund['per']:.1f}")

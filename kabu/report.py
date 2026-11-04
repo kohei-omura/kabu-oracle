@@ -144,7 +144,17 @@ def _card(rank: int, a, show_levels: bool, market: str = "") -> str:
             f'<span class="name">{_esc(a.name)}</span>{_seg(market)}</div>{_badge(a.signal)}</div>'
             f'<div class="row2"><span class="price" data-px="{_esc(a.code)}">¥{a.price:,.0f}</span>'
             f'<span class="score {sc_cls}">{sc_txt}</span>{_score_bar(disp)}</div>'
-            f'{levels}{ez_html}{fund}{val}{bt_html}{reasons}</div>')
+            f'{levels}{ez_html}{_size_html(a)}{fund}{val}{bt_html}{reasons}</div>')
+
+
+def _size_html(a) -> str:
+    from . import ranking as R
+    sz = getattr(a, "size", None)
+    txt = R.size_text(sz)
+    if not txt:
+        return ""
+    cls = "psz over" if sz["shares"] <= 0 else "psz"
+    return f'<div class="{cls}">{_esc(txt)}</div>'
 
 
 def _section(title: str, sub: str, cards_html: str, accent: str,
@@ -258,6 +268,9 @@ def fixed_levels(h: dict, atr: float, cur: float, cfg: dict, st: dict):
     ・holdings.txt で利確/損切を手動指定していれば、それが最優先
     ・無ければ 利確＝買値＋ATR×倍率 / 損切＝買値−ATR×倍率 を、その銘柄を初めて見たときの
       ATR で計算して data/state.json の levels に保存し、以後はずっとその値を使う
+    ・損切は買値の -risk.max_stop_pct% より深くしない（長期保有は max_stop_pct_long）
+    ・買ってからの最高値（hi）が利確までの道のりの risk.breakeven_at 以上に届いたら、
+      損切を買値に引き上げる（建値ストップ＝含み益を負けに変えない）
     ・買値を書き換えたとき（買い増しで平均単価が変わった等）だけ計算し直す
     ・ATR が出せないときは作らない（利確=損切=買値 になって誤発報するのを防ぐ）
     返り値 (利確, 損切)。決められない側は None。
@@ -267,16 +280,41 @@ def fixed_levels(h: dict, atr: float, cur: float, cfg: dict, st: dict):
     if tgt is not None and stp is not None:
         return tgt, stp
     buy = h.get("buy")
+    long = bool(h.get("long"))
     levels = st.setdefault("levels", {})
     lv = levels.get(h["code"])
+    today = M.now_jst().date().isoformat()
     if not (lv and lv.get("buy") == buy and lv.get("target") and lv.get("stop")):
         if not atr or atr <= 0 or not (buy or cur):
             return tgt, stp
         at, as_ = S.holding_levels(buy or cur, atr, cfg)
+        since = (lv or {}).get("since") or (lv or {}).get("set") or today
         lv = {"buy": buy, "target": at, "stop": as_, "atr": round(float(atr), 2),
-              "set": M.now_jst().date().isoformat()}
+              "set": today, "since": since}
         levels[h["code"]] = lv
-    return (lv["target"] if tgt is None else tgt), (lv["stop"] if stp is None else stp)
+    lv.setdefault("since", lv.get("set") or today)
+    if cur:
+        lv["hi"] = max(float(lv.get("hi") or 0), float(cur))
+    t = lv["target"] if tgt is None else tgt
+    s = S.cap_stop(buy or cur, lv["stop"], cfg, long) if stp is None else stp
+    be = float((cfg.get("risk") or {}).get("breakeven_at") or 0)
+    if stp is None and be > 0 and buy and t and t > buy and lv.get("hi", 0) >= buy + (t - buy) * be:
+        s = max(s, float(buy))
+        lv["be"] = True
+    return t, s
+
+
+def held_days(st: dict, code: str) -> int | None:
+    """買ってから（＝この銘柄を初めて保有に見つけてから）の日数。"""
+    lv = (st.get("levels") or {}).get(code) or {}
+    since = lv.get("since") or lv.get("set")
+    if not since:
+        return None
+    try:
+        from datetime import date
+        return (M.now_jst().date() - date.fromisoformat(since)).days
+    except ValueError:
+        return None
 
 
 def _holding_levels(h, a, cfg, st):
@@ -368,7 +406,25 @@ def _holding_card(h, a, cfg, st) -> str:
             f'<div class="levels"><span class="lv">買値 {buy_s}</span>'
             f'<span class="lv tgt">利確 {_yen(tgt)}{_pct_from(buy, tgt)}</span>'
             f'<span class="lv stp">損切 {_yen(stp)}{_pct_from(buy, stp)}</span></div>'
+            f'{_risk_chips(h, st, pl, cfg)}'
             f'{lt_bar}{lt_box}{bt_html}{fund}{val}{sell_warn}{reasons}</div>')
+
+
+def _risk_chips(h: dict, st: dict, pl: float, cfg: dict) -> str:
+    """保有日数・建値ストップ・時間切れの目印。"""
+    rc = cfg.get("risk") or {}
+    lv = (st.get("levels") or {}).get(h["code"]) or {}
+    days = held_days(st, h["code"])
+    chips = []
+    if days is not None:
+        chips.append(f'<span class="btchip">保有 {days}日</span>')
+    if lv.get("be") and h.get("stop") is None:
+        chips.append('<span class="btchip win">🔒 建値ストップ（損切＝買値）</span>')
+    lim = int(rc.get("time_stop_days") or 0)
+    if (lim and days is not None and days >= lim and not h.get("long")
+            and pl < float(rc.get("time_stop_min_pct", 2))):
+        chips.append(f'<span class="btchip lose">⏳ {lim}日経っても伸びず→見直し</span>')
+    return f'<div class="bt">{"".join(chips)}</div>' if chips else ""
 
 
 CSS = """
@@ -435,6 +491,7 @@ h2 em{font-style:normal;font-family:'IBM Plex Mono',monospace;font-size:10px;
   background:rgba(239,95,122,.10);border:1px solid rgba(239,95,122,.35);
   border-radius:9px;padding:7px 11px}
 .bt{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.btchip.lose{color:var(--sell);background:rgba(239,95,122,.10)}
 .btchip{font-size:11px;font-weight:700;color:var(--mut);background:rgba(139,147,167,.10);
   border:1px solid var(--line);border-radius:7px;padding:2px 8px}
 .btchip.win{color:var(--buy);border-color:rgba(70,196,106,.35)}
@@ -457,6 +514,10 @@ h2 em{font-style:normal;font-family:'IBM Plex Mono',monospace;font-size:10px;
   background:rgba(90,140,255,.10);border:1px solid rgba(90,140,255,.30);
   border-radius:9px;padding:6px 10px}
 .ezn{margin-left:8px;font-size:11px;font-weight:700;color:var(--mut)}
+.psz{margin-top:6px;font-size:12px;font-weight:700;color:var(--ink);
+  background:rgba(212,175,86,.08);border:1px solid rgba(212,175,86,.28);
+  border-radius:9px;padding:6px 10px}
+.psz.over{color:var(--sell);background:rgba(239,95,122,.08);border-color:rgba(239,95,122,.35)}
 .badge{flex:none;width:26px;height:26px;display:grid;place-items:center;
   border-radius:8px;font-size:13px;font-weight:700}
 .badge.buy{color:var(--buy);background:rgba(70,196,106,.12);border:1px solid rgba(70,196,106,.3)}
@@ -1408,7 +1469,7 @@ def build_html(cfg: dict, scan=None, store=None, st=None) -> tuple[str, dict]:
     ranked = R.apply_fundamentals(R.liquid(analyses, cfg), cfg,
                                   extra=[x for x in hold_as if x is not None], store=store)
     buys = ranked[:top]
-    R.attach_barrier_stats(buys, cfg, scan.frames)
+    R.attach_barrier_stats(buys, cfg, scan.frames, scan.regime)
 
     # 🚀 テンバガー候補レーダー（買い候補TOP10の下）
     buy_codes = {b.code for b in buys}
@@ -1601,7 +1662,10 @@ def check_holdings(cfg: dict, st: dict | None = None) -> list[str]:
     ST.prune_levels(st, codes)
     today = M.now_jst().strftime("%Y-%m-%d")
 
-    tp, sl, sg = [], [], []
+    tp, sl, sg, be, ts = [], [], [], [], []
+    rc = cfg.get("risk") or {}
+    ts_days = int(rc.get("time_stop_days") or 0)
+    ts_min = float(rc.get("time_stop_min_pct", 2))
     for h in holds:
         c = h["code"]
         buy = h.get("buy")
@@ -1611,7 +1675,9 @@ def check_holdings(cfg: dict, st: dict | None = None) -> list[str]:
         name = namemap.get(c, "")
         df = frames.get(c)
         atr = float(S.ind.atr(df, 14).iloc[-1]) if (df is not None and len(df) > 20) else 0.0
+        be_before = bool(((st.get("levels") or {}).get(c) or {}).get("be"))
         tgt, stp = fixed_levels(h, atr, cur, cfg, st)     # 買値基準で固定したライン
+        lv = (st.get("levels") or {}).get(c) or {}
         # ATR が出せない（日足の取得失敗など）場合は自動ラインを作らない。
         # 作ると 利確=損切=買値 になり、到達アラートが誤発報するため。
         pl = ((cur - buy) / buy * 100) if buy else 0.0
@@ -1623,6 +1689,16 @@ def check_holdings(cfg: dict, st: dict | None = None) -> list[str]:
         if stp and cur <= stp and not ST.already(st, f"{c}:sl", today):
             sl.append(f"  {c} {name}  現在¥{cur:,.0f} / 買値¥{(buy or 0):,.0f} ({pl:+.1f}%)  損切¥{stp:,.0f}")
             ST.mark(st, f"{c}:sl", today)
+        # 建値ストップに切り替わった（含み益が出たので、損切を買値に引き上げた）
+        if lv.get("be") and not be_before and h.get("stop") is None:
+            be.append(f"  {c} {name}  現在¥{cur:,.0f} ({pl:+.1f}%)  損切→買値¥{(buy or 0):,.0f}")
+        # 時間切れ：買ってから time_stop_days 経っても伸びない（長期保有は除く）。1回だけ知らせる
+        days = held_days(st, c)
+        key = f"{c}:ts:{lv.get('since')}"
+        if (ts_days and days is not None and days >= ts_days and not long_hold
+                and pl < ts_min and key not in st.get("alerts", {})):
+            ts.append(f"  {c} {name}  {days}日保有 ({pl:+.1f}%)  資金を寝かせず見直しを")
+            ST.mark(st, key, today)
         # テクニカルの売りシグナル転換（価格ラインとは別の早期サイン）
         if df is not None and len(df) > 80:
             an = S.analyze(df, c, name, bench=bench, cfg=cfg)
@@ -1632,7 +1708,7 @@ def check_holdings(cfg: dict, st: dict | None = None) -> list[str]:
                 ST.mark(st, f"{c}:sg", today)
 
     sent = []
-    if tp or sl or sg:
+    if tp or sl or sg or be or ts:
         now = M.now_jst().strftime("%H:%M")
         parts = [f"🔔 株オラクル｜保有アラート（{now} JST・約20分遅延）"]
         if tp:
@@ -1644,6 +1720,12 @@ def check_holdings(cfg: dict, st: dict | None = None) -> list[str]:
         if sg:
             parts.append("⚠ 売りシグナルに転換（テクニカル）")
             parts += sg
+        if be:
+            parts.append("🔒 建値ストップ：損切を買値に引き上げ（逆指値の変更を）")
+            parts += be
+        if ts:
+            parts.append("⏳ 時間切れ：伸びない銘柄の見直し")
+            parts += ts
         parts.append("※自分用の目安です。最終判断はご自身で。")
         msg = "\n".join(parts)
         print(msg)

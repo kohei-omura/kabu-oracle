@@ -47,6 +47,7 @@ class Analysis:
     combined: Optional[float] = None   # テク×ファンダ複合スコア(0〜100)
     bt: Optional[dict] = None          # バリア試算(勝率/想定保有日数)
     ez: Optional[dict] = None          # 推奨エントリー価格帯(押し目の目安)
+    size: Optional[dict] = None        # 推奨株数（1回の損切を上限額以内にする）
     fair: Optional[dict] = None        # 理論株価(price/gap/verdict)
 
 
@@ -81,15 +82,54 @@ def price_limit(base: float) -> float:
     return 1000000.0
 
 
-def holding_levels(buy: float, atr: float, cfg: dict | None = None) -> tuple:
-    """保有銘柄の利確/損切ライン（買値基準・ATR）。発注は到達時に行う前提でクランプなし。"""
+def holding_levels(buy: float, atr: float, cfg: dict | None = None, long: bool = False) -> tuple:
+    """保有銘柄の利確/損切ライン（買値基準・ATR）。損切は risk.max_stop_pct より深くしない。"""
     cfg = cfg or {}
     th = (cfg.get("thresholds") or {})
     stop_mult = th.get("atr_stop_mult", 2.0)
     tgt_mult = th.get("atr_target_mult", 3.0)
     target = round(buy + atr * tgt_mult, 1)
-    stop = round(buy - atr * stop_mult, 1)
+    stop = cap_stop(buy, round(buy - atr * stop_mult, 1), cfg, long)
     return target, stop
+
+
+def _risk(cfg: dict | None) -> dict:
+    return (cfg or {}).get("risk") or {}
+
+
+def cap_stop(buy, stop, cfg: dict | None, long: bool = False):
+    """損切を「買値の -max_stop_pct%」より下に置かない。
+
+    値動きの荒い銘柄は ATR×2 だと -20% 超になり、1回の負けが大きくなりすぎる
+    （実取引の振り返りで、損失の大半が -7〜-20% まで持ち続けた数件に集中していた）。
+    """
+    pct = _risk(cfg).get("max_stop_pct_long" if long else "max_stop_pct")
+    if not pct or not buy or stop is None:
+        return stop
+    return round(max(float(stop), float(buy) * (1 - float(pct) / 100)), 1)
+
+
+def position_size(entry, stop, cfg: dict | None, weak: bool = False) -> dict | None:
+    """1回の損切で失う額を risk.max_loss_yen 以内に収める株数（100株単位）。
+
+    weak=True（地合いが下落基調）のときは許容損失を weak_market_factor 倍に減らす。
+    返り値 {shares, amount, loss, lot_loss, cap}。100株でも上限を超えるなら shares=0。
+    """
+    rc = _risk(cfg)
+    max_loss = float(rc.get("max_loss_yen") or 0)
+    if not (max_loss > 0 and entry and stop and 0 < stop < entry):
+        return None
+    if weak:
+        max_loss *= float(rc.get("weak_market_factor", 0.5))
+    per = float(entry) - float(stop)
+    n = max_loss / per
+    max_pos = float(rc.get("max_position_yen") or 0)
+    if max_pos > 0:
+        n = min(n, max_pos / float(entry))
+    shares = int(n // 100) * 100
+    q = shares or 100
+    return {"shares": shares, "amount": round(float(entry) * q), "loss": round(per * q),
+            "lot_loss": round(per * 100), "cap": round(max_loss), "weak": weak}
 
 
 def analyze(
@@ -225,7 +265,7 @@ def analyze(
     lim = price_limit(base)
     upper = base + lim
     lower = max(1.0, base - lim)
-    stop = round(max(raw_stop, lower), 1)
+    stop = cap_stop(price, round(max(raw_stop, lower), 1), cfg)
     target = round(min(raw_target, upper), 1)
     if raw_target > upper or raw_stop < lower:
         reasons.append("値幅制限内に調整")
