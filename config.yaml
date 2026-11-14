@@ -89,3 +89,4 @@ tenbagger:
 session:
   tick_minutes: 10        # 場中の株価更新・保有アラートの間隔（分）
   max_minutes: 340        # 1ジョブの上限（Actions は6時間）。超える前に後継ジョブへ引き継ぐ
+  overnight_hours: 10     # 深夜に起こされたら、朝の開始（9:05）までこの時間以内なら待つ（前場の取りこぼし防止）
