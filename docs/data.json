@@ -1,6 +1,6 @@
 {
-  "generated": "2026.11.13 17:31",
-  "total": 3668,
+  "generated": "2026.11.15 03:14",
+  "total": 3563,
   "regime": {
     "label": "下落基調",
     "icon": "☔",
@@ -837,5 +837,22 @@
       },
       "fair": null
     }
-  ]
+  ],
+  "perf": {
+    "n": 14,
+    "wins": 2,
+    "open": 61,
+    "fill": 81,
+    "tried": 78,
+    "since": "2026-11-02",
+    "win": 14,
+    "win_lo": 4,
+    "win_hi": 40,
+    "avg": -2.83,
+    "avg_lo": -5.26,
+    "avg_hi": -0.39,
+    "tp": 2,
+    "sl": 12,
+    "to": 0
+  }
 }
