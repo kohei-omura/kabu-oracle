@@ -58,6 +58,28 @@ def _next_event(m: int, tick: int) -> int | None:
     return None
 
 
+def next_open(now: datetime, close_done: bool = False) -> datetime:
+    """次に場中の処理を始める時刻（取引日の 9:05）。今日の分が残っていれば今日。"""
+    from datetime import timedelta
+    d = now.date()
+    if not (M.is_trading_day(d) and not close_done and _minutes(now) < CLOSE_AT):
+        d += timedelta(days=1)
+        while not M.is_trading_day(d):
+            d += timedelta(days=1)
+    start = now.replace(year=d.year, month=d.month, day=d.day, hour=AM_TICKS[0] // 60,
+                        minute=AM_TICKS[0] % 60, second=5, microsecond=0)
+    return max(start, now)
+
+
+def overnight_ok(now: datetime, target: datetime, hours: float) -> bool:
+    """深夜に起こされたとき、朝の開始まで待つか（hours 以内なら待つ）。
+
+    GitHub の cron は朝に来ないことが多く（実測：開始が毎日 11:41〜12:49）、前場の保有アラートが
+    抜けていた。一方で深夜（23〜2時台）にはほぼ毎晩来るので、その回を朝まで生かしておく。
+    """
+    return 0 <= (target - now).total_seconds() <= hours * 3600
+
+
 # ---------------- git（Actions 上でだけコミット＆プッシュ） ----------------
 
 def _on_actions() -> bool:
@@ -223,22 +245,34 @@ def run(max_minutes: float | None = None) -> str:
     tick_min = int(scfg.get("tick_minutes", 10))
     deadline = t0 + max_minutes * 60
 
+    overnight_h = float(scfg.get("overnight_hours", 10))
     git_sync()
     while True:
         now = M.now_jst()
         d, m = now.date(), _minutes(now)
         day = d.isoformat()
-        if not M.is_trading_day(d):
-            _log(f"休場日（{M.closed_reason(d)}）のため何もしません")
-            return "holiday"
-        st = ST.load()
-        if ST.run_done(st, day, "close"):
-            _log("本日の大引け処理は完了済み")
-            return "done"
         if time.monotonic() >= deadline - 1:
             commit_push(f"session handoff {day} [skip ci]")
             handoff()
             return "handoff"
+        st = ST.load()
+        closed = not M.is_trading_day(d)
+        done = ST.run_done(st, day, "close")
+        if closed or done:
+            # 休場日・大引け済みでも、翌営業日の朝まで近ければ待って朝から動く
+            target = next_open(now, close_done=done)
+            if not (_on_actions() and overnight_ok(now, target, overnight_h)):
+                _log(f"休場日（{M.closed_reason(d)}）のため何もしません" if closed
+                     else "本日の大引け処理は完了済み")
+                return "holiday" if closed else "done"
+            wake = min(time.monotonic() + (target - now).total_seconds(), deadline)
+            _log(f"翌営業日の開始 {target:%m/%d %H:%M} まで待機（{(target - now).total_seconds() / 3600:.1f}時間）")
+            backfill(cfg, wake)
+            rest = wake - time.monotonic()
+            if rest > 0:
+                time.sleep(rest)
+            git_sync()
+            continue
 
         cfg = load_config()          # 設定・ウォッチリストの変更を毎回反映
         did = []
@@ -277,9 +311,9 @@ def run(max_minutes: float | None = None) -> str:
             nxt = CLOSE_AT
         target = M.now_jst().replace(hour=nxt // 60, minute=nxt % 60, second=5, microsecond=0)
         wait = max(5.0, (target - M.now_jst()).total_seconds())
-        if wait > 3 * 3600:
-            # 深夜などに起こされた場合は居座らない（8:17 からの cron が改めて起こす）
-            _log(f"次の処理まで {wait / 3600:.1f} 時間あるので終了（朝の起動に任せる）")
+        if wait > overnight_h * 3600 or (wait > 3 * 3600 and not _on_actions()):
+            # 朝まで遠すぎる時は居座らない（次の cron に任せる）
+            _log(f"次の処理まで {wait / 3600:.1f} 時間あるので終了（次の起動に任せる）")
             return "early"
         wake = min(time.monotonic() + wait, deadline)   # 6時間制限を越えて眠らない
         _log(f"次は {nxt // 60:02d}:{nxt % 60:02d}（{wait / 60:.0f}分後）")
