@@ -147,6 +147,47 @@ def _card(rank: int, a, show_levels: bool, market: str = "") -> str:
             f'{levels}{ez_html}{_size_html(a)}{_more(bt_html + fund + val + reasons)}</div>')
 
 
+RESULT_LABEL = {"win": ("利確", "pos"), "loss": ("損切", "neg"), "time": ("時間切れ", ""),
+                "nofill": ("不成立", "mut"), "held": ("保有中", ""), "open": ("翌日待ち", "mut")}
+
+
+def _perf_section(perf: dict, recs: list) -> str:
+    """📈 ランキングの実績：表示どおりに買っていたらどうなったか（手数料・税は含まない）。"""
+    n = perf.get("n", 0)
+    if not recs:
+        return ""
+    if n:
+        tiles = (
+            f'<div class="pt"><span>勝率</span><b>{perf["win"]}%</b>'
+            f'<i>95%: {perf["win_lo"]}〜{perf["win_hi"]}%</i></div>'
+            f'<div class="pt"><span>平均損益</span><b class="{"pos" if perf["avg"] >= 0 else "neg"}">'
+            f'{perf["avg"]:+.2f}%</b><i>95%: {perf["avg_lo"]:+.2f}〜{perf["avg_hi"]:+.2f}%</i></div>'
+            f'<div class="pt"><span>約定率</span><b>{perf["fill"] if perf["fill"] is not None else "—"}%</b>'
+            f'<i>{perf["tried"]}件中</i></div>')
+        mix = (f'<div class="pmix">決着 {n}件（利確 {perf["tp"]}・損切 {perf["sl"]}・時間切れ {perf["to"]}）'
+               f'／未決 {perf["open"]}件／{_esc(perf.get("since") or "")} から記録</div>')
+    else:
+        tiles = ""
+        mix = (f'<div class="pmix">記録 {len(recs)}件・まだ決着した取引はありません'
+               f'（未決 {perf.get("open", 0)}件）</div>')
+    rows = []
+    shown = sorted([r for r in recs if r.get("s") != "open"],
+                   key=lambda r: (r.get("xd") or r.get("fd") or r["d"], r["c"]), reverse=True)[:12]
+    for r in shown:
+        lab, cls = RESULT_LABEL.get(r.get("s"), ("", ""))
+        ret = f'{r["ret"]:+.1f}%' if r.get("ret") is not None else ""
+        rows.append(f'<div class="pr"><span class="pd">{_esc(r["d"][5:].replace("-", "/"))}</span>'
+                    f'<span class="pc">{_esc(r["c"])}</span><span class="pn">{_esc(r.get("n", ""))}</span>'
+                    f'<span class="ps {cls}">{lab}</span><span class="pv {cls}">{ret}</span></div>')
+    body = (f'<div class="card perf">{f"<div class=ptiles>{tiles}</div>" if tiles else ""}{mix}'
+            f'{"<div class=plist>" + "".join(rows) + "</div>" if rows else ""}'
+            '<p class="pnote">※買い候補を「翌営業日に🎯指値で買い、利確/損切に先に届いた方で売る（20営業日で時間切れ）」'
+            'とした場合の実績です。同じ日に両方に届いた日は損切として数えています。手数料・税は含みません。'
+            '件数が少ないうちは信頼区間が広く、良し悪しはまだ言えません。</p></div>')
+    return _section("📈 ランキングの実績", "TRACK RECORD", body, "buy", sid="perf-sec",
+                    count=n, open_=False)
+
+
 def _more(inner: str) -> str:
     """カード内の細かい情報（勝率・財務・根拠）を「詳細▼」にしまう。"""
     if not inner:
@@ -501,7 +542,8 @@ section{margin-top:14px}
 details.buy>.sh::before{background:linear-gradient(180deg,#7ff0a6,#2f9e5a)}
 details.watch>.sh::before{background:linear-gradient(180deg,#9fc4ff,#4f6fae)}
 details.sell>.sh::before{background:linear-gradient(180deg,#ff9aac,#c23d58)}
-.st{font-family:'Shippori Mincho',serif;font-size:18px;font-weight:800;letter-spacing:.03em}
+.st{font-family:'Shippori Mincho',serif;font-size:18px;font-weight:800;letter-spacing:.03em;white-space:nowrap}
+@media (max-width:380px){.sh em{display:none}.st{font-size:17px}}
 .sh em{font-style:normal;font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;color:var(--mut2);
   text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
 .cnt{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--gold);min-width:22px;text-align:center;
@@ -616,6 +658,21 @@ details.more>summary::-webkit-details-marker{display:none}
 details.more[open] .mchev{transform:translateY(1px) rotate(225deg)}
 details.more[open]>summary span:first-child::after{content:"を閉じる"}
 .mbody{padding-top:2px}
+.perf{padding:14px}
+.ptiles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.pt{border:1px solid var(--line);border-radius:12px;padding:9px 8px;text-align:center;background:rgba(255,255,255,.025)}
+.pt span{display:block;font-size:10.5px;color:var(--mut);font-weight:700}
+.pt b{display:block;font-family:var(--mono);font-size:19px;font-weight:600;margin-top:2px;font-variant-numeric:tabular-nums}
+.pt i{display:block;font-style:normal;font-family:var(--mono);font-size:9.5px;color:var(--mut2);margin-top:2px}
+.pt b.pos,.pv.pos,.ps.pos{color:var(--buy)} .pt b.neg,.pv.neg,.ps.neg{color:var(--sell)}
+.pmix{margin-top:10px;font-size:11.5px;color:var(--mut)}
+.plist{margin-top:10px;border-top:1px solid var(--line)}
+.pr{display:grid;grid-template-columns:44px 46px 1fr auto 56px;gap:6px;align-items:center;
+  padding:7px 2px;border-bottom:1px solid var(--line);font-size:12px}
+.pd,.pc,.pv{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.pd{color:var(--mut)} .pn{color:var(--ink);opacity:.8;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ps{font-size:11px;font-weight:700} .ps.mut{color:var(--mut2)} .pv{text-align:right}
+.pnote{margin-top:10px;font-size:10.5px;color:var(--mut2);line-height:1.7}
 footer{margin-top:30px;padding:16px 4px 0;border-top:1px solid var(--line);font-size:10.5px;color:var(--mut2);line-height:1.8}
 footer b{color:var(--gold-d)}
 
@@ -1542,7 +1599,7 @@ def _tb_card(rank: int, a, sc: dict, is_buy: bool) -> str:
     )
 
 
-def build_html(cfg: dict, scan=None, store=None, st=None) -> tuple[str, dict]:
+def build_html(cfg: dict, scan=None, store=None, st=None, track: bool = False) -> tuple[str, dict]:
     """ダッシュボードの HTML と data.json 用データを作る。scan を渡せば株価を取り直さない。"""
     from .fundstore import FundStore
     now = M.now_jst()
@@ -1562,6 +1619,16 @@ def build_html(cfg: dict, scan=None, store=None, st=None) -> tuple[str, dict]:
                                   extra=[x for x in hold_as if x is not None], store=store)
     buys = ranked[:top]
     R.attach_barrier_stats(buys, cfg, scan.frames, scan.regime)
+
+    # 📈 買い候補の実績（大引け後だけ記録・採点。昼などは保存済みの結果を表示）
+    from . import tracker as TR
+    try:
+        perf = TR.update(buys, scan.frames, now.date().isoformat(), add=track)
+        perf_recs = TR.load()
+    except Exception as e:  # noqa  実績の失敗でダッシュボードを止めない
+        print(f"[picks] 失敗: {e}")
+        perf, perf_recs = {"n": 0, "open": 0}, []
+    perf_section = _perf_section(perf, perf_recs)
 
     # 🚀 テンバガー候補レーダー（買い候補TOP10の下）
     buy_codes = {b.code for b in buys}
@@ -1602,6 +1669,7 @@ def build_html(cfg: dict, scan=None, store=None, st=None) -> tuple[str, dict]:
         "generated": date_str, "total": total,
         "regime": scan.regime,
         "buys": [vars(a) for a in buys],
+        "perf": perf,
         "stocks": index,
     }
     regime_html = (f'<span class="regime">{_esc(R.regime_text(scan.regime))}</span>'
@@ -1633,7 +1701,7 @@ def build_html(cfg: dict, scan=None, store=None, st=None) -> tuple[str, dict]:
     {regime_html}
   </header>
   <nav class="jump" id="jump">
-    {'<a href="#hold-sec">保有</a>' if hold_section else ''}<a href="#buy-sec">買い候補</a><a href="#tb-sec">テンバガー</a><a href="#search-sec">サーチ</a>
+    {'<a href="#hold-sec">保有</a>' if hold_section else ''}<a href="#buy-sec">買い候補</a><a href="#perf-sec">実績</a><a href="#tb-sec">テンバガー</a><a href="#search-sec">サーチ</a>
     <button type="button" id="foldall" aria-label="すべて折り畳む">全て閉じる</button>
   </nav>
 
@@ -1651,6 +1719,8 @@ def build_html(cfg: dict, scan=None, store=None, st=None) -> tuple[str, dict]:
 
   {_section("買い候補", buy_sub, buy_cards, "buy", sid="buy-sec", count=len(buys))}
 
+  {perf_section}
+
   {tenbagger_section}
 
   <footer>
@@ -1667,13 +1737,13 @@ def build_html(cfg: dict, scan=None, store=None, st=None) -> tuple[str, dict]:
     return page, data
 
 
-def write_dashboard(cfg: dict, scan=None, store=None, st=None) -> list:
+def write_dashboard(cfg: dict, scan=None, store=None, st=None, track: bool = False) -> list:
     """docs/ にダッシュボード一式を書き出し、買い候補 TOP（通知に使うのと同じ並び）を返す。"""
     DOCS.mkdir(exist_ok=True)
     from . import state as ST
     own_state = st is None
     st = ST.load() if own_state else st
-    page, data = build_html(cfg, scan=scan, store=store, st=st)
+    page, data = build_html(cfg, scan=scan, store=store, st=st, track=track)
     if own_state:
         ST.save(st)
     buys = data.pop("_buys", [])

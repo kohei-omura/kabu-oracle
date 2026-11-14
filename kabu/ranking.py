@@ -339,9 +339,20 @@ def apply_fundamentals(pool: list, cfg: dict, extra=(), store=None) -> list:
         return pool
 
 
-def format_ranking(buys, sells, total: int, date_str: str, regime: dict | None = None) -> str:
+def perf_text(perf: dict | None) -> str:
+    """ランキングの実績の1行（決着した取引がある時だけ）。"""
+    if not perf or not perf.get("n"):
+        return ""
+    return (f"📈 これまでの実績：決着{perf['n']}件 勝率{perf['win']}%"
+            f"（95%: {perf['win_lo']}〜{perf['win_hi']}%）平均{perf['avg']:+.2f}%")
+
+
+def format_ranking(buys, sells, total: int, date_str: str, regime: dict | None = None,
+                   perf: dict | None = None) -> str:
     lines = [f"📊 株オラクル｜本日のランキング（{date_str}）",
              f"対象 {total} 銘柄を分析"]
+    if perf_text(perf):
+        lines.append(perf_text(perf))
     if regime:
         lines.append(regime_text(regime))
         if regime.get("label") == "下落基調":
