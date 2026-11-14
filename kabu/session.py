@@ -200,12 +200,14 @@ def build(cfg: dict, st: dict, with_rank: bool) -> None:
     extra = [h["code"] for h in holds] + [str(c) for c in (cfg.get("watchlist") or [])]
     scan = R.scan_universe(cfg, extra_codes=extra)
     store = FundStore()
-    buys = REP.write_dashboard(cfg, scan=scan, store=store, st=st)
+    buys = REP.write_dashboard(cfg, scan=scan, store=store, st=st, track=with_rank)
     REP.write_prices(cfg)
     day = M.now_jst().date().isoformat()
     if with_rank and not ST.run_done(st, day, "rank"):
+        from . import tracker as TR
         msg = R.format_ranking(buys, [], scan.total,
-                               M.now_jst().strftime("%Y-%m-%d %H:%M JST"), scan.regime)
+                               M.now_jst().strftime("%Y-%m-%d %H:%M JST"), scan.regime,
+                               perf=TR.summary(TR.load()))
         print(msg)
         N.notify_all(cfg, "【株オラクル】本日のランキング", msg)
         ST.run_mark(st, day, "rank", M.now_jst().strftime("%H:%M"))
