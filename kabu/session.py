@@ -208,6 +208,7 @@ def build(cfg: dict, st: dict, with_rank: bool) -> None:
         msg = R.format_ranking(buys, [], scan.total,
                                M.now_jst().strftime("%Y-%m-%d %H:%M JST"), scan.regime,
                                perf=TR.summary(TR.load()))
+        msg += REP.xmarket_note()      # 株×FX地合い（為替の向き）を2行添える。判定には使わない
         print(msg)
         N.notify_all(cfg, "【株オラクル】本日のランキング", msg)
         ST.run_mark(st, day, "rank", M.now_jst().strftime("%H:%M"))

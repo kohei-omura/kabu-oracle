@@ -21,6 +21,7 @@ from .config import market_map, load_holdings
 JST = timezone(timedelta(hours=9))
 ROOT = Path(__file__).resolve().parent.parent   # リポジトリ直下
 DOCS = ROOT / "docs"
+XMARKET_JS = Path(__file__).resolve().parent / "xmarket.js"   # 株×FX連動（FX Navi・Carry Navi・GLOBE ORACLE と共通）
 
 
 def _seg(market: str) -> str:
@@ -1970,7 +1971,7 @@ def build_html(cfg: dict, scan=None, store=None, st=None, track: bool = False) -
     <a class="xapp" href="https://kohei-omura.github.io/GLOBE-ORACLE/">🌎 米国株は GLOBE ORACLE ›</a>
   </header>
   <nav class="jump" id="jump">
-    {'<a href="#hold-sec">保有</a>' if hold_section else ''}<a href="#xm-sec">日米</a><a href="#buy-sec">買い候補</a><a href="#perf-sec">実績</a><a href="#tb-sec">テンバガー</a><a href="#search-sec">サーチ</a>
+    {'<a href="#hold-sec">保有</a>' if hold_section else ''}<a href="#xm-sec">日米</a><a href="#fx-sec">株×FX</a><a href="#buy-sec">買い候補</a><a href="#perf-sec">実績</a><a href="#tb-sec">テンバガー</a><a href="#search-sec">サーチ</a>
     <button type="button" id="foldall" aria-label="すべて折り畳む">全て閉じる</button>
   </nav>
 
@@ -1991,6 +1992,11 @@ def build_html(cfg: dict, scan=None, store=None, st=None, track: bool = False) -
     <div class="sbody"><div id="xlink" class="xl"><p class="xl-mut">米国市場（GLOBE ORACLE）を読み込み中…</p></div></div>
   </details>
 
+  <details class="sec watch" id="fx-sec" open>
+    <summary class="sh"><span class="st">株×FX連動</span><span class="cnt" id="xmcnt"></span><em>STOCK × FX</em><span class="chev" aria-hidden="true"></span></summary>
+    <div class="sbody"><div id="xmarket" data-app="kabu"><p class="xl-mut">為替（FX Navi・Carry Navi）を読み込み中…</p></div></div>
+  </details>
+
   {_section("買い候補", buy_sub, buy_cards, "buy", sid="buy-sec", count=len(buys))}
 
   {perf_section}
@@ -2005,11 +2011,28 @@ def build_html(cfg: dict, scan=None, store=None, st=None, track: bool = False) -
 </div>'''
 
     ver = now.strftime("%Y%m%d%H%M")
-    script = f'<script src="app.js?v={ver}" defer></script>'
+    script = (f'<script src="app.js?v={ver}" defer></script>'
+              f'<script src="xmarket.js?v={ver}" defer></script>')     # 株×FX連動（4アプリ共通）
     page = head + body + script + "</body></html>"
     data["_buys"] = buys          # write_dashboard が取り出して返す（JSON には書かない）
     data["_holds"] = _holdings_export(holds, hold_as, cfg, st)
     return page, data
+
+
+def xmarket_note() -> str:
+    """ランキング通知に足す「株×FX地合い」の2行（FX Navi・Carry Navi・GLOBE ORACLE の公開ファイルを読む）。
+    補助情報で、ランキングの判定・推奨株数には使わない。読めなければ空文字（通知は従来どおり）。"""
+    try:
+        from . import xmarket
+        own = None
+        try:                       # 自分の地合いは、いま書き出した data.json を使う
+            own = {"kabu": json.loads((DOCS / "data.json").read_text(encoding="utf-8"))}
+        except Exception:  # noqa
+            pass
+        return xmarket.notify_line("kabu", own=own)
+    except Exception as e:  # noqa
+        print(f"[xmarket] 注記を作れませんでした: {e}")
+        return ""
 
 
 def write_dashboard(cfg: dict, scan=None, store=None, st=None, track: bool = False) -> list:
@@ -2031,6 +2054,10 @@ def write_dashboard(cfg: dict, scan=None, store=None, st=None, track: bool = Fal
     (DOCS / "data.json").write_text(
         json.dumps(data, ensure_ascii=False, default=str, indent=2), encoding="utf-8")
     (DOCS / ".nojekyll").write_text("", encoding="utf-8")
+    try:                           # 株×FX連動（4アプリ共通の kabu/xmarket.js をそのまま公開する）
+        (DOCS / "xmarket.js").write_text(XMARKET_JS.read_text(encoding="utf-8"), encoding="utf-8")
+    except Exception as e:  # noqa
+        print(f"[xmarket.js] 失敗: {e}")
     if holds_out is not None:      # GLOBE ORACLE の「日米の保有まとめ」が読む
         (DOCS / "holdings.json").write_text(json.dumps(holds_out, ensure_ascii=False), encoding="utf-8")
     manifest = {

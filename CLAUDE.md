@@ -25,6 +25,7 @@
 |---|---|
 | `main.py` | 入口(`session` / `report` / `close` / `rank` / `holdings` など) |
 | `kabu/` | ロジック一式。場中ランナーは `session.py` |
+| `kabu/xmarket.js` / `kabu/xmarket.py` | 株×FX連動。FX-Signal-Notifier・Carry-Navi・GLOBE-ORACLE と**同じ内容を置く共通ファイル**（変える時は4リポジトリとも） |
 | `holdings.txt` / `watchlist.txt` / `config.yaml` | むらちゃんが編集するファイル |
 | `data/` | 実行状態・財務キャッシュ(Actions が自動更新。手で触らない) |
 | `docs/` | 公開ダッシュボード(`kabu/report.py` が生成。直接編集しない) |
