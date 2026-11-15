@@ -37,6 +37,7 @@ def market_regime(bench_df) -> dict | None:
         e25, e75 = ind.ema(close, 25).iloc[-1], ind.ema(close, 75).iloc[-1]
         px = float(close.iloc[-1])
         chg20 = (px / float(close.iloc[-21]) - 1) * 100
+        chg1 = (px / float(close.iloc[-2]) - 1) * 100     # 前日比（日米連動パネル用）
     except Exception:
         return None
     if e25 > e75 and px > e25:
@@ -45,7 +46,8 @@ def market_regime(bench_df) -> dict | None:
         label, icon = "下落基調", "☔"
     else:
         label, icon = "もみ合い", "☁"
-    return {"label": label, "icon": icon, "chg20": round(chg20, 1), "price": round(px)}
+    return {"label": label, "icon": icon, "chg20": round(chg20, 1), "price": round(px),
+            "chg1": round(chg1, 2)}
 
 
 def regime_text(rg: dict | None) -> str:
