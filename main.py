@@ -37,6 +37,7 @@ def cmd_rank(cfg):
     scan = R.scan_universe(cfg)
     buys, sells, total = R.build_rankings(cfg, scan=scan)
     msg = R.format_ranking(buys, sells, total, _now(), scan.regime)
+    msg += REP.xmarket_note()          # 株×FX地合い（為替の向き）を2行添える。判定には使わない
     print(msg)
     N.notify_all(cfg, "【株オラクル】本日のランキング", msg)
 
